@@ -1,3 +1,3 @@
 John's Tasks:
 
--   [ ] Interview DJer
+- [ ] Interview DJer
