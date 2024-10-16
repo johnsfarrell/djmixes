@@ -1,0 +1,19 @@
+{
+  "name": "djmixes",
+  "version": "1.0.0",
+  "description": "A Web Application to allow user to upload and share DJ-Mixes",
+  "main": "app/app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node server/app"
+  },
+  "author": "CS2340-Fall2024-DJMixesTeam",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "path": "^0.12.7"
+  }
+}
