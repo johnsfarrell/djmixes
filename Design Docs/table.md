@@ -19,7 +19,7 @@ All of the class provided below will interact with REST API part
 
 - **Public Methods**:
 
-  - `getUserById(username)`: get user information
+  - `getUserByName(username)`: get user information
 
   - `createUser(username, email, password, registration_method)`: create new user
 
