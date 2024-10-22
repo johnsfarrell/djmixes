@@ -161,11 +161,6 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
   Example use cases: mix, artist, comment, etc.
 
-- Modal.tsx
-  A reusable modal component with customizable styles and content.
-
-  Example use cases: login, signup, new mix, etc.
-
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
