@@ -41,7 +41,6 @@ class SongStemmer:
     async def stem(self, filepath: str, save_filepath: str = "files/stems.zip") -> str:
         stems = self.splitter.split(filepath)  # stems is a list of file paths to stem files
 
-        
         with zipfile.ZipFile(save_filepath, 'w') as zipf:
             for stem, source in stems.items():
                 self.splitter.save_stem(source, path := f"{stem}.wav")
