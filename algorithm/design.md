@@ -22,17 +22,18 @@ This method takes in a filepath (referring to the song) and returns a dictionary
 
 Saves `stem` (a `Tesnor` object) to a file (`filepath`). The file is saved in the `.wav` format.
 
+
 ## Song Splitting Class
 
 The `SongSplitting` class is responsible for splitting the DJ mix into segments. I.e. recognize and classify the original songs in a mix of songs.
 
 ### `__init__(self) -> None`
 
-The constructor of the class. It initializes the `SongStemming` class. The song splitting class depends on `Shazam` for API (song recognition).
+The constructor of the class. It initializes the `SongStemming` class. The song splitting class depends on `Shazam` for API (song recognition). 
 
 ### `split(self, filepath: str) -> Dict[int, str]`
 
-First, converts the audio file (at `filepath`) into a mono channel (a array of `bytes`) and specifies a `sample_rate`.
+First, converts the audio file (at `filepath`) into a mono channel (a array of `bytes`) and specifies a `sample_rate`. 
 
 Second, splits the song into segments.
 
@@ -53,6 +54,7 @@ The `SongRecognitionInterface` interface is used to recognize songs. The `Shazam
 ### `recognize(self, filepath: str) -> str`
 
 Takes in a filepath and returns the name of the song recognized.
+
 
 ## Shazam Song Recognition Adapter (SongRecognitionInterface)
 
