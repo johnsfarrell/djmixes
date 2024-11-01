@@ -5,8 +5,6 @@ from flask import Flask, request, jsonify, send_file
 from splitting import SongSplitter
 
 from tempfile import NamedTemporaryFile
-from librosa import load
-import soundfile as sf
 
 from stemming import SongStemmer
 
@@ -50,4 +48,4 @@ async def stem():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=4004, debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=True)

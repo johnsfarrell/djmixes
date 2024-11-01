@@ -4,7 +4,6 @@ The algorithm portion of DJ Mix has two major components: song stemming and song
 
 There is an API that handles requests and responses. The API has two endpoints: `stem` and `split`.
 
-
 ## Song Stemming Class
 
 The `SongStemming` class is responsible for splitting the song into stems. I.e. separate the song into its constituent parts (e.g. drums, bass, vocals, etc.).
@@ -22,8 +21,6 @@ This method takes in a filepath (referring to the song) and returns a dictionary
 ### `save_stem(self, stem: Tensor, filepath: str) -> None`
 
 Saves `stem` (a `Tesnor` object) to a file (`filepath`). The file is saved in the `.wav` format.
-
-
 
 
 ## Song Splitting Class
@@ -50,9 +47,6 @@ Creates a temporary file from `audio` and `sample_rate`.
 
 Uses the `adapter` method to recognize the song. Returns the name of the song recognized.
 
-
-
-
 ## Song Recognition Interface
 
 The `SongRecognitionInterface` interface is used to recognize songs. The `Shazam` class implements this interface.
@@ -60,7 +54,6 @@ The `SongRecognitionInterface` interface is used to recognize songs. The `Shazam
 ### `recognize(self, filepath: str) -> str`
 
 Takes in a filepath and returns the name of the song recognized.
-
 
 
 ## Shazam Song Recognition Adapter (SongRecognitionInterface)
@@ -73,8 +66,6 @@ The constructor of the class. It initializes the Shazam API.
 
 Takes in a filepath and returns the name of the song recognized using Shazam API.
 
-
-
 ## Stem Splitting Interface
 
 The `StemSplittingInterface` interface is used to split stems. The `DemucsStemmingAdapter` class implements this interface.
@@ -82,7 +73,6 @@ The `StemSplittingInterface` interface is used to split stems. The `DemucsStemmi
 ### `stem(self, filepath: str) -> Dict[str, Tensor]`
 
 Takes in a filepath and returns the stems of the song.
-
 
 ## Demucs Stemming Adapter (StemSplittingInterface)
 
@@ -93,8 +83,6 @@ The constructor of the class. It initializes the Demucs API.
 ### `stem(filepath: String) -> Dict[str, Tensor]`
 
 Takes in a filepath and returns the stems of the song using Demucs API.
-
-
 
 ## API
 
@@ -112,7 +100,6 @@ Output is a `zip` file containing the stems of the song.
 
 The stems are saved in the `.wav` format.
 
-
 ### `HTTP POST split`
 
 **Request:**
@@ -128,7 +115,7 @@ The stems are saved in the `.wav` format.
 ```json
 {
   "segments": {
-    "timestamp": "song_name",
+    "timestamp": "song_name"
   }
 }
 ```
