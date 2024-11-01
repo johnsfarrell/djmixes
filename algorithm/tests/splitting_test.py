@@ -3,7 +3,6 @@ from unittest.mock import patch
 import numpy as np
 from splitting import SongRecognitionInterface, SongSplitter
 
-# Mock Adapter for testing
 class MockShazamAdapter(SongRecognitionInterface):
     async def recognize(self, filepath: str) -> str:
         return "Test Song - Artist"

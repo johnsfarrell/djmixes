@@ -3,7 +3,6 @@ from unittest.mock import MagicMock, patch
 from torch import Tensor
 from stemming import StemSplittingInterface, SongStemmer
 
-# Mock Adapter for testing
 class MockStemSplittingAdapter(StemSplittingInterface):
     def __init__(self):
         self.split = MagicMock()
