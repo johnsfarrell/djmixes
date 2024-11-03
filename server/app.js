@@ -1,32 +1,67 @@
-const express = require('express')
+const express = require('express');
+const multer = require('multer');
 const path = require('path');
+const db = require('./database/db_config');
 
-const app = express()
-const PORT = 3000
+const app = express();
+const PORT = 3000;
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
+app.use(express.json());
 
-// Set the views directory (optional if your EJS files are in a folder named 'views')
-app.set('views', path.join(__dirname, 'views'));
+const uploadDir = path.join(__dirname, '../uploads');
+const fs = require('fs');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
 
-// Serve static files (like CSS)
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Define a route
-app.get('/', (req, res) => {
-    const title = 'DJ Mixes';
-    const items = [
-        { name: 'Item 1', description: 'Description for item 1' },
-        { name: 'Item 2', description: 'Description for item 2' },
-        // Add more items as needed
-    ];
-    
-    // Render the EJS template and pass data to it
-    res.render('homepage', {title, items});
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
 });
 
-// Start the server
+const upload = multer({ storage: storage });
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.post('/api/mixes/upload', upload.single('mixFile'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  const { filename } = req.file;
+  const file_url = path.join('uploads', filename);
+  const { title, cover_url, tags, visibility, artist, album } = req.body;
+
+  // Convert allow_download to boolean
+  const allow_download = req.body.allow_download === 'on' ? true : false;
+
+  const tagsString = Array.isArray(tags) ? tags.join(', ') : '';
+
+  const query = `
+    INSERT INTO mixes (user_id, title, file_url, cover_url, tags, visibility, allow_download, artist, album)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [1, title, file_url, cover_url || '', tagsString, visibility, allow_download, artist, album || ''];
+
+  db.query(query, values, (err, results) => {
+    if (err) {
+      console.error('Database insert failed:', err);
+      return res.status(500).json({ error: 'Database insert failed' });
+    }
+    res.status(200).json({ message: 'Mix uploaded successfully', mix_id: results.insertId });
+  });
+});
+
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

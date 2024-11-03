@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJ Mix Sharing Platform</title>
+</head>
+<body>
+  <h1>Upload Your Mix</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Title" required />
+    <input type="text" name="cover_url" placeholder="Cover URL" />
+    <input type="text" name="artist" placeholder="Artist" required />
+    <input type="text" name="album" placeholder="Album" />
+    <input type="file" name="mixFile" required />
+    <input type="text" name="tags" placeholder="Tags (comma-separated)" />
+    <select name="visibility" required>
+      <option value="public">Public</option>
+      <option value="private">Private</option>
+      <option value="unlisted">Unlisted</option>
+      <option value="friends">Friends</option>
+    </select>
+    <label>
+      Allow Download:
+      <input type="checkbox" name="allow_download" />
+    </label>
+    <button type="submit">Upload Mix</button>
+  </form>
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      const formData = new FormData(event.target);
+      const tags = formData.get('tags').split(',').map(tag => tag.trim());
+      formData.set('tags', JSON.stringify(tags));
+
+      try {
+        const response = await fetch('/api/mixes/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Server error response:', errorText);
+          alert('Upload failed: ' + errorText);
+          return;
+        }
+
+        const result = await response.json();
+        alert(result.message || 'Mix uploaded successfully!');
+      } catch (error) {
+        console.error('Upload failed:', error);
+        alert('Upload failed: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
