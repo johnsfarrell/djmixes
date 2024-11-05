@@ -7,13 +7,14 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "node server/app"
+    "start": "node server/app & server/database/db_init"
   },
   "author": "CS2340-Fall2024-DJMixesTeam",
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "mysql2": "^3.11.3",
     "path": "^0.12.7"
   }
 }
