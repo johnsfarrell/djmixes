@@ -17,7 +17,6 @@ app.get('/', (req, res) => {
         // Add more items as needed
     ];
     
-    // Render the EJS template and pass data to it
     res.res('homepage', {title, items});
 });
 

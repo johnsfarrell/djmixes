@@ -3,7 +3,8 @@
 // TODO: Update this when implement database
 const express = require('express');
 const path = require('path');
-const getMix= require('../database/search/getMixes');
+const {getMixes} = require('../database/search/getMixes');
+const {getUser} = require('../database/search/getUser');
 const { title } = require('process');
 
 const router = express.Router();
@@ -16,10 +17,11 @@ const router = express.Router();
 //   "visibility": "public",
 //   "allow_download": true,
 //   "tags": ["house", "techno"],
-//   "uploader": {
+//   "upload_user": {
 //     "user_id": "1234",
 //     "username": "anita"
 //   },
+// TODO: wait for db for comments
 //   "comments": [
 //     {
 //       "comment_id": "2233",
@@ -29,34 +31,38 @@ const router = express.Router();
 //   ]
 // }
 
-router.get('/:mixId', (req, res) => {
+router.get('/:mixId', async (req, res) => {
   const mixId = req.params.mixId;
 
-  getMix(mixId, (err, result) => {
-    if (err) {
-      res.status(500).send('Error retrieving mix');
-      return;
-    }
-    if (result.length > 0 && !result[0].is_deleted) {
-      const mixData = result[0]; // Get the first result (assuming it's the correct one)
-
-      // Return the JSON response with the expected structure
+  try {
+    const mixData = await getMixes(mixId);
+    const user = await getUser(mixId.user_id)
+    if (mixData) {
       res.json({
-        title: mixData.title, // The title of the mix
-        fileUrl: mixData.file_url, // The URL of the mix file
-        coverUrl: mixData.cover_url, // The URL for the cover image
-        visibility: mixData.visibility, // Visibility status (e.g. public/private)
-        allowDownload: mixData.allow_download, // Allow download flag
-        tags: mixData.tags, // Array of tags associated with the mix
+        title: mixData.title,
+        fileUrl: mixData.file_url,
+        coverUrl: mixData.cover_url,
+        visibility: mixData.visibility,
+        allowDownload: mixData.allow_download,
+        tags: mixData.tags,
         updatedAt: mixData.updatedAt,
         createdAt: mixData.createdAt,
         artist: mixData.artist,
+        upload_user:{
+          user_id: mixId.user_id,
+          username: user.username
+        },
+        comments:[],
         album: mixData.album
       });
-    }  else {
-        res.status(404).send('Mix not found');
+    } else {
+      res.status(404).send('Mix not found');
     }
-  });
+  } catch (error) {
+    console.error('Error retrieving mix:', error);
+    res.status(500).send('Error retrieving mix');
+  }
 });
+
 
 module.exports = router;
