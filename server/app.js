@@ -3,14 +3,7 @@ const path = require('path');
 const mixRoutes = require('./routes/mixRoutes');
 
 const app = express()
-const PORT = 3000
-
-// Set the view engine to EJS
-// TODO: update this when implement frontend
-app.set('view engine', 'ejs');
-
-// Set the views directory (optional if your EJS files are in a folder named 'views')
-app.set('views', path.join(__dirname, 'views'));
+const PORT = 3001
 
 // Serve static files (like CSS)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -25,11 +18,11 @@ app.get('/', (req, res) => {
     ];
     
     // Render the EJS template and pass data to it
-    res.render('homepage', {title, items});
+    res.res('homepage', {title, items});
 });
 
 // mixRoute
-app.use('/mix', mixRoutes);
+app.use('/api/mixes', mixRoutes);
 
 // Start the server
 app.listen(PORT, () => {
