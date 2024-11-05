@@ -181,6 +181,7 @@
 {
     "title": "Bouncing Ball",
     "file_url": "/music/bouncing_ball.mp3",
+    "cover_url": "/cover/bouncing_ball.jpg",
     "visibility": "public",
     "allow_download": true,
     "tags": ["house", "techno"],
