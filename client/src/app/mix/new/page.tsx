@@ -1,6 +1,6 @@
 "use client";
 import { v4 as uuidv4 } from "uuid";
-import { Upload, Image, Music } from "lucide-react";
+import { Upload, Image, Music, Plus } from "lucide-react";
 import { useState, useRef } from "react";
 import FileUploadBox from "@/components/FileUploadBox";
 import AddSongPopup from "@/components/AddSongPopup";
@@ -164,7 +164,7 @@ export default function MixUploadPage() {
               className="bg-white text-gray-800 px-4 py-2 rounded flex items-center gap-2"
               onClick={() => setShowAddSong(true)}
             >
-              <Upload size={16} /> Add New
+              <Plus size={16} /> Add New
             </button>
           </div>
 
