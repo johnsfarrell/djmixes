@@ -23,3 +23,22 @@ To test all services of the application, use the `scripts/test.sh` script. This 
 > Run `chmod +x scripts/test.sh` if having permission errors when running script files.
 
 To test services individually, see individual documentation: [Algorithm](algorithm/README.md), [API](api/README.md), [Frontend](frontend/README.md), [Database](database/README.md)
+
+## How-To-Run
+
+Before you can run the whole application, install npm and all the necessary packages required using
+```
+npm install
+```
+
+Then build for the project using
+```
+npm run build
+```
+Then we can use command to start the frontend and backend
+```
+npm start
+```
+
+The frontend will listen on the port on 3000 and backend will listen on 3001
+and we can access the web application at localhost:3000
