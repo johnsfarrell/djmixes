@@ -185,7 +185,9 @@
     "visibility": "public",
     "allow_download": true,
     "tags": ["house", "techno"],
-    "uploader": {
+    "created_at": "2020-01-01 15:10:10",
+    "uploaded_at": "2020-01-01 15:10:10",
+    "upload_user": {
       "user_id": "1234",
       "username": "anita"
     },
