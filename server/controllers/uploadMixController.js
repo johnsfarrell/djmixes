@@ -1,66 +1,90 @@
 const express = require('express');
-const router = express.Router();
+const AWS = require('aws-sdk');
+const fileUpload = require('express-fileupload');
 const db = require('../database'); // Using the existing database connection
 
-// Endpoint: POST /api/mixes/upload
-router.post('/upload', async (req, res) => {
+const router = express.Router();
+
+// Configure AWS S3
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
+});
+const s3 = new AWS.S3();
+
+// Use fileUpload middleware
+router.use(fileUpload());
+
+// Route for uploading a file
+router.post('/upload', (req, res) => {
   try {
-    // Extracting data from request body
-    const {
-      title,
-      file_url,
-      cover_url,
-      tags,
-      visibility,
-      allow_download,
-      artist,
-      album,
-    } = req.body;
-
-    // Assuming user_id is passed in the request body for simplicity
-    const user_id = req.body.user_id;
-
-    // Validating essential fields
-    if (!title || !file_url || !visibility || !user_id) {
-      return res.status(400).json({ message: 'Title, file URL, visibility, and user ID are required.' });
+    if (!req.files || !req.files.mix) {
+      return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    // Convert tags array to a comma-separated string for database
-    const tagsString = tags ? tags.join(',') : null;
+    const file = req.files.mix; // Get the uploaded file
+    const fileKey = `${Date.now()}_${file.name}`; // Generate a unique file key
 
-    // Insert the mix into the database
-    const query = `
-      INSERT INTO mixes (
-        user_id, title, artist, album, created_at, file_url, cover_url, tags, visibility, allow_download
-      ) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?)
-    `;
-    const values = [
-      user_id,
-      title,
-      artist || 'Unknown Artist', // Default to 'Unknown Artist' if not provided
-      album || null,
-      file_url,
-      cover_url || null,
-      tagsString,
-      visibility,
-      allow_download || false
-    ];
+    // Create upload parameters
+    const uploadParams = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileKey,
+      Body: file.data // Use file.data to get the file buffer
+    };
 
-    db.query(query, values, (error, results) => {
-      if (error) {
-        console.error('Error uploading mix:', error);
-        return res.status(500).json({ message: 'Internal server error' });
+    // Upload file to S3
+    s3.upload(uploadParams, (err, data) => {
+      if (err) {
+        console.error('Error uploading file:', err);
+        return res.status(500).json({ error: 'Failed to upload file' });
       }
 
-      // Sending response back to client
-      res.status(201).json({
-        message: 'Mix uploaded successfully',
-        mix_id: results.insertId,
+      // File uploaded successfully, get the file URL
+      const file_url = data.Location;
+
+      // Save the file URL and other details to the database
+      const {
+        title,
+        cover_url,
+        tags,
+        visibility,
+        allow_download,
+        artist,
+        album,
+        user_id
+      } = req.body;
+
+      // Default values for optional fields
+      const values = [
+        title,
+        file_url,
+        cover_url || null,
+        tags || '',
+        visibility || 'private',
+        allow_download || 'false',
+        artist || 'Unknown Artist',
+        album || null,
+        user_id
+      ];
+
+      // SQL query to insert data into the mixes table
+      const query = `
+        INSERT INTO mixes (title, file_url, cover_url, tags, visibility, allow_download, artist, album, user_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+
+      db.run(query, values, (dbErr) => {
+        if (dbErr) {
+          console.error('Database error:', dbErr);
+          return res.status(500).json({ error: 'Failed to save mix details' });
+        }
+        res.status(200).json({ message: 'Mix uploaded successfully', file_url });
       });
     });
   } catch (error) {
-    console.error('Error uploading mix:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An unexpected error occurred' });
   }
 });
 
