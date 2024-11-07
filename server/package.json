@@ -1,0 +1,25 @@
+{
+  "name": "djmixes",
+  "version": "1.0.0",
+  "description": "backend of DJ mixes",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app && node database/db_init",
+    "dev": "nodemon app.js",
+    "test": "mocha 'tests/*.js'"
+  },
+  "author": "CS2340-Fall2024-DJMixesTeam",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "mysql2": "^3.11.3",
+    "path": "^0.12.7",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
+  }
+}

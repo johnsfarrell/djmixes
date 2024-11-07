@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { AudioPlayerProvider } from "../context/audio-player-context";
+import { AudioPlayer } from "./components/AudioPlayer";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -24,12 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <AudioPlayerProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+          <AudioPlayer />
+        </body>
+      </html>
+    </AudioPlayerProvider>
   );
 }
