@@ -28,7 +28,7 @@ To test services individually, see individual documentation: [Algorithm](algorit
 
 Before you can run the whole application, install npm and all the necessary packages required using
 ```
-npm install
+npm ci
 ```
 
 Then build for the project using
