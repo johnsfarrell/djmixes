@@ -1,9 +1,9 @@
-const express = require('express')
+const express = require('express');
 const path = require('path');
 const mixRoutes = require('./routes/mixRoutes');
 
-const app = express()
-const PORT = 3001
+const app = express();
+const PORT = 3001;
 
 // Serve static files (like CSS)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -16,11 +16,15 @@ app.get('/', (req, res) => {
         { name: 'Item 2', description: 'Description for item 2' },
         // Add more items as needed
     ];
-    
-    res.res('homepage', {title, items});
+
+    // Use res.render() if you are rendering a view (with a template engine like EJS, Pug, etc.)
+    // Example: res.render('homepage', { title, items });
+
+    // If you are sending JSON data:
+    res.json({ title, items }); // Use res.json() for sending JSON
 });
 
-// mixRoute
+// Use mixRoutes
 app.use('/api/mixes', mixRoutes);
 
 // Start the server
