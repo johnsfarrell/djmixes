@@ -40,6 +40,34 @@ app.get('/', (req, res) => {
   res.render('docs', { md: renderMarkdown });
 });
 
+// Docs about how to start the server
+app.get('/server', (req, res) => {
+    var md = function (filename) {
+            var filePath = path.join(__dirname, '../HowToStart.md');
+            var include = fs.readFileSync (filePath, 'utf8');
+            var html = marked(include);
+      
+            return html;
+         };
+      
+         res.render ('docs', {"md": md});
+    });
+   
+   
+   // README.md
+    app.get('/server/README.md', (req, res) => {
+       var md = function (filename) {
+            var filePath = path.join(__dirname, '../README.md');
+            var include = fs.readFileSync (filePath, 'utf8');
+            var html = marked(include);
+      
+            return html;
+         };
+      
+         res.render ('docs', {"md": md});
+    });
+   
+
 // Use mixRoutes for handling mix-related API routes
 app.use('/api/mixes', mixRoutes);
 
