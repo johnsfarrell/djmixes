@@ -9,7 +9,6 @@ const { insertMixes, updateMixes, deleteMixes } = require('./update/updateMixes.
 async function runTests() {
   const connection = await createConnection();
   await createTables();
-  
   const createUserResult = await createUser(
     'testuser', 
     'testuser@example.com', 
