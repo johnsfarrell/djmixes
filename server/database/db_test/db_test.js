@@ -1,9 +1,9 @@
-const createConnection = require('./connection.js');
-const createTables = require('./table.js');
-const { getUserByName } = require('./search/getUser.js');
-const { createUser, deleteUser } = require('./update/updateUser.js');
-const { getMixes } = require('./search/getMixes.js');
-const { insertMixes, updateMixes, deleteMixes } = require('./update/updateMixes.js');
+const createConnection = require('../connection.js');
+const createTables = require('../table.js');
+const { getUserByName } = require('../search/getUser.js');
+const { createUser, deleteUser } = require('../update/updateUser.js');
+const { getMixes } = require('../search/getMixes.js');
+const { insertMixes, updateMixes, deleteMixes } = require('../update/updateMixes.js');
 
 
 async function runTests() {

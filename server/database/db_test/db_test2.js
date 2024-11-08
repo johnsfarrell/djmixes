@@ -1,5 +1,5 @@
-const createConnection = require('./connection.js');
-const createTables = require('./table.js');
+const createConnection = require('../connection.js');
+const createTables = require('../table.js');
 
 
 
