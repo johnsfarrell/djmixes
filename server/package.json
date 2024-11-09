@@ -11,8 +11,10 @@
   "author": "CS2340-Fall2024-DJMixesTeam",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "jszip": "^3.10.1",
     "marked": "^14.1.4",
     "mysql2": "^3.11.3",
     "path": "^0.12.7",
