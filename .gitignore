@@ -1,6 +1,9 @@
 .DS_Store
-node_modules/*
-client/.next/*
-client/node_modules/*
-algorithm/venv
+
+# algorithm (pip)
+*/venv
 **/__pycache__
+
+# client/server (npm)
+*/.next/*
+*/node_modules/*
