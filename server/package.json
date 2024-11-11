@@ -4,13 +4,15 @@
   "description": "backend of DJ mixes",
   "main": "app.js",
   "scripts": {
-    "start": "node app && node database/db_init",
+    "build": "tsc",
+    "start": "node app.ts && node database/db_init.ts",
     "dev": "nodemon app.js",
     "test": "mocha 'tests/*.js'"
   },
   "author": "CS2340-Fall2024-DJMixesTeam",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.688.0",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "marked": "^14.1.4",

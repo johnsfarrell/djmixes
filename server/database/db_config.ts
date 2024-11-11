@@ -1,5 +1,9 @@
-export const host = "127.0.0.1";
-export const user = "username";
-export const password = "password";
-export const port = 3306;
-export const database = 'test';
+const db = {
+  host: "127.0.0.1",
+  user: "username",
+  password: "password",
+  port: 3306,
+  database: 'test',
+};
+
+export default db;

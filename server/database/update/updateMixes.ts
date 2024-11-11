@@ -1,6 +1,6 @@
 import createConnection from '../connection';
 
-interface Mix {
+export interface Mix {
   mix_id: number;
   user_id: number;
   title: string;

@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import {Mix, getMixes } from '../database/search/getMixes';
 import {User, getUserByName } from '../database/search/getUser'; // assuming a function that fetches by user_id
+import { downloadMix } from '../controllers/downloadMixController';
+import { uploadMix } from '../controllers/uploadMixController';
 
 const router = express.Router();
 
@@ -47,5 +49,12 @@ router.get('/:mixId', async (req: Request, res: Response): Promise<void> => {
     res.status(500).send('Error retrieving mix');
   }
 });
+
+
+// Route for fetching a mix by its ID
+router.get('/:mix_id/download', downloadMix);
+
+// Route for fetching a mix by its ID
+router.get('/upload', uploadMix);
 
 export default router;

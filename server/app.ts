@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import mixRoutes from './routes/mixRoutes';
-import downloadMixController from './controllers/downloadMixController';
 import fs from 'fs';
 import { marked } from 'marked';
 import dotenv from 'dotenv';
@@ -28,6 +27,9 @@ app.set('view engine', 'ejs');
 
 // Set the views directory (optional if your EJS files are in a folder named 'views')
 app.set('views', path.join(__dirname, 'views'));
+
+// Enable express-fileupload middleware
+app.use(fileUpload());
 
 // Helper function to render markdown content from a file
 const renderMarkdown = (filePath: string): string => {
@@ -58,9 +60,6 @@ app.get('/server/README.md', (req: Request, res: Response) => {
 
 // Use mixRoutes for handling mix-related API routes
 app.use('/api/mixes', mixRoutes);
-
-// Use downloadMixController for download mix functionality
-app.use('/api/mixes', downloadMixController);
 
 // Start the server
 app.listen(PORT, () => {
