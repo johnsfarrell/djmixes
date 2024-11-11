@@ -31,12 +31,12 @@ export default function MixInfo({
               setIsEditingTitle(false);
             }
           }}
-          className="text-white text-3xl font-bold mb-2 bg-gray-800 rounded px-2 py-1 w-full"
+          className="text-white text-xl sm:text-2xl md:text-3xl font-bold w-full bg-gray-800 rounded px-2 py-1"
           autoFocus
         />
       ) : (
         <h1
-          className="text-white text-3xl font-bold mb-2 cursor-pointer hover:text-gray-300"
+          className="text-white text-xl sm:text-2xl md:text-3xl font-bold cursor-pointer hover:text-gray-300"
           onClick={() => setIsEditingTitle(true)}
         >
           {title}

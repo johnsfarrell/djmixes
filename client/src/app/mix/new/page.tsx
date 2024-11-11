@@ -65,11 +65,11 @@ export default function MixUploadPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-3 gap-8">
+    <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column - Mix Info */}
-          <div className="col-span-1">
+          <div className="lg:col-span-1">
             {/* Artwork Upload */}
             <div className="bg-gray-700 w-full aspect-video rounded-lg mb-4 overflow-hidden">
               {artwork ? (
@@ -117,15 +117,15 @@ export default function MixUploadPage() {
             <div className="mt-4 bg-gray-700 rounded-lg p-4">
               {audioFile ? (
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Music size={20} className="text-white" />
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <Music size={20} className="text-white flex-shrink-0" />
                     <span className="text-white truncate">
                       {audioFile.name}
                     </span>
                   </div>
                   <button
                     onClick={() => audioInputRef.current?.click()}
-                    className="text-sm text-gray-400 hover:text-white"
+                    className="text-sm text-gray-400 hover:text-white ml-2 flex-shrink-0"
                   >
                     Change
                   </button>
@@ -148,83 +148,89 @@ export default function MixUploadPage() {
             />
           </div>
 
-          {/* Middle Column - Songs List */}
-          <div className="col-span-1">
-            <h2 className="text-white text-xl mb-4">Songs Used</h2>
-            <div className="space-y-2 mb-4">
-              {songs.map((song) => (
-                <div key={song.id} className="bg-gray-700 p-4 rounded">
-                  <h3 className="text-white font-medium">{song.title}</h3>
-                  <p className="text-gray-400 text-sm">{song.artist}</p>
-                  <p className="text-gray-500 text-xs">{song.timestamp}</p>
+          {/* Middle and Right Columns - Wrapped in a container for mobile layout */}
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {/* Middle Column - Songs List */}
+            <div className="w-full">
+              <div className="bg-gray-700 rounded-lg p-6">
+                <h2 className="text-white text-xl mb-4">Songs Used</h2>
+                <div className="space-y-2 mb-4 max-h-[400px] overflow-y-auto">
+                  {songs.map((song) => (
+                    <div key={song.id} className="bg-gray-600 p-4 rounded">
+                      <h3 className="text-white font-medium">{song.title}</h3>
+                      <p className="text-gray-400 text-sm">{song.artist}</p>
+                      <p className="text-gray-500 text-xs">{song.timestamp}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <button
+                  className="bg-white text-gray-800 px-4 py-2 rounded flex items-center gap-2 w-full justify-center sm:w-auto"
+                  onClick={() => setShowAddSong(true)}
+                >
+                  <Plus size={16} /> Add New
+                </button>
+              </div>
             </div>
-            <button
-              className="bg-white text-gray-800 px-4 py-2 rounded flex items-center gap-2"
-              onClick={() => setShowAddSong(true)}
-            >
-              <Plus size={16} /> Add New
-            </button>
-          </div>
 
-          {/* Right Column - Settings */}
-          <div className="col-span-1">
-            <div className="bg-gray-700 p-6 rounded-lg">
-              <MixVisibilitySettings
-                visibility={visibility}
-                onVisibilityChange={setVisibility}
-              />
+            {/* Right Column - Settings */}
+            <div className="w-full">
+              <div className="bg-gray-700 p-6 rounded-lg">
+                <MixVisibilitySettings
+                  visibility={visibility}
+                  onVisibilityChange={setVisibility}
+                />
 
-              <div className="mb-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-white">Downloadable?:</h3>
-                  <button
-                    className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
-                      downloadable ? "bg-white" : "bg-gray-600"
-                    }`}
-                    onClick={() => setDownloadable(!downloadable)}
-                  >
-                    <div
-                      className={`w-4 h-4 rounded-full transition-transform duration-200 ease-in-out ${
-                        downloadable ? "bg-gray-800 translate-x-6" : "bg-white"
+                <div className="mb-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white">Downloadable?</h3>
+                    <button
+                      className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
+                        downloadable ? "bg-white" : "bg-gray-600"
                       }`}
-                    ></div>
-                  </button>
+                      onClick={() => setDownloadable(!downloadable)}
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full transition-transform duration-200 ease-in-out ${
+                          downloadable
+                            ? "bg-gray-800 translate-x-6"
+                            : "bg-white"
+                        }`}
+                      ></div>
+                    </button>
+                  </div>
                 </div>
+
+                <TagInput
+                  tags={tags}
+                  onAddTag={handleAddTag}
+                  onDeleteTag={handleDeleteTag}
+                />
               </div>
 
-              <TagInput
-                tags={tags}
-                onAddTag={handleAddTag}
-                onDeleteTag={handleDeleteTag}
-              />
+              <button
+                className="w-full bg-white text-gray-800 px-6 py-3 rounded-lg mt-4 flex items-center justify-center gap-2"
+                onClick={() => {
+                  // TODO: Handle upload
+                  console.log({
+                    title: mixTitle,
+                    info: mixInfo,
+                    artwork,
+                    audioFile,
+                    songs,
+                    tags,
+                    visibility,
+                    downloadable,
+                  });
+                }}
+              >
+                <Upload size={20} />
+                Upload
+              </button>
             </div>
-
-            <button
-              className="w-full bg-white text-gray-800 px-6 py-3 rounded-lg mt-4 flex items-center justify-center gap-2"
-              onClick={() => {
-                // TODO: Handle upload
-                console.log({
-                  title: mixTitle,
-                  info: mixInfo,
-                  artwork,
-                  audioFile,
-                  songs,
-                  tags,
-                  visibility,
-                  downloadable,
-                });
-              }}
-            >
-              <Upload size={20} />
-              Upload
-            </button>
           </div>
         </div>
       </div>
 
-      {/* Add Song Popup */}
       {showAddSong && (
         <AddSongPopup
           onClose={() => setShowAddSong(false)}

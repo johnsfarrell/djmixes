@@ -8,9 +8,6 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <h1>Welcome to DJ Mixes</h1>
-      <AudioPlayerProvider>
-        <AudioPlayer />
-      </AudioPlayerProvider>
     </div>
   );
 };
