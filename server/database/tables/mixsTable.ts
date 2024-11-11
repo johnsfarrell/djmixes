@@ -1,4 +1,5 @@
-const createTableQuery = `
+// Define the SQL query for creating the 'mix' table
+const createTableQuery: string = `
     CREATE TABLE IF NOT EXISTS mix (
     mix_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -17,4 +18,4 @@ const createTableQuery = `
     );
 `;
 
-module.exports = createTableQuery;
+export default { createTableQuery };

@@ -1,7 +1,32 @@
+import createConnection from '../connection';
 
-const createConnection = require('../connection.js');
+interface Mix {
+  mix_id: number;
+  user_id: number;
+  title: string;
+  artist: string;
+  album: string | null;
+  release_date: string;
+  file_url: string;
+  cover_url: string | null;
+  tags: string | null;
+  visibility: 'public' | 'private' | 'unlisted' | 'friends';
+  allow_download: boolean;
+}
 
-async function insertMixes(mix_id, user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download) {
+async function insertMixes(
+  mix_id: number,
+  user_id: number,
+  title: string,
+  artist: string,
+  album: string | null,
+  release_date: string,
+  file_url: string,
+  cover_url: string | null,
+  tags: string | null,
+  visibility: 'public' | 'private' | 'unlisted' | 'friends',
+  allow_download: boolean
+): Promise<any | null> {
   const connection = await createConnection();
 
   try {
@@ -20,7 +45,19 @@ async function insertMixes(mix_id, user_id, title, artist, album, release_date, 
   }
 }
 
-async function updateMixes(mix_id, user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download) {
+async function updateMixes(
+  mix_id: number,
+  user_id: number,
+  title: string,
+  artist: string,
+  album: string | null,
+  release_date: string,
+  file_url: string,
+  cover_url: string | null,
+  tags: string | null,
+  visibility: 'public' | 'private' | 'unlisted' | 'friends',
+  allow_download: boolean
+): Promise<any | null> {
   const connection = await createConnection();
 
   try {
@@ -40,7 +77,7 @@ async function updateMixes(mix_id, user_id, title, artist, album, release_date, 
   }
 }
 
-async function deleteMixes(mix_id) {
+async function deleteMixes(mix_id: number): Promise<any | null> {
   const connection = await createConnection();
   try {
     const query = `UPDATE mix SET is_deleted = 1 WHERE mix_id = ?`;
@@ -53,8 +90,4 @@ async function deleteMixes(mix_id) {
   }
 }
 
-module.exports = {
-  insertMixes, 
-  updateMixes, 
-  deleteMixes
-};
+export { insertMixes, updateMixes, deleteMixes };

@@ -1,30 +1,32 @@
-const createConnection = require('./connection.js');
-const createUsersTable = require('./tables/usersTable.js');
-const createMixsTable = require('./tables/mixsTable.js');
+import createConnection from './connection';
+import createUsersTable from './tables/usersTable';
+import createMixsTable from './tables/mixsTable';
 
-
-async function createTables() {
+async function createTables(): Promise<void> {
   const connection = await createConnection();
   const tableQueries = [
-    { name: 'users', query: createUsersTable },
-    { name: 'mixs', query: createMixsTable }
+    { name: 'users', query: createUsersTable.createTableQuery },
+    { name: 'mixs', query: createMixsTable.createTableQuery }
   ];
+
   try {
     const dbName = 'test';
     const [databases] = await connection.query('SHOW DATABASES LIKE ?', [dbName]);
-    if (databases.length === 0) {
+    if ((databases as any[]).length === 0) {
       await connection.execute(`CREATE DATABASE \`${dbName}\``);
       console.log(`Database "${dbName}" created.`);
     } else {
       console.log(`Database "${dbName}" already exists.`);
     }
     await connection.changeUser({ database: dbName });
-  } catch (error ) {
-    console.error('DataBase Creation Error:', error);
+  } catch (error) {
+    console.error('Database Creation Error:', error);
   }
+
   try {
+    const dbName = 'test'; // TOCHECK: if we need another dbname here
     for (const table of tableQueries) {
-      await connection.query(table.query);
+      await connection.execute(table.query);
       console.log(`Table '${table.name}' created or already exists.`);
     }
   } catch (error) {
@@ -32,4 +34,4 @@ async function createTables() {
   }
 }
 
-module.exports = createTables;
+export default createTables;
