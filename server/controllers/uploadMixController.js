@@ -1,7 +1,7 @@
 const express = require('express');
 const AWS = require('aws-sdk');
 const fileUpload = require('express-fileupload');
-const db = require('../database'); // Using the existing database connection
+const db = require('../database/db_config'); // Using the existing database connection
 
 const router = express.Router();
 

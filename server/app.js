@@ -1,10 +1,11 @@
 const express = require('express');
 const path = require('path');
 const mixRoutes = require('./routes/mixRoutes');
+const downloadMixController = require('./controllers/downloadMixController');
 const fs = require('fs');
 const { marked } = require('marked');
 const dotenv = require('dotenv');
-const fileUpload = require('express-fileupload'); // Import express-fileupload
+const fileUpload = require('express-fileupload');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -70,6 +71,9 @@ app.get('/server', (req, res) => {
 
 // Use mixRoutes for handling mix-related API routes
 app.use('/api/mixes', mixRoutes);
+
+// Use downloadMixController for download mix functionality
+app.use('/api/mixes', downloadMixController);
 
 // Start the server
 app.listen(PORT, () => {
