@@ -1,83 +1,89 @@
-const express = require('express');
-const AWS = require('aws-sdk');
-const fs = require('fs');
-const path = require('path');
-const db = require('../database/db_config');
-
-const router = express.Router();
-
-// Configure AWS S3
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
 });
-
-const s3 = new AWS.S3();
-
-// Route for downloading a mix and saving it to the local Downloads folder
-router.get('/api/mixes/:mix_id/download', async (req, res) => {
-  try {
-    const mixId = parseInt(req.params.mix_id, 10);
-
-    // SQL query to fetch mix details from the database
-    const query = `SELECT file_url, allow_download FROM mixes WHERE mix_id = ? AND is_deleted = 0`;
-    
-    db.get(query, [mixId], (dbErr, mix) => {
-      if (dbErr) {
-        console.error('Database error:', dbErr);
-        return res.status(500).json({ error: 'Failed to retrieve mix details' });
-      }
-
-      if (!mix) {
-        return res.status(404).json({ error: 'Mix not found' });
-      }
-
-      if (!mix.allow_download) {
-        return res.status(403).json({ error: 'Download not allowed for this mix' });
-      }
-
-      const fileUrl = mix.file_url;
-      const fileKey = fileUrl.split('/').pop() || '';
-      
-      // Set up parameters to fetch the file from S3
-      const downloadParams = {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: fileKey,
-      };
-
-      // Fetch the file from S3
-      s3.getObject(downloadParams, (err, data) => {
-        if (err) {
-          console.error('Error fetching file from S3:', err);
-          return res.status(500).json({ error: 'Failed to download file' });
-        }
-
-        // Path to save the file in the local Downloads folder
-        const downloadsFolderPath = path.join(__dirname, '..', 'Downloads');
-        const filePath = path.join(downloadsFolderPath, fileKey);
-
-        // Ensure the Downloads folder exists
-        if (!fs.existsSync(downloadsFolderPath)) {
-          fs.mkdirSync(downloadsFolderPath, { recursive: true });
-        }
-
-        // Write the file to the local Downloads folder
-        fs.writeFile(filePath, data.Body, (writeErr) => {
-          if (writeErr) {
-            console.error('Error writing file to local Downloads folder:', writeErr);
-            return res.status(500).json({ error: 'Failed to save file locally' });
-          }
-
-          // File saved successfully
-          res.status(201).json({ message: 'File downloaded and saved successfully', filePath });
-        });
-      });
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'An unexpected error occurred' });
-  }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.downloadMix = void 0;
+const client_s3_1 = require("@aws-sdk/client-s3");
+const dotenv = __importStar(require("dotenv"));
+const getMixes_1 = require("../database/search/getMixes");
+const stream_1 = require("stream");
+dotenv.config();
+// AWS configuration
+const s3Client = new client_s3_1.S3Client({
+    endpoint: process.env.AWS_ENDPOINT,
+    forcePathStyle: false,
+    region: process.env.AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
 });
-
-module.exports = router;
+const bucketName = process.env.AWS_BUCKET_NAME;
+// Controller for downloading a file
+const downloadMix = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const mixId = req.params.mix_id;
+    try {
+        // Retrieve mix details from the database
+        const mix = yield (0, getMixes_1.getMixes)(parseInt(mixId, 10));
+        if (!mix || !mix.file_url) {
+            res.status(404).json({ error: 'Mix not found' });
+            return;
+        }
+        if (!mix.allow_download) {
+            res.status(403).json({ error: 'Download not allowed for this mix' });
+            return;
+        }
+        const fileKey = mix.file_url.split('/').pop() || '';
+        // Download parameters
+        const params = {
+            Bucket: bucketName,
+            Key: fileKey,
+        };
+        // Download file from S3
+        const downloadStream = yield s3Client.send(new client_s3_1.GetObjectCommand(params));
+        res.setHeader('Content-Disposition', `attachment; filename="${fileKey}"`);
+        res.setHeader('Content-Type', downloadStream.ContentType || 'application/octet-stream');
+        // Stream the file to the response
+        (0, stream_1.pipeline)(downloadStream.Body, res, (err) => {
+            if (err) {
+                console.error('Error streaming file:', err);
+                res.status(500).json({ error: 'Failed to download file' });
+            }
+        });
+    }
+    catch (error) {
+        console.error('Error downloading file:', error);
+        res.status(500).json({ error: 'Failed to download file' });
+    }
+});
+exports.downloadMix = downloadMix;

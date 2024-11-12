@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 // Define the SQL query for creating the 'mix' table
-const createTableQuery = `
+const createTableQuery: string = `
     CREATE TABLE IF NOT EXISTS mix (
     mix_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -19,4 +17,5 @@ const createTableQuery = `
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     );
 `;
-exports.default = { createTableQuery };
+
+export default { createTableQuery };

@@ -30,7 +30,7 @@ Before you can run the whole application, install npm and all the necessary pack
 ```
 npm ci
 ```
-And download .env in root for AWS credential for cloud storage
+
 Then build for the project using
 ```
 npm run build

@@ -1,83 +1,54 @@
-const express = require('express');
-const path = require('path');
-const mixRoutes = require('./routes/mixRoutes');
-const downloadMixController = require('./controllers/downloadMixController');
-const fs = require('fs');
-const { marked } = require('marked');
-const dotenv = require('dotenv');
-const fileUpload = require('express-fileupload');
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
+const mixRoutes_1 = __importDefault(require("./routes/mixRoutes"));
+const fs_1 = __importDefault(require("fs"));
+const marked_1 = require("marked");
+const dotenv_1 = __importDefault(require("dotenv"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 // Load environment variables from .env file
-dotenv.config();
-
-const app = express();
-const PORT = process.env.PORT || 3001; // Use PORT from .env if available
-
+dotenv_1.default.config();
+const app = (0, express_1.default)();
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 // Middleware to serve static files (like CSS)
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 // Enable file upload using express-fileupload
-app.use(fileUpload());
-
+app.use((0, express_fileupload_1.default)());
 // Middleware to parse JSON and URL-encoded data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
-
 // Set the views directory (optional if your EJS files are in a folder named 'views')
-app.set('views', path.join(__dirname, 'views'));
-
+app.set('views', path_1.default.join(__dirname, 'views'));
+// Enable express-fileupload middleware
+app.use((0, express_fileupload_1.default)());
+var md = function (filename) {
+    var path = __dirname + '/public/' + filename;
+    var include = fs_1.default.readFileSync(path, 'utf8');
+    var html = (0, marked_1.marked)(include);
+    return html;
+};
 // Define a route for the home page
 app.get('/', (req, res) => {
-  // Function to render markdown content from a file
-  const renderMarkdown = (filename) => {
-    const filePath = path.join(__dirname, '../Design Docs/API.md');
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    return marked(fileContent); // Convert markdown to HTML
-  };
-
-  res.render('docs', { md: renderMarkdown });
+    res.render('homePage', { "md": md });
 });
-
-// Docs about how to start the server
+// Route for server documentation
 app.get('/server', (req, res) => {
-    var md = function (filename) {
-            var filePath = path.join(__dirname, '../HowToStart.md');
-            var include = fs.readFileSync (filePath, 'utf8');
-            var html = marked(include);
-      
-            return html;
-         };
-      
-         res.render ('docs', {"md": md});
-    });
-   
-   
-   // README.md
-    app.get('/server/README.md', (req, res) => {
-       var md = function (filename) {
-            var filePath = path.join(__dirname, '../README.md');
-            var include = fs.readFileSync (filePath, 'utf8');
-            var html = marked(include);
-      
-            return html;
-         };
-      
-         res.render ('docs', {"md": md});
-    });
-   
-
+    res.render('server', { "md": md });
+});
+// Route for README.md
+app.get('/server/README.md', (req, res) => {
+    res.render('readme', { "md": md });
+});
 // Use mixRoutes for handling mix-related API routes
-app.use('/api/mixes', mixRoutes);
-
-// Use downloadMixController for download mix functionality
-app.use('/api/mixes', downloadMixController);
-
+app.use('/api/mixes', mixRoutes_1.default);
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-module.exports = app;
+exports.default = app;
