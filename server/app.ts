@@ -31,31 +31,27 @@ app.set('views', path.join(__dirname, 'views'));
 // Enable express-fileupload middleware
 app.use(fileUpload());
 
-// Helper function to render markdown content from a file
-const renderMarkdown = (filePath: string): string => {
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-  return marked(fileContent) as string; // Convert markdown to HTML
+var md = function (filename: string) {
+  var path = __dirname + '/public/' + filename;
+  var include = fs.readFileSync (path, 'utf8');
+  var html = marked (include);
+
+  return html;
 };
 
 // Define a route for the home page
 app.get('/', (req: Request, res: Response) => {
-  const filePath = path.join(__dirname, '../Design Docs/API.md');
-  const htmlContent = renderMarkdown(filePath);
-  res.render('docs', { md: htmlContent });
+  res.render ('homePage', {"md": md});
 });
 
 // Route for server documentation
 app.get('/server', (req: Request, res: Response) => {
-  const filePath = path.join(__dirname, '../HowToStart.md');
-  const htmlContent = renderMarkdown(filePath);
-  res.render('docs', { md: htmlContent });
+  res.render ('server', {"md": md});
 });
 
 // Route for README.md
 app.get('/server/README.md', (req: Request, res: Response) => {
-  const filePath = path.join(__dirname, '../README.md');
-  const htmlContent = renderMarkdown(filePath);
-  res.render('docs', { md: htmlContent });
+  res.render ('readme', {"md": md});
 });
 
 // Use mixRoutes for handling mix-related API routes
