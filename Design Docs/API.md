@@ -132,7 +132,7 @@
   {
     "title": "bouncing",
     "mix": "bouncing_ball.mp3",
-    "cover_url": "/images/ball_cover.jpg",
+    "cover": "bouncing.jpg",
     "tags": ["house", "techno"],
     "visibility": "public",
     "allow_download": true,

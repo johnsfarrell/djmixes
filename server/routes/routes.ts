@@ -5,18 +5,18 @@ const router = express.Router();
 // About route
 router.get('/about', (req: Request, res: Response): void => {
     const title = 'About Us';
-    res.render('about', { title });
+    res.send({"about":"about"});
 });
 
 // Contact route
 router.get('/contact', (req: Request, res: Response): void => {
     const title = 'Contact Us';
-    res.render('contact', { title });
+    res.send({"contact":"contact"});
 });
 
-// 404 route (optional)
-router.use((req: Request, res: Response): void => {
-    res.status(404).render('404', { title: '404 - Page Not Found' });
-});
+// // 404 route (optional)
+// router.use((req: Request, res: Response): void => {
+//     res.status(404).render('404', { title: '404 - Page Not Found' });
+// });
 
 export default router;

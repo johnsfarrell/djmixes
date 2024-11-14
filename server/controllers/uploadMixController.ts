@@ -25,19 +25,28 @@ export const uploadMix = async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    const file = req.files.mix as UploadedFile;
-    const fileKey = `${Date.now()}_${file.name}`;
+    const mixFile = req.files.mix as UploadedFile;
+    const mixFileKey = `${Date.now()}_${mixFile.name}`;
+    const coverFile = req.files.cover as UploadedFile;
+    const coverFileKey = `${Date.now()}_${mixFile.name}`;
 
     // Upload parameters
-    const params = {
+    const mixUploadParams = {
       Bucket: bucketName,
-      Key: fileKey,
-      Body: file.data,
+      Key: mixFileKey,
+      Body: mixFile.data,
+    };
+    const coverUploadParams = {
+      Bucket: bucketName,
+      Key: coverFileKey,
+      Body: coverFile.data,
     };
 
     // Upload file to S3
-    const uploadResult = await s3Client.send(new PutObjectCommand(params));
-    console.log(`Successfully uploaded object: ${bucketName}/${fileKey}`);
+    const mixUploadResult = await s3Client.send(new PutObjectCommand(mixUploadParams));
+    console.log(`Successfully uploaded object: ${bucketName}/${mixFileKey}`);
+    const coverUploadResult = await s3Client.send(new PutObjectCommand(mixUploadParams));
+    console.log(`Successfully uploaded object: ${bucketName}/${coverFileKey}`);
 
     // Insert file details into the database
     await insertMixes(
@@ -47,8 +56,8 @@ export const uploadMix = async (req: Request, res: Response): Promise<void> => {
       req.body.artist,
       req.body.album,
       req.body.release_date,
-      fileKey,
-      req.body.cover_url,
+      mixFileKey,
+      coverFileKey,
       req.body.tags,
       req.body.visibility,
       req.body.allow_download
@@ -56,8 +65,10 @@ export const uploadMix = async (req: Request, res: Response): Promise<void> => {
 
     res.status(200).json({
       message: 'Mix uploaded successfully',
-      fileKey,
-      uploadResult,
+      mixFileKey: mixFileKey,
+      mixUploadResult: mixUploadResult,
+      coverFileKey: coverFileKey,
+      coverUploadResult: coverUploadResult,
     });
   } catch (error) {
     console.error('Error uploading file:', error);

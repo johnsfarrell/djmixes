@@ -35,18 +35,16 @@ export const downloadMix = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    const fileKey = mix.file_url.split('/').pop() || '';
-
     // Download parameters
     const params = {
       Bucket: bucketName,
-      Key: fileKey,
+      Key: mix.file_url,
     };
 
     // Download file from S3
     const downloadStream = await s3Client.send(new GetObjectCommand(params));
 
-    res.setHeader('Content-Disposition', `attachment; filename="${fileKey}"`);
+    res.setHeader('Content-Disposition', `attachment; filename="${mix.file_url.substring(15)}"`);
     res.setHeader('Content-Type', downloadStream.ContentType || 'application/octet-stream');
 
     // Stream the file to the response

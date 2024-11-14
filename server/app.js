@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const mixRoutes_1 = __importDefault(require("./routes/mixRoutes"));
+const routes_1 = __importDefault(require("./routes/routes"));
 const fs_1 = __importDefault(require("fs"));
 const marked_1 = require("marked");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -17,7 +18,10 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 // Middleware to serve static files (like CSS)
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 // Enable file upload using express-fileupload
-app.use((0, express_fileupload_1.default)());
+// Add file upload middleware with a file size limit
+app.use((0, express_fileupload_1.default)({
+    limits: { fileSize: 200 * 1024 * 1024 }, // Set the limit to 200MB
+}));
 // Middleware to parse JSON and URL-encoded data
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -25,8 +29,6 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 // Set the views directory (optional if your EJS files are in a folder named 'views')
 app.set('views', path_1.default.join(__dirname, 'views'));
-// Enable express-fileupload middleware
-app.use((0, express_fileupload_1.default)());
 var md = function (filename) {
     var path = __dirname + '/public/' + filename;
     var include = fs_1.default.readFileSync(path, 'utf8');
@@ -45,6 +47,7 @@ app.get('/server', (req, res) => {
 app.get('/server/README.md', (req, res) => {
     res.render('readme', { "md": md });
 });
+app.use('/', routes_1.default);
 // Use mixRoutes for handling mix-related API routes
 app.use('/api/mixes', mixRoutes_1.default);
 // Start the server

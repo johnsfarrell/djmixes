@@ -51,10 +51,10 @@ router.get('/:mixId', async (req: Request, res: Response): Promise<void> => {
 });
 
 
-// Route for fetching a mix by its ID
+// Route for download a mix by its ID
 router.get('/:mix_id/download', downloadMix);
 
 // Route for fetching a mix by its ID
-router.get('/upload', uploadMix);
+router.post('/upload', uploadMix);
 
 export default router;

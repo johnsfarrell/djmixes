@@ -35,7 +35,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.downloadMix = void 0;
 const client_s3_1 = require("@aws-sdk/client-s3");
 const dotenv = __importStar(require("dotenv"));
-const getMixes_1 = require("../database/search/getMixes");
 const stream_1 = require("stream");
 dotenv.config();
 // AWS configuration
@@ -54,24 +53,24 @@ const downloadMix = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const mixId = req.params.mix_id;
     try {
         // Retrieve mix details from the database
-        const mix = yield (0, getMixes_1.getMixes)(parseInt(mixId, 10));
-        if (!mix || !mix.file_url) {
-            res.status(404).json({ error: 'Mix not found' });
-            return;
-        }
-        if (!mix.allow_download) {
-            res.status(403).json({ error: 'Download not allowed for this mix' });
-            return;
-        }
-        const fileKey = mix.file_url.split('/').pop() || '';
+        // const mix = await getMixes(parseInt(mixId, 10));
+        const mix = { "file_url": "1731555128366_DJ Mixes.jpg" };
+        // if (!mix || !mix.file_url) {
+        //   res.status(404).json({ error: 'Mix not found' });
+        //   return;
+        // }
+        // if (!mix.allow_download) {
+        //   res.status(403).json({ error: 'Download not allowed for this mix' });
+        //   return;
+        // }
         // Download parameters
         const params = {
             Bucket: bucketName,
-            Key: fileKey,
+            Key: mix.file_url,
         };
         // Download file from S3
         const downloadStream = yield s3Client.send(new client_s3_1.GetObjectCommand(params));
-        res.setHeader('Content-Disposition', `attachment; filename="${fileKey}"`);
+        res.setHeader('Content-Disposition', `attachment; filename="${mix.file_url}"`);
         res.setHeader('Content-Type', downloadStream.ContentType || 'application/octet-stream');
         // Stream the file to the response
         (0, stream_1.pipeline)(downloadStream.Body, res, (err) => {

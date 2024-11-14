@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import mixRoutes from './routes/mixRoutes';
+import routes from './routes/routes'
 import fs from 'fs';
 import { marked } from 'marked';
 import dotenv from 'dotenv';
@@ -16,20 +17,17 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Enable file upload using express-fileupload
-app.use(fileUpload());
-
+// Add file upload middleware with a file size limit
+app.use(fileUpload({
+  limits: { fileSize: 200 * 1024 * 1024 }, // Set the limit to 200MB
+}));
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
-
 // Set the views directory (optional if your EJS files are in a folder named 'views')
 app.set('views', path.join(__dirname, 'views'));
-
-// Enable express-fileupload middleware
-app.use(fileUpload());
 
 var md = function (filename: string) {
   var path = __dirname + '/public/' + filename;
@@ -54,6 +52,7 @@ app.get('/server/README.md', (req: Request, res: Response) => {
   res.render ('readme', {"md": md});
 });
 
+app.use('/', routes)
 // Use mixRoutes for handling mix-related API routes
 app.use('/api/mixes', mixRoutes);
 

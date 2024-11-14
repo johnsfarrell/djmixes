@@ -58,8 +58,8 @@ router.get('/:mixId', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).send('Error retrieving mix');
     }
 }));
-// Route for fetching a mix by its ID
+// Route for download a mix by its ID
 router.get('/:mix_id/download', downloadMixController_1.downloadMix);
 // Route for fetching a mix by its ID
-router.get('/upload', uploadMixController_1.uploadMix);
+router.post('/upload', uploadMixController_1.uploadMix);
 exports.default = router;

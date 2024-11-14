@@ -55,24 +55,35 @@ const uploadMix = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return;
     }
     try {
-        const file = req.files.mix;
-        const fileKey = `${Date.now()}_${file.name}`;
+        const mixFile = req.files.mix;
+        const mixFileKey = `${Date.now()}_${mixFile.name}`;
+        const coverFile = req.files.cover;
+        const coverFileKey = `${Date.now()}_${mixFile.name}`;
         // Upload parameters
-        const params = {
+        const mixUploadParams = {
             Bucket: bucketName,
-            Key: fileKey,
-            Body: file.data,
+            Key: mixFileKey,
+            Body: mixFile.data,
+        };
+        const coverUploadParams = {
+            Bucket: bucketName,
+            Key: coverFileKey,
+            Body: coverFile.data,
         };
         // Upload file to S3
-        const uploadResult = yield s3Client.send(new client_s3_1.PutObjectCommand(params));
-        console.log(`Successfully uploaded object: ${bucketName}/${fileKey}`);
+        const mixUploadResult = yield s3Client.send(new client_s3_1.PutObjectCommand(mixUploadParams));
+        console.log(`Successfully uploaded object: ${bucketName}/${mixFileKey}`);
+        const coverUploadResult = yield s3Client.send(new client_s3_1.PutObjectCommand(mixUploadParams));
+        console.log(`Successfully uploaded object: ${bucketName}/${coverFileKey}`);
         // Insert file details into the database
         yield (0, updateMixes_1.insertMixes)(1, // Assuming this is some mix ID or placeholder
-        req.body.user_id, req.body.title, req.body.artist, req.body.album, req.body.release_date, fileKey, req.body.cover_url, req.body.tags, req.body.visibility, req.body.allow_download);
+        req.body.user_id, req.body.title, req.body.artist, req.body.album, req.body.release_date, mixFileKey, coverFileKey, req.body.tags, req.body.visibility, req.body.allow_download);
         res.status(200).json({
             message: 'Mix uploaded successfully',
-            fileKey,
-            uploadResult,
+            mixFileKey: mixFileKey,
+            mixUploadResult: mixUploadResult,
+            coverFileKey: coverFileKey,
+            coverUploadResult: coverUploadResult,
         });
     }
     catch (error) {
