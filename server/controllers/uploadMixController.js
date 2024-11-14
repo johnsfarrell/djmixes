@@ -50,7 +50,7 @@ const s3Client = new client_s3_1.S3Client({
 const bucketName = process.env.AWS_BUCKET_NAME;
 // Controller for uploading a file
 const uploadMix = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.files || !req.files.mix) {
+    if (!req.files || !req.files.mix || !req.files.cover) {
         res.status(400).json({ error: 'No file uploaded' });
         return;
     }
@@ -73,7 +73,7 @@ const uploadMix = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // Upload file to S3
         const mixUploadResult = yield s3Client.send(new client_s3_1.PutObjectCommand(mixUploadParams));
         console.log(`Successfully uploaded object: ${bucketName}/${mixFileKey}`);
-        const coverUploadResult = yield s3Client.send(new client_s3_1.PutObjectCommand(mixUploadParams));
+        const coverUploadResult = yield s3Client.send(new client_s3_1.PutObjectCommand(coverUploadParams));
         console.log(`Successfully uploaded object: ${bucketName}/${coverFileKey}`);
         // Insert file details into the database
         yield (0, updateMixes_1.insertMixes)(1, // Assuming this is some mix ID or placeholder

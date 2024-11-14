@@ -19,7 +19,7 @@ const bucketName = process.env.AWS_BUCKET_NAME!;
 
 // Controller for uploading a file
 export const uploadMix = async (req: Request, res: Response): Promise<void> => {
-  if (!req.files || !req.files.mix) {
+  if (!req.files || !req.files.mix||!req.files.cover) {
     res.status(400).json({ error: 'No file uploaded' });
     return;
   }
@@ -45,7 +45,7 @@ export const uploadMix = async (req: Request, res: Response): Promise<void> => {
     // Upload file to S3
     const mixUploadResult = await s3Client.send(new PutObjectCommand(mixUploadParams));
     console.log(`Successfully uploaded object: ${bucketName}/${mixFileKey}`);
-    const coverUploadResult = await s3Client.send(new PutObjectCommand(mixUploadParams));
+    const coverUploadResult = await s3Client.send(new PutObjectCommand(coverUploadParams));
     console.log(`Successfully uploaded object: ${bucketName}/${coverFileKey}`);
 
     // Insert file details into the database
