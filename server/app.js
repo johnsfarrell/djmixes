@@ -11,6 +11,8 @@ const fs_1 = __importDefault(require("fs"));
 const marked_1 = require("marked");
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const profileController_1 = __importDefault(require("./controllers/profileController"));
+const eventsController_1 = __importDefault(require("./controllers/eventsController"));
 // Load environment variables from .env file
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -50,6 +52,14 @@ app.get('/server/README.md', (req, res) => {
 app.use('/', routes_1.default);
 // Use mixRoutes for handling mix-related API routes
 app.use('/api/mixes', mixRoutes_1.default);
+// Profile route
+app.get('/api/user/:user_id/profile', (req, res) => {
+    profileController_1.default.showProfile(req, res);
+});
+// Events route
+app.get('/api/dj/:dj_id/events', (req, res) => {
+    eventsController_1.default.getDjEvents(req, res);
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

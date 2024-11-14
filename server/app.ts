@@ -6,6 +6,8 @@ import fs from 'fs';
 import { marked } from 'marked';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
+import ProfileController from './controllers/profileController';
+import EventsController from './controllers/eventsController';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -55,6 +57,16 @@ app.get('/server/README.md', (req: Request, res: Response) => {
 app.use('/', routes)
 // Use mixRoutes for handling mix-related API routes
 app.use('/api/mixes', mixRoutes);
+
+// Profile route
+app.get('/api/user/:user_id/profile', (req: Request, res: Response) => {
+  ProfileController.showProfile(req, res);
+});
+
+// Events route
+app.get('/api/dj/:dj_id/events', (req: Request, res: Response) => {
+  EventsController.getDjEvents(req, res);
+});
 
 // Start the server
 app.listen(PORT, () => {
