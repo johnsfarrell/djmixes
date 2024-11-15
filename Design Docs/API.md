@@ -131,11 +131,14 @@
 ```json
   {
     "title": "bouncing",
-    "file_url": "/music/bouncing_ball.mp3",
-    "cover_url": "/images/ball_cover.jpg",
+    "mix": "bouncing_ball.mp3",
+    "cover": "bouncing.jpg",
     "tags": ["house", "techno"],
     "visibility": "public",
-    "allow_download": true
+    "allow_download": true,
+    "artist": "DJ Artist",
+    "album": "My Album",
+    "user_id": "12345"     
   }
 ```
 
@@ -144,11 +147,14 @@
 | Attribute      | Type              | Description                                                  |
 | -------------- | ----------------- | ------------------------------------------------------------ |
 | title          | string            | The name of the uploaded mix.                                |
-| file_url       | string            | The url of audio file of the mix being uploaded.             |
+| mix            | string            | The mix file to be uploaded.                                 |
 | cover_url      | string (optional) | The url of image file that acts as the visual cover for the mix. |
 | tags           | array             | A list of tags or genres associated with the mix for categorization. |
 | visibility     | string            | Determines who can access the mix (`public`, `private`, `unlisted`, `friends`). |
 | allow_download | boolean           | A boolean value specifying if others can download the mix.   |
+| artist         | string(optional)  | The name of the artist.                                      |
+| album          | string(optional)  | The album name.                                              |
+| user_id        | int               | The ID of the user uploading the mix.                        |
 
 
 - **Response**:
@@ -156,7 +162,7 @@
 ```json
   {
     "message": "Mix uploaded successfully",
-    "mix_id": "1314"
+    "file_url": "https://your-s3-bucket-url.com/your-uploaded-file.mp3"
   }
 ```
 
@@ -165,7 +171,7 @@
 | Attribute | Type   | Description                                    |
 | --------- | ------ | ---------------------------------------------- |
 | message   | string | Confirms if the mix was uploaded successfully. |
-| mix_id    | int    | The unique identifier for the uploaded mix.    |
+| file_url  | string | The URL of the uploaded file on AWS S3.        |
 
 #### **2.2. Get Mix**
 
@@ -180,11 +186,16 @@
 ```json
 {
     "title": "Bouncing Ball",
-    "file_url": "/music/bouncing_ball.mp3",
+    "file_url": "https://your-s3-bucket-url.com/your-uploaded-file.mp3",
+    "cover_url": "https://your-cover-url.com/cover.jpg",
     "visibility": "public",
     "allow_download": true,
     "tags": ["house", "techno"],
-    "uploader": {
+    "created_at": "2020-01-01 15:10:10",
+    "uploaded_at": "2020-01-01 15:10:10",
+    "artist": "DJ Artist",
+  	"album": "My Album",
+    "upload_user": {
       "user_id": "1234",
       "username": "anita"
     },
@@ -212,6 +223,8 @@
 | comment_id     | int     | The unique identifier for the comment.             |
 | user           | string  | The name of the user who commented.                |
 | comment        | string  | The text of the comment.                           |
+| artist         | string  | The name of the artist.                            |
+| album          | string  | The album name (if available).                     |
 
 #### **2.3. Download Mix**
 

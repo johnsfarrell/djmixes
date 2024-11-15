@@ -1,2 +1,11 @@
 .DS_Store
-node_modules/*
+node_modules
+/server/.env
+
+# algorithm (pip)
+*/venv
+**/__pycache__
+
+# client/server (npm)
+*/.next/*
+*/node_modules/*

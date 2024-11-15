@@ -1,25 +1,35 @@
-const createConnection = require('./connection.js');
-const createTables = require('./table.js');
-
-async function initializeDatabase() {
-  const connection = await createConnection();
-  
-  await createTables(connection);
-
-  
-  process.on('exit', async () => {
-    await connection.end();
-    console.log('Database connection closed');
-  });
-  
-  process.on('SIGINT', async () => {
-    await connection.end();
-    console.log('Database connection closed due to program interruption');
-    process.exit();
-  });
-  
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const connection_1 = __importDefault(require("./connection"));
+const table_1 = __importDefault(require("./table"));
+function initializeDatabase() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const connection = yield (0, connection_1.default)();
+        // TOCHECK: await createTables(connection);
+        yield (0, table_1.default)();
+        process.on('exit', () => __awaiter(this, void 0, void 0, function* () {
+            yield connection.end();
+            console.log('Database connection closed');
+        }));
+        process.on('SIGINT', () => __awaiter(this, void 0, void 0, function* () {
+            yield connection.end();
+            console.log('Database connection closed due to program interruption');
+            process.exit();
+        }));
+    });
 }
-
 initializeDatabase().catch((error) => {
-  console.error('Error initializing database:', error);
+    console.error('Error initializing database:', error);
 });

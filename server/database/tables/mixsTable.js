@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// Define the SQL query for creating the 'mix' table
 const createTableQuery = `
     CREATE TABLE IF NOT EXISTS mix (
     mix_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -15,5 +18,4 @@ const createTableQuery = `
     is_deleted TINYINT DEFAULT 0
     );
 `;
-
-module.exports = createTableQuery;
+exports.default = { createTableQuery };
