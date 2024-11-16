@@ -7,3 +7,5 @@
 # client/server (npm)
 */.next/*
 */node_modules/*
+
+.env
