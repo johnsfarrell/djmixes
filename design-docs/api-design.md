@@ -17,11 +17,11 @@
 
 - **Request Attributes**：
 
-| Attribute | Type   | Description                                                  |
-| --------- | ------ | ------------------------------------------------------------ |
-| username  | string | The unique name chosen by the user to represent their account. |
+| Attribute | Type   | Description                                                        |
+| --------- | ------ | ------------------------------------------------------------------ |
+| username  | string | The unique name chosen by the user to represent their account.     |
 | email     | string | The user's email address, used for login and account verification. |
-| password  | string | The password for account security, stored securely.          |
+| password  | string | The password for account security, stored securely.                |
 
 - **Response**:
 
@@ -34,10 +34,10 @@
 
 - **Response Attributes**:
 
-| Attribute | Type   | Description                                                  |
-| --------- | ------ | ------------------------------------------------------------ |
+| Attribute | Type   | Description                                                                               |
+| --------- | ------ | ----------------------------------------------------------------------------------------- |
 | message   | string | Confirms if registration was successful: "Registration successful", "Registration failed" |
-| user_id   | int    | The unique identifier assigned to the newly created user.    |
+| user_id   | int    | The unique identifier assigned to the newly created user.                                 |
 
 #### 1.2 User Login
 
@@ -71,10 +71,10 @@
 
 - **Response Attributes**:
 
-| Attribute | Type   | Description                                                  |
-| --------- | ------ | ------------------------------------------------------------ |
+| Attribute | Type   | Description                                                     |
+| --------- | ------ | --------------------------------------------------------------- |
 | message   | string | A success or failure message:"Login successful", "Login failed" |
-| token     | string | A session token (JWT) to authenticate subsequent requests.   |
+| token     | string | A session token (JWT) to authenticate subsequent requests.      |
 
 #### 1.3 User Profile
 
@@ -117,8 +117,6 @@
 | title      | string   | Title of the event.                                    |
 | date       | datatime | The date and time of the event.                        |
 
-
-
 ### 2. Mix Management
 
 #### 2.1. Upload Mix
@@ -129,41 +127,40 @@
 - **Request Body**:
 
 ```json
-  {
-    "title": "bouncing",
-    "mix": "bouncing_ball.mp3",
-    "cover_url": "/images/ball_cover.jpg",
-    "tags": ["house", "techno"],
-    "visibility": "public",
-    "allow_download": true,
-    "artist": "DJ Artist",
-    "album": "My Album",
-    "user_id": "12345"     
-  }
+{
+  "title": "bouncing",
+  "mix": "bouncing_ball.mp3",
+  "cover_url": "/images/ball_cover.jpg",
+  "tags": ["house", "techno"],
+  "visibility": "public",
+  "allow_download": true,
+  "artist": "DJ Artist",
+  "album": "My Album",
+  "user_id": "12345"
+}
 ```
 
 - **Request Attributes:**
 
-| Attribute      | Type              | Description                                                  |
-| -------------- | ----------------- | ------------------------------------------------------------ |
-| title          | string            | The name of the uploaded mix.                                |
-| mix            | string            | The mix file to be uploaded.                                 |
-| cover_url      | string (optional) | The url of image file that acts as the visual cover for the mix. |
-| tags           | array             | A list of tags or genres associated with the mix for categorization. |
+| Attribute      | Type              | Description                                                                     |
+| -------------- | ----------------- | ------------------------------------------------------------------------------- |
+| title          | string            | The name of the uploaded mix.                                                   |
+| mix            | string            | The mix file to be uploaded.                                                    |
+| cover_url      | string (optional) | The url of image file that acts as the visual cover for the mix.                |
+| tags           | array             | A list of tags or genres associated with the mix for categorization.            |
 | visibility     | string            | Determines who can access the mix (`public`, `private`, `unlisted`, `friends`). |
-| allow_download | boolean           | A boolean value specifying if others can download the mix.   |
-| artist         | string(optional)  | The name of the artist.                                      |
-| album          | string(optional)  | The album name.                                              |
-| user_id        | int               | The ID of the user uploading the mix.                        |
-
+| allow_download | boolean           | A boolean value specifying if others can download the mix.                      |
+| artist         | string(optional)  | The name of the artist.                                                         |
+| album          | string(optional)  | The album name.                                                                 |
+| user_id        | int               | The ID of the user uploading the mix.                                           |
 
 - **Response**:
 
 ```json
-  {
-    "message": "Mix uploaded successfully",
-    "file_url": "https://your-s3-bucket-url.com/your-uploaded-file.mp3"
-  }
+{
+  "message": "Mix uploaded successfully",
+  "file_url": "https://your-s3-bucket-url.com/your-uploaded-file.mp3"
+}
 ```
 
 - **Response Attributes:**
@@ -185,28 +182,28 @@
 
 ```json
 {
-    "title": "Bouncing Ball",
-    "file_url": "https://your-s3-bucket-url.com/your-uploaded-file.mp3",
-    "cover_url": "https://your-cover-url.com/cover.jpg",
-    "visibility": "public",
-    "allow_download": true,
-    "tags": ["house", "techno"],
-    "created_at": "2020-01-01 15:10:10",
-    "uploaded_at": "2020-01-01 15:10:10",
-    "artist": "DJ Artist",
-  	"album": "My Album",
-    "upload_user": {
-      "user_id": "1234",
-      "username": "anita"
-    },
-    "comments": [
-      {
-        "comment_id": "2233",
-        "user": "anita",
-        "comment": "The sound of a bouncing ball."
-      }
-    ]
- }
+  "title": "Bouncing Ball",
+  "file_url": "https://your-s3-bucket-url.com/your-uploaded-file.mp3",
+  "cover_url": "https://your-cover-url.com/cover.jpg",
+  "visibility": "public",
+  "allow_download": true,
+  "tags": ["house", "techno"],
+  "created_at": "2020-01-01 15:10:10",
+  "uploaded_at": "2020-01-01 15:10:10",
+  "artist": "DJ Artist",
+  "album": "My Album",
+  "upload_user": {
+    "user_id": "1234",
+    "username": "anita"
+  },
+  "comments": [
+    {
+      "comment_id": "2233",
+      "user": "anita",
+      "comment": "The sound of a bouncing ball."
+    }
+  ]
+}
 ```
 
 - **Response Attributes:**
@@ -234,7 +231,6 @@
 - **Response**:
   - The actual audio file (e.g., in `mp3` format) as a file download.
 
-
 #### **2.4. Share Mix via Link**
 
 - **Endpoint**: `/api/mixes/{mix_id}/share`
@@ -245,7 +241,7 @@
 
 - **Response:**
 
-   ```json
+  ```json
   {
     "share_link": ""
   }
@@ -256,8 +252,6 @@
 | Attribute  | Type   | Description                                             |
 | ---------- | ------ | ------------------------------------------------------- |
 | share_link | string | A URL that can be shared with others to access the mix. |
-
-
 
 ### **3. Comments and Likes**
 
@@ -283,8 +277,8 @@
 | --------- | ------ | ------------------------------- |
 | comment   | string | The text of the user’s comment. |
 
-
 - **Response:**
+
 ```json
 {
   "message": "Comment added successfully",
@@ -310,9 +304,9 @@
 - **Response:**
 
 ```json
-  {
-    "message": "Mix liked"
-  }
+{
+  "message": "Mix liked"
+}
 ```
 
 - **Request Attributes:**
@@ -320,8 +314,6 @@
 | Attribute | Type   | Description                                 |
 | --------- | ------ | ------------------------------------------- |
 | message   | string | Confirms if the mix was liked successfully. |
-
-
 
 ### **4. Admin Management**
 
@@ -333,8 +325,8 @@
 
 - **Description**: Allows admins to remove inappropriate mixes or comments.
 
-   - `resource_type`: Can be either "mix" or "comment", indicating the type of content to remove.
-   - `resource_id`: The unique identifier for the mix or comment to be removed.
+  - `resource_type`: Can be either "mix" or "comment", indicating the type of content to remove.
+  - `resource_id`: The unique identifier for the mix or comment to be removed.
 
 - **Response:**
 
@@ -360,7 +352,7 @@
 
 - **Response:**
 
-   ```json
+  ```json
   {
     "message": "Resource flagged for review"
   }
@@ -371,8 +363,6 @@
   | Attribute | Type   | Description                             |
   | --------- | ------ | --------------------------------------- |
   | message   | string | Confirms that the resource was flagged. |
-
-
 
 ### **5. Events and News**
 
@@ -386,25 +376,25 @@
 
 - **Request:**
 
-   ```json
+  ```json
   {
     "title": "Upcoming Music Event",
     "description": "The latest music festival will be held in New York!",
     "date": "2024-11-08"
   }
   ```
-  
+
 - **Request Attributes:**
 
-   | Attribute   | Type     | Description                               |
+  | Attribute   | Type     | Description                               |
   | ----------- | -------- | ----------------------------------------- |
   | title       | string   | The name or headline of the event/news.   |
   | description | string   | A brief description of the event or news. |
   | date        | datetime | The date and time of the event.           |
-  
+
 - **Response:**
 
-   ```json
+  ```json
   {
     "message": "Event posted successfully",
     "event_id": "3344"
@@ -418,7 +408,6 @@
   | message   | string | Confirms the successful posting of the event/news. |
   | event_id  | int    | The unique identifier for the event/news.          |
 
-
 #### **5.2. Get DJ Events**
 
 - **Endpoint**: `/api/dj/{dj_id}/events`
@@ -429,7 +418,7 @@
 
 - **Response:**
 
-   ```json
+  ```json
   {
     "events": [
       {
@@ -451,8 +440,6 @@
   | description | string   | A description of the event.          |
   | date        | datetime | The date and time of the event.      |
 
-  
-
 ### **6. Recommendations and Radio** (TBD)
 
 #### **6.1. Get Recommendations**
@@ -465,7 +452,7 @@
 
 - **Response:**
 
-   ```json
+  ```json
   {
     "recommendations": [
       {
@@ -491,7 +478,6 @@
   | user_id   | int    | The unique identifier for the uploader.       |
   | username  | string | The uploader's display name.                  |
 
-
 #### **6.2. Play Radio**
 
 - **Endpoint**: `/api/radio`
@@ -502,7 +488,7 @@
 
 - **Response:**
 
-   ```json
+  ```json
   {
     "radio_stream_url": ""
   }
@@ -513,4 +499,3 @@
   | Attribute        | Type   | Description                  |
   | ---------------- | ------ | ---------------------------- |
   | radio_stream_url | string | The URL to the radio stream. |
-

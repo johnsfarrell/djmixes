@@ -1,5 +1,7 @@
 # Algorithm API
 
+The algorithm API includes endpoints for splitting and stemming audio files.
+
 ## Run the algorithm API locally with Docker:
 
 ```bash
@@ -35,7 +37,7 @@ flask run
 
 ## API Endpoints:
 
-The app will be available at `http://localhost:5000`
+The app will be available at `http://localhost:5001`
 
 - `POST /stem`
 

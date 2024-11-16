@@ -1,3 +1,4 @@
+import { SplitTimestamps } from '../../utils/algorithm';
 import createConnection from '../connection';
 
 export interface Mix {
@@ -25,7 +26,8 @@ async function insertMixes(
   cover_url: string | null,
   tags: string | null,
   visibility: 'public' | 'private' | 'unlisted' | 'friends',
-  allow_download: boolean
+  allow_download: boolean,
+  split_timestamps: SplitTimestamps
 ): Promise<any | null> {
   const connection = await createConnection();
 
@@ -35,7 +37,17 @@ async function insertMixes(
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const [result] = await connection.execute(query, [
-      mix_id, user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download
+      mix_id,
+      user_id,
+      title,
+      artist,
+      album,
+      release_date,
+      file_url,
+      cover_url,
+      tags,
+      visibility,
+      allow_download
     ]);
     console.log('Mix inserted successfully:', result);
     return result;
@@ -67,7 +79,17 @@ async function updateMixes(
       WHERE mix_id = ? AND is_deleted = 0
     `;
     const [result] = await connection.execute(query, [
-      user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download, mix_id
+      user_id,
+      title,
+      artist,
+      album,
+      release_date,
+      file_url,
+      cover_url,
+      tags,
+      visibility,
+      allow_download,
+      mix_id
     ]);
     console.log('Mix updated successfully:', result);
     return result;

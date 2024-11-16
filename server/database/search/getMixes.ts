@@ -8,7 +8,7 @@ export interface Mix {
   title: string;
   file_url: string;
   cover_url?: string;
-  tags?: string;
+  tags?: string[];
   visibility: 'public' | 'private' | 'unlisted' | 'friends';
   allow_download: boolean;
   created_at: Date;
@@ -23,7 +23,7 @@ async function getMixes(mix_id: number): Promise<Mix | null> {
   const connection = await createConnection();
   try {
     const [rows] = await connection.execute<RowDataPacket[]>(
-      `SELECT * FROM mix WHERE mix_id = ? AND is_deleted = 0`, 
+      `SELECT * FROM mix WHERE mix_id = ? AND is_deleted = 0`,
       [mix_id]
     );
 
