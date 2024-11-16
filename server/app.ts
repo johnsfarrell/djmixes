@@ -1,9 +1,11 @@
-import express, { Request, Response } from "express";
-import path from "path";
-import mixRoutes from "./routes/mixRoutes";
-import dotenv from "dotenv";
-import fileUpload from "express-fileupload";
-import AudioProcessor from "./utils/algorithm";
+import express, { Request, Response } from 'express';
+import path from 'path';
+import mixRoutes from './routes/mixRoutes';
+import profileRoutes from './routes/profileRoutes';
+import eventRoutes from './routes/eventRoutes';
+import dotenv from 'dotenv';
+import fileUpload from 'express-fileupload';
+import AudioProcessor from './utils/algorithm';
 
 // Create express app
 const app = express();
@@ -20,12 +22,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
 //Home page includes the README.md file
-app.get("/", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../README.md"));
+app.get('/', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../README.md'));
 });
 
-// Routes for mixes
-app.use("/api/mixes", mixRoutes);
+// Routes for mixes, profiles, and events
+app.use('/api/mixes', mixRoutes);
+app.use('/api/profiles', profileRoutes);
+app.use('/api/events', eventRoutes);
+
+// 404 route, redirect to home page
+app.use((req: Request, res: Response) => {
+  res.redirect('/');
+});
 
 // Start server on PORT
 app.listen(PORT, () => {

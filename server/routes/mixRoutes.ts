@@ -1,17 +1,17 @@
-import express, { Request, Response } from "express";
-import { downloadMix } from "../controllers/downloadMixController";
-import { uploadMix } from "../controllers/uploadMixController";
-import { getMixMock } from "../controllers/getMixController";
+import express from 'express';
+import MixController from '../controllers/mixController';
 
 const router = express.Router();
 
+const mixController = new MixController();
+
 // Route for fetching a mix by its ID
-router.get("/:mixId", getMixMock);
+router.get('/:mixId', mixController.getMixMock);
 
 // Route for uploading a mix
-router.get("/:mix_id/download", downloadMix);
+router.get('/:mixId/download', mixController.downloadMix);
 
 // Route for downloading a mix
-router.post("/upload", uploadMix);
+router.post('/upload', mixController.uploadMix);
 
 export default router;
