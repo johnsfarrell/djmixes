@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { Mix, getMixes } from '../database/search/getMixes';
-import { User, getUserByName } from '../database/search/getUser';
+import { Request, Response } from "express";
+import { Mix, getMixes } from "../database/search/getMixes";
+import { User, getUserByName } from "../database/search/getUser";
 
 interface UploadUser {
   user_id: number;
@@ -37,14 +37,14 @@ export const getMix = async (req: Request, res: Response): Promise<void> => {
     const mixData: Mix | null = await getMixes(parseInt(mixId, 10));
 
     if (!mixData) {
-      res.status(404).send('Mix not found');
+      res.status(404).send("Mix not found");
       return;
     }
 
     // Fetch the user who uploaded the mix by user_id
     const user: User | null = await getUserByName(`${mixData.user_id}`); // Using user_id instead of username
     if (!user) {
-      res.status(404).send('User not found');
+      res.status(404).send("User not found");
       return;
     }
 
@@ -61,16 +61,16 @@ export const getMix = async (req: Request, res: Response): Promise<void> => {
       artist: mixData.artist,
       upload_user: {
         user_id: mixData.user_id,
-        username: user.username
+        username: user.username,
       },
       comments: [], // Placeholder for comments
-      album: mixData.album
+      album: mixData.album,
     };
 
     res.json(response);
   } catch (error) {
-    console.error('Error retrieving mix:', error);
-    res.status(500).send('Error retrieving mix');
+    console.error("Error retrieving mix:", error);
+    res.status(500).send("Error retrieving mix");
   }
 };
 
@@ -81,24 +81,24 @@ export const getMix = async (req: Request, res: Response): Promise<void> => {
  */
 export const getMixMock = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const mockResponse: MixResponse = {
-    title: 'Mock Mix',
-    fileUrl: 'https://example.com/mix.mp3',
-    coverUrl: 'https://example.com/cover.jpg',
-    visibility: 'public',
+    title: "Mock Mix",
+    fileUrl: "https://example.com/mix.mp3",
+    coverUrl: "https://example.com/cover.jpg",
+    visibility: "public",
     allowDownload: true,
-    tags: ['rock', 'pop'],
+    tags: ["rock", "pop"],
     updatedAt: new Date(),
     createdAt: new Date(),
-    artist: 'Mock Artist',
+    artist: "Mock Artist",
     upload_user: {
       user_id: 1,
-      username: 'mockuser'
+      username: "mockuser",
     },
     comments: [],
-    album: 'Mock Album'
+    album: "Mock Album",
   };
 
   res.json(mockResponse);

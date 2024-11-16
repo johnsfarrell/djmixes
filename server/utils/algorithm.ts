@@ -1,5 +1,5 @@
-import axios from 'axios';
-import JSZip from 'jszip';
+import axios from "axios";
+import JSZip from "jszip";
 
 export type SplitTimestamps = Record<string, number>;
 
@@ -15,14 +15,14 @@ class AudioProcessor {
   public async getStemmedAudio(buffer: Buffer): Promise<StemmedAudio> {
     const formData = new FormData();
 
-    formData.append('file', new Blob([buffer]), 'audio-file');
+    formData.append("file", new Blob([buffer]), "audio-file");
 
     // Send the POST request to stem
-    const response = await axios.post('http://localhost:5001/stem', formData, {
+    const response = await axios.post("http://localhost:5001/stem", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        "Content-Type": "multipart/form-data",
       },
-      responseType: 'arraybuffer'
+      responseType: "arraybuffer",
     });
 
     // Load the zip content as a buffer
@@ -31,7 +31,7 @@ class AudioProcessor {
 
     // Extract each file and convert it to a buffer
     const extractionPromises = Object.keys(zip.files).map(async (filename) => {
-      const fileData = await zip.files[filename].async('nodebuffer');
+      const fileData = await zip.files[filename].async("nodebuffer");
       stems[filename] = fileData;
     });
 
@@ -49,13 +49,13 @@ class AudioProcessor {
   public async getSplitTimestamps(buffer: Buffer): Promise<SplitTimestamps> {
     const formData = new FormData();
 
-    formData.append('file', new Blob([buffer]), 'audio-file');
+    formData.append("file", new Blob([buffer]), "audio-file");
 
     // Send the POST request to split
-    const response = await axios.post('http://localhost:5001/split', formData, {
+    const response = await axios.post("http://localhost:5001/split", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
 
     return response.data;

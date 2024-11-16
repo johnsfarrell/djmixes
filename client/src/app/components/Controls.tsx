@@ -41,7 +41,7 @@ export const Controls: React.FC = () => {
       progressBarRef.current.value = currentTime.toString();
       progressBarRef.current.style.setProperty(
         "--range-progress",
-        `${(currentTime / duration) * 100}%`
+        `${(currentTime / duration) * 100}%`,
       );
     }
   }, [duration, setTimeProgress, audioRef, progressBarRef]);
@@ -84,8 +84,8 @@ export const Controls: React.FC = () => {
       const newIndex = isShuffle
         ? Math.floor(Math.random() * tracks.length)
         : prevIndex >= tracks.length - 1
-        ? 0
-        : prevIndex + 1;
+          ? 0
+          : prevIndex + 1;
       setCurrentTrack({
         ...tracks[newIndex],
         thumbnail: tracks[newIndex].thumbnail, // Assuming thumbnail is of type StaticImageData
@@ -100,8 +100,8 @@ export const Controls: React.FC = () => {
       const newIndex = isShuffle
         ? Math.floor(Math.random() * tracks.length)
         : prevIndex === 0
-        ? tracks.length - 1
-        : prevIndex - 1;
+          ? tracks.length - 1
+          : prevIndex - 1;
       setCurrentTrack({
         ...tracks[newIndex],
         thumbnail: tracks[newIndex].thumbnail, // Assuming thumbnail is of type StaticImageData

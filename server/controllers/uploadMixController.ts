@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { UploadedFile } from 'express-fileupload';
-import { insertMixes } from '../database/update/updateMixes';
-import { bucketName, s3Client } from '../utils/s3Client';
-import { algorithm as algo } from '../app';
-import { SplitTimestamps, StemmedAudio } from '../utils/algorithm';
+import { Request, Response } from "express";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { UploadedFile } from "express-fileupload";
+import { insertMixes } from "../database/update/updateMixes";
+import { bucketName, s3Client } from "../utils/s3Client";
+import { algorithm as algo } from "../app";
+import { SplitTimestamps, StemmedAudio } from "../utils/algorithm";
 
 interface UploadMixResponse {
   message: string;
@@ -21,7 +21,7 @@ interface UploadMixResponse {
  */
 export const uploadMix = async (req: Request, res: Response): Promise<void> => {
   if (!req.files || !req.files.mix) {
-    res.status(400).json({ error: 'No file uploaded' });
+    res.status(400).json({ error: "No file uploaded" });
     return;
   }
 
@@ -33,15 +33,15 @@ export const uploadMix = async (req: Request, res: Response): Promise<void> => {
     const params = {
       Bucket: bucketName,
       Key: fileKey,
-      Body: file.data
+      Body: file.data,
     };
 
     const stamps: SplitTimestamps = await algo.getSplitTimestamps(file.data);
     const stems: StemmedAudio = await algo.getStemmedAudio(file.data);
 
     // TODO: Remove these console logs (here for debugging)
-    console.log('Split timestamps:', stamps);
-    console.log('Stemmed audio:', stems);
+    console.log("Split timestamps:", stamps);
+    console.log("Stemmed audio:", stems);
 
     // Upload file to S3
     const uploadResult = await s3Client.send(new PutObjectCommand(params));
@@ -60,18 +60,18 @@ export const uploadMix = async (req: Request, res: Response): Promise<void> => {
       req.body.tags,
       req.body.visibility,
       req.body.allow_download,
-      stamps
+      stamps,
     );
 
     const response: UploadMixResponse = {
-      message: 'File uploaded successfully',
+      message: "File uploaded successfully",
       fileKey,
-      uploadResult
+      uploadResult,
     };
 
     res.status(200).json(response);
   } catch (error) {
-    console.error('Error uploading file:', error);
-    res.status(500).json({ error: 'Failed to upload file' });
+    console.error("Error uploading file:", error);
+    res.status(500).json({ error: "Failed to upload file" });
   }
 };

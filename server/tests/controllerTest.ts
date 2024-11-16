@@ -1,14 +1,14 @@
-const request = require('supertest');
-const chai = require('chai');
-const app = require('../app');
+const request = require("supertest");
+const chai = require("chai");
+const app = require("../app");
 const expect = chai.expect;
 
 // Test for mix route
-describe('GET /mix/:id', () => {
+describe("GET /mix/:id", () => {
   // Test case for a successful response with a valid ID
-  it('should return mix details for a valid mix ID', (done) => {
+  it("should return mix details for a valid mix ID", (done) => {
     request(app)
-      .get('/mix/1')
+      .get("/mix/1")
       .expect(200)
       .end((err, res) => {
         if (err) return done(err);
@@ -19,9 +19,9 @@ describe('GET /mix/:id', () => {
   });
 
   // Test case for a missing mix ID
-  it('should return 400 if mix ID is missing', (done) => {
+  it("should return 400 if mix ID is missing", (done) => {
     request(app)
-      .get('/mix/')
+      .get("/mix/")
       .expect(404) // Invalid endpoint, assuming the route requires a valid ID
       .end((err, res) => {
         if (err) return done(err);

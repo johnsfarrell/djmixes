@@ -23,7 +23,7 @@ export const ProgressBar: React.FC = () => {
       setTimeProgress(newTime);
       progressBarRef.current.style.setProperty(
         "--range-progress",
-        `${(newTime / duration) * 100}%`
+        `${(newTime / duration) * 100}%`,
       );
     }
   };

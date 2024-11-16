@@ -4,7 +4,7 @@ declare module "next-compose-plugins" {
 
   type NextComposePlugins = (
     plugins: Plugin[],
-    nextConfig: NextConfig
+    nextConfig: NextConfig,
   ) => NextConfig;
 
   const withPlugins: NextComposePlugins;
