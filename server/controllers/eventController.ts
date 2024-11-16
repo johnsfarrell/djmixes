@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import createConnection from '../database/connection';
 import { RowDataPacket } from 'mysql2';
 
-class EventsController {
-  static async getDjEvents(req: Request, res: Response): Promise<void> {
+class EventController {
+  getDjEvents = async (req: Request, res: Response): Promise<void> => {
     try {
-      const djId = parseInt(req.params.dj_id, 10);
+      const djId = parseInt(req.params.djId, 10);
       if (isNaN(djId)) {
         res.status(400).json({ error: 'Invalid DJ ID' });
         return;
@@ -27,7 +27,7 @@ class EventsController {
       console.error('Error fetching DJ events:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
-  }
+  };
 }
 
-export default EventsController;
+export default EventController;
