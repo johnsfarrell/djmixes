@@ -3,7 +3,7 @@ const db = {
   user: "username",
   password: "password",
   port: 3306,
-  database: 'test',
+  database: "test",
 };
 
 export default db;

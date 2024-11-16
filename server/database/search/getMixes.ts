@@ -1,5 +1,5 @@
-import { RowDataPacket } from 'mysql2';
-import createConnection from '../connection';
+import { RowDataPacket } from "mysql2";
+import createConnection from "../connection";
 
 // Define the type for the mix data
 export interface Mix {
@@ -8,8 +8,8 @@ export interface Mix {
   title: string;
   file_url: string;
   cover_url?: string;
-  tags?: string;
-  visibility: 'public' | 'private' | 'unlisted' | 'friends';
+  tags?: string[];
+  visibility: "public" | "private" | "unlisted" | "friends";
   allow_download: boolean;
   created_at: Date;
   updated_at: Date;
@@ -23,8 +23,8 @@ async function getMixes(mix_id: number): Promise<Mix | null> {
   const connection = await createConnection();
   try {
     const [rows] = await connection.execute<RowDataPacket[]>(
-      `SELECT * FROM mix WHERE mix_id = ? AND is_deleted = 0`, 
-      [mix_id]
+      `SELECT * FROM mix WHERE mix_id = ? AND is_deleted = 0`,
+      [mix_id],
     );
 
     if (rows.length > 0) {
@@ -34,7 +34,7 @@ async function getMixes(mix_id: number): Promise<Mix | null> {
       return null;
     }
   } catch (error) {
-    console.error('Retrieving mix Error:', error);
+    console.error("Retrieving mix Error:", error);
     throw error;
   }
 }
