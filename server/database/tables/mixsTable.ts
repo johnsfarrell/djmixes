@@ -13,8 +13,7 @@ const createTableQuery: string = `
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     artist VARCHAR(255) NOT NULL,
     album VARCHAR(255) NULL,
-    is_deleted TINYINT DEFAULT 0,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    is_deleted TINYINT DEFAULT 0
     );
 `;
 

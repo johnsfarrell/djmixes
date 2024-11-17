@@ -1,12 +1,21 @@
-import createConnection from "./connection";
-import createUsersTable from "./tables/usersTable";
-import createMixsTable from "./tables/mixsTable";
+import createConnection from './connection';
+import createUsersTable from './tables/usersTable';
+import createMixsTable from './tables/mixsTable';
+import createCommentsTable from './tables/commentsTable';
+import createEventsTable from './tables/eventsTable';
+import createLikesTable from './tables/likesTable';
+import createProfilesTable from './tables/profilesTable';
+import {insertUsersQuery, insertRecordsQuery, insertCommentsQuery, insertLikesQuery, insertEventsQuery, insertUserProfilesQuery} from './dumb_data';
 
 async function createTables(): Promise<void> {
   const connection = await createConnection();
   const tableQueries = [
-    { name: "users", query: createUsersTable.createTableQuery },
-    { name: "mixs", query: createMixsTable.createTableQuery },
+    { name: 'users', query: createUsersTable.createUsersTableQuery },
+    { name: 'mixs', query: createMixsTable.createTableQuery },
+    { name: 'comments', query: createCommentsTable.createCommentTableQuery},
+    { name: 'events', query: createEventsTable.createEventsTableQuery},
+    { name: 'likes', query: createLikesTable.createLikesTableQuery},
+    { name: 'user_profiles', query: createProfilesTable.createProfilesTableQuery}
   ];
 
   try {
@@ -33,6 +42,26 @@ async function createTables(): Promise<void> {
     }
   } catch (error) {
     console.error("Tables Creation Error:", error);
+  }
+
+  const dumb_data_list = [insertUsersQuery, insertRecordsQuery, insertCommentsQuery, insertLikesQuery, insertEventsQuery, insertUserProfilesQuery];
+
+  try {
+    for (const dumb_data of dumb_data_list) {
+      await connection.execute(dumb_data);
+    }
+  } catch (error) {
+    console.error('dumb data Error:', error);
+  }
+
+  const dumb_data_list = [insertUsersQuery, insertRecordsQuery, insertCommentsQuery, insertLikesQuery, insertEventsQuery, insertUserProfilesQuery];
+
+  try {
+    for (const dumb_data of dumb_data_list) {
+      await connection.execute(dumb_data);
+    }
+  } catch (error) {
+    console.error('dumb data Error:', error);
   }
 }
 

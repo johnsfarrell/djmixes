@@ -22,3 +22,4 @@ async function initializeDatabase(): Promise<void> {
 initializeDatabase().catch((error: Error) => {
   console.error("Error initializing database:", error);
 });
+

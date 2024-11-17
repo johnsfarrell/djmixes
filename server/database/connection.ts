@@ -1,5 +1,5 @@
-import mysql from "mysql2/promise";
-import db from "./db_config";
+import * as mysql from 'mysql2/promise';
+import db from './db_config';
 
 async function createConnection(): Promise<mysql.Connection> {
   const connection = await mysql.createConnection({
