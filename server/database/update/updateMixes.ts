@@ -25,8 +25,7 @@ async function insertMixes(
   cover_url: string | null,
   tags: string | null,
   visibility: "public" | "private" | "unlisted" | "friends",
-  allow_download: boolean,
-  split_timestamps: SplitTimestamps,
+  allow_download: boolean
 ): Promise<any | null> {
   const connection = await createConnection();
 

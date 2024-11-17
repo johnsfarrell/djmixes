@@ -53,16 +53,6 @@ async function createTables(): Promise<void> {
   } catch (error) {
     console.error('dumb data Error:', error);
   }
-
-  const dumb_data_list = [insertUsersQuery, insertRecordsQuery, insertCommentsQuery, insertLikesQuery, insertEventsQuery, insertUserProfilesQuery];
-
-  try {
-    for (const dumb_data of dumb_data_list) {
-      await connection.execute(dumb_data);
-    }
-  } catch (error) {
-    console.error('dumb data Error:', error);
-  }
 }
 
 export default createTables;
