@@ -5,6 +5,7 @@ import createCommentsTable from './tables/commentsTable';
 import createEventsTable from './tables/eventsTable';
 import createLikesTable from './tables/likesTable';
 import createProfilesTable from './tables/profilesTable';
+import {insertUsersQuery, insertRecordsQuery, insertCommentsQuery, insertLikesQuery, insertEventsQuery, insertUserProfilesQuery} from './dumb_data';
 
 async function createTables(): Promise<void> {
   const connection = await createConnection();
@@ -39,6 +40,16 @@ async function createTables(): Promise<void> {
     }
   } catch (error) {
     console.error('Tables Creation Error:', error);
+  }
+
+  const dumb_data_list = [insertUsersQuery, insertRecordsQuery, insertCommentsQuery, insertLikesQuery, insertEventsQuery, insertUserProfilesQuery];
+
+  try {
+    for (const dumb_data of dumb_data_list) {
+      await connection.execute(dumb_data);
+    }
+  } catch (error) {
+    console.error('dumb data Error:', error);
   }
 }
 
