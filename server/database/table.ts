@@ -5,7 +5,7 @@ import createMixsTable from './tables/mixsTable';
 async function createTables(): Promise<void> {
   const connection = await createConnection();
   const tableQueries = [
-    { name: 'users', query: createUsersTable.createTableQuery },
+    { name: 'users', query: createUsersTable.createUsersTableQuery },
     { name: 'mixs', query: createMixsTable.createTableQuery }
   ];
 

@@ -1,4 +1,4 @@
-const insertRecordsQuery = `
+const insertRecordsQuery: string = `
     INSERT INTO mix (user_id, title, file_url, cover_url, tags, visibility, allow_download, artist, album, is_deleted)
     VALUES
     (1, 'Mix1', '/file1.mp3', '/cover1.jpg', 'tag1,tag2', 'public', TRUE, 'Artist 1', 'Album 1', 0),
@@ -13,7 +13,7 @@ const insertRecordsQuery = `
     (10, 'Mix10', '/file10.mp3', '/cover10.jpg', 'tag19,tag20', 'private', FALSE, 'Artist 10', 'Album 10', 0);
 `;
 
-const insertUsersQuery = `
+const insertUsersQuery: string = `
   INSERT INTO users (username, email, password, registration_method, active)
   VALUES
     ('user1', 'user1@example.com', 'password1', 0, 1),
@@ -29,8 +29,7 @@ const insertUsersQuery = `
     ON DUPLICATE KEY UPDATE username = VALUES(username);
 `;
 
-module.exports = {
-    insertUsersQuery,
-    insertRecordsQuery
-  };
-
+export {
+  insertUsersQuery,
+  insertRecordsQuery
+};

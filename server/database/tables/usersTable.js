@@ -1,23 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // Define the SQL query for creating the 'mix' table
-const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS mix (
-    mix_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    file_url VARCHAR(255) NOT NULL,
-    cover_url VARCHAR(255) NULL,
-    tags TEXT NULL,
-    visibility ENUM('public', 'private', 'unlisted', 'friends') NOT NULL,
-    allow_download BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    artist VARCHAR(255) NOT NULL,
-    album VARCHAR(255) NULL,
-    is_deleted TINYINT DEFAULT 0,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-    );
-`;
+var createUsersTableQuery = "\n  CREATE TABLE IF NOT EXISTS users (\n    user_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,\n    username VARCHAR(100) NOT NULL UNIQUE,\n    email VARCHAR(150) NOT NULL UNIQUE,\n    password VARCHAR(255) NOT NULL,\n    registration_method INT NOT NULL,\n    active TINYINT DEFAULT 0,\n    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n  );\n";
 // Export the query so it can be used elsewhere in the application
-exports.default = { createTableQuery };
+exports.default = { createUsersTableQuery: createUsersTableQuery };

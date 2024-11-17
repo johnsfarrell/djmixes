@@ -15,7 +15,6 @@ export interface Mix {
 }
 
 async function insertMixes(
-  mix_id: number,
   user_id: number,
   title: string,
   artist: string,
@@ -31,11 +30,11 @@ async function insertMixes(
 
   try {
     const query = `
-      INSERT INTO mix (mix_id, user_id, title, artist, album, created_at, file_url, cover_url, tags, visibility, allow_download)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO mix (user_id, title, artist, album, created_at, file_url, cover_url, tags, visibility, allow_download)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const [result] = await connection.execute(query, [
-      mix_id, user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download
+      user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download
     ]);
     console.log('Mix inserted successfully:', result);
     return result;
