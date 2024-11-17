@@ -36,77 +36,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var connection_1 = require("./connection");
-var usersTable_1 = require("./tables/usersTable");
-var mixsTable_1 = require("./tables/mixsTable");
-var commentsTable_1 = require("./tables/commentsTable");
-var eventsTable_1 = require("./tables/eventsTable");
-var likesTable_1 = require("./tables/likesTable");
-var profilesTable_1 = require("./tables/profilesTable");
-function createTables() {
+exports.insertEvent = insertEvent;
+exports.updateEvent = updateEvent;
+var connection_1 = require("../connection");
+function insertEvent(title, date, artist_id, user_id, description) {
     return __awaiter(this, void 0, void 0, function () {
-        var connection, tableQueries, dbName, databases, error_1, dbName, _i, tableQueries_1, table, error_2;
+        var connection, result, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, connection_1.default)()];
                 case 1:
                     connection = _a.sent();
-                    tableQueries = [
-                        { name: 'users', query: usersTable_1.default.createUsersTableQuery },
-                        { name: 'mixs', query: mixsTable_1.default.createTableQuery },
-                        { name: 'comments', query: commentsTable_1.default.createCommentTableQuery },
-                        { name: 'events', query: eventsTable_1.default.createEventsTableQuery },
-                        { name: 'likes', query: likesTable_1.default.createLikesTableQuery },
-                        { name: 'user_profiles', query: profilesTable_1.default.createProfilesTableQuery }
-                    ];
                     _a.label = 2;
                 case 2:
-                    _a.trys.push([2, 8, , 9]);
-                    dbName = 'test';
-                    return [4 /*yield*/, connection.query('SHOW DATABASES LIKE ?', [dbName])];
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, connection.execute('INSERT INTO events (title, date, artist_id, user_id, description) VALUES (?, ?, ?, ?, ?)', [title, date, artist_id, user_id, description])];
                 case 3:
-                    databases = (_a.sent())[0];
-                    if (!(databases.length === 0)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, connection.execute("CREATE DATABASE `".concat(dbName, "`"))];
+                    result = (_a.sent())[0];
+                    console.log('event inserted successfully:', result);
+                    return [2 /*return*/, result];
                 case 4:
-                    _a.sent();
-                    console.log("Database \"".concat(dbName, "\" created."));
-                    return [3 /*break*/, 6];
-                case 5:
-                    console.log("Database \"".concat(dbName, "\" already exists."));
-                    _a.label = 6;
-                case 6: return [4 /*yield*/, connection.changeUser({ database: dbName })];
-                case 7:
-                    _a.sent();
-                    return [3 /*break*/, 9];
-                case 8:
                     error_1 = _a.sent();
-                    console.error('Database Creation Error:', error_1);
-                    return [3 /*break*/, 9];
-                case 9:
-                    _a.trys.push([9, 14, , 15]);
-                    dbName = 'test';
-                    _i = 0, tableQueries_1 = tableQueries;
-                    _a.label = 10;
-                case 10:
-                    if (!(_i < tableQueries_1.length)) return [3 /*break*/, 13];
-                    table = tableQueries_1[_i];
-                    return [4 /*yield*/, connection.execute(table.query)];
-                case 11:
-                    _a.sent();
-                    console.log("Table '".concat(table.name, "' created or already exists."));
-                    _a.label = 12;
-                case 12:
-                    _i++;
-                    return [3 /*break*/, 10];
-                case 13: return [3 /*break*/, 15];
-                case 14:
-                    error_2 = _a.sent();
-                    console.error('Tables Creation Error:', error_2);
-                    return [3 /*break*/, 15];
-                case 15: return [2 /*return*/];
+                    console.error('Error inserting event:', error_1);
+                    return [2 /*return*/, null];
+                case 5: return [2 /*return*/];
             }
         });
     });
 }
-exports.default = createTables;
+function updateEvent(event_id, title, date, artist_id, user_id, description) {
+    return __awaiter(this, void 0, void 0, function () {
+        var connection, result, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, connection_1.default)()];
+                case 1:
+                    connection = _a.sent();
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, connection.execute('UPDATE events SET title = ?, date = ?, artist_id = ?, user_id = ?, description = ? WHERE event_id = ?', [title, date, artist_id, user_id, description, event_id])];
+                case 3:
+                    result = (_a.sent())[0];
+                    console.log('event uodated successfully:', result);
+                    return [2 /*return*/, result];
+                case 4:
+                    error_2 = _a.sent();
+                    console.error('Error updating event:', error_2);
+                    return [2 /*return*/, null];
+                case 5: return [2 /*return*/];
+            }
+        });
+    });
+}
