@@ -33,7 +33,7 @@ interface AudioPlayerContextType {
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
@@ -73,7 +73,7 @@ export const useAudioPlayerContext = (): AudioPlayerContextType => {
   const context = useContext(AudioPlayerContext);
   if (context === undefined) {
     throw new Error(
-      "useAudioPlayerContext must be used within an AudioPlayerProvider"
+      "useAudioPlayerContext must be used within an AudioPlayerProvider",
     );
   }
   return context;

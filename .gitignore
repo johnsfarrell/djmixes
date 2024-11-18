@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+/server/.env
 
 # algorithm (pip)
 */venv
@@ -8,3 +9,5 @@ node_modules
 # client/server (npm)
 */.next/*
 */node_modules/*
+
+**/.env
