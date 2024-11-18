@@ -1,7 +1,8 @@
-import { S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
+import path from 'path';
+import { S3Client } from "@aws-sdk/client-s3";
 
-dotenv.config();
+dotenv.config({path:path.join(__dirname, '..','.env')});
 
 export const s3Client = new S3Client({
   endpoint: process.env.AWS_ENDPOINT,
