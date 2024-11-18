@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Disc } from 'lucide-react';
 
 export default function Logo() {
     return (
@@ -6,7 +7,7 @@ export default function Logo() {
         href="/"
         className="flex items-center gap-2"
       >
-        <div className="w-8 h-8 bg-white rounded-full" />
+        <Disc size={24} className="text-white" />
         <span className="text-white text-xl font-semibold hidden sm:block">DJMix</span>
       </Link>
     );

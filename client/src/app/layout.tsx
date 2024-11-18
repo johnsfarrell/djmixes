@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   // TODO: fetch user data
   const userData = {
-    avatarUrl: "https://avatars.dicebear.com/api/avataaars/username.svg",
+    avatarUrl: undefined,
     notificationsCount: 3,
   }
 
