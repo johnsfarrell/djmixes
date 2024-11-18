@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import createConnection from '../database/connection';
 import { RowDataPacket } from 'mysql2';
+import {Event, EventsResponse, UploadEventResponse} from '../utils/interface'
 
 class EventController {
   /**
@@ -36,6 +37,20 @@ class EventController {
     }
   };
 
+  getDJEventsMock = async (req: Request, res: Response): Promise<void> => {
+    const mockResponse: EventsResponse = {
+      events: [
+      {
+        eventId: "3344",
+        title: "Upcoming Music Event",
+        description: "The latest music festival will be held in New York!",
+        date: "2024-11-08"
+      }
+    ]
+    }
+    res.json(mockResponse);
+  };
+
   /**
    * Uploads a new event and saves it in the database
    * @param req - Request object, containing event details
@@ -68,6 +83,14 @@ class EventController {
       console.error('Error uploading event:', error);
       res.status(500).json({ error: 'Failed to upload event' });
     }
+  };
+
+  uploadEventMock = async (req: Request, res: Response): Promise<void> => {
+    const mockResponse: UploadEventResponse = {
+      message : "Event posted successfully",
+      eventId: "3344"
+    }
+    res.json(mockResponse);
   };
 }
 

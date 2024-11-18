@@ -1,22 +1,6 @@
 import { RowDataPacket } from "mysql2";
 import createConnection from "../connection";
-
-// Define the type for the mix data
-export interface Mix {
-  mix_id: number;
-  user_id: number;
-  title: string;
-  file_url: string;
-  cover_url?: string;
-  tags?: string[];
-  visibility: "public" | "private" | "unlisted" | "friends";
-  allow_download: boolean;
-  created_at: Date;
-  updated_at: Date;
-  artist: string;
-  album?: string;
-  is_deleted: boolean;
-}
+import {Mix} from '../../utils/interface'
 
 // The function signature for getMixes
 async function getMixes(mix_id: number): Promise<Mix | null> {
