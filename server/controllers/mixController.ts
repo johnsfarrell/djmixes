@@ -206,7 +206,6 @@ class MixController {
 
       // Insert file details into the database
       await insertMixes(
-        1, // Assuming this is some mix ID or placeholder
         req.body.user_id,
         req.body.title,
         req.body.artist,
@@ -216,8 +215,7 @@ class MixController {
         req.body.cover_url,
         req.body.tags,
         req.body.visibility,
-        req.body.allow_download,
-        stamps
+        req.body.allow_download
       );
 
       const response: UploadMixResponse = {

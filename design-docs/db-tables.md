@@ -126,7 +126,7 @@ detailed profile information for each user.
 
   - `getMixes(mix_id)`: get song information based on mix_id
 
-  - `insertMixes(mix_id, user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download)`: insert mixes information into database
+  - `insertMixes(user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download)`: insert mixes information into database
 
   - `updateMixes(mix_id, user_id, title, artist, album, release_date, file_url, cover_url, tags, visibility, allow_download)`: update mixes information
 
