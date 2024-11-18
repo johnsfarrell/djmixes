@@ -28,8 +28,8 @@ app.get('/', (req: Request, res: Response) => {
 
 // Routes for mixes, profiles, and events
 app.use('/api/mixes', mixRoutes);
-app.use('/api/profiles', profileRoutes);
-app.use('/api/events', eventRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/dj', eventRoutes);
 
 // 404 route, redirect to home page
 app.use((req: Request, res: Response) => {

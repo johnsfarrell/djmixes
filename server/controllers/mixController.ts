@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { Mix, getMixes } from '../database/search/getMixes';
+import { getMixes } from '../database/search/getMixes';
+import { Mix, MixResponse, UploadMixResponse} from '../utils/interface'
 import { User, getUserByName } from '../database/search/getUser';
 import { s3Client, bucketName } from '../utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
@@ -8,32 +9,6 @@ import { UploadedFile } from 'express-fileupload';
 import { SplitTimestamps, StemmedAudio } from '../utils/algorithm';
 import { algorithm as algo } from '../app';
 import { insertMixes } from '../database/update/updateMixes';
-
-interface UploadUser {
-  user_id: number;
-  username: string;
-}
-
-interface MixResponse {
-  title: string;
-  fileUrl: string;
-  coverUrl?: string;
-  visibility: string;
-  allowDownload: boolean;
-  tags: string[];
-  updatedAt: Date;
-  createdAt: Date;
-  artist: string;
-  upload_user: UploadUser;
-  comments: string[];
-  album?: string;
-}
-
-interface UploadMixResponse {
-  message: string;
-  fileKey: string;
-  uploadResult: unknown;
-}
 
 class MixController {
   /**
