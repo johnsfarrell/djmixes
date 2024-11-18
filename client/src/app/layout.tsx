@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { AudioPlayerProvider } from "../context/audio-player-context";
 import { AudioPlayer } from "./components/AudioPlayer";
 import "./globals.css";
+import Header from "./components/Header/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,13 +26,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // TODO: fetch user data
+  const userData = {
+    avatarUrl: "https://avatars.dicebear.com/api/avataaars/username.svg",
+    notificationsCount: 3,
+  }
+
   return (
     <AudioPlayerProvider>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
+          <Header
+            avatarUrl={userData.avatarUrl}
+            notificationsCount={userData.notificationsCount}
+          />
+          <main>
+            {children}
+          </main>
           <AudioPlayer />
         </body>
       </html>
