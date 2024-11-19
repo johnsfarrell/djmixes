@@ -1,5 +1,5 @@
 import { RowDataPacket } from 'mysql2';
-import createConnection from '../connection';
+import createConnection from '@/database/connection';
 
 // Define the type for the user profile data
 export interface UserProfile {
@@ -12,7 +12,7 @@ export interface UserProfile {
 
 // Function to get profile data for a specific user
 async function getProfiles(user_id: number): Promise<UserProfile | null> {
-    const connection = await createConnection();
+  const connection = await createConnection();
 
   try {
     // Get the profile data for the provided user_id
@@ -29,7 +29,7 @@ async function getProfiles(user_id: number): Promise<UserProfile | null> {
   } catch (error) {
     console.error('Error fetching profile for user:', error);
     return null; // Return null in case of an error
-  } 
+  }
 }
 
 export { getProfiles };

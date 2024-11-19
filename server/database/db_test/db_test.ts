@@ -1,9 +1,13 @@
-import createConnection from '../connection';
-import createTables from '../table';
-import { getUserByName } from '../search/getUser';
-import { createUser, deleteUser } from '../update/updateUser';
-import { getMixes } from '../search/getMixes';
-import { insertMixes, updateMixes, deleteMixes } from '../update/updateMixes';
+import createConnection from '@/database/connection';
+import createTables from '@/database/table';
+import { getUserByName } from '@/database/search/getUser';
+import { createUser, deleteUser } from '@/database/update/updateUser';
+import { getMixes } from '@/database/search/getMixes';
+import {
+  insertMixes,
+  updateMixes,
+  deleteMixes
+} from '@/database/update/updateMixes';
 
 async function runTests(): Promise<void> {
   const connection = await createConnection();
@@ -11,9 +15,9 @@ async function runTests(): Promise<void> {
 
   // Create user
   const createUserResult = await createUser(
-    'testuser', 
-    'testuser@example.com', 
-    'securepassword123', 
+    'testuser',
+    'testuser@example.com',
+    'securepassword123',
     0
   );
   console.log('Create User Result:', createUserResult);
@@ -63,7 +67,10 @@ async function runTests(): Promise<void> {
 
   // Check deleted mixes
   const checkMixes = await getMixes(1);
-  console.log('Deleted Mixes Result:', checkMixes ? checkMixes : 'Mixes successfully deleted.');
+  console.log(
+    'Deleted Mixes Result:',
+    checkMixes ? checkMixes : 'Mixes successfully deleted.'
+  );
 
   // Drop mixes table
   await connection.execute(`DROP TABLE IF EXISTS mix`);
@@ -74,7 +81,10 @@ async function runTests(): Promise<void> {
 
   // Check deleted user
   const deletedUser = await getUserByName('testuser');
-  console.log('Deleted User Result:', deletedUser ? deletedUser : 'User successfully deleted.');
+  console.log(
+    'Deleted User Result:',
+    deletedUser ? deletedUser : 'User successfully deleted.'
+  );
 
   // Drop users table
   await connection.execute(`DROP TABLE IF EXISTS users`);

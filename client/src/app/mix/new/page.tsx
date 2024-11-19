@@ -1,23 +1,23 @@
-"use client";
-import { v4 as uuidv4 } from "uuid";
-import { Upload, Image, Music, Plus } from "lucide-react";
-import { useState, useRef } from "react";
-import FileUploadBox from "@/app/components/FileUploadBox";
-import AddSongPopup from "@/app/components/AddSongPopup";
-import MixInfo from "@/app/components/MixInfo";
-import MixVisibilitySettings from "@/app/components/MixVisibilitySettings";
-import TagInput from "@/app/components/TagInput";
-import type { Song, Tag } from "@/types";
+'use client';
+import { v4 as uuidv4 } from 'uuid';
+import { Upload, Image, Music, Plus } from 'lucide-react';
+import { useState, useRef } from 'react';
+import FileUploadBox from '@/app/components/FileUploadBox';
+import AddSongPopup from '@/app/components/AddSongPopup';
+import MixInfo from '@/app/components/MixInfo';
+import MixVisibilitySettings from '@/app/components/MixVisibilitySettings';
+import TagInput from '@/app/components/TagInput';
+import type { Song, Tag } from '@/api/types';
 
 export default function MixUploadPage() {
   // State
   const [songs, setSongs] = useState<Song[]>([]);
   const [showAddSong, setShowAddSong] = useState(false);
   const [tags, setTags] = useState<Tag[]>([]);
-  const [visibility, setVisibility] = useState("public");
+  const [visibility, setVisibility] = useState('public');
   const [downloadable, setDownloadable] = useState(false);
-  const [mixTitle, setMixTitle] = useState("New Mix Title");
-  const [mixInfo, setMixInfo] = useState("Add mix info");
+  const [mixTitle, setMixTitle] = useState('New Mix Title');
+  const [mixInfo, setMixInfo] = useState('Add mix info');
   const [artwork, setArtwork] = useState<string | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
@@ -28,26 +28,26 @@ export default function MixUploadPage() {
   // Handlers
   const handleArtworkUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
+    if (file && file.type.startsWith('image/')) {
       setArtwork(URL.createObjectURL(file));
     } else {
-      alert("Please upload an image file");
+      alert('Please upload an image file');
     }
   };
 
   const handleAudioUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type.startsWith("audio/")) {
+    if (file && file.type.startsWith('audio/')) {
       setAudioFile(file);
     } else {
-      alert("Please upload an audio file");
+      alert('Please upload an audio file');
     }
   };
 
-  const handleAddSong = (songData: Omit<Song, "id">) => {
+  const handleAddSong = (songData: Omit<Song, 'id'>) => {
     const newSong: Song = {
       id: uuidv4(),
-      ...songData,
+      ...songData
     };
     setSongs([...songs, newSong]);
   };
@@ -55,7 +55,7 @@ export default function MixUploadPage() {
   const handleAddTag = (tagText: string) => {
     const newTag: Tag = {
       id: uuidv4(),
-      text: tagText,
+      text: tagText
     };
     setTags([...tags, newTag]);
   };
@@ -107,7 +107,7 @@ export default function MixUploadPage() {
 
             <MixInfo
               title={mixTitle}
-              dj={"DJ Name"} // TODO: Replace with current user's DJ name
+              dj={'DJ Name'} // TODO: Replace with current user's DJ name
               info={mixInfo}
               onTitleChange={setMixTitle}
               onInfoChange={setMixInfo}
@@ -181,13 +181,13 @@ export default function MixUploadPage() {
                   <h3 className="text-white">Downloadable?:</h3>
                   <button
                     className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
-                      downloadable ? "bg-white" : "bg-gray-600"
+                      downloadable ? 'bg-white' : 'bg-gray-600'
                     }`}
                     onClick={() => setDownloadable(!downloadable)}
                   >
                     <div
                       className={`w-4 h-4 rounded-full transition-transform duration-200 ease-in-out ${
-                        downloadable ? "bg-gray-800 translate-x-6" : "bg-white"
+                        downloadable ? 'bg-gray-800 translate-x-6' : 'bg-white'
                       }`}
                     ></div>
                   </button>
@@ -213,7 +213,7 @@ export default function MixUploadPage() {
                   songs,
                   tags,
                   visibility,
-                  downloadable,
+                  downloadable
                 });
               }}
             >

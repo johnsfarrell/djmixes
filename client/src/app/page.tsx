@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { AudioPlayer } from "./components/AudioPlayer";
-import { AudioPlayerProvider } from "@/context/audio-player-context";
+import React, { useState } from 'react';
+import { AudioPlayer } from './components/AudioPlayer';
+import { AudioPlayerProvider } from '@/context/audioPlayerContext';
 
 const HomePage: React.FC = () => {
-  const mixId = "exampleMixId"; // Replace with actual mix ID
+  const mixId = 'exampleMixId'; // Replace with actual mix ID
 
   return (
     <div>

@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { getMixes } from '../database/search/getMixes';
-import { Mix, MixResponse, UploadMixResponse} from '../utils/interface'
-import { User, getUserByName } from '../database/search/getUser';
-import { s3Client, bucketName } from '../utils/s3Client';
+import { getMixes } from '@/database/search/getMixes';
+import { Mix, MixResponse, UploadMixResponse } from '@/utils/interface';
+import { User, getUserByName } from '@/database/search/getUser';
+import { s3Client, bucketName } from '@/utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
-import { SplitTimestamps, StemmedAudio } from '../utils/algorithm';
-import { algorithm as algo } from '../app';
-import { insertMixes } from '../database/update/updateMixes';
+import { SplitTimestamps, StemmedAudio } from '@/utils/algorithm';
+import { algorithm as algo } from '@/app';
+import { insertMixes } from '@/database/update/updateMixes';
 
 class MixController {
   /**
@@ -174,7 +174,9 @@ class MixController {
         Key: coverFileKey,
         Body: coverFile.data
       };
-      const stamps: SplitTimestamps = await algo.getSplitTimestamps(mixFile.data);
+      const stamps: SplitTimestamps = await algo.getSplitTimestamps(
+        mixFile.data
+      );
       const stems: StemmedAudio = await algo.getStemmedAudio(mixFile.data);
 
       // // TODO: Remove these console logs (here for debugging)
@@ -182,10 +184,16 @@ class MixController {
       // console.log('Stemmed audio:', stems);
 
       // Upload file to S3
-      const mixUploadResult = await s3Client.send(new PutObjectCommand(mixParams));
-      const coverUploadResult = await s3Client.send(new PutObjectCommand(coverParams));
+      const mixUploadResult = await s3Client.send(
+        new PutObjectCommand(mixParams)
+      );
+      const coverUploadResult = await s3Client.send(
+        new PutObjectCommand(coverParams)
+      );
       console.log(`Successfully uploaded object: ${bucketName}/${mixFileKey}`);
-      console.log(`Successfully uploaded object: ${bucketName}/${coverFileKey}`);
+      console.log(
+        `Successfully uploaded object: ${bucketName}/${coverFileKey}`
+      );
 
       // Insert file details into the database
       await insertMixes(
@@ -203,7 +211,7 @@ class MixController {
 
       const response: UploadMixResponse = {
         message: 'File uploaded successfully',
-        fileKey : mixFileKey,
+        fileKey: mixFileKey,
         uploadResult: mixUploadResult
       };
 

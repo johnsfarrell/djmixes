@@ -15,12 +15,12 @@ describe('EventController Tests', () => {
           description: 'Test Description',
           date: '2024-11-08',
           artist_id: 1,
-          user_id: 1,
-        },
+          user_id: 1
+        }
       ];
 
       const mockConnection = {
-        execute: jest.fn().mockResolvedValue([mockEvents, null]),
+        execute: jest.fn().mockResolvedValue([mockEvents, null])
       };
       (createConnection as jest.Mock).mockResolvedValue(mockConnection);
 
@@ -51,7 +51,9 @@ describe('EventController Tests', () => {
     // });
 
     it('should return 500 if there is a database error', async () => {
-      (createConnection as jest.Mock).mockRejectedValue(new Error('Database error'));
+      (createConnection as jest.Mock).mockRejectedValue(
+        new Error('Database error')
+      );
 
       const response = await request(app).get('/api/events/1');
 
@@ -66,7 +68,10 @@ describe('EventController Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.events).toHaveLength(1);
-      expect(response.body.events[0]).toHaveProperty('title', 'Upcoming Music Event');
+      expect(response.body.events[0]).toHaveProperty(
+        'title',
+        'Upcoming Music Event'
+      );
       expect(response.body.events[0]).toHaveProperty('date', '2024-11-08');
     });
   });
@@ -76,21 +81,22 @@ describe('EventController Tests', () => {
       const mockResult = { insertId: 1 };
 
       const mockConnection = {
-        execute: jest.fn().mockResolvedValue([mockResult, null]),
+        execute: jest.fn().mockResolvedValue([mockResult, null])
       };
       (createConnection as jest.Mock).mockResolvedValue(mockConnection);
 
-      const response = await request(app)
-        .post('/api/events/1/upload')
-        .send({
-          title: 'Test Event',
-          description: 'Test Description',
-          date: '2024-11-08',
-          user_id: 1,
-        });
+      const response = await request(app).post('/api/events/1/upload').send({
+        title: 'Test Event',
+        description: 'Test Description',
+        date: '2024-11-08',
+        user_id: 1
+      });
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('message', 'Event posted successfully');
+      expect(response.body).toHaveProperty(
+        'message',
+        'Event posted successfully'
+      );
       expect(response.body).toHaveProperty('event_id', 1);
     });
 
@@ -98,23 +104,24 @@ describe('EventController Tests', () => {
       const response = await request(app).post('/api/events/1/upload').send({});
 
       expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error', 'Missing or invalid event data');
+      expect(response.body).toHaveProperty(
+        'error',
+        'Missing or invalid event data'
+      );
     });
 
     it('should return 500 if there is a database error during upload', async () => {
       const mockConnection = {
-        execute: jest.fn().mockRejectedValue(new Error('Database error')),
+        execute: jest.fn().mockRejectedValue(new Error('Database error'))
       };
       (createConnection as jest.Mock).mockResolvedValue(mockConnection);
 
-      const response = await request(app)
-        .post('/api/events/1/upload')
-        .send({
-          title: 'Test Event',
-          description: 'Test Description',
-          date: '2024-11-08',
-          user_id: 1,
-        });
+      const response = await request(app).post('/api/events/1/upload').send({
+        title: 'Test Event',
+        description: 'Test Description',
+        date: '2024-11-08',
+        user_id: 1
+      });
 
       expect(response.status).toBe(500);
       expect(response.body).toHaveProperty('error', 'Failed to upload event');
@@ -126,7 +133,10 @@ describe('EventController Tests', () => {
       const response = await request(app).post('/api/events/mock/upload');
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('message', 'Event posted successfully');
+      expect(response.body).toHaveProperty(
+        'message',
+        'Event posted successfully'
+      );
       expect(response.body).toHaveProperty('eventId', '3344');
     });
   });
