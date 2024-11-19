@@ -6,9 +6,14 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "baseUrl": "./",
+    "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
-    }
-  }
+    },
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "plugins": [{ "transform": "typescript-transform-paths" }]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

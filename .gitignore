@@ -9,5 +9,6 @@ node_modules
 # client/server (npm)
 */.next/*
 */node_modules/*
+*/dist/*
 
 **/.env

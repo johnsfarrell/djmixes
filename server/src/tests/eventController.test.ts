@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../app'; // Adjust the path based on your app's location
-import createConnection from '../database/connection';
+import app from '..'; // Adjust the path based on your app's location
+import createConnection from '@/database/connection';
 
 // Mock dependencies
 jest.mock('../database/connection');

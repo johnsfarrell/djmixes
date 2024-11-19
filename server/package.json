@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "DJ mixes backend.",
   "scripts": {
+    "build": "tsc && tscpaths -p tsconfig.json -s ./src -o ./dist",
+    "start": "node dist/index.js",
     "dev": "nodemon app.ts",
     "test": "mocha 'tests/*.ts'",
     "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
@@ -21,9 +23,11 @@
     "mysql2": "^3.11.3",
     "path": "^0.12.7",
     "request": "^2.88.2",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.4",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.0",
     "@types/express-fileupload": "^1.5.1",
@@ -36,6 +40,7 @@
     "prettier": "^3.3.3",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
+    "tscpaths": "^0.0.9",
     "typescript": "^5.3.2"
   }
 }
