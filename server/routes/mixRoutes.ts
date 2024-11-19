@@ -1,5 +1,5 @@
 import express from 'express';
-import MixController from '../controllers/mixController';
+import MixController from '@/controllers/mixController';
 
 const router = express.Router();
 

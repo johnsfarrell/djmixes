@@ -7,10 +7,10 @@ async function createConnection(): Promise<mysql.Connection> {
     user: db.user,
     password: db.password,
     port: db.port,
-    database: db.database,
+    database: db.database
   });
 
-  console.log("Connected to the database.");
+  console.log('Connected to the database.');
   return connection;
 }
 

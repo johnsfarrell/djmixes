@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Tag as TagType } from "@/types"; // Import the Tag type from the types file as TagType to avoid naming conflicts
-import Tag from "./Tag";
+import { useState } from 'react';
+import { Tag as TagType } from '@/api/types'; // Import the Tag type from the types file as TagType to avoid naming conflicts
+import Tag from './Tag';
 
 interface TagInputProps {
   tags: TagType[];
@@ -11,14 +11,14 @@ interface TagInputProps {
 export default function TagInput({
   tags,
   onAddTag,
-  onDeleteTag,
+  onDeleteTag
 }: TagInputProps): JSX.Element {
-  const [currentTag, setCurrentTag] = useState("");
+  const [currentTag, setCurrentTag] = useState('');
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && currentTag.trim()) {
+    if (e.key === 'Enter' && currentTag.trim()) {
       onAddTag(currentTag.trim());
-      setCurrentTag("");
+      setCurrentTag('');
     }
   };
 

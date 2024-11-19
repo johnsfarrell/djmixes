@@ -1,5 +1,5 @@
-import { Connection, RowDataPacket } from "mysql2/promise";
-import createConnection from "../connection";
+import { Connection, RowDataPacket } from 'mysql2/promise';
+import createConnection from '@/database/connection';
 
 export interface User {
   user_id: number; // Primary key, auto-incrementing user ID
@@ -15,8 +15,8 @@ async function getUserByName(username: string): Promise<User | null> {
   const connection: Connection = await createConnection();
   try {
     const [rows]: [RowDataPacket[], any] = await connection.execute(
-      "SELECT * FROM users WHERE username = ?",
-      [username],
+      'SELECT * FROM users WHERE username = ?',
+      [username]
     );
 
     if (rows.length > 0) {
@@ -27,7 +27,7 @@ async function getUserByName(username: string): Promise<User | null> {
       return null; // Return null if no user is found
     }
   } catch (error) {
-    console.error("Get User By Name Error:", error);
+    console.error('Get User By Name Error:', error);
     throw error; // Re-throw the error if it occurs
   }
 }

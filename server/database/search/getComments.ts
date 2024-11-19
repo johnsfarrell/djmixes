@@ -1,5 +1,5 @@
 import { RowDataPacket } from 'mysql2';
-import createConnection from '../connection';
+import createConnection from '@/database/connection';
 
 // Define the type for the comment data
 export interface Comment {
@@ -12,20 +12,20 @@ export interface Comment {
 
 // get comments for a specific mix
 async function getComments(mix_id: number): Promise<Comment[]> {
-    const connection = await createConnection();
-    
-    try {
-      // get all the comments related to the provided mix_id
-      const [rows] = await connection.execute<RowDataPacket[]>(
-        'SELECT comment_id, user_id, comment_text, created_at FROM comments WHERE mix_id = ? ORDER BY created_at DESC',
-        [mix_id]
-      );
-      
-      return rows as Comment[];
-    } catch (error) {
-      console.error('Error fetching comments:', error);
-      throw error;
-    } 
+  const connection = await createConnection();
+
+  try {
+    // get all the comments related to the provided mix_id
+    const [rows] = await connection.execute<RowDataPacket[]>(
+      'SELECT comment_id, user_id, comment_text, created_at FROM comments WHERE mix_id = ? ORDER BY created_at DESC',
+      [mix_id]
+    );
+
+    return rows as Comment[];
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    throw error;
   }
-  
-  export { getComments };
+}
+
+export { getComments };

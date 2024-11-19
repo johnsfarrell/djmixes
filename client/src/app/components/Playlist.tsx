@@ -1,7 +1,7 @@
-import React from "react";
-import { BsMusicNoteBeamed } from "react-icons/bs";
-import { useAudioPlayerContext } from "../../context/audio-player-context";
-import { tracks } from "../../data/tracks";
+import React from 'react';
+import { BsMusicNoteBeamed } from 'react-icons/bs';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
+import { tracks } from '@/api/mockData';
 
 // renders playlist component
 export const PlayList: React.FC = () => {
@@ -19,11 +19,11 @@ export const PlayList: React.FC = () => {
         <li
           key={index}
           className={`flex items-center gap-3 p-[0.5rem_10px] cursor-pointer ${
-            currentTrack.title === track.title ? "bg-[#a66646]" : ""
+            currentTrack.title === track.title ? 'bg-[#a66646]' : ''
           }`}
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
+            if (e.key === 'Enter' || e.key === ' ') {
               handleClick(track);
             }
           }}
