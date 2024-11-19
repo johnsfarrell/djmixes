@@ -158,26 +158,34 @@ class MixController {
     }
 
     try {
-      const file = req.files.mix as UploadedFile;
-      const fileKey = `${Date.now()}_${file.name}`;
+      const mixFile = req.files.mix as UploadedFile;
+      const coverFile = req.files.cover as UploadedFile;
+      const mixFileKey = `${Date.now()}_${mixFile.name}`;
+      const coverFileKey = `${Date.now()}_${coverFile.name}`;
 
       // Upload parameters
-      const params = {
+      const mixParams = {
         Bucket: bucketName,
-        Key: fileKey,
-        Body: file.data
+        Key: mixFileKey,
+        Body: mixFile.data
       };
+      const coverParams = {
+        Bucket: bucketName,
+        Key: coverFileKey,
+        Body: coverFile.data
+      };
+      const stamps: SplitTimestamps = await algo.getSplitTimestamps(mixFile.data);
+      const stems: StemmedAudio = await algo.getStemmedAudio(mixFile.data);
 
-      const stamps: SplitTimestamps = await algo.getSplitTimestamps(file.data);
-      const stems: StemmedAudio = await algo.getStemmedAudio(file.data);
-
-      // TODO: Remove these console logs (here for debugging)
-      console.log('Split timestamps:', stamps);
-      console.log('Stemmed audio:', stems);
+      // // TODO: Remove these console logs (here for debugging)
+      // console.log('Split timestamps:', stamps);
+      // console.log('Stemmed audio:', stems);
 
       // Upload file to S3
-      const uploadResult = await s3Client.send(new PutObjectCommand(params));
-      console.log(`Successfully uploaded object: ${bucketName}/${fileKey}`);
+      const mixUploadResult = await s3Client.send(new PutObjectCommand(mixParams));
+      const coverUploadResult = await s3Client.send(new PutObjectCommand(coverParams));
+      console.log(`Successfully uploaded object: ${bucketName}/${mixFileKey}`);
+      console.log(`Successfully uploaded object: ${bucketName}/${coverFileKey}`);
 
       // Insert file details into the database
       await insertMixes(
@@ -186,8 +194,8 @@ class MixController {
         req.body.artist,
         req.body.album,
         req.body.release_date,
-        fileKey,
-        req.body.cover_url,
+        mixFileKey,
+        coverFileKey,
         req.body.tags,
         req.body.visibility,
         req.body.allow_download
@@ -195,8 +203,8 @@ class MixController {
 
       const response: UploadMixResponse = {
         message: 'File uploaded successfully',
-        fileKey,
-        uploadResult
+        fileKey : mixFileKey,
+        uploadResult: mixUploadResult
       };
 
       res.status(200).json(response);
