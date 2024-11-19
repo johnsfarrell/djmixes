@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../app';
-import createConnection from '../database/connection';
+import app from '..';
+import createConnection from '@/database/connection';
 
 // Mock dependencies
 jest.mock('../database/connection');
@@ -13,11 +13,11 @@ describe('ProfileController Tests', () => {
         username: 'testuser',
         bio: 'Test bio',
         mixes: [],
-        events: [],
+        events: []
       };
 
       const mockConnection = {
-        execute: jest.fn().mockResolvedValue([[mockProfile], null]),
+        execute: jest.fn().mockResolvedValue([[mockProfile], null])
       };
       (createConnection as jest.Mock).mockResolvedValue(mockConnection);
 
@@ -30,7 +30,7 @@ describe('ProfileController Tests', () => {
 
     it('should return 404 if profile is not found', async () => {
       const mockConnection = {
-        execute: jest.fn().mockResolvedValue([[], null]),
+        execute: jest.fn().mockResolvedValue([[], null])
       };
       (createConnection as jest.Mock).mockResolvedValue(mockConnection);
 
@@ -48,7 +48,9 @@ describe('ProfileController Tests', () => {
     });
 
     it('should return 500 if there is a database error', async () => {
-      (createConnection as jest.Mock).mockRejectedValue(new Error('Database error'));
+      (createConnection as jest.Mock).mockRejectedValue(
+        new Error('Database error')
+      );
 
       const response = await request(app).get('/api/profile/1');
 

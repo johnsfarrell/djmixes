@@ -7,7 +7,7 @@ import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
 import { SplitTimestamps, StemmedAudio } from '@/utils/algorithm';
-import { algorithm as algo } from '@/app';
+import { algorithm as algo } from '@/index';
 import { insertMixes } from '@/database/update/updateMixes';
 
 class MixController {

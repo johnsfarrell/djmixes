@@ -1,10 +1,8 @@
 import request from 'supertest';
-import app from '../app'; // Adjust the path based on your app's location
-import { getMixes } from '../database/search/getMixes';
-import { getUserByName } from '../database/search/getUser';
+import app from '..'; // Adjust the path based on your app's location
+import { getMixes } from '@/database/search/getMixes';
+import { getUserByName } from '@/database/search/getUser';
 import { s3Client } from '../utils/s3Client';
-import { insertMixes } from '../database/update/updateMixes';
-import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 
 // Mock dependencies
 jest.mock('../database/search/getMixes');
@@ -13,7 +11,6 @@ jest.mock('../utils/s3Client');
 jest.mock('../database/update/updateMixes');
 
 describe('MixController Tests', () => {
-
   // Test for getting a mix
   describe('GET /api/mixes/:mixId', () => {
     it('should return mix details for a valid mix ID', async () => {
@@ -29,19 +26,19 @@ describe('MixController Tests', () => {
         created_at: new Date().toISOString(),
         artist: 'Test Artist',
         user_id: 1,
-        album: 'Test Album',
+        album: 'Test Album'
       };
 
       const mockUser = {
         user_id: 1,
-        username: 'testuser',
+        username: 'testuser'
       };
 
       (getMixes as jest.Mock).mockResolvedValue(mockMix);
       (getUserByName as jest.Mock).mockResolvedValue(mockUser);
 
       const response = await request(app).get('/api/mixes/1');
-      
+
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('title', 'Mock Mix');
       expect(response.body.upload_user).toHaveProperty('username', 'mockuser');
@@ -52,7 +49,7 @@ describe('MixController Tests', () => {
     //   (getMixes as jest.Mock).mockResolvedValue(null);
 
     //   const response = await request(app).get('/api/mixes/999999');
-      
+
     //   expect(response.status).toBe(404);
     //   expect(response.text).toBe('Mix not found');
     // });
@@ -77,11 +74,10 @@ describe('MixController Tests', () => {
     //   (getUserByName as jest.Mock).mockResolvedValue(null);
 
     //   const response = await request(app).get('/api/mixes/1');
-      
+
     //   expect(response.status).toBe(404);
     //   expect(response.text).toBe('User not found');
     // });
-
   });
 
   // Test for downloading a mix
@@ -90,14 +86,14 @@ describe('MixController Tests', () => {
       const mockMix = {
         id: 1,
         file_url: 'http://example.com/file.mp3',
-        allow_download: true,
+        allow_download: true
       };
 
       (getMixes as jest.Mock).mockResolvedValue(mockMix);
 
       const mockS3Response = {
         Body: 'file data',
-        ContentType: 'audio/mp3',
+        ContentType: 'audio/mp3'
       };
 
       (s3Client.send as jest.Mock).mockResolvedValue(mockS3Response);
@@ -121,7 +117,7 @@ describe('MixController Tests', () => {
       const mockMix = {
         id: 1,
         file_url: 'http://example.com/file.mp3',
-        allow_download: false,
+        allow_download: false
       };
 
       (getMixes as jest.Mock).mockResolvedValue(mockMix);
@@ -136,11 +132,13 @@ describe('MixController Tests', () => {
       const mockMix = {
         id: 1,
         file_url: 'http://example.com/file.mp3',
-        allow_download: true,
+        allow_download: true
       };
 
       (getMixes as jest.Mock).mockResolvedValue(mockMix);
-      (s3Client.send as jest.Mock).mockRejectedValue(new Error('S3 download error'));
+      (s3Client.send as jest.Mock).mockRejectedValue(
+        new Error('S3 download error')
+      );
 
       const response = await request(app).get('/api/mixes/1/download');
 
@@ -189,10 +187,12 @@ describe('MixController Tests', () => {
     it('should return 500 if there is an error during upload', async () => {
       const mockFile = {
         name: 'mix.mp3',
-        data: Buffer.from('fake file data'),
+        data: Buffer.from('fake file data')
       };
 
-      (s3Client.send as jest.Mock).mockRejectedValue(new Error('S3 upload error'));
+      (s3Client.send as jest.Mock).mockRejectedValue(
+        new Error('S3 upload error')
+      );
 
       const response = await request(app)
         .post('/api/mixes/upload')
