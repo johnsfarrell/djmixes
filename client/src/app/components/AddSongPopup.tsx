@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { X, Plus } from "lucide-react";
-import { Song } from "@/types";
+import { useState } from 'react';
+import { X, Plus } from 'lucide-react';
+import { Song } from '@/api/types';
 
 interface AddSongPopupProps {
   onClose: () => void;
-  onAdd: (song: Omit<Song, "id">) => void; // Omit the id field from the Song type
+  onAdd: (song: Omit<Song, 'id'>) => void; // Omit the id field from the Song type
 }
 
 export default function AddSongPopup({
   onClose,
-  onAdd,
+  onAdd
 }: AddSongPopupProps): JSX.Element {
-  const [title, setTitle] = useState("");
-  const [artist, setArtist] = useState("");
-  const [timestamp, setTimestamp] = useState("");
+  const [title, setTitle] = useState('');
+  const [artist, setArtist] = useState('');
+  const [timestamp, setTimestamp] = useState('');
 
   const handleSubmit = () => {
     onAdd({ title, artist, timestamp });
