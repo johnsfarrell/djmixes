@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
-import { AudioPlayer } from './components/AudioPlayer';
-import { AudioPlayerProvider } from '@/context/audioPlayerContext';
+import CurrentMixDetails from './components/CurrentMixDetails/CurrentMixDetails';
+import UserLibrary from './components/UserLibrary/UserLibrary';
 
-const HomePage: React.FC = () => {
-  const mixId = 'exampleMixId'; // Replace with actual mix ID
-
+export default function Home() {
   return (
-    <div>
-      <h1>Welcome to DJ Mixes</h1>
-      <AudioPlayerProvider>
-        <AudioPlayer />
-      </AudioPlayerProvider>
+    <div className="min-h-screen bg-gray-900 p-4">
+      <div className="max-w-[1920px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-9 gap-4">
+          {/* Left column */}
+          <div className="lg:col-span-3">
+            <CurrentMixDetails />
+          </div>
+
+          {/* Middle column */}
+          <div className="lg:col-span-6">
+            <UserLibrary />
+          </div>
+
+          {/* Right column - TODO? */}
+          {/* <div className="lg:col-span-3"> */}
+          {/* </div> */}
+        </div>
+      </div>
     </div>
   );
 };
-
-export default HomePage;
