@@ -6,6 +6,6 @@ const router = express.Router();
 const profileController = new ProfileController();
 
 // Route for fetching a profile by its ID
-router.get('/:userId', profileController.getProfileMock);
+router.get('/:userId', profileController.getProfile);
 
 export default router;

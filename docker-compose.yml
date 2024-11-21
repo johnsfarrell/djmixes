@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  db:
+    image: mysql:8.0
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: app_database
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
   algorithm:
     build:
       context: ./algorithm
@@ -11,6 +27,8 @@ services:
       - app-network
 
   server:
+    depends_on:
+      - db
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -27,22 +45,6 @@ services:
       - '3000:3000'
     environment:
       - NODE_ENV=production
-    networks:
-      - app-network
-
-  db:
-    image: mysql:8.0
-    container_name: db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: app_database
-      MYSQL_USER: app_user
-      MYSQL_PASSWORD: app_password
-    ports:
-      - '3306:3306'
-    volumes:
-      - db-data:/var/lib/mysql
     networks:
       - app-network
 
