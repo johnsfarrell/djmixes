@@ -11,17 +11,19 @@
 {
   "username": "Anita",
   "email": "anita@brown.edu",
-  "password": "abcdefg123#"
+  "password": "abcdefg123#",
+  "avatar": "avatar.jpg"
 }
 ```
 
 - **Request Attributes**：
 
-| Attribute | Type   | Description                                                        |
-| --------- | ------ | ------------------------------------------------------------------ |
-| username  | string | The unique name chosen by the user to represent their account.     |
-| email     | string | The user's email address, used for login and account verification. |
-| password  | string | The password for account security, stored securely.                |
+| Attribute  | Type   | Description                                                        |
+| -----------| -------| ------------------------------------------------------------------ |
+| username   | string | The unique name chosen by the user to represent their account.     |
+| email      | string | The user's email address, used for login and account verification. |
+| password   | string | The password for account security, stored securely.                |
+| avatar_url | file   | The url for avatar profile picture the user upload                 |
 
 - **Response**:
 
@@ -87,6 +89,7 @@
 {
   "username": "anita",
   "bio": "music producer",
+  "avatar_url" : "example.com/avatar/url",
   "mixes": [
     {
       "mix_id": "5678",
@@ -106,16 +109,17 @@
 
 - **Response Attributes:**
 
-| Attribute  | Type     | Description                                            |
-| ---------- | -------- | ------------------------------------------------------ |
-| username   | string   | The user's display name.                               |
-| bio        | string   | A brief description or bio provided by the user.       |
-| mix_id     | int      | The unique identifier for the mix.                     |
-| title      | string   | The title of the mix.                                  |
-| visibility | string   | The visibility status of the mix: "public", "private". |
-| event_id   | int      | Unique identifier for the event.                       |
-| title      | string   | Title of the event.                                    |
-| date       | datatime | The date and time of the event.                        |
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `username`    | string   | The user's display name.                               |
+| `bio`         | string   | A brief description or bio provided by the user.       |
+| `avatar_url`  | string   | URL for the profile picture uploaded by the user.      |
+| `mix_id`      | int      | The unique identifier for the mix.                     |
+| `title`       | string   | The title of the mix.                                  |
+| `visibility`  | string   | The visibility status of the mix: "public", "private". |
+| `event_id`    | int      | Unique identifier for the event.                       |
+| `title`       | string   | Title of the event.                                    |
+| `date`        | datetime | The date and time of the event.                        |
 
 ### 2. Mix Management
 
@@ -145,8 +149,8 @@
 | Attribute      | Type              | Description                                                                     |
 | -------------- | ----------------- | ------------------------------------------------------------------------------- |
 | title          | string            | The name of the uploaded mix.                                                   |
-| mix            | string            | The mix file to be uploaded.                                                    |
-| cover_url      | string (optional) | The url of image file that acts as the visual cover for the mix.                |
+| mix            | file           | The mix file to be uploaded.                                                    |
+| cover          | file | The image file that acts as the visual cover for the mix.                |
 | tags           | array             | A list of tags or genres associated with the mix for categorization.            |
 | visibility     | string            | Determines who can access the mix (`public`, `private`, `unlisted`, `friends`). |
 | allow_download | boolean           | A boolean value specifying if others can download the mix.                      |
@@ -196,6 +200,11 @@
     "user_id": "1234",
     "username": "anita"
   },
+  "split_JSON":"{\"songname1\":\"songTime1\",\"songname2\":\"songTime2\"}",
+  "stem_drum_url": "example.com/drum",
+  "stem_bass_url": "example.com/bass",
+  "stem_synth_url": "example.com/synth",
+  "stem_vocal_url": "example.com/vocal",
   "comments": [
     {
       "comment_id": "2233",
@@ -217,6 +226,11 @@
 | tags           | array   | A list of tags associated with the mix.            |
 | user_id        | int     | The unique identifier for the uploader.            |
 | username       | string  | The uploader's display name.                       |
+| split_JSON     | string  | The JSON string for splitting songs & times.       |
+| stem_drum_url  | string  | The url of drum stem audio.                        |
+| stem_bass_url  | string  | The url of bass stem audio.                        |
+| stem_synth_url | string  | The url of synth stem audio                        |
+| stem_vocal_url | string  | The url of vocal stem audio                        |
 | comment_id     | int     | The unique identifier for the comment.             |
 | user           | string  | The name of the user who commented.                |
 | comment        | string  | The text of the comment.                           |
