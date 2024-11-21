@@ -18,12 +18,12 @@
 
 - **Request Attributes**：
 
-| Attribute  | Type   | Description                                                        |
-| -----------| -------| ------------------------------------------------------------------ |
-| username   | string | The unique name chosen by the user to represent their account.     |
-| email      | string | The user's email address, used for login and account verification. |
-| password   | string | The password for account security, stored securely.                |
-| avatar_url | file   | The url for avatar profile picture the user upload                 |
+| Attribute | Type   | Description                                                        |
+| ----------| -------| ------------------------------------------------------------------ |
+| username  | string | The unique name chosen by the user to represent their account.     |
+| email     | string | The user's email address, used for login and account verification. |
+| password  | string | The password for account security, stored securely.                |
+| avatar    | file   | The url for avatar profile picture the user upload                 |
 
 - **Response**:
 
