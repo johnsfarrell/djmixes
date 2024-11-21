@@ -29,7 +29,7 @@ async function createTables(): Promise<void> {
   ];
 
   try {
-    const dbName = 'test';
+    const dbName = 'app_database';
     const [databases] = await connection.query('SHOW DATABASES LIKE ?', [
       dbName
     ]);
@@ -45,7 +45,7 @@ async function createTables(): Promise<void> {
   }
 
   try {
-    const dbName = 'test'; // TOCHECK: if we need another dbname here
+    const dbName = 'app_database'; // TOCHECK: if we need another dbname here
     for (const table of tableQueries) {
       await connection.execute(table.query);
       console.log(`Table '${table.name}' created or already exists.`);

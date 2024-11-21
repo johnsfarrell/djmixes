@@ -14,7 +14,13 @@ In addition to viewing singular mixes, people can browse DJ's profiles and see t
 
 ## Local Setup
 
-TBD. Right now, individual services can be run locally. See individual documentation: [Algorithm](algorithm/README.md), [API](api/README.md), [Frontend](frontend/README.md), [Database](database/README.md)
+Run with `docker`:
+
+```bash
+docker-compose up --build
+```
+
+Right now, individual services can be run locally. See individual documentation: [Algorithm](algorithm/README.md), [API](api/README.md), [Frontend](frontend/README.md), [Database](database/README.md)
 
 ## Testing
 

@@ -6,6 +6,9 @@ import eventRoutes from './routes/eventRoutes';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
 import AudioProcessor from './utils/algorithm';
+import initializeDatabase from './database/db_init';
+
+initializeDatabase();
 
 // Create express app
 const app = express();
