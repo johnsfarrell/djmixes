@@ -1,25 +1,30 @@
-"use client";
-import MobileUploadButton from "./MobileUploadButton";
-import UploadButton from "./UploadButton";
-import NotificationsButton from "./NotificationsButton";
-import Avatar from "./Avatar";
+'use client';
+import MobileUploadButton from './MobileUploadButton';
+import UploadButton from './UploadButton';
+import NotificationsButton from './NotificationsButton';
+import Avatar from './Avatar';
 
 interface MenuButtonsProps {
-    notificationsCount: number;
-    avatarUrl?: string;
+  notificationsCount: number;
+  avatarUrl?: string;
 }
 
-export default function MenuButtons( { notificationsCount, avatarUrl }: MenuButtonsProps ) {
+export default function MenuButtons({
+  notificationsCount,
+  avatarUrl
+}: MenuButtonsProps) {
   const onUploadClick = () => {
-    alert('Upload button clicked');
+    // go to upload page
+    window.location.href = '/mix/new';
   };
 
   const onNotificationsClick = () => {
-    alert('Notifications button clicked');
+    // TODO: show notifications
   };
 
   const onAvatarClick = () => {
-    alert('Avatar clicked');
+    // go to profile page
+    window.location.href = '/profile';
   };
 
   return (
@@ -27,16 +32,13 @@ export default function MenuButtons( { notificationsCount, avatarUrl }: MenuButt
       <MobileUploadButton onClick={onUploadClick} />
       <UploadButton onClick={onUploadClick} />
       <div className="flex items-center gap-4">
-        <NotificationsButton 
-          hasNotifications={notificationsCount > 0} 
+        <NotificationsButton
+          hasNotifications={notificationsCount > 0}
           count={notificationsCount}
           onClick={onNotificationsClick}
         />
-        <Avatar 
-          imageUrl={avatarUrl} 
-          onClick={onAvatarClick}
-        />
+        <Avatar imageUrl={avatarUrl} onClick={onAvatarClick} />
       </div>
     </div>
-    );
+  );
 }

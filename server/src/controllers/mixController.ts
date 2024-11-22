@@ -152,6 +152,8 @@ class MixController {
    * @throws Error - If the file upload fails
    */
   uploadMix = async (req: Request, res: Response): Promise<void> => {
+    // TODO: Add validation for the request body fields
+
     if (!req.files || !req.files.mix) {
       res.status(400).json({ error: 'No file uploaded' });
       return;
@@ -174,10 +176,12 @@ class MixController {
         Key: coverFileKey,
         Body: coverFile.data
       };
-      const stamps: SplitTimestamps = await algo.getSplitTimestamps(
-        mixFile.data
-      );
-      const stems: StemmedAudio = await algo.getStemmedAudio(mixFile.data);
+
+      // TODO: make other functions so we don't have to 'await' for them to finish here
+      // const stamps: SplitTimestamps = await algo.getSplitTimestamps(
+      //   mixFile.data
+      // );
+      // const stems: StemmedAudio = await algo.getStemmedAudio(mixFile.data);
 
       // // TODO: Remove these console logs (here for debugging)
       // console.log('Split timestamps:', stamps);
@@ -196,6 +200,7 @@ class MixController {
       );
 
       // Insert file details into the database
+      // TODO: user_id and other fields should be camelCase
       await insertMixes(
         req.body.user_id,
         req.body.title,
