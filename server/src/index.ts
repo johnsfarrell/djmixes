@@ -8,7 +8,13 @@ import fileUpload from 'express-fileupload';
 import AudioProcessor from './utils/algorithm';
 import initializeDatabase from './database/db_init';
 
-initializeDatabase();
+initializeDatabase()
+  .catch((err) => {
+    console.error('Database not initialized. Did you start the MySQL server?');
+  })
+  .then(() => {
+    console.log('Database initialized');
+  });
 
 // Create express app
 const app = express();

@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import { Mix } from '@/types';
+import { Mix } from '@/api/types';
 
 export default function MixCard({ mix }: { mix: Mix }) {
   return (
     <div className="group cursor-pointer">
       <div className="aspect-square mb-2 relative rounded-md overflow-hidden">
-        { mix.artwork ? (
+        {mix.artwork ? (
           <Image
             src={mix.artwork}
             alt={`${mix.title} artwork`}

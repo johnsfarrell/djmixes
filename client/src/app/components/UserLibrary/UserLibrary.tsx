@@ -1,19 +1,19 @@
-import { Mix, User } from '@/types';
+import { Mix, User } from '@/api/types';
 import MixCard from './MixCard';
 import DJCard from './DJCard';
 
 export default function UserLibrary() {
   const favoriteDjs: User[] = [
     {
-        id: '1',
-        name: 'Fred Again...',
-        profilePhoto: undefined
+      id: '1',
+      name: 'Fred Again...',
+      profilePhoto: undefined
     },
     {
-        id: '2',
-        name: 'Calvin Harris',
-        profilePhoto: undefined
-    },
+      id: '2',
+      name: 'Calvin Harris',
+      profilePhoto: undefined
+    }
   ];
 
   const savedMixes: Mix[] = [
@@ -23,8 +23,8 @@ export default function UserLibrary() {
       dj: favoriteDjs[0],
       artwork: undefined,
       tags: [],
-        songs: [],  
-        stems: [],
+      songs: [],
+      stems: []
     },
     {
       id: '2',
@@ -32,9 +32,9 @@ export default function UserLibrary() {
       dj: favoriteDjs[1],
       artwork: undefined,
       tags: [],
-      songs: [],  
-      stems: [],
-    },
+      songs: [],
+      stems: []
+    }
   ];
 
   return (
@@ -42,7 +42,7 @@ export default function UserLibrary() {
       <div className="flex items-center gap-2 mb-6">
         <h2 className="text-white text-xl font-bold">User Library</h2>
       </div>
-      
+
       <div className="space-y-8">
         <div>
           <h3 className="text-white text-lg mb-3">Saved Mixes</h3>
