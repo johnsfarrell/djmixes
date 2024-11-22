@@ -88,10 +88,7 @@ export default function CreatorViewPage() {
           <h2 className="text-xl font-bold mb-4">Creator Mixes</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {mixes.map((mix) => (
-              <div
-                key={mix.id}
-                className="group cursor-pointer bg-gray-700 p-4 rounded-lg"
-              >
+              <div key={mix.id} className="group cursor-pointer p-4 rounded-lg">
                 <div className="aspect-square mb-2 relative rounded-md overflow-hidden">
                   {mix.artwork ? (
                     <Image
@@ -105,7 +102,6 @@ export default function CreatorViewPage() {
                   )}
                 </div>
                 <h3 className="text-white font-medium truncate">{mix.title}</h3>
-                <p className="text-gray-400 text-sm truncate">{mix.dj.name}</p>
               </div>
             ))}
           </div>
