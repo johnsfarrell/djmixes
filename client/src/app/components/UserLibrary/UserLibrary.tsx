@@ -1,4 +1,4 @@
-import { Mix, User } from '@/types';
+import { Mix, User } from '@/api/types';
 import MixCard from './MixCard';
 import DJCard from './DJCard';
 

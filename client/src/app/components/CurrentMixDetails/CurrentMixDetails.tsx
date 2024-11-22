@@ -1,4 +1,4 @@
-import { Song, Stem } from '@/types';
+import { Song, Stem } from '@/api/types';
 import SongItem from './SongItem';
 import StemItem from './StemItem';
 

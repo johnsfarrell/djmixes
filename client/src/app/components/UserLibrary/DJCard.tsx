@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { User as DJ } from '@/types';
+import { User as DJ } from '@/api/types';
 import { User } from 'lucide-react';
 
 export default function DJCard({ dj }: { dj: DJ }) {
