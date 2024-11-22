@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Song } from '@/types';
+import { Song } from '@/api/types';
 import { Music } from 'lucide-react';
 
 export default function SongItem({ song }: { song: Song }) {
