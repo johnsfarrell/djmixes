@@ -1,7 +1,10 @@
-import createConnection from './connection';
 import createTables from './table';
 
-export default async function initializeDatabase(): Promise<void> {
-  const connection = await createConnection();
-  await createTables();
+export default async function initializeDatabase(): Promise<boolean> {
+  try {
+    await createTables();
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
