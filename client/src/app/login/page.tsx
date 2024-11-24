@@ -8,7 +8,7 @@ import AuthInput from '@/app/components/Auth/AuthInput';
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Prevents multiple form submissions
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

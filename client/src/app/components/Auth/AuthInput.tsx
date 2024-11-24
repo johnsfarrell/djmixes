@@ -5,6 +5,14 @@ interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
+/**
+ * The AuthInput component is a styled input field for authentication forms.
+ * 
+ * @param label The label for the input field.
+ * @param error The error message to display below the input field.
+ * 
+ * @returns The AuthInput component.
+ */
 const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
   ({ label, error, ...props }, ref) => {
     return (

@@ -6,20 +6,16 @@ import Avatar from "./Avatar";
 
 interface MenuButtonsProps {
     notificationsCount: number;
-    avatarUrl?: string;
+    avatarImageUrl?: string;
 }
 
-export default function MenuButtons( { notificationsCount, avatarUrl }: MenuButtonsProps ) {
+export default function MenuButtons( { notificationsCount, avatarImageUrl }: MenuButtonsProps ) {
   const onUploadClick = () => {
     alert('Upload button clicked');
   };
 
   const onNotificationsClick = () => {
     alert('Notifications button clicked');
-  };
-
-  const onAvatarClick = () => {
-    alert('Avatar clicked');
   };
 
   return (
@@ -33,8 +29,7 @@ export default function MenuButtons( { notificationsCount, avatarUrl }: MenuButt
           onClick={onNotificationsClick}
         />
         <Avatar 
-          imageUrl={avatarUrl} 
-          onClick={onAvatarClick}
+          imageUrl={avatarImageUrl}
         />
       </div>
     </div>

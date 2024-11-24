@@ -4,12 +4,12 @@ import MenuButtons from './MenuButtons';
 import Link from 'next/link';
 
 interface HeaderProps {
-  avatarUrl?: string;
+  avatarImageUrl?: string;
   notificationsCount?: number;
 }
 
 export default function Header({ 
-  avatarUrl,
+  avatarImageUrl,
   notificationsCount = 0,
 }: HeaderProps) {
     
@@ -30,7 +30,7 @@ export default function Header({
           {/* Right section */}
           <MenuButtons 
             notificationsCount={notificationsCount}
-            avatarUrl={avatarUrl}
+            avatarImageUrl={avatarImageUrl}
           />
         </div>
       </div>
