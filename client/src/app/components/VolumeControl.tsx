@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { IoMdVolumeHigh, IoMdVolumeOff, IoMdVolumeLow } from 'react-icons/io';
-import { useAudioPlayerContext } from '../../context/audioPlayerContext';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 export const VolumeControl: React.FC = () => {
   const [volume, setVolume] = useState<number>(60);

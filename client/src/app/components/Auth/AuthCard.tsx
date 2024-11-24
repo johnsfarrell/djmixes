@@ -1,4 +1,4 @@
-import Logo from '../Logo';
+import Logo from '@/app/components/Logo';
 
 interface AuthCardProps {
   children: React.ReactNode;

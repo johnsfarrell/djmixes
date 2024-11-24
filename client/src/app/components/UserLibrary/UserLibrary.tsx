@@ -1,6 +1,6 @@
 import { Mix, User } from '@/api/types';
-import MixCard from './MixCard';
-import DJCard from './DJCard';
+import MixCard from '@/app/components/UserLibrary/MixCard';
+import DJCard from '@/app/components/UserLibrary/DJCard';
 
 export default function UserLibrary() {
   const favoriteDjs: User[] = [

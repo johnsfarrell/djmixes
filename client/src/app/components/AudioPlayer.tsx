@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import { RiMenuAddLine } from 'react-icons/ri';
-import { TrackInfo } from './TrackInfo';
-import { Controls } from './Controls';
-import { ProgressBar } from './ProgressBar';
-import { VolumeControl } from './VolumeControl';
-import { PlayList } from './Playlist';
+import { TrackInfo } from '@/app/components/TrackInfo';
+import { Controls } from '@/app/components/Controls';
+import { ProgressBar } from '@/app/components/ProgressBar';
+import { VolumeControl } from '@/app/components/VolumeControl';
+import { PlayList } from '@/app/components/Playlist';
 
 export const AudioPlayer: React.FC = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
