@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { AudioPlayerProvider } from '@/context/audioPlayerContext';
-import { AudioPlayer } from './components/AudioPlayer';
-import Header from './components/Header/Header';
 import './globals.css';
+import AuthLayout from '@/app/components/AuthLayout';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -27,9 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   // TODO: fetch user data
-  const userData = {
-    avatarUrl: undefined,
-    notificationsCount: 3,
+  const user = {
+    id: '1',
+    email: 'test@test.com',
+    avatarImageUrl: 'https://avatars.githubusercontent.com/u/1',
+    notificationsCount: 3
   }
 
   return (
@@ -38,14 +39,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Header
-            avatarUrl={userData.avatarUrl}
-            notificationsCount={userData.notificationsCount}
-          />
-          <main>
+          <AuthLayout user={user} >
             {children}
-          </main>
-          <AudioPlayer />
+          </AuthLayout>
         </body>
       </html>
     </AudioPlayerProvider>

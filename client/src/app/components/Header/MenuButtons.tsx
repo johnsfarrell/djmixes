@@ -6,12 +6,12 @@ import Avatar from './Avatar';
 
 interface MenuButtonsProps {
   notificationsCount: number;
-  avatarUrl?: string;
+  avatarImageUrl?: string;
 }
 
 export default function MenuButtons({
   notificationsCount,
-  avatarUrl
+  avatarImageUrl
 }: MenuButtonsProps) {
   const onUploadClick = () => {
     // go to upload page
@@ -20,11 +20,6 @@ export default function MenuButtons({
 
   const onNotificationsClick = () => {
     // TODO: show notifications
-  };
-
-  const onAvatarClick = () => {
-    // go to profile page
-    window.location.href = '/profile';
   };
 
   return (
@@ -37,7 +32,9 @@ export default function MenuButtons({
           count={notificationsCount}
           onClick={onNotificationsClick}
         />
-        <Avatar imageUrl={avatarUrl} onClick={onAvatarClick} />
+        <Avatar 
+          imageUrl={avatarImageUrl}
+        />
       </div>
     </div>
   );
