@@ -3,22 +3,25 @@ import { v4 as uuidv4 } from 'uuid';
 import { Upload, Image, Music, Plus } from 'lucide-react';
 import { useState, useRef } from 'react';
 import FileUploadBox from '@/app/components/FileUploadBox';
-import AddSongPopup from '@/app/components/AddSongPopup';
 import MixInfo from '@/app/components/MixInfo';
 import MixVisibilitySettings from '@/app/components/MixVisibilitySettings';
 import TagInput from '@/app/components/TagInput';
-import type { Song, Tag } from '@/api/types';
+import { MixUploadRequest, UploadMixResponse } from '@/api/types';
+import { uploadMix } from '@/api/api';
+
+interface Tag {
+  id: string;
+  text: string;
+}
 
 export default function MixUploadPage() {
   // State
-  const [songs, setSongs] = useState<Song[]>([]);
-  const [showAddSong, setShowAddSong] = useState(false);
   const [tags, setTags] = useState<Tag[]>([]);
   const [visibility, setVisibility] = useState('public');
   const [downloadable, setDownloadable] = useState(false);
   const [mixTitle, setMixTitle] = useState('New Mix Title');
   const [mixInfo, setMixInfo] = useState('Add mix info');
-  const [artwork, setArtwork] = useState<string | null>(null);
+  const [artwork, setArtwork] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
   // Refs
@@ -29,7 +32,7 @@ export default function MixUploadPage() {
   const handleArtworkUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
-      setArtwork(URL.createObjectURL(file));
+      setArtwork(file);
     } else {
       alert('Please upload an image file');
     }
@@ -44,14 +47,6 @@ export default function MixUploadPage() {
     }
   };
 
-  const handleAddSong = (songData: Omit<Song, 'id'>) => {
-    const newSong: Song = {
-      id: uuidv4(),
-      ...songData
-    };
-    setSongs([...songs, newSong]);
-  };
-
   const handleAddTag = (tagText: string) => {
     const newTag: Tag = {
       id: uuidv4(),
@@ -62,6 +57,29 @@ export default function MixUploadPage() {
 
   const handleDeleteTag = (tagId: string) => {
     setTags(tags.filter((tag) => tag.id !== tagId));
+  };
+
+  const handleUpload = async () => {
+    if (!artwork || !audioFile) {
+      alert('Please fill out all required fields');
+      return;
+    }
+    const data: MixUploadRequest = {
+      title: mixTitle,
+      visibility,
+      tags: tags.map((tag) => tag.text),
+      userId: 1, // TODO: Replace with current user's ID
+      artist: 'DJ Name', // TODO: Replace with current user's DJ name
+      mix: audioFile,
+      cover: artwork,
+      album: 'Mix Album', // TODO: Replace with current user's album
+      releaseDate: new Date().toISOString(),
+      allowDownload: downloadable
+    };
+
+    const res: UploadMixResponse = await uploadMix({ ...data, mock: true });
+
+    window.location.href = `/mix/${res.fileKey}`; // TODO redirect should be to mixId not fileKey
   };
 
   return (
@@ -75,7 +93,7 @@ export default function MixUploadPage() {
               {artwork ? (
                 <div className="relative group w-full h-full">
                   <img
-                    src={artwork}
+                    src={URL.createObjectURL(artwork)}
                     alt="Mix artwork"
                     className="w-full h-full object-cover"
                   />
@@ -150,28 +168,6 @@ export default function MixUploadPage() {
 
           {/* Middle and Right Columns - Wrapped in a container for mobile layout */}
           <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {/* Middle Column - Songs List */}
-            <div className="w-full">
-              <div className="bg-gray-700 rounded-lg p-6">
-                <h2 className="text-white text-xl mb-4">Songs Used</h2>
-                <div className="space-y-2 mb-4 max-h-[400px] overflow-y-auto">
-                  {songs.map((song) => (
-                    <div key={song.id} className="bg-gray-600 p-4 rounded">
-                      <h3 className="text-white font-medium">{song.title}</h3>
-                      <p className="text-gray-400 text-sm">{song.artist}</p>
-                      <p className="text-gray-500 text-xs">{song.timestamp}</p>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  className="bg-white text-gray-800 px-4 py-2 rounded flex items-center gap-2 w-full justify-center sm:w-auto"
-                  onClick={() => setShowAddSong(true)}
-                >
-                  <Plus size={16} /> Add New
-                </button>
-              </div>
-            </div>
-
             {/* Right Column - Settings */}
             <div className="w-full">
               <div className="bg-gray-700 p-6 rounded-lg">
@@ -180,23 +176,25 @@ export default function MixUploadPage() {
                   onVisibilityChange={setVisibility}
                 />
 
-              <div className="mb-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-white">Downloadable?:</h3>
-                  <button
-                    className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
-                      downloadable ? 'bg-white' : 'bg-gray-600'
-                    }`}
-                    onClick={() => setDownloadable(!downloadable)}
-                  >
-                    <div
-                      className={`w-4 h-4 rounded-full transition-transform duration-200 ease-in-out ${
-                        downloadable ? 'bg-gray-800 translate-x-6' : 'bg-white'
+                <div className="mb-6">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white">Downloadable?:</h3>
+                    <button
+                      className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
+                        downloadable ? 'bg-white' : 'bg-gray-600'
                       }`}
-                    ></div>
-                  </button>
+                      onClick={() => setDownloadable(!downloadable)}
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full transition-transform duration-200 ease-in-out ${
+                          downloadable
+                            ? 'bg-gray-800 translate-x-6'
+                            : 'bg-white'
+                        }`}
+                      ></div>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
                 <TagInput
                   tags={tags}
@@ -207,19 +205,7 @@ export default function MixUploadPage() {
 
               <button
                 className="w-full bg-white text-gray-800 px-6 py-3 rounded-lg mt-4 flex items-center justify-center gap-2"
-                onClick={() => {
-                  // TODO: Handle upload
-                  console.log({
-                    title: mixTitle,
-                    info: mixInfo,
-                    artwork,
-                    audioFile,
-                    songs,
-                    tags,
-                    visibility,
-                    downloadable
-                  });
-                }}
+                onClick={handleUpload}
               >
                 <Upload size={20} />
                 Upload
@@ -228,13 +214,6 @@ export default function MixUploadPage() {
           </div>
         </div>
       </div>
-
-      {showAddSong && (
-        <AddSongPopup
-          onClose={() => setShowAddSong(false)}
-          onAdd={handleAddSong}
-        />
-      )}
     </div>
   );
 }
