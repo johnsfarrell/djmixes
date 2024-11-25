@@ -106,7 +106,7 @@ export interface ProfileResponse {
 }
 
 export interface Event {
-  eventId: string; // Unique identifier for the event
+  eventId: number; // Unique identifier for the event
   title: string; // Title of the event
   description: string; // Description of the event
   date: string; // Date of the event in ISO format (YYYY-MM-DD)
@@ -118,5 +118,5 @@ export interface EventsResponse {
 
 export interface UploadEventResponse {
   message: string; // Success or informational message about the event
-  eventId: string; // Unique identifier for the created event
+  eventId: number; // Unique identifier for the created event
 }

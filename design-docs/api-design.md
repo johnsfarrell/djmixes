@@ -28,7 +28,7 @@
 ```json
 {
   "message": "Registration successful",
-  "user_id": "1234"
+  "user_id": 1234
 }
 ```
 
@@ -37,7 +37,7 @@
 | Attribute | Type   | Description                                                                               |
 | --------- | ------ | ----------------------------------------------------------------------------------------- |
 | message   | string | Confirms if registration was successful: "Registration successful", "Registration failed" |
-| user_id   | int    | The unique identifier assigned to the newly created user.                                 |
+| user_id   | number | The unique identifier assigned to the newly created user.                                 |
 
 #### 1.2 User Login
 
@@ -86,7 +86,7 @@
 
 ```json
 {
-  "user_id": "1",
+  "user_id": 1,
   "bio": "this is Anita yo",
   "avatar": "example.jpg"
 }
@@ -118,14 +118,14 @@
   "bio": "music producer",
   "mixes": [
     {
-      "mix_id": "5678",
+      "mix_id": 5678,
       "title": "sound of music",
       "visibility": "public"
     }
   ],
   "events": [
     {
-      "event_id": "1012",
+      "event_id": 1012,
       "title": "upcoming music festival",
       "date": "2024-11-08"
     }
@@ -139,10 +139,10 @@
 |---------------|----------|--------------------------------------------------------|
 | `username`    | string   | The user's display name.                               |
 | `bio`         | string   | A brief description or bio provided by the user.       |
-| `mix_id`      | int      | The unique identifier for the mix.                     |
+| `mix_id`      | number   | The unique identifier for the mix.                     |
 | `title`       | string   | The title of the mix.                                  |
 | `visibility`  | string   | The visibility status of the mix: "public", "private". |
-| `event_id`    | int      | Unique identifier for the event.                       |
+| `event_id`    | number   | Unique identifier for the event.                       |
 | `title`       | string   | Title of the event.                                    |
 | `date`        | datetime | The date and time of the event.                        |
 
@@ -163,7 +163,7 @@
 
 | **Attribute** | **Type** | **Description**                                        |
 |---------------|----------|--------------------------------------------------------|
-| `mix_ids`      | int      | The unique identifier for the mix.                     |
+| `mix_ids`     | number   | The unique identifier for the mix.                     |
 
 #### 1.5 Get User Commented Mixes
 
@@ -182,7 +182,7 @@
 
 | **Attribute** | **Type** | **Description**                                        |
 |---------------|----------|--------------------------------------------------------|
-| `mix_ids`      | int      | The unique identifier for the mix.                     |
+| `mix_ids`     | number   | The unique identifier for the mix.                     |
 
 ### 2. Mix Management
 
@@ -203,7 +203,7 @@
   "allow_download": true,
   "artist": "DJ Artist",
   "album": "My Album",
-  "user_id": "12345"
+  "user_id": 12345
 }
 ```
 
@@ -219,7 +219,7 @@
 | allow_download | boolean           | A boolean value specifying if others can download the mix.                      |
 | artist         | string(optional)  | The name of the artist.                                                         |
 | album          | string(optional)  | The album name.                                                                 |
-| user_id        | int               | The ID of the user uploading the mix.                                           |
+| user_id        | number             | The ID of the user uploading the mix.                                           |
 
 - **Response**:
 
@@ -260,7 +260,7 @@
   "artist": "DJ Artist",
   "album": "My Album",
   "upload_user": {
-    "user_id": "1234",
+    "user_id": 1234,
     "username": "anita"
   },
   "split_JSON":"{\"songname1\":\"songTime1\",\"songname2\":\"songTime2\"}",
@@ -270,7 +270,7 @@
   "stem_vocal_url": "example.com/vocal",
   "comments": [
     {
-      "comment_id": "2233",
+      "comment_id": 2233,
       "user": "anita",
       "comment": "The sound of a bouncing ball."
     }
@@ -287,14 +287,14 @@
 | visibility     | string  | The current visibility status of the mix.          |
 | allow_download | boolean | Specifies if the mix is available for download.    |
 | tags           | array   | A list of tags associated with the mix.            |
-| user_id        | int     | The unique identifier for the uploader.            |
+| user_id        | number  | The unique identifier for the uploader.            |
 | username       | string  | The uploader's display name.                       |
 | split_JSON     | string  | The JSON string for splitting songs & times.       |
 | stem_drum_url  | string  | The url of drum stem audio.                        |
 | stem_bass_url  | string  | The url of bass stem audio.                        |
 | stem_synth_url | string  | The url of synth stem audio                        |
 | stem_vocal_url | string  | The url of vocal stem audio                        |
-| comment_id     | int     | The unique identifier for the comment.             |
+| comment_id     | number  | The unique identifier for the comment.             |
 | user           | string  | The name of the user who commented.                |
 | comment        | string  | The text of the comment.                           |
 | artist         | string  | The name of the artist.                            |
@@ -344,6 +344,7 @@
 
 ```json
 {
+  "user_id": 1,
   "comment": "good song"
 }
 ```
@@ -352,6 +353,7 @@
 
 | Attribute | Type   | Description                     |
 | --------- | ------ | ------------------------------- |
+| user_id   | number | id of comment user              |
 | comment   | string | The text of the user’s comment. |
 
 - **Response:**
@@ -359,7 +361,7 @@
 ```json
 {
   "message": "Comment added successfully",
-  "comment_id": "2233"
+  "comment_id": 2233
 }
 ```
 
@@ -368,7 +370,7 @@
 | Attribute  | Type   | Description                                     |
 | ---------- | ------ | ----------------------------------------------- |
 | message    | string | Confirms if the comment was added successfully. |
-| comment_id | int    | The unique identifier for the new comment.      |
+| comment_id | number | The unique identifier for the new comment.      |
 
 #### **3.2. Like Mix**
 
@@ -377,6 +379,21 @@
 - **Method**: `POST`
 
 - **Description**: Adds a "like" to the mix on behalf of the user.
+
+- **Request**:
+
+```json
+{
+  "user_id": 1
+}
+```
+
+- **Request Attributes:**
+
+| Attribute | Type   | Description                     |
+| --------- | ------ | ------------------------------- |
+| user_id   | number | the user that likes             |
+
 
 - **Response:**
 
@@ -474,7 +491,7 @@
   ```json
   {
     "message": "Event posted successfully",
-    "event_id": "3344"
+    "event_id": 3344
   }
   ```
 
@@ -483,7 +500,7 @@
   | Attribute | Type   | Description                                        |
   | --------- | ------ | -------------------------------------------------- |
   | message   | string | Confirms the successful posting of the event/news. |
-  | event_id  | int    | The unique identifier for the event/news.          |
+  | event_id  | number    | The unique identifier for the event/news.          |
 
 #### **5.2. Get DJ Events**
 
@@ -499,7 +516,7 @@
   {
     "events": [
       {
-        "event_id": "3344",
+        "event_id": 3344,
         "title": "Upcoming Music Event",
         "description": "The latest music festival will be held in New York!",
         "date": "2024-11-08"
@@ -512,7 +529,7 @@
 
   | Attribute   | Type     | Description                          |
   | ----------- | -------- | ------------------------------------ |
-  | event_id    | int      | The unique identifier for the event. |
+  | event_id    | number      | The unique identifier for the event. |
   | title       | string   | The name of the event.               |
   | description | string   | A description of the event.          |
   | date        | datetime | The date and time of the event.      |
@@ -533,11 +550,11 @@
   {
     "recommendations": [
       {
-        "mix_id": "5566",
+        "mix_id": 5566,
         "title": "universe",
         "tags": ["house", "techno"],
         "uploader": {
-          "user_id": "12234",
+          "user_id": 12234,
           "username": "anita"
         }
       }
@@ -549,10 +566,10 @@
 
   | Attribute | Type   | Description                                   |
   | --------- | ------ | --------------------------------------------- |
-  | mix_id    | int    | The unique identifier of the recommended mix. |
+  | mix_id    | number    | The unique identifier of the recommended mix. |
   | title     | string | The title of the mix.                         |
   | tags      | array  | The genres or tags associated with the mix.   |
-  | user_id   | int    | The unique identifier for the uploader.       |
+  | user_id   | number    | The unique identifier for the uploader.       |
   | username  | string | The uploader's display name.                  |
 
 #### **6.2. Play Radio**

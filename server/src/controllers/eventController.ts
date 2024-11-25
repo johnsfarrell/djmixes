@@ -41,7 +41,7 @@ class EventController {
     const mockResponse: EventsResponse = {
       events: [
         {
-          eventId: '3344',
+          eventId: 3344,
           title: 'Upcoming Music Event',
           description: 'The latest music festival will be held in New York!',
           date: '2024-11-08'
@@ -88,7 +88,7 @@ class EventController {
   uploadEventMock = async (req: Request, res: Response): Promise<void> => {
     const mockResponse: UploadEventResponse = {
       message: 'Event posted successfully',
-      eventId: '3344'
+      eventId: 3344
     };
     res.json(mockResponse);
   };
