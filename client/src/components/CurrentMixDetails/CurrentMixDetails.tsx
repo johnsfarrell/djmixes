@@ -1,4 +1,4 @@
-import { GetMixResponse } from '@/api/types';
+import { GetMixResponse } from '@/app/api/types';
 import SongItem from './SongItem';
 import StemItem from './StemItem';
 
