@@ -71,15 +71,6 @@ export interface Comment {
   createdAt: Date;
 }
 
-// Define the type for the comment data
-export interface Comment {
-  commentId: number;
-  userId: number;
-  mixId: number;
-  commentText: string;
-  createdAt: Date;
-}
-
 export interface ProfileMix {
   mixId: number; // Unique identifier for the mix
   title: string; // Title of the mix
