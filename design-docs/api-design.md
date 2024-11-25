@@ -2,7 +2,7 @@
 
 #### 1.1 User Registration
 
-- **Endpoint**: `/api/register`
+- **Endpoint**: `/api/user/register`
 - **Method**: `POST`
 - **Description**: Registers a new user by creating an account.
 - **Request**:
@@ -11,8 +11,7 @@
 {
   "username": "Anita",
   "email": "anita@brown.edu",
-  "password": "abcdefg123#",
-  "avatar": "avatar.jpg"
+  "password": "abcdefg123#"
 }
 ```
 
@@ -23,7 +22,6 @@
 | username  | string | The unique name chosen by the user to represent their account.     |
 | email     | string | The user's email address, used for login and account verification. |
 | password  | string | The password for account security, stored securely.                |
-| avatar    | file   | The url for avatar profile picture the user upload                 |
 
 - **Response**:
 
@@ -43,7 +41,7 @@
 
 #### 1.2 User Login
 
-- **Endpoint**: `/api/login`
+- **Endpoint**: `/api/user/login`
 - **Method**: `POST`
 - **Description**: Authenticates the user and returns a token for session management.
 - **Request**:
@@ -78,7 +76,37 @@
 | message   | string | A success or failure message:"Login successful", "Login failed" |
 | token     | string | A session token (JWT) to authenticate subsequent requests.      |
 
-#### 1.3 User Profile
+#### 1.3 Create User Profile
+### Table: `user_profiles`
+
+- **Endpoint**: `/api/profile/{user_id}`
+- **Method**: `POST`
+- **Description**: create/update the profile information for a specific user.
+- **Request**:
+
+```json
+{
+  "user_id": "1",
+  "bio": "this is Anita yo",
+  "avatar": "example.jpg"
+}
+```
+- **Response**:
+
+```json
+{
+  "message": "User profile with id 1 created or updated sucessfully"
+}
+```
+
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `message`     | string   | Creation message                                       |
+
+
+#### 1.4 Get User Profile
 
 - **Endpoint**: `/api/profile/{user_id}`
 - **Method**: `GET`
