@@ -2,8 +2,14 @@ import { Request, Response } from 'express';
 import { User, ProfileResponse } from '@/utils/interface';
 import { getUserByEmail, getUserByName } from '@/database/search/getUser';
 import { createUser } from '@/database/update/updateUser';
+import jwt from 'jsonwebtoken'; // Import for creating JWT tokens
+
+const SECRET_KEY = 'your-secret-key'; // Replace with actual secret key
 
 class UserController {
+  /**
+   * Handles user registration
+   */
   register = async (req: Request, res: Response): Promise<void> => {
     try {
       // Access data from the request body
@@ -36,6 +42,44 @@ class UserController {
       });
     } catch (error) {
       console.error('Error while registering the user:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+  /**
+   * Handles user login
+   */
+  login = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { email, password } = req.body;
+
+      // Validate request fields
+      if (!email || !password) {
+        res.status(400).json({ error: 'Email and password are required' });
+        return;
+      }
+
+      const user = await getUserByEmail(email);
+
+      // Check if user exists and password matches
+      if (!user || user.password !== password) {
+        res.status(401).json({ error: 'Invalid email or password' });
+        return;
+      }
+
+      // Generate a JWT token for session management
+      const token = jwt.sign(
+        { userId: user.userId, email: user.email },
+        SECRET_KEY,
+        { expiresIn: '1h' } // Token expires in 1 hour
+      );
+
+      res.status(200).json({
+        message: 'Login successful',
+        token,
+      });
+    } catch (error) {
+      console.error('Error during login:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
   };
