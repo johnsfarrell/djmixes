@@ -1,8 +1,8 @@
 const db = {
-  host: '127.0.0.1',
+  host: 'db',
   user: 'app_user',
   password: 'app_password',
-  port: 3306,
+  port: 3307,
   database: 'app_database'
 };
 
