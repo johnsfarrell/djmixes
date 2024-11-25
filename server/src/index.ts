@@ -3,6 +3,7 @@ import path from 'path';
 import mixRoutes from './routes/mixRoutes';
 import profileRoutes from './routes/profileRoutes';
 import eventRoutes from './routes/eventRoutes';
+import userRoutes from './routes/userRoutes';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
 import AudioProcessor from './utils/algorithm';
@@ -38,6 +39,7 @@ app.get('/', (req: Request, res: Response) => {
 // Routes for mixes, profiles, and events
 app.use('/api/mixes', mixRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/dj', eventRoutes);
 
 // 404 route, redirect to home page

@@ -6,9 +6,12 @@ import { ProfileResponse } from '@/utils/interface';
 class ProfileController {
   getProfile = async (req: Request, res: Response): Promise<void> => {
     try {
-      const userId = parseInt(req.params.userId, 10);
-      if (isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid user ID' });
+      // Accessing userId from the request body
+      const { userId } = req.body;
+
+      // Validate the userId
+      if (!userId || isNaN(userId)) {
+        res.status(400).json({ error: 'Invalid or missing user ID' });
         return;
       }
 

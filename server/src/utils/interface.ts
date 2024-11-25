@@ -36,6 +36,16 @@ export interface Mix {
   is_deleted: boolean;
 }
 
+export interface User {
+  user_id: number; // Primary key, auto-incrementing user ID
+  username: string; // Unique username chosen by the user
+  email: string; // Unique email address for the user
+  password: string; // The password for user authentication
+  registration_method: number; // 0 for email registration, 1 for third-party registration
+  active: boolean; // 0 - active, 1 - inactive
+  create_time: Date; // Timestamp of when the account was created
+}
+
 export interface ProfileMix {
   mixId: number; // Unique identifier for the mix
   title: string; // Title of the mix
