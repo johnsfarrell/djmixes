@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -18,7 +18,7 @@ export default function RegisterPage() {
     // TODO: Implement actual registration logic
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       router.push('/');
     } catch (err) {
       setError('Something went wrong. Please try again.');
@@ -28,8 +28,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <AuthCard 
-      title="Create an account" 
+    <AuthCard
+      title="Create an account"
       subtitle="Start sharing your mixes with the world"
     >
       <form onSubmit={handleSubmit}>
@@ -77,8 +77,8 @@ export default function RegisterPage() {
 
         <p className="mt-4 text-center text-gray-400">
           Already have an account?{' '}
-          <Link 
-            href="/login" 
+          <Link
+            href="/login"
             className="text-white hover:text-gray-300 transition-colors"
           >
             Sign in
