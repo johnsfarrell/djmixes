@@ -8,6 +8,6 @@ const eventController = new EventController();
 router.get('/:djId/events', eventController.getDJEventsMock);
 
 // Route for uploading a new event
-router.post('/:djId/events', eventController.uploadEventMock);
+router.post('/:djId/events', eventController.uploadEvent);
 
 export default router;

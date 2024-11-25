@@ -4,19 +4,12 @@ import { QueryResult, RowDataPacket } from 'mysql2';
 import { ProfileResponse } from '@/utils/interface';
 import { getUserLiked } from '@/database/search/getLikes';
 import { getUserCommented } from '@/database/search/getComments';
-<<<<<<< HEAD
-import { updateProfiles, deleteProfiles } from '@/database/update/updateProfiles';
-
-class ProfileController {
-  /**
-   * Fetch a user's profile by user ID
-=======
 import { getProfile } from '@/database/search/getProfiles';
 import { s3Client, bucketName } from '@/utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
-import { insertProfile, updateProfileAvatar, updateProfileBio } from '@/database/update/updateProfiles';
+import { insertProfile, deleteProfile, updateProfileAvatar, updateProfileBio } from '@/database/update/updateProfiles';
 
 class ProfileController {
   /**
@@ -25,7 +18,6 @@ class ProfileController {
    * @param res - Response object, used to send a response back to the client
    * @returns void
    * @throws Error - If the retrieve fails
->>>>>>> ab4e52a (update user profile & some comments & s3 fix)
    */
   getProfile = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -204,15 +196,11 @@ class ProfileController {
   };
 
   /**
-<<<<<<< HEAD
-   * Fetch mixes commented on by the user
-=======
    * Controller for getting commented mix ids
    * @param req - Request object, contains userID in param
    * @param res - Response object, used to send a response back to the client
    * @returns void
    * @throws Error - If the retrieve fails
->>>>>>> ab4e52a (update user profile & some comments & s3 fix)
    */
   getProfileCommented = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -235,38 +223,6 @@ class ProfileController {
   };
 
   /**
-   * Update a user's profile
-   */
-  updateProfile = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const userId = parseInt(req.params.userId, 10);
-      const { profile_id, bio, avatar_url } = req.body;
-
-      if (!userId || isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid or missing user ID' });
-        return;
-      }
-
-      if (!profile_id) {
-        res.status(400).json({ error: 'Missing profile ID' });
-        return;
-      }
-
-      const result = await updateProfiles(profile_id, userId, bio, avatar_url);
-
-      if (!result || result.affectedRows === 0) {
-        res.status(404).json({ message: 'Profile not found or not updated' });
-        return;
-      }
-
-      res.status(200).json({ message: 'Profile updated successfully' });
-    } catch (error) {
-      console.error('Error updating user profile:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
-
-  /**
    * Delete a user's profile
    */
   deleteProfile = async (req: Request, res: Response): Promise<void> => {
@@ -278,7 +234,7 @@ class ProfileController {
         return;
       }
 
-      const result = await deleteProfiles(userId);
+      const result = await deleteProfile(userId);
 
       if (!result || result.affectedRows === 0) {
         res.status(404).json({ message: 'Profile not found or already deleted' });
