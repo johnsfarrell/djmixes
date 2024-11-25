@@ -3,7 +3,7 @@ import { getMixes } from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { Mix, MixResponse, UploadMixResponse } from '@/utils/interface';
-import { User, getUserByName } from '@/database/search/getUser';
+import { User, getUserById } from '@/database/search/getUser';
 import { s3Client, bucketName } from '@/utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
@@ -33,7 +33,7 @@ class MixController {
       }
 
       // Fetch the user who uploaded the mix by user_id
-      const user: User | null = await getUserByName(`${mixData.user_id}`); // Using user_id instead of username
+      const user: User | null = await getUserById(mixData.user_id); // Using user_id instead of username
       if (!user) {
         res.status(404).send('User not found');
         return;

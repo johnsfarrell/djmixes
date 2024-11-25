@@ -1,6 +1,6 @@
 // Define the SQL query for creating the 'mix' table
 const createTableQuery: string = `
-    CREATE TABLE IF NOT EXISTS mix (
+    CREATE TABLE IF NOT EXISTS mixes (
     mix_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,

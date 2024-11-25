@@ -20,6 +20,8 @@ All of the class provided below will interact with REST API part
 
   - `getUserByName(username)`: get user information
 
+  - `getUserById(user_id_)`: get user information by user_id
+
   - `createUser(username, email, password, registration_method)`: create new user
 
   - `deleteUser(username)`: delete user from table

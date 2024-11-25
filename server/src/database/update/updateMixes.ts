@@ -30,7 +30,7 @@ async function insertMixes(
 
   try {
     const query = `
-      INSERT INTO mix (user_id, title, artist, album, created_at, file_url, cover_url, tags, visibility, allow_download)
+      INSERT INTO mixes (user_id, title, artist, album, created_at, file_url, cover_url, tags, visibility, allow_download)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const [result] = await connection.execute(query, [

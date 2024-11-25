@@ -7,7 +7,7 @@ async function getMixes(mix_id: number): Promise<Mix | null> {
   const connection = await createConnection();
   try {
     const [rows] = await connection.execute<RowDataPacket[]>(
-      `SELECT * FROM mix WHERE mix_id = ? AND is_deleted = 0`,
+      `SELECT * FROM mixes WHERE mix_id = ? AND is_deleted = 0`,
       [mix_id]
     );
 

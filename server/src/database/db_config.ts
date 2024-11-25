@@ -2,7 +2,7 @@ const db = {
   host: 'db',
   user: 'app_user',
   password: 'app_password',
-  port: 3307,
+  port: 3306,
   database: 'app_database'
 };
 
