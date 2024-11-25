@@ -17,7 +17,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: 'DJMixes',
-  description: 'Find and share DJ mixes',
+  description: 'Find and share DJ mixes'
 };
 
 export default function RootLayout({
@@ -29,9 +29,8 @@ export default function RootLayout({
   const user = {
     id: '1',
     email: 'test@test.com',
-    avatarImageUrl: 'https://avatars.githubusercontent.com/u/1',
-    notificationsCount: 3
-  }
+    avatarImageUrl: 'https://avatars.githubusercontent.com/u/1'
+  };
 
   return (
     <AudioPlayerProvider>
@@ -39,9 +38,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <AuthLayout user={user} >
-            {children}
-          </AuthLayout>
+          <AuthLayout user={user}>{children}</AuthLayout>
         </body>
       </html>
     </AudioPlayerProvider>
