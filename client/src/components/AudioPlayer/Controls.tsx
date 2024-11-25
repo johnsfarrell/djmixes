@@ -9,8 +9,7 @@ import {
   BsShuffle,
   BsRepeat
 } from 'react-icons/bs';
-import { useAudioPlayerContext } from '@/context/audioPlayerContext';
-import { tracks } from '@/app/api/mockData';
+import { tracks, useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 //rendering the audio player controls
 export const Controls: React.FC = () => {
