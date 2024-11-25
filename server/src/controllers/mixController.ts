@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import { getMixes } from '@/database/search/getMixes';
+import { getLikes } from '@/database/search/getLikes';
+import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { Mix, MixResponse, UploadMixResponse } from '@/utils/interface';
 import { User, getUserByName } from '@/database/search/getUser';
 import { s3Client, bucketName } from '@/utils/s3Client';
@@ -37,6 +39,9 @@ class MixController {
         return;
       }
 
+      // Fetch the number of likes for the mix
+      const likeCount = await getLikes(parseInt(mixId, 10));
+
       // Return the mix and user data in the response
       const response: MixResponse = {
         title: mixData.title,
@@ -53,7 +58,8 @@ class MixController {
           username: user.username
         },
         comments: [], // Placeholder for comments
-        album: mixData.album
+        album: mixData.album,
+        likeCount: likeCount  // Represent the number of likes
       };
 
       res.json(response);
@@ -62,6 +68,87 @@ class MixController {
       res.status(500).send('Error retrieving mix');
     }
   };
+
+  /**
+   * Controller for liking a mix
+   * @param req - Request object, containing the mix ID and user ID
+   * @param res - Response object, used to send a response back to the client
+   * @returns void
+   * @throws Error - If liking the mix fails
+   */
+  likeMix = async (req: Request, res: Response): Promise<void> => {
+    const mixId = req.params.mixId;
+    const userId = req.body.user_id;
+
+    try {
+      // Validate mixId and userId
+      if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
+        res.status(400).json({ message: 'Invalid mix ID or user ID' });
+        return;
+      }
+
+      // Check if the mix exists
+      const mix = await getMixes(parseInt(mixId, 10));
+      if (!mix) {
+        res.status(404).json({ message: 'Mix not found' });
+        return;
+      }
+
+      // Insert like into the database
+      const result = await insertLike(parseInt(userId, 10), parseInt(mixId, 10));
+      if (!result) {
+        res.status(500).json({ message: 'Failed to like the mix' });
+        return;
+      }
+
+      // Return success response
+      res.status(200).json({ message: 'Mix liked successfully' });
+    } catch (error) {
+      console.error('Error liking mix:', error);
+      res.status(500).json({ message: 'Failed to like mix' });
+    }
+  };
+
+  /**
+   * Controller for unliking a mix
+   * @param req - Request object, containing the mix ID and user ID
+   * @param res - Response object, used to send a response back to the client
+   * @returns void
+   * @throws Error - If unliking the mix fails
+   */
+  unlikeMix = async (req: Request, res: Response): Promise<void> => {
+    const mixId = req.params.mixId;
+    const userId = req.body.user_id;
+
+    try {
+      // Validate mixId and userId
+      if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
+        res.status(400).json({ message: 'Invalid mix ID or user ID' });
+        return;
+      }
+
+      // Check if the mix exists
+      const mix = await getMixes(parseInt(mixId, 10));
+      if (!mix) {
+        res.status(404).json({ message: 'Mix not found' });
+        return;
+      }
+
+      // Remove like from the database
+      const result = await deleteLike(parseInt(userId, 10), parseInt(mixId, 10));
+      if (!result) {
+        res.status(500).json({ message: 'Failed to unlike the mix' });
+        return;
+      }
+
+      // Return success response
+      res.status(200).json({ message: 'Mix unliked successfully' });
+    } catch (error) {
+      console.error('Error unliking mix:', error);
+      res.status(500).json({ message: 'Failed to unlike mix' });
+    }
+  };
+  
 
   /**
    * Mock function to return a mock mix data as a JSON MixResponse
@@ -84,7 +171,8 @@ class MixController {
         username: 'mockuser'
       },
       comments: [],
-      album: 'Mock Album'
+      album: 'Mock Album',
+      likeCount: 0
     };
 
     res.json(mockResponse);

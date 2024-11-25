@@ -16,6 +16,7 @@ export interface MixResponse {
   upload_user: UploadUser;
   comments: string[];
   album?: string;
+  likeCount: number; // Represent the number of likes
 }
 
 // Define the type for the mix data
