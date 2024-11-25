@@ -84,14 +84,6 @@ class EventController {
       res.status(500).json({ error: 'Failed to upload event' });
     }
   };
-
-  uploadEventMock = async (req: Request, res: Response): Promise<void> => {
-    const mockResponse: UploadEventResponse = {
-      message: 'Event posted successfully',
-      eventId: 3344
-    };
-    res.json(mockResponse);
-  };
 }
 
 export default EventController;

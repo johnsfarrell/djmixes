@@ -3,7 +3,7 @@ import createTables from '@/database/table';
 import { getEventsBasedOnDj, getEvent } from '@/database/search/getEvents';
 import { getLikes } from '@/database/search/getLikes';
 import { getComments } from '@/database/search/getComments';
-import { getProfiles } from '@/database/search/getProfiles';
+import { getProfile } from '@/database/search/getProfiles';
 import {
   insertComment,
   updateComment,
@@ -12,9 +12,9 @@ import {
 import { insertEvent, updateEvent } from '@/database/update/updateEvents';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import {
-  insertProfiles,
-  updateProfiles,
-  deleteProfiles
+  insertProfile,
+  updateProfile,
+  deleteProfile
 } from '@/database/update/updateProfiles';
 
 async function testInsertComment() {
@@ -100,35 +100,35 @@ async function testDeleteLike() {
   console.log('Delete Like Test Result:', deleteResult);
 }
 
-async function testInsertProfiles() {
+async function testInsertProfile() {
   const userId = 1;
   const bio = 'This is a test bio';
   const avatarUrl = 'https://example.com/avatar.png';
 
-  const insertResult = await insertProfiles(userId, bio, avatarUrl);
-  console.log('Insert Profiles Test Result:', insertResult);
+  const insertResult = await insertProfile(userId, bio, avatarUrl);
+  console.log('Insert Profile Test Result:', insertResult);
 }
 
-async function testUpdateProfiles() {
+async function testUpdateProfile() {
   const profileId = 1;
   const userId = 1;
   const bio = 'Updated bio for testing';
   const avatarUrl = 'https://example.com/updated-avatar.png';
 
-  const updateResult = await updateProfiles(
+  const updateResult = await updateProfile(
     profileId,
     userId,
     bio,
     avatarUrl
   );
-  console.log('Update Profiles Test Result:', updateResult);
+  console.log('Update Profile Test Result:', updateResult);
 }
 
-async function testDeleteProfiles() {
+async function testDeleteProfile() {
   const userId = 1;
 
-  const deleteResult = await deleteProfiles(userId);
-  console.log('Delete Profiles Test Result:', deleteResult);
+  const deleteResult = await deleteProfile(userId);
+  console.log('Delete Profile Test Result:', deleteResult);
 }
 
 //--------------------------------------------------------
@@ -172,9 +172,9 @@ async function testGetEvent() {
   }
 }
 
-async function testGetProfiles() {
+async function testGetProfile() {
   const testUserId = 1;
-  const profile = await getProfiles(testUserId);
+  const profile = await getProfile(testUserId);
 
   if (profile) {
     console.log(`Found profile for user_id ${testUserId}:`);
@@ -200,13 +200,13 @@ async function runTests(): Promise<void> {
   console.log('Starting test for InsertLike...');
   await testInsertLike();
 
-  console.log('Starting test for InsertProfiles...');
-  await testInsertProfiles();
+  console.log('Starting test for InsertProfile...');
+  await testInsertProfile();
 
   // test update
 
-  console.log('Starting test for UpdateProfiles...');
-  await testUpdateProfiles();
+  console.log('Starting test for UpdateProfile...');
+  await testUpdateProfile();
 
   console.log('Starting test for UpdateComment...');
   await testUpdateComment();
@@ -219,8 +219,8 @@ async function runTests(): Promise<void> {
   console.log('Starting test for getComments...');
   await testGetComments();
 
-  console.log('Starting test for getProfiles...');
-  await testGetProfiles();
+  console.log('Starting test for getProfile...');
+  await testGetProfile();
 
   console.log('Starting tests for getEventsBasedOnDj and getEvent...');
   await testGetEventsBasedOnDj();
@@ -237,13 +237,13 @@ async function runTests(): Promise<void> {
   console.log('Starting test for DeleteLike...');
   await testDeleteLike();
 
-  console.log('Starting test for DeleteProfiles...');
-  await testDeleteProfiles();
+  console.log('Starting test for DeleteProfile...');
+  await testDeleteProfile();
 
   await connection.execute(`DROP TABLE IF EXISTS events`);
   await connection.execute(`DROP TABLE IF EXISTS comments`);
   await connection.execute(`DROP TABLE IF EXISTS likes`);
-  await connection.execute(`DROP TABLE IF EXISTS user_profiles`);
+  await connection.execute(`DROP TABLE IF EXISTS user_Profile`);
   await connection.end();
 }
 

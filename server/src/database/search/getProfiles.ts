@@ -3,7 +3,7 @@ import createConnection from '@/database/connection';
 import { UserProfile } from '@/utils/interface';
 
 // Function to get profile data for a specific user
-async function getProfiles(userId: number): Promise<UserProfile | null> {
+async function getProfile(userId: number): Promise<UserProfile | null> {
   const connection = await createConnection();
 
   try {
@@ -37,4 +37,4 @@ async function getProfiles(userId: number): Promise<UserProfile | null> {
   }
 }
 
-export { getProfiles };
+export { getProfile };

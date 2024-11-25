@@ -86,11 +86,18 @@
 
 ```json
 {
-  "user_id": 1,
   "bio": "this is Anita yo",
   "avatar": "example.jpg"
 }
 ```
+
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `bio`         | text     | bio info                                               |
+| `avatar`      | file     | profile picture                                        |
+
 - **Response**:
 
 ```json
@@ -146,7 +153,26 @@
 | `title`       | string   | Title of the event.                                    |
 | `date`        | datetime | The date and time of the event.                        |
 
-#### 1.5 Get User Liked Mixes
+#### 1.5 Get User Profile Picture
+
+- **Endpoint**: `/api/profile/{user_id}/avatar`
+- **Method**: `GET`
+- **Description**: Retrieves the profile avatar for a specific user.
+- **Response**:
+
+```json
+{
+  "avatar": "example.jpg"
+}
+```
+
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `avatar`      | file     | The user's avatar                                      |
+
+#### 1.6 Get User Liked Mixes
 
 - **Endpoint**: `/api/profile/{user_id}/liked`
 - **Method**: `GET`
@@ -165,7 +191,7 @@
 |---------------|----------|--------------------------------------------------------|
 | `mix_ids`     | number   | The unique identifier for the mix.                     |
 
-#### 1.5 Get User Commented Mixes
+#### 1.7 Get User Commented Mixes
 
 - **Endpoint**: `/api/profile/{user_id}/commented`
 - **Method**: `GET`

@@ -8,8 +8,12 @@ const SECRET_KEY = 'your-secret-key'; // Replace with actual secret key
 
 class UserController {
   /**
-   * Handles user registration
-   */
+  * Controller for register a user
+  * @param req - Request object, contains username, email, and password in body
+  * @param res - Response object, used to send a response back to the client
+  * @returns void
+  * @throws Error - If the register fails
+  */
   register = async (req: Request, res: Response): Promise<void> => {
     try {
       // Access data from the request body

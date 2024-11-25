@@ -1,7 +1,7 @@
 import createConnection from '@/database/connection';
 import { UserProfile } from '@/utils/interface';
 
-async function insertProfiles(
+async function insertProfile(
   userId: number,
   bio: string | null,
   avatarUrl: string | null
@@ -21,7 +21,7 @@ async function insertProfiles(
   }
 }
 
-async function updateProfiles(
+async function updateProfile(
   profileId: number,
   userId: number,
   bio: string | null,
@@ -43,7 +43,47 @@ async function updateProfiles(
   }
 }
 
-async function deleteProfiles(userId: number): Promise<any | null> {
+async function updateProfileBio(
+  profileId: number,
+  bio: string | null
+): Promise<any | null> {
+  const connection = await createConnection();
+  try {
+    const [result] = await connection.execute(
+      `UPDATE user_profiles
+            SET bio = ?
+            WHERE profile_id = ? `,
+      [bio, profileId]
+    );
+    console.log('profiles updated successfully:', result);
+    return result;
+  } catch (error) {
+    console.error('Error updating profiles:', error);
+    return null;
+  }
+}
+
+async function updateProfileAvatar(
+  profileId: number,
+  avatarUrl: string | null
+): Promise<any | null> {
+  const connection = await createConnection();
+  try {
+    const [result] = await connection.execute(
+      `UPDATE user_profiles
+            SET avatar_url = ?
+            WHERE profile_id = ?`,
+      [avatarUrl, profileId]
+    );
+    console.log('profiles updated successfully:', result);
+    return result;
+  } catch (error) {
+    console.error('Error updating profiles:', error);
+    return null;
+  }
+}
+
+async function deleteProfile(userId: number): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -59,4 +99,4 @@ async function deleteProfiles(userId: number): Promise<any | null> {
   }
 }
 
-export { insertProfiles, updateProfiles, deleteProfiles };
+export { insertProfile, updateProfile, updateProfileBio, updateProfileAvatar, deleteProfile };

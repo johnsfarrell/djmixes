@@ -71,6 +71,57 @@ class MixController {
     }
   };
 
+  /**
+ * Controller for downloading a mix file from S3
+ * @param req - Request object, containing the mix ID
+ * @param res - Response object, used to send a response back to the client
+ * @returns void
+ * @throws Error - If the file download fails
+ */
+  getMixFile = async (req: Request, res: Response): Promise<void> => {
+    const mixId = req.params.mixId;
+
+    try {
+      // Retrieve mix details from the database
+      const mix = await getMixes(parseInt(mixId, 10));
+
+      if (!mix || !mix.fileUrl) {
+        res.status(404).json({ error: 'Mix not found' });
+        return;
+      }
+
+      const fileKey = mix.fileUrl.split('/').pop() || '';
+
+      // Download parameters
+      const params = {
+        Bucket: bucketName,
+        Key: mix.fileUrl
+      };
+
+      // Download file from S3
+      const downloadStream = await s3Client.send(new GetObjectCommand(params));
+      res.setHeader('Content-Type', 'audio/mpeg');
+
+      // Stream the file to the response
+      pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
+        if (err) {
+          console.error('Error streaming file:', err);
+          res.status(500).json({ error: 'Failed to download file' });
+        }
+      });
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      res.status(500).json({ error: 'Failed to download file' });
+    }
+  };
+
+  /**
+ * Controller for get random set of mix ids
+ * @param req - Request object, optionally contain number mixes wanted
+ * @param res - Response object, used to send a response back to the client
+ * @returns void
+ * @throws Error - If retrieve fails
+ */
   getRandomMixIds = async (req: Request, res: Response): Promise<void> => {
     try {
       const { number_of_mixes } = req.body; // Ensure these are in the request body
@@ -170,35 +221,6 @@ class MixController {
       res.status(500).json({ message: 'Failed to unlike mix' });
     }
   };
-  
-
-  /**
-   * Mock function to return a mock mix data as a JSON MixResponse
-   * @param req - Request, includes the mixId
-   * @param res - Response, sends a mock mix data as a JSON MixResponse
-   */
-  getMixMock = async (req: Request, res: Response): Promise<void> => {
-    const mockResponse: MixResponse = {
-      title: 'Mock Mix',
-      fileUrl: 'https://example.com/mix.mp3',
-      coverUrl: 'https://example.com/cover.jpg',
-      visibility: 'public',
-      allowDownload: true,
-      tags: ['rock', 'pop'],
-      updatedAt: new Date(),
-      createdAt: new Date(),
-      artist: 'Mock Artist',
-      uploadUser: {
-        userId: 1,
-        username: 'mockuser'
-      },
-      comments: [],
-      album: 'Mock Album',
-      likeCount: 0
-    };
-
-    res.json(mockResponse);
-  };
 
   /**
    * Controller for downloading a mix file from S3
@@ -229,7 +251,7 @@ class MixController {
       // Download parameters
       const params = {
         Bucket: bucketName,
-        Key: fileKey
+        Key: mix.fileUrl
       };
 
       // Download file from S3
