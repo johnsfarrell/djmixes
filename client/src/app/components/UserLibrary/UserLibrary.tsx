@@ -1,61 +1,29 @@
-import { GetMixResponse, ProfileResponse } from '@/api/types';
+'use client';
+
+import { GetMixResponse, GetProfileResponse } from '@/api/types';
 import MixCard from './MixCard';
 import DJCard from './DJCard';
+import { getFollowedDJs, getSavedMixes } from '@/api/api';
+import { useEffect, useState } from 'react';
 
 export default function UserLibrary() {
-  const favoriteDjs: ProfileResponse[] = [
-    {
-      username: 'Fred Again...',
-      bio: 'An amazing DJ known for emotional electronic music.',
-      mixes: [],
-      events: [],
-      profilePhoto: undefined
-    },
-    {
-      username: 'Calvin Harris',
-      bio: 'A chart-topping DJ and producer.',
-      mixes: [],
-      events: [],
-      profilePhoto: undefined
-    }
-  ];
+  const [savedMixes, setSavedMixes] = useState<GetMixResponse[]>([]);
+  const [favoriteDjs, setFavoriteDjs] = useState<GetProfileResponse[]>([]);
 
-  const savedMixes: GetMixResponse[] = [
-    {
-      title: 'Boiler Room London',
-      fileUrl: '/path/to/boiler-room-london.mp3',
-      coverUrl: undefined,
-      visibility: 'public',
-      allowDownload: true,
-      tags: [],
-      updatedAt: new Date(),
-      createdAt: new Date(),
-      artist: 'Fred Again...',
-      upload_user: {
-        user_id: 1,
-        username: 'Fred Again...'
-      },
-      comments: [],
-      album: undefined
-    },
-    {
-      title: 'EDC Las Vegas',
-      fileUrl: '/path/to/edc-las-vegas.mp3',
-      coverUrl: undefined,
-      visibility: 'public',
-      allowDownload: true,
-      tags: [],
-      updatedAt: new Date(),
-      createdAt: new Date(),
-      artist: 'Calvin Harris',
-      upload_user: {
-        user_id: 1,
-        username: 'Calvin Harris'
-      },
-      comments: [],
-      album: undefined
-    }
-  ];
+  useEffect(() => {
+    const fetchSavedMixes = async () => {
+      const res = await getSavedMixes({ userId: 1, mock: true });
+      setSavedMixes(res);
+    };
+
+    const fetchFavoriteDJs = async () => {
+      const res = await getFollowedDJs({ userId: 1, mock: true });
+      setFavoriteDjs(res);
+    };
+
+    fetchSavedMixes();
+    fetchFavoriteDJs();
+  }, []);
 
   return (
     <div className="bg-black/20 backdrop-blur-sm rounded-lg p-4">

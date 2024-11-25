@@ -1,5 +1,10 @@
-import { mockMixResponse } from './mockData';
-import { GetMixResponse, MixUploadRequest, UploadMixResponse } from './types';
+import { mockMixResponse, mockProfileResponse } from './mockData';
+import {
+  GetMixResponse,
+  GetProfileResponse,
+  MixUploadRequest,
+  UploadMixResponse
+} from './types';
 
 interface Request {
   mock?: boolean;
@@ -67,4 +72,48 @@ const uploadMix = async ({
   return res.json();
 };
 
-export { getMix, uploadMix };
+interface GetSavedMixesRequest extends Request {
+  userId: number;
+}
+
+const getSavedMixes = async ({
+  userId,
+  mock
+}: GetSavedMixesRequest): Promise<GetMixResponse[]> => {
+  if (mock) {
+    return Promise.resolve([mockMixResponse, mockMixResponse]);
+  }
+
+  const res = await apiAdapter(API_URL, `/users/${userId}/mixes`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return res.json();
+};
+
+interface GetFollowedProfilesRequest extends Request {
+  userId: number;
+}
+
+const getFollowedDJs = async ({
+  userId,
+  mock
+}: GetFollowedProfilesRequest): Promise<GetProfileResponse[]> => {
+  if (mock) {
+    return Promise.resolve([mockProfileResponse, mockProfileResponse]);
+  }
+
+  const res = await apiAdapter(API_URL, `/users/${userId}/djs`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return res.json();
+};
+
+export { getMix, uploadMix, getSavedMixes, getFollowedDJs };
