@@ -1,6 +1,6 @@
 import createConnection from './connection';
 import createUsersTable from './tables/usersTable';
-import createMixsTable from './tables/mixsTable';
+import createMixesTable from './tables/mixesTable';
 import createCommentsTable from './tables/commentsTable';
 import createEventsTable from './tables/eventsTable';
 import createLikesTable from './tables/likesTable';
@@ -18,7 +18,7 @@ async function createTables(): Promise<void> {
   const connection = await createConnection();
   const tableQueries = [
     { name: 'users', query: createUsersTable.createUsersTableQuery },
-    { name: 'mixs', query: createMixsTable.createTableQuery },
+    { name: 'mixes', query: createMixesTable.createTableQuery },
     { name: 'comments', query: createCommentsTable.createCommentTableQuery },
     { name: 'events', query: createEventsTable.createEventsTableQuery },
     { name: 'likes', query: createLikesTable.createLikesTableQuery },
@@ -45,7 +45,8 @@ async function createTables(): Promise<void> {
   }
 
   try {
-    const dbName = 'app_database'; // TOCHECK: if we need another dbname here
+    // const dbName = 'app_database'; // TOCHECK: if we need another dbname here
+    await connection.query('USE app_database;');
     for (const table of tableQueries) {
       await connection.execute(table.query);
       console.log(`Table '${table.name}' created or already exists.`);
