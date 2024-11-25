@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import AuthCard from '@/app/components/Auth/AuthCard';
-import AuthInput from '@/app/components/Auth/AuthInput';
+import AuthCard from '@/components/Auth/AuthCard';
+import AuthInput from '@/components/Auth/AuthInput';
 
 export default function LoginPage() {
   const router = useRouter();

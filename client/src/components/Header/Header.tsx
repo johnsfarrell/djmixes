@@ -1,6 +1,6 @@
-import Logo from '../Logo';
-import SearchBar from './SearchBar';
-import MenuButtons from './MenuButtons';
+import Logo from '@/components/Logo';
+import SearchBar from '@/components/Header/SearchBar';
+import MenuButtons from '@/components/Header/MenuButtons';
 import Link from 'next/link';
 
 interface HeaderProps {

@@ -1,9 +1,9 @@
 'use client';
 
-import { GetMixResponse, GetProfileResponse } from '@/api/types';
+import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
 import MixCard from './MixCard';
 import DJCard from './DJCard';
-import { getFollowedDJs, getSavedMixes } from '@/api/api';
+import { getFollowedDJs, getSavedMixes } from '@/app/api/api';
 import { useEffect, useState } from 'react';
 
 export default function UserLibrary() {

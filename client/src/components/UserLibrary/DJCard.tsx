@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ProfileResponse } from '@/api/types';
+import { ProfileResponse } from '@/app/api/types';
 import { User } from 'lucide-react';
 
 export default function DJCard({ dj }: { dj: ProfileResponse }) {

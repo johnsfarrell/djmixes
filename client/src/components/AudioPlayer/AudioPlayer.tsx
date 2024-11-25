@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import { RiMenuAddLine } from 'react-icons/ri';
-import { TrackInfo } from './TrackInfo';
-import { Controls } from './Controls';
-import { ProgressBar } from './ProgressBar';
-import { VolumeControl } from './VolumeControl';
-import { PlayList } from './Playlist';
+import { TrackInfo } from '@/components/AudioPlayer/TrackInfo';
+import { Controls } from '@/components/AudioPlayer/Controls';
+import { ProgressBar } from '@/components/AudioPlayer/ProgressBar';
+import { VolumeControl } from '@/components/AudioPlayer/VolumeControl';
+import { PlayList } from '@/components/AudioPlayer/Playlist';
 import { tracks } from '@/context/audioPlayerContext';
 
 export const AudioPlayer: React.FC = () => {

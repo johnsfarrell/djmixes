@@ -1,7 +1,7 @@
 'use client';
-import MobileUploadButton from './MobileUploadButton';
-import UploadButton from './UploadButton';
-import Avatar from './Avatar';
+import MobileUploadButton from '@/components/Header/MobileUploadButton';
+import UploadButton from '@/components/Header/UploadButton';
+import Avatar from '@/components/Header/Avatar';
 
 interface MenuButtonsProps {
   avatarImageUrl?: string;

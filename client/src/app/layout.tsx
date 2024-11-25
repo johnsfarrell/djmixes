@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { AudioPlayerProvider } from '@/context/audioPlayerContext';
 import './globals.css';
-import AuthLayout from '@/app/components/AuthLayout';
+import AuthLayout from '@/components/AuthLayout';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
