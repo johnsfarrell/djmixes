@@ -105,7 +105,6 @@
 |---------------|----------|--------------------------------------------------------|
 | `message`     | string   | Creation message                                       |
 
-
 #### 1.4 Get User Profile
 
 - **Endpoint**: `/api/profile/{user_id}`
@@ -117,7 +116,6 @@
 {
   "username": "anita",
   "bio": "music producer",
-  "avatar_url" : "example.com/avatar/url",
   "mixes": [
     {
       "mix_id": "5678",
@@ -141,13 +139,50 @@
 |---------------|----------|--------------------------------------------------------|
 | `username`    | string   | The user's display name.                               |
 | `bio`         | string   | A brief description or bio provided by the user.       |
-| `avatar_url`  | string   | URL for the profile picture uploaded by the user.      |
 | `mix_id`      | int      | The unique identifier for the mix.                     |
 | `title`       | string   | The title of the mix.                                  |
 | `visibility`  | string   | The visibility status of the mix: "public", "private". |
 | `event_id`    | int      | Unique identifier for the event.                       |
 | `title`       | string   | Title of the event.                                    |
 | `date`        | datetime | The date and time of the event.                        |
+
+#### 1.5 Get User Liked Mixes
+
+- **Endpoint**: `/api/profile/{user_id}/liked`
+- **Method**: `GET`
+- **Description**: Retrieves the profile information for all mixes a specific user liked.
+- **Response**:
+
+```json
+{
+  "mix_ids": [1234, 5678]
+}
+```
+
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `mix_ids`      | int      | The unique identifier for the mix.                     |
+
+#### 1.5 Get User Commented Mixes
+
+- **Endpoint**: `/api/profile/{user_id}/commented`
+- **Method**: `GET`
+- **Description**: Retrieves the profile information for all mixes a specific user commented.
+- **Response**:
+
+```json
+{
+  "mix_ids": [1234, 5678]
+}
+```
+
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `mix_ids`      | int      | The unique identifier for the mix.                     |
 
 ### 2. Mix Management
 

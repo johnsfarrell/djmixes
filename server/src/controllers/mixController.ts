@@ -3,7 +3,7 @@ import { getMixes } from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { getUserById } from '@/database/search/getUser';
-import { User, Mix, MixResponse, UploadMixResponse } from '@/utils/interface';
+import { User, Mix, UploadUser, MixResponse, UploadMixResponse } from '@/utils/interface';
 import { s3Client, bucketName } from '@/utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
@@ -26,6 +26,7 @@ class MixController {
     try {
       // Fetch mix data from the database
       const mixData: Mix | null = await getMixes(parseInt(mixId, 10));
+      console.log(mixData)
 
       if (!mixData) {
         res.status(404).send('Mix not found');
@@ -33,7 +34,8 @@ class MixController {
       }
 
       // Fetch the user who uploaded the mix by user_id
-      const user: User | null = await getUserById(mixData.user_id); // Using user_id instead of username
+      const user: User | null = await getUserById(mixData.userId);
+      console.log(user)
       if (!user) {
         res.status(404).send('User not found');
         return;
@@ -45,16 +47,16 @@ class MixController {
       // Return the mix and user data in the response
       const response: MixResponse = {
         title: mixData.title,
-        fileUrl: mixData.file_url,
-        coverUrl: mixData.cover_url,
+        fileUrl: mixData.fileUrl,
+        coverUrl: mixData.coverUrl,
         visibility: mixData.visibility,
-        allowDownload: mixData.allow_download,
+        allowDownload: mixData.allowDownload,
         tags: mixData.tags ?? [],
-        updatedAt: mixData.updated_at,
-        createdAt: mixData.created_at,
+        updatedAt: mixData.updatedAt,
+        createdAt: mixData.createdAt,
         artist: mixData.artist,
-        upload_user: {
-          user_id: mixData.user_id,
+        uploadUser: {
+          userId: mixData.userId,
           username: user.username
         },
         comments: [], // Placeholder for comments
@@ -166,8 +168,8 @@ class MixController {
       updatedAt: new Date(),
       createdAt: new Date(),
       artist: 'Mock Artist',
-      upload_user: {
-        user_id: 1,
+      uploadUser: {
+        userId: 1,
         username: 'mockuser'
       },
       comments: [],
@@ -192,17 +194,17 @@ class MixController {
       // Retrieve mix details from the database
       const mix = await getMixes(parseInt(mixId, 10));
 
-      if (!mix || !mix.file_url) {
+      if (!mix || !mix.fileUrl) {
         res.status(404).json({ error: 'Mix not found' });
         return;
       }
 
-      if (!mix.allow_download) {
+      if (!mix.allowDownload) {
         res.status(403).json({ error: 'Download not allowed for this mix' });
         return;
       }
 
-      const fileKey = mix.file_url.split('/').pop() || '';
+      const fileKey = mix.fileUrl.split('/').pop() || '';
 
       // Download parameters
       const params = {

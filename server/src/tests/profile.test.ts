@@ -9,7 +9,7 @@ describe('ProfileController Tests', () => {
   describe('GET /api/profile/:userId', () => {
     it('should return a profile for a valid user ID', async () => {
       const mockProfile = {
-        user_id: 1,
+        userId: 1,
         username: 'testuser',
         bio: 'Test bio',
         mixes: [],

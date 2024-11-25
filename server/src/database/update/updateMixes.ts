@@ -1,30 +1,17 @@
 import createConnection from '@/database/connection';
-
-export interface Mix {
-  mix_id: number;
-  user_id: number;
-  title: string;
-  artist: string;
-  album: string | null;
-  release_date: string;
-  file_url: string;
-  cover_url: string | null;
-  tags: string | null;
-  visibility: 'public' | 'private' | 'unlisted' | 'friends';
-  allow_download: boolean;
-}
+import { Mix } from '@/utils/interface';
 
 async function insertMixes(
-  user_id: number,
+  userId: number,
   title: string,
   artist: string,
   album: string | null,
-  release_date: string,
-  file_url: string,
-  cover_url: string | null,
+  releaseDate: string,
+  fileUrl: string,
+  coverUrl: string | null,
   tags: string | null,
   visibility: 'public' | 'private' | 'unlisted' | 'friends',
-  allow_download: boolean
+  allowDownload: boolean
 ): Promise<any | null> {
   const connection = await createConnection();
 
@@ -34,16 +21,16 @@ async function insertMixes(
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const [result] = await connection.execute(query, [
-      user_id,
+      userId,
       title,
       artist,
       album,
-      release_date,
-      file_url,
-      cover_url,
+      releaseDate,
+      fileUrl,
+      coverUrl,
       tags,
       visibility,
-      allow_download
+      allowDownload
     ]);
     console.log('Mix inserted successfully:', result);
     return result;
@@ -54,17 +41,17 @@ async function insertMixes(
 }
 
 async function updateMixes(
-  mix_id: number,
-  user_id: number,
+  mixId: number,
+  userId: number,
   title: string,
   artist: string,
   album: string | null,
-  release_date: string,
-  file_url: string,
-  cover_url: string | null,
+  releaseDate: string,
+  fileUrl: string,
+  coverUrl: string | null,
   tags: string | null,
   visibility: 'public' | 'private' | 'unlisted' | 'friends',
-  allow_download: boolean
+  allowDownload: boolean
 ): Promise<any | null> {
   const connection = await createConnection();
 
@@ -75,17 +62,17 @@ async function updateMixes(
       WHERE mix_id = ? AND is_deleted = 0
     `;
     const [result] = await connection.execute(query, [
-      user_id,
+      userId,
       title,
       artist,
       album,
-      release_date,
-      file_url,
-      cover_url,
+      releaseDate,
+      fileUrl,
+      coverUrl,
       tags,
       visibility,
-      allow_download,
-      mix_id
+      allowDownload,
+      mixId
     ]);
     console.log('Mix updated successfully:', result);
     return result;
@@ -95,11 +82,11 @@ async function updateMixes(
   }
 }
 
-async function deleteMixes(mix_id: number): Promise<any | null> {
+async function deleteMixes(mixId: number): Promise<any | null> {
   const connection = await createConnection();
   try {
     const query = `UPDATE mix SET is_deleted = 1 WHERE mix_id = ?`;
-    const [result] = await connection.execute(query, [mix_id]);
+    const [result] = await connection.execute(query, [mixId]);
     console.log('Mix marked as deleted:', result);
     return result;
   } catch (error) {

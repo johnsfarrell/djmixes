@@ -18,116 +18,116 @@ import {
 } from '@/database/update/updateProfiles';
 
 async function testInsertComment() {
-  const user_id = 1;
-  const mix_id = 101;
-  const comment_text = 'This is a test comment.';
+  const userId = 1;
+  const mixId = 101;
+  const commentText = 'This is a test comment.';
 
-  const insertResult = await insertComment(user_id, mix_id, comment_text);
+  const insertResult = await insertComment(userId, mixId, commentText);
   console.log('Insert Comment Test Result:', insertResult);
 }
 
 async function testUpdateComment() {
-  const comment_id = 1;
-  const user_id = 1;
-  const mix_id = 101;
-  const comment_text = 'Updated test comment.';
+  const commentId = 1;
+  const userId = 1;
+  const mixId = 101;
+  const commentText = 'Updated test comment.';
 
   const updateResult = await updateComment(
-    comment_id,
-    user_id,
-    mix_id,
-    comment_text
+    commentId,
+    userId,
+    mixId,
+    commentText
   );
   console.log('Update Comment Test Result:', updateResult);
 }
 
 async function testDeleteComment() {
-  const comment_id = 1;
+  const commentId = 1;
 
-  const deleteResult = await deleteComment(comment_id);
+  const deleteResult = await deleteComment(commentId);
   console.log('Delete Comment Test Result:', deleteResult);
 }
 
 async function testInsertEvent() {
   const title = 'Music Festival';
   const date = new Date('2024-12-01');
-  const artist_id = 42;
-  const user_id = 7;
+  const artistId = 42;
+  const userId = 7;
   const description = 'A grand music festival featuring top artists.';
 
   const insertResult = await insertEvent(
     title,
     date,
-    artist_id,
-    user_id,
+    artistId,
+    userId,
     description
   );
   console.log('Insert Event Test Result:', insertResult);
 }
 
 async function testUpdateEvent() {
-  const event_id = 1;
+  const eventId = 1;
   const title = 'Updated Music Festival';
   const date = new Date('2024-12-02');
-  const artist_id = 42;
-  const user_id = 7;
+  const artistId = 42;
+  const userId = 7;
   const description = 'An updated description for the music festival.';
 
   const updateResult = await updateEvent(
-    event_id,
+    eventId,
     title,
     date,
-    artist_id,
-    user_id,
+    artistId,
+    userId,
     description
   );
   console.log('Update Event Test Result:', updateResult);
 }
 
 async function testInsertLike() {
-  const user_id = 1;
-  const mix_id = 101;
+  const userId = 1;
+  const mixId = 101;
 
-  const insertResult = await insertLike(user_id, mix_id);
+  const insertResult = await insertLike(userId, mixId);
   console.log('Insert Like Test Result:', insertResult);
 }
 
 async function testDeleteLike() {
-  const user_id = 1;
-  const mix_id = 101;
+  const userId = 1;
+  const mixId = 101;
 
-  const deleteResult = await deleteLike(user_id, mix_id);
+  const deleteResult = await deleteLike(userId, mixId);
   console.log('Delete Like Test Result:', deleteResult);
 }
 
 async function testInsertProfiles() {
-  const user_id = 1;
+  const userId = 1;
   const bio = 'This is a test bio';
-  const avatar_url = 'https://example.com/avatar.png';
+  const avatarUrl = 'https://example.com/avatar.png';
 
-  const insertResult = await insertProfiles(user_id, bio, avatar_url);
+  const insertResult = await insertProfiles(userId, bio, avatarUrl);
   console.log('Insert Profiles Test Result:', insertResult);
 }
 
 async function testUpdateProfiles() {
-  const profile_id = 1;
-  const user_id = 1;
+  const profileId = 1;
+  const userId = 1;
   const bio = 'Updated bio for testing';
-  const avatar_url = 'https://example.com/updated-avatar.png';
+  const avatarUrl = 'https://example.com/updated-avatar.png';
 
   const updateResult = await updateProfiles(
-    profile_id,
-    user_id,
+    profileId,
+    userId,
     bio,
-    avatar_url
+    avatarUrl
   );
   console.log('Update Profiles Test Result:', updateResult);
 }
 
 async function testDeleteProfiles() {
-  const user_id = 1;
+  const userId = 1;
 
-  const deleteResult = await deleteProfiles(user_id);
+  const deleteResult = await deleteProfiles(userId);
   console.log('Delete Profiles Test Result:', deleteResult);
 }
 
@@ -179,7 +179,7 @@ async function testGetProfiles() {
   if (profile) {
     console.log(`Found profile for user_id ${testUserId}:`);
     console.log(`Bio: ${profile.bio}`);
-    console.log(`Avatar URL: ${profile.avatar_url}`);
+    console.log(`Avatar URL: ${profile.avatarUrl}`);
   } else {
     console.log(`No profile found for user_id ${testUserId}`);
   }

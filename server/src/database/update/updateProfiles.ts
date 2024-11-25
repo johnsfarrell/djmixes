@@ -1,25 +1,17 @@
 import createConnection from '@/database/connection';
-
-// Define the type for the user profile data
-export interface UserProfile {
-  profile_id: number;
-  user_id: number;
-  bio: string | null;
-  avatar_url: string | null;
-  created_at: Date;
-}
+import { UserProfile } from '@/utils/interface';
 
 async function insertProfiles(
-  user_id: number,
+  userId: number,
   bio: string | null,
-  avatar_url: string | null
+  avatarUrl: string | null
 ): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
       `INSERT INTO user_profiles (user_id, bio, avatar_url, created_at)
             VALUES (?, ?, ?, NOW())`,
-      [user_id, bio, avatar_url]
+      [userId, bio, avatarUrl]
     );
     console.log('profiles inserted successfully:', result);
     return result;
@@ -30,10 +22,10 @@ async function insertProfiles(
 }
 
 async function updateProfiles(
-  profile_id: number,
-  user_id: number,
+  profileId: number,
+  userId: number,
   bio: string | null,
-  avatar_url: string | null
+  avatarUrl: string | null
 ): Promise<any | null> {
   const connection = await createConnection();
   try {
@@ -41,7 +33,7 @@ async function updateProfiles(
       `UPDATE user_profiles
             SET bio = ?, avatar_url = ?
             WHERE profile_id = ? AND user_id = ?`,
-      [bio, avatar_url, profile_id, user_id]
+      [bio, avatarUrl, profileId, userId]
     );
     console.log('profiles updated successfully:', result);
     return result;
@@ -51,13 +43,13 @@ async function updateProfiles(
   }
 }
 
-async function deleteProfiles(user_id: number): Promise<any | null> {
+async function deleteProfiles(userId: number): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
       `DELETE FROM user_profiles
             WHERE user_id = ?`,
-      [user_id]
+      [userId]
     );
     console.log('profile marked as deleted:', result);
     return result;

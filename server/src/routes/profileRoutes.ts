@@ -8,4 +8,10 @@ const profileController = new ProfileController();
 // Route for fetching a profile by its ID
 router.get('/:userId', profileController.getProfile);
 
+// Route for fetching mixes a user liked by its ID
+router.get('/:userId/liked', profileController.getProfileLiked);
+
+// Route for fetching mixes a user commented by its ID
+router.get('/:userId/commented', profileController.getProfileCommented);
+
 export default router;

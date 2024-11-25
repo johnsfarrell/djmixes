@@ -17,20 +17,20 @@ describe('MixController Tests', () => {
       const mockMix = {
         id: 1,
         title: 'Mock Mix',
-        file_url: 'http://example.com/file.mp3',
-        cover_url: 'http://example.com/cover.jpg',
+        fileUrl: 'http://example.com/file.mp3',
+        coverUrl: 'http://example.com/cover.jpg',
         visibility: 'public',
-        allow_download: true,
+        allowDownload: true,
         tags: ['tag1', 'tag2'],
-        updated_at: new Date().toISOString(),
-        created_at: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
         artist: 'Test Artist',
-        user_id: 1,
+        userId: 1,
         album: 'Test Album'
       };
 
       const mockUser = {
-        user_id: 1,
+        userId: 1,
         username: 'testuser'
       };
 
@@ -41,7 +41,7 @@ describe('MixController Tests', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('title', 'Mock Mix');
-      expect(response.body.upload_user).toHaveProperty('username', 'mockuser');
+      expect(response.body.uploadUser).toHaveProperty('username', 'mockuser');
     });
 
     // Uncomment and fix if needed
@@ -85,8 +85,8 @@ describe('MixController Tests', () => {
     it('should return the file if download is allowed', async () => {
       const mockMix = {
         id: 1,
-        file_url: 'http://example.com/file.mp3',
-        allow_download: true
+        fileUrl: 'http://example.com/file.mp3',
+        allowDownload: true
       };
 
       (getMixes as jest.Mock).mockResolvedValue(mockMix);
@@ -116,8 +116,8 @@ describe('MixController Tests', () => {
     it('should return 403 if download is not allowed', async () => {
       const mockMix = {
         id: 1,
-        file_url: 'http://example.com/file.mp3',
-        allow_download: false
+        fileUrl: 'http://example.com/file.mp3',
+        allowDownload: false
       };
 
       (getMixes as jest.Mock).mockResolvedValue(mockMix);
@@ -131,8 +131,8 @@ describe('MixController Tests', () => {
     it('should return 500 if there is an error during download', async () => {
       const mockMix = {
         id: 1,
-        file_url: 'http://example.com/file.mp3',
-        allow_download: true
+        fileUrl: 'http://example.com/file.mp3',
+        allowDownload: true
       };
 
       (getMixes as jest.Mock).mockResolvedValue(mockMix);

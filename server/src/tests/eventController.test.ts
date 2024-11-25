@@ -10,12 +10,12 @@ describe('EventController Tests', () => {
     it('should return events for a valid DJ ID', async () => {
       const mockEvents = [
         {
-          event_id: 1,
+          eventId: 1,
           title: 'Test Event',
           description: 'Test Description',
           date: '2024-11-08',
-          artist_id: 1,
-          user_id: 1
+          artistId: 1,
+          userId: 1
         }
       ];
 
@@ -89,7 +89,7 @@ describe('EventController Tests', () => {
         title: 'Test Event',
         description: 'Test Description',
         date: '2024-11-08',
-        user_id: 1
+        userId: 1
       });
 
       expect(response.status).toBe(201);
@@ -120,7 +120,7 @@ describe('EventController Tests', () => {
         title: 'Test Event',
         description: 'Test Description',
         date: '2024-11-08',
-        user_id: 1
+        userId: 1
       });
 
       expect(response.status).toBe(500);

@@ -1,29 +1,18 @@
 import createConnection from '@/database/connection';
-
-// Define the type for the event data
-export interface Event {
-  event_id: number;
-  title: string;
-  date: Date;
-  artist_id: number;
-  user_id: number;
-  description: string | null;
-  created_at: Date;
-  updated_at: Date;
-}
+import { Event } from '@/utils/interface';
 
 async function insertEvent(
   title: string,
   date: Date,
-  artist_id: number,
-  user_id: number,
+  artistId: number,
+  userId: number,
   description: string | null
 ): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
       'INSERT INTO events (title, date, artist_id, user_id, description) VALUES (?, ?, ?, ?, ?)',
-      [title, date, artist_id, user_id, description]
+      [title, date, artistId, userId, description]
     );
     console.log('event inserted successfully:', result);
     return result;
@@ -34,18 +23,18 @@ async function insertEvent(
 }
 
 async function updateEvent(
-  event_id: number,
+  eventId: number,
   title: string,
   date: Date,
-  artist_id: number,
-  user_id: number,
+  artistId: number,
+  userId: number,
   description: string | null
 ): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
       'UPDATE events SET title = ?, date = ?, artist_id = ?, user_id = ?, description = ? WHERE event_id = ?',
-      [title, date, artist_id, user_id, description, event_id]
+      [title, date, artistId, userId, description, eventId]
     );
     console.log('event uodated successfully:', result);
     return result;

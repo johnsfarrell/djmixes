@@ -1,18 +1,12 @@
 import createConnection from '@/database/connection';
 import { ResultSetHeader } from 'mysql2';
-
-interface User {
-  username: string;
-  email: string;
-  password: string;
-  registration_method: number;
-}
+import { User } from '@/utils/interface';
 
 async function createUser(
   username: string,
   email: string,
   password: string,
-  registration_method: number
+  registrationMethod: number
 ): Promise<number | null> {
   const connection = await createConnection();
   try {
@@ -27,7 +21,7 @@ async function createUser(
     }
     const [result] = await connection.query(
       'INSERT INTO users (username, email, password, registration_method) VALUES (?, ?, ?, ?)',
-      [username, email, password, registration_method]
+      [username, email, password, registrationMethod]
     );
     console.log(
       `User created with ID: ${(result as ResultSetHeader).insertId}`

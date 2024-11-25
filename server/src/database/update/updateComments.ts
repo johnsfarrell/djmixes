@@ -1,24 +1,16 @@
 import createConnection from '@/database/connection';
-
-// Define the type for the comment data
-export interface Comment {
-  comment_id: number;
-  user_id: number;
-  mix_id: number;
-  comment_text: string;
-  created_at: Date;
-}
+import { Comment } from '@/utils/interface';
 
 async function insertComment(
-  user_id: number,
-  mix_id: number,
-  comment_text: string
+  userId: number,
+  mixId: number,
+  commentText: string
 ): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
       'INSERT INTO comments (user_id, mix_id, comment_text) VALUES (?, ?, ?)',
-      [user_id, mix_id, comment_text]
+      [userId, mixId, commentText]
     );
     console.log('Comment inserted successfully:', result);
     return result;
@@ -30,16 +22,16 @@ async function insertComment(
 
 // update comment text based on comment id
 async function updateComment(
-  comment_id: number,
-  user_id: number,
-  mix_id: number,
-  comment_text: string | null
+  commentId: number,
+  userId: number,
+  mixId: number,
+  commentText: string | null
 ): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
       'UPDATE comments SET user_id = ?, mix_id = ?, comment_text = ? WHERE comment_id = ?',
-      [user_id, mix_id, comment_text, comment_id]
+      [userId, mixId, commentText, commentId]
     );
     console.log('comment updated successfully:', result);
     return result;
@@ -49,12 +41,12 @@ async function updateComment(
   }
 }
 
-async function deleteComment(comment_id: number): Promise<any | null> {
+async function deleteComment(commentId: number): Promise<any | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
       'DELETE FROM comments WHERE comment_id = ?',
-      [comment_id]
+      [commentId]
     );
     console.log('comment deleted successfully:', result);
     return result;

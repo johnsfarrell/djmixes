@@ -1,5 +1,5 @@
 export interface UploadUser {
-  user_id: number;
+  userId: number;
   username: string;
 }
 
@@ -13,7 +13,7 @@ export interface MixResponse {
   updatedAt: Date;
   createdAt: Date;
   artist: string;
-  upload_user: UploadUser;
+  uploadUser: UploadUser;
   comments: string[];
   album?: string;
   likeCount: number; // Represent the number of likes
@@ -21,29 +21,63 @@ export interface MixResponse {
 
 // Define the type for the mix data
 export interface Mix {
-  mix_id: number;
-  user_id: number;
+  mixId: number;
+  userId: number;
   title: string;
-  file_url: string;
-  cover_url?: string;
+  fileUrl: string;
+  coverUrl?: string;
   tags?: string[];
   visibility: 'public' | 'private' | 'unlisted' | 'friends';
-  allow_download: boolean;
-  created_at: Date;
-  updated_at: Date;
+  allowDownload: boolean;
+  createdAt: Date;
+  updatedAt: Date;
   artist: string;
   album?: string;
-  is_deleted: boolean;
+  isDeleted: boolean;
 }
 
 export interface User {
-  user_id: number; // Primary key, auto-incrementing user ID
+  userId: number; // Primary key, auto-incrementing user ID
   username: string; // Unique username chosen by the user
   email: string; // Unique email address for the user
   password: string; // The password for user authentication
-  registration_method: number; // 0 for email registration, 1 for third-party registration
+  registrationMethod: number; // 0 for email registration, 1 for third-party registration
   active: boolean; // 0 - active, 1 - inactive
-  create_time: Date; // Timestamp of when the account was created
+  createTime: Date; // Timestamp of when the account was created
+}
+
+// Define the type for the user profile data
+export interface UserProfile {
+  profileId: number;
+  userId: number;
+  bio: string | null;
+  avatarUrl: string | null;
+  createdAt: Date;
+}
+
+export interface Like {
+  likeId: number;
+  userId: number;
+  mixId: number;
+  createdAt: Date;
+}
+
+// Define the type for the comment data
+export interface Comment {
+  commentId: number;
+  userId: number;
+  mixId: number;
+  commentText: string;
+  createdAt: Date;
+}
+
+// Define the type for the comment data
+export interface Comment {
+  commentId: number;
+  userId: number;
+  mixId: number;
+  commentText: string;
+  createdAt: Date;
 }
 
 export interface ProfileMix {
