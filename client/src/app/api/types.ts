@@ -56,11 +56,12 @@ export interface UploadMixResponse {
   uploadResult: unknown;
 }
 
-export interface ProfileResponse {
+export interface GetProfileResponse {
   username: string;
   bio: string;
   mixes: ProfileMix[];
   events: ProfileEvent[];
+  profilePhoto?: string;
 }
 
 export interface Event {
@@ -97,3 +98,11 @@ export interface MixUploadRequest {
 }
 
 export interface MixUploadResponse {}
+
+export interface GetSavedMixesRequest {
+  userId: number;
+}
+
+export interface GetFollowedDJsRequest {
+  userId: number;
+}

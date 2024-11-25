@@ -1,15 +1,15 @@
 import Image from 'next/image';
-import { User as DJ } from '@/app/api/types';
+import { ProfileResponse } from '@/app/api/types';
 import { User } from 'lucide-react';
 
-export default function DJCard({ dj }: { dj: DJ }) {
+export default function DJCard({ dj }: { dj: ProfileResponse }) {
   return (
     <div className="group cursor-pointer">
       <div className="aspect-square mb-2 relative">
         {dj.profilePhoto ? (
           <Image
             src={dj.profilePhoto}
-            alt={`${dj.name} profile photo`}
+            alt={`${dj.username} profile photo`}
             fill
             className="object-cover rounded-md transition-transform group-hover:scale-105"
           />
@@ -20,7 +20,9 @@ export default function DJCard({ dj }: { dj: DJ }) {
           </div>
         )}
       </div>
-      <h3 className="text-white font-medium text-center truncate">{dj.name}</h3>
+      <h3 className="text-white font-medium text-center truncate">
+        {dj.username}
+      </h3>
     </div>
   );
 }

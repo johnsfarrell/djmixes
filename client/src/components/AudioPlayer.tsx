@@ -7,6 +7,7 @@ import { Controls } from '@/components/Controls';
 import { ProgressBar } from '@/components/ProgressBar';
 import { VolumeControl } from '@/components/VolumeControl';
 import { PlayList } from '@/components/Playlist';
+import { tracks } from '@/context/audioPlayerContext';
 
 export const AudioPlayer: React.FC = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -32,7 +33,7 @@ export const AudioPlayer: React.FC = () => {
         }`}
       >
         <div className="bg-gray-800 text-white max-h-72 overflow-y-auto mt-4 rounded-lg p-2">
-          <PlayList />
+          <PlayList tracks={tracks} />
         </div>
       </div>
     </div>

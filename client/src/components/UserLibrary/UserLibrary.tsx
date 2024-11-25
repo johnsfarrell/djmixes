@@ -1,41 +1,29 @@
-import { Mix, User } from '@/app/api/types';
-import MixCard from '@/components/UserLibrary/MixCard';
-import DJCard from '@/components/UserLibrary/DJCard';
+'use client';
+
+import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
+import MixCard from './MixCard';
+import DJCard from './DJCard';
+import { getFollowedDJs, getSavedMixes } from '@/app/api/api';
+import { useEffect, useState } from 'react';
 
 export default function UserLibrary() {
-  const favoriteDjs: User[] = [
-    {
-      id: '1',
-      name: 'Fred Again...',
-      profilePhoto: undefined
-    },
-    {
-      id: '2',
-      name: 'Calvin Harris',
-      profilePhoto: undefined
-    }
-  ];
+  const [savedMixes, setSavedMixes] = useState<GetMixResponse[]>([]);
+  const [favoriteDjs, setFavoriteDjs] = useState<GetProfileResponse[]>([]);
 
-  const savedMixes: Mix[] = [
-    {
-      id: '1',
-      title: 'Boiler Room London',
-      dj: favoriteDjs[0],
-      artwork: undefined,
-      tags: [],
-      songs: [],
-      stems: []
-    },
-    {
-      id: '2',
-      title: 'EDC Las Vegas',
-      dj: favoriteDjs[1],
-      artwork: undefined,
-      tags: [],
-      songs: [],
-      stems: []
-    }
-  ];
+  useEffect(() => {
+    const fetchSavedMixes = async () => {
+      const res = await getSavedMixes({ userId: 1, mock: true });
+      setSavedMixes(res);
+    };
+
+    const fetchFavoriteDJs = async () => {
+      const res = await getFollowedDJs({ userId: 1, mock: true });
+      setFavoriteDjs(res);
+    };
+
+    fetchSavedMixes();
+    fetchFavoriteDJs();
+  }, []);
 
   return (
     <div className="bg-black/20 backdrop-blur-sm rounded-lg p-4">
@@ -48,7 +36,7 @@ export default function UserLibrary() {
           <h3 className="text-white text-lg mb-3">Saved Mixes</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {savedMixes.map((mix) => (
-              <MixCard key={mix.id} mix={mix} />
+              <MixCard key={mix.title} mix={mix} />
             ))}
           </div>
         </div>
@@ -57,7 +45,7 @@ export default function UserLibrary() {
           <h3 className="text-white text-lg mb-3">Favorite DJs</h3>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
             {favoriteDjs.map((dj) => (
-              <DJCard key={dj.id} dj={dj} />
+              <DJCard key={dj.username} dj={dj} />
             ))}
           </div>
         </div>

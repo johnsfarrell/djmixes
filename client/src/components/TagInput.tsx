@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { Tag as TagType } from '@/app/api/types'; // Import the Tag type from the types file as TagType to avoid naming conflicts
-import Tag from '@/components/Tag';
+import Tag from './Tag';
+
+interface TagType {
+  id: string;
+  text: string;
+}
 
 interface TagInputProps {
   tags: TagType[];

@@ -1,10 +1,13 @@
 import React from 'react';
 import { BsMusicNoteBeamed } from 'react-icons/bs';
 import { useAudioPlayerContext } from '@/context/audioPlayerContext';
-import { tracks } from '@/app/api/mockData';
+
+interface PlayListProps {
+  tracks: any;
+}
 
 // renders playlist component
-export const PlayList: React.FC = () => {
+export const PlayList = ({ tracks }: PlayListProps) => {
   const { currentTrack, setIsPlaying, setCurrentTrack } =
     useAudioPlayerContext();
 
@@ -15,7 +18,7 @@ export const PlayList: React.FC = () => {
 
   return (
     <ul className="bg-[#4c4848] text-white max-h-72 overflow-y-auto">
-      {tracks.map((track, index) => (
+      {tracks.map((track: any, index: any) => (
         <li
           key={index}
           className={`flex items-center gap-3 p-[0.5rem_10px] cursor-pointer ${

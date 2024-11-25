@@ -1,27 +1,29 @@
-import { Song, Stem } from '@/app/api/types';
+import { GetMixResponse } from '@/api/types';
 import SongItem from './SongItem';
 import StemItem from './StemItem';
 
-export default function CurrentMixDetails() {
-  const songs: Song[] = [
+export default function CurrentMixDetails({ mix }: { mix: GetMixResponse }) {
+  // TODO once byron adds songs and stems to api, replace this with actual data
+
+  const songs = [
     // example songs
     {
       id: '1',
       title: 'Last Words',
       artist: 'Kenny Beats',
-      timestamp: '0:00', // TODO: separate song type from song timestamps on mixes
+      timestamp: '0:00', // : separate song type from song timestamps on mixes
       albumArt: undefined
     },
     {
       id: '2',
       title: 'Some',
       artist: 'Steve Lacy',
-      timestamp: '0:00', // TODO: separate song type from song timestamps on mixes
+      timestamp: '0:00', // : separate song type from song timestamps on mixes
       albumArt: undefined
     }
   ];
 
-  const stems: Stem[] = [
+  const stems = [
     { id: '1', title: 'Drums' },
     { id: '2', title: 'Bass' },
     { id: '3', title: 'Synth Lead' },
@@ -38,7 +40,11 @@ export default function CurrentMixDetails() {
           <h3 className="text-white text-lg mb-3">Songs Used</h3>
           <div className="space-y-2">
             {songs.map((song) => (
-              <SongItem key={song.id} song={song} />
+              <SongItem
+                key={song.id}
+                songName={song.title}
+                artist={song.artist}
+              />
             ))}
           </div>
         </div>
@@ -46,7 +52,7 @@ export default function CurrentMixDetails() {
           <h3 className="text-white text-lg mb-3">Stems</h3>
           <div className="space-y-2">
             {stems.map((stem) => (
-              <StemItem key={stem.id} stem={stem} />
+              <StemItem key={stem.id} stemName={stem.title} file={undefined} />
             ))}
           </div>
         </div>

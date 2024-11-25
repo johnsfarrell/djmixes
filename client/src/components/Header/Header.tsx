@@ -5,14 +5,9 @@ import Link from 'next/link';
 
 interface HeaderProps {
   avatarImageUrl?: string;
-  notificationsCount?: number;
 }
 
-export default function Header({ 
-  avatarImageUrl,
-  notificationsCount = 0,
-}: HeaderProps) {
-    
+export default function Header({ avatarImageUrl }: HeaderProps) {
   return (
     <header className="bg-gray-900 border-b border-gray-800">
       <div className="max-w-[1920px] mx-auto px-4 h-16">
@@ -28,10 +23,7 @@ export default function Header({
           </div>
 
           {/* Right section */}
-          <MenuButtons 
-            notificationsCount={notificationsCount}
-            avatarImageUrl={avatarImageUrl}
-          />
+          <MenuButtons avatarImageUrl={avatarImageUrl} />
         </div>
       </div>
     </header>

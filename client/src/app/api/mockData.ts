@@ -1,26 +1,9 @@
-import cover1 from '../../../public/audio/cover1.jpg';
-import cover2 from '../../../public/audio/cover1.jpg';
-import { MixResponse } from './types';
+import { GetMixResponse, GetProfileResponse } from './types';
 
-export const tracks = [
-  {
-    title: 'Last Words',
-    src: '',
-    author: 'Kenny Beats',
-    thumbnail: cover1
-  },
-  {
-    title: 'Some',
-    src: '',
-    author: 'Steve Lacy',
-    thumbnail: cover2
-  }
-];
-
-export const mockMixResponse: MixResponse = {
+export const mockMixResponse: GetMixResponse = {
   title: 'Test Mix',
-  fileUrl: 'http://example.com/file.mp3',
-  coverUrl: 'http://example.com/cover.jpg',
+  fileUrl: '',
+  coverUrl: '',
   visibility: 'public',
   allowDownload: true,
   tags: ['tag1', 'tag2'],
@@ -33,4 +16,12 @@ export const mockMixResponse: MixResponse = {
   },
   comments: ['comment1', 'comment2'],
   album: 'Test Album'
+};
+
+export const mockProfileResponse: GetProfileResponse = {
+  username: 'testuser',
+  bio: 'Test bio',
+  mixes: [],
+  events: [],
+  profilePhoto: ''
 };

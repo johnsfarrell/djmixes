@@ -1,18 +1,13 @@
 'use client';
 import MobileUploadButton from '@/components/Header/MobileUploadButton';
 import UploadButton from '@/components/Header/UploadButton';
-import NotificationsButton from '@/components/Header/NotificationsButton';
 import Avatar from '@/components/Header/Avatar';
 
 interface MenuButtonsProps {
-  notificationsCount: number;
   avatarImageUrl?: string;
 }
 
-export default function MenuButtons({
-  notificationsCount,
-  avatarImageUrl
-}: MenuButtonsProps) {
+export default function MenuButtons({ avatarImageUrl }: MenuButtonsProps) {
   const onUploadClick = () => {
     // go to upload page
     window.location.href = '/mix/new';
@@ -27,14 +22,7 @@ export default function MenuButtons({
       <MobileUploadButton onClick={onUploadClick} />
       <UploadButton onClick={onUploadClick} />
       <div className="flex items-center gap-4">
-        <NotificationsButton
-          hasNotifications={notificationsCount > 0}
-          count={notificationsCount}
-          onClick={onNotificationsClick}
-        />
-        <Avatar 
-          imageUrl={avatarImageUrl}
-        />
+        <Avatar imageUrl={avatarImageUrl} />
       </div>
     </div>
   );
