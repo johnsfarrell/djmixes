@@ -1,4 +1,4 @@
-import { Stem } from '@/api/types';
+import { Stem } from '@/app/api/types';
 
 export default function StemItem({ stem }: { stem: Stem }) {
   return (

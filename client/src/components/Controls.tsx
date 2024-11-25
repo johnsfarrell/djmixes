@@ -10,7 +10,7 @@ import {
   BsRepeat
 } from 'react-icons/bs';
 import { useAudioPlayerContext } from '@/context/audioPlayerContext';
-import { tracks } from '@/api/mockData';
+import { tracks } from '@/app/api/mockData';
 
 //rendering the audio player controls
 export const Controls: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CurrentMixDetails from '@/app/components/CurrentMixDetails/CurrentMixDetails';
-import UserLibrary from '@/app/components/UserLibrary/UserLibrary';
+import CurrentMixDetails from '@/components/CurrentMixDetails/CurrentMixDetails';
+import UserLibrary from '@/components/UserLibrary/UserLibrary';
 
 export default function Home() {
   return (

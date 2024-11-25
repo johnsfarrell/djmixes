@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { X, Plus } from 'lucide-react';
-import { Song } from '@/api/types';
+import { Song } from '@/app/api/types';
 
 interface AddSongPopupProps {
   onClose: () => void;

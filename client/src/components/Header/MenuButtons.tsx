@@ -1,8 +1,8 @@
 'use client';
-import MobileUploadButton from '@/app/components/Header/MobileUploadButton';
-import UploadButton from '@/app/components/Header/UploadButton';
-import NotificationsButton from '@/app/components/Header/NotificationsButton';
-import Avatar from '@/app/components/Header/Avatar';
+import MobileUploadButton from '@/components/Header/MobileUploadButton';
+import UploadButton from '@/components/Header/UploadButton';
+import NotificationsButton from '@/components/Header/NotificationsButton';
+import Avatar from '@/components/Header/Avatar';
 
 interface MenuButtonsProps {
   notificationsCount: number;

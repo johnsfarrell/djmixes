@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Mix } from '@/api/types';
+import { Mix } from '@/app/api/types';
 
 export default function MixCard({ mix }: { mix: Mix }) {
   return (

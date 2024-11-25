@@ -1,5 +1,5 @@
-import cover1 from '../../public/audio/cover1.jpg';
-import cover2 from '../../public/audio/cover1.jpg';
+import cover1 from '../../../public/audio/cover1.jpg';
+import cover2 from '../../../public/audio/cover1.jpg';
 import { MixResponse } from './types';
 
 export const tracks = [

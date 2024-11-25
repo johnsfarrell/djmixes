@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsMusicNoteBeamed } from 'react-icons/bs';
 import { useAudioPlayerContext } from '@/context/audioPlayerContext';
-import { tracks } from '@/api/mockData';
+import { tracks } from '@/app/api/mockData';
 
 // renders playlist component
 export const PlayList: React.FC = () => {

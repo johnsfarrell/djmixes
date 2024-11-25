@@ -2,12 +2,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Upload, Image, Music, Plus } from 'lucide-react';
 import { useState, useRef } from 'react';
-import FileUploadBox from '@/app/components/FileUploadBox';
-import MixInfo from '@/app/components/MixInfo';
-import MixVisibilitySettings from '@/app/components/MixVisibilitySettings';
-import TagInput from '@/app/components/TagInput';
-import { MixUploadRequest, UploadMixResponse } from '@/api/types';
-import { uploadMix } from '@/api/api';
+import FileUploadBox from '@/components/FileUploadBox';
+import MixInfo from '@/components/MixInfo';
+import MixVisibilitySettings from '@/components/MixVisibilitySettings';
+import TagInput from '@/components/TagInput';
+import { MixUploadRequest, UploadMixResponse } from '@/app/api/types';
+import { uploadMix } from '@/app/api/api';
 
 interface Tag {
   id: string;

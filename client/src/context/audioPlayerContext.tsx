@@ -6,7 +6,7 @@ import React, {
   useRef,
   ReactNode
 } from 'react';
-import { tracks } from '@/api/mockData';
+import { tracks } from '@/app/api/mockData';
 import { StaticImageData } from 'next/image';
 
 interface Track {
