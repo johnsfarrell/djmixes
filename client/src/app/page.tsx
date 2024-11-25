@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import CurrentMixDetails from '@/components/CurrentMixDetails/CurrentMixDetails';
 import UserLibrary from '@/components/UserLibrary/UserLibrary';
-import { GetMixResponse } from '@/api/types';
-import { getMix } from '@/api/api';
+import { GetMixResponse } from '@/app/api/types';
+import { getMix } from '@/app/api/api';
 
 export default function Home() {
   const [mix, setMix] = useState<GetMixResponse | null>(null);

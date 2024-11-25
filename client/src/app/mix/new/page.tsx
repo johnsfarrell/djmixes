@@ -2,10 +2,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Upload, Image, Music, Plus } from 'lucide-react';
 import { useState, useRef } from 'react';
-import FileUploadBox from '@/components/FileUploadBox';
-import MixInfo from '@/components/MixInfo';
-import MixVisibilitySettings from '@/components/MixVisibilitySettings';
-import TagInput from '@/components/TagInput';
+import FileUploadBox from '@/components/MixUpload/FileUploadBox';
+import MixInfo from '@/components/MixUpload/MixInfo';
+import MixVisibilitySettings from '@/components/MixUpload/MixVisibilitySettings';
+import TagInput from '@/components/MixUpload/TagInput';
 import { MixUploadRequest, UploadMixResponse } from '@/app/api/types';
 import { uploadMix } from '@/app/api/api';
 

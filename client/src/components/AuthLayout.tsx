@@ -1,7 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import Header from '@/components/Header/Header';
-import { AudioPlayer } from '@/components/AudioPlayer';
+import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
 
 interface AuthLayoutProps {
   user: {
