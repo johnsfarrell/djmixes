@@ -240,11 +240,8 @@
 #### **2.2. Get Mix**
 
 - **Endpoint**: `/api/mixes/{mix_id}`
-
 - **Method**: `GET`
-
 - **Description**: Retrieves details of a specific mix.
-
 - **Response:**
 
 ```json
@@ -300,7 +297,40 @@
 | artist         | string  | The name of the artist.                            |
 | album          | string  | The album name (if available).                     |
 
-#### **2.3. Download Mix**
+#### 2.3 Get User Commented Mixes
+
+- **Endpoint**: `/api/mixes/random`
+- **Method**: `GET`
+- **Description**: Get random Mix ids
+- **Response**:
+
+```json
+{
+  "number_of_mixes": 1
+}
+```
+
+- **Request Attributes:**
+
+| **Attribute**     | **Type** | **Description**                                        |
+|-------------------|----------|--------------------------------------------------------|
+| `number_of_mixes` | number   | Number of mix ids generated, 1 if omit, 10 at max      |
+
+- **Response**:
+
+```json
+{
+  "mix_ids": [1234]
+}
+```
+
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `mix_ids`     | number   | The unique identifier for the mix.                     |
+
+#### **2.4. Download Mix**
 
 - **Endpoint**: `/api/mixes/{mix_id}/download`
 - **Method**: `GET`

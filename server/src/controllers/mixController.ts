@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getMixes } from '@/database/search/getMixes';
+import { getMixes, getRandomMixes } from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { getUserById } from '@/database/search/getUser';
@@ -65,6 +65,26 @@ class MixController {
       };
 
       res.json(response);
+    } catch (error) {
+      console.error('Error retrieving mix:', error);
+      res.status(500).send('Error retrieving mix');
+    }
+  };
+
+  getRandomMixIds = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { number_of_mixes } = req.body; // Ensure these are in the request body
+      let mixesList: number[] | null;
+
+      // Validate username
+      if (!number_of_mixes || number_of_mixes === 0) {
+        mixesList = await getRandomMixes(1);
+      }
+      else{
+        mixesList = await getRandomMixes(Math.min(number_of_mixes, 10));
+      }
+
+      res.status(200).json({mix_ids: mixesList});
     } catch (error) {
       console.error('Error retrieving mix:', error);
       res.status(500).send('Error retrieving mix');

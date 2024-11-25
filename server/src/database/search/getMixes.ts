@@ -41,4 +41,22 @@ async function getMixes(mixId: number): Promise<Mix | null> {
   }
 }
 
-export { getMixes };
+
+// The function  for getMixes
+async function getRandomMixes(numberOfMixes: number): Promise<number[] | null> {
+  const connection = await createConnection();
+  try {
+    const [rows] = await connection.execute<RowDataPacket[]>(
+      `SELECT DISTINCT mix_id FROM mixes ORDER BY RAND() LIMIT ${numberOfMixes}`
+    );
+
+    // Map rows to a list of mixId numbers
+    const randomMixIds: number[] = rows.map((row) => row.mix_id);
+
+    return randomMixIds;
+  } catch (error) {
+    console.error('Retrieving mix Error:', error);
+    throw error;
+  }
+}
+export { getMixes, getRandomMixes };
