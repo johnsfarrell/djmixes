@@ -32,4 +32,25 @@ async function getUserByName(username: string): Promise<User | null> {
   }
 }
 
-export { getUserByName };
+async function getUserById(id: number): Promise<User | null> {
+  const connection: Connection = await createConnection();
+  try {
+    const [rows]: [RowDataPacket[], any] = await connection.execute(
+      'SELECT * FROM users WHERE user_id = ?',
+      [id]
+    );
+
+    if (rows.length > 0) {
+      // Cast the rows to User type before returning
+      return rows[0] as User; // Return the first user
+    } else {
+      console.log(`User with id ${id} not found or has been deleted.`);
+      return null; // Return null if no user is found
+    }
+  } catch (error) {
+    console.error('Get User By Name Error:', error);
+    throw error; // Re-throw the error if it occurs
+  }
+}
+
+export { getUserByName, getUserById };
