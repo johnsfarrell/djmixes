@@ -1,6 +1,6 @@
 import cover1 from '../../public/audio/cover1.jpg';
 import cover2 from '../../public/audio/cover1.jpg';
-import { MixResponse } from './types';
+import { GetMixResponse } from './types';
 
 export const tracks = [
   {
@@ -17,7 +17,7 @@ export const tracks = [
   }
 ];
 
-export const mockMixResponse: MixResponse = {
+export const mockMixResponse: GetMixResponse = {
   title: 'Test Mix',
   fileUrl: 'http://example.com/file.mp3',
   coverUrl: 'http://example.com/cover.jpg',

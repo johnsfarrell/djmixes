@@ -61,6 +61,7 @@ export interface ProfileResponse {
   bio: string;
   mixes: ProfileMix[];
   events: ProfileEvent[];
+  profilePhoto?: string;
 }
 
 export interface Event {

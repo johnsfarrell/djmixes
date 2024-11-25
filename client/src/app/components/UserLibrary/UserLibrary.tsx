@@ -1,39 +1,59 @@
-import { Mix, User } from '@/api/types';
+import { GetMixResponse, ProfileResponse } from '@/api/types';
 import MixCard from './MixCard';
 import DJCard from './DJCard';
 
 export default function UserLibrary() {
-  const favoriteDjs: User[] = [
+  const favoriteDjs: ProfileResponse[] = [
     {
-      id: '1',
-      name: 'Fred Again...',
+      username: 'Fred Again...',
+      bio: 'An amazing DJ known for emotional electronic music.',
+      mixes: [],
+      events: [],
       profilePhoto: undefined
     },
     {
-      id: '2',
-      name: 'Calvin Harris',
+      username: 'Calvin Harris',
+      bio: 'A chart-topping DJ and producer.',
+      mixes: [],
+      events: [],
       profilePhoto: undefined
     }
   ];
 
-  const savedMixes: Mix[] = [
+  const savedMixes: GetMixResponse[] = [
     {
-      id: '1',
       title: 'Boiler Room London',
-      dj: favoriteDjs[0],
-      artwork: undefined,
+      fileUrl: '/path/to/boiler-room-london.mp3',
+      coverUrl: undefined,
+      visibility: 'public',
+      allowDownload: true,
       tags: [],
-      songs: [],
-      stems: []
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      artist: 'Fred Again...',
+      upload_user: {
+        user_id: 1,
+        username: 'Fred Again...'
+      },
+      comments: [],
+      album: undefined
     },
     {
-      id: '2',
       title: 'EDC Las Vegas',
-      dj: favoriteDjs[1],
-      artwork: undefined,
+      fileUrl: '/path/to/edc-las-vegas.mp3',
+      coverUrl: undefined,
+      visibility: 'public',
+      allowDownload: true,
       tags: [],
-      songs: [],
-      stems: []
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      artist: 'Calvin Harris',
+      upload_user: {
+        user_id: 1,
+        username: 'Calvin Harris'
+      },
+      comments: [],
+      album: undefined
     }
   ];
 
@@ -48,7 +68,7 @@ export default function UserLibrary() {
           <h3 className="text-white text-lg mb-3">Saved Mixes</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {savedMixes.map((mix) => (
-              <MixCard key={mix.id} mix={mix} />
+              <MixCard key={mix.title} mix={mix} />
             ))}
           </div>
         </div>
@@ -57,7 +77,7 @@ export default function UserLibrary() {
           <h3 className="text-white text-lg mb-3">Favorite DJs</h3>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
             {favoriteDjs.map((dj) => (
-              <DJCard key={dj.id} dj={dj} />
+              <DJCard key={dj.username} dj={dj} />
             ))}
           </div>
         </div>
