@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { ProfileResponse } from '@/app/api/types';
+import { GetProfileResponse } from '@/app/api/types';
 import { User } from 'lucide-react';
 
-export default function DJCard({ dj }: { dj: ProfileResponse }) {
+export default function DJCard({ dj }: { dj: GetProfileResponse }) {
   return (
     <div className="group cursor-pointer">
       <div className="aspect-square mb-2 relative">
