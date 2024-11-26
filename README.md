@@ -20,6 +20,12 @@ Run with `docker`:
 docker-compose up --build
 ```
 
+To start just the database and server:
+
+```bash
+docker-compose up --build db server
+```
+
 Right now, individual services can be run locally. See individual documentation: [Algorithm](algorithm/README.md), [API](api/README.md), [Frontend](frontend/README.md), [Database](database/README.md)
 
 ## Testing

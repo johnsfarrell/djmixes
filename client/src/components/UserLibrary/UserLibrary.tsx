@@ -12,7 +12,7 @@ export default function UserLibrary() {
 
   useEffect(() => {
     const fetchSavedMixes = async () => {
-      const res = await getSavedMixes({ userId: 1, mock: true });
+      const res = await getSavedMixes({ userId: 1, mock: false });
       setSavedMixes(res);
     };
 
