@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
       use: {
         loader: 'file-loader',
         options: {
-          publicPath: '/_next/static/audio/',
-          outputPath: 'static/audio/',
+          publicPath: '/_next/static/mock/',
+          outputPath: 'static/mock/',
           name: '[name].[hash].[ext]',
           esModule: false
         }

@@ -8,8 +8,8 @@ import React, {
 } from 'react';
 import { StaticImageData } from 'next/image';
 
-import cover1 from '../../public/audio/cover1.jpg';
-import cover2 from '../../public/audio/cover1.jpg';
+import cover1 from '../../public/mock/cover1.jpg';
+import cover2 from '../../public/mock/cover1.jpg';
 
 export const tracks = [
   {
