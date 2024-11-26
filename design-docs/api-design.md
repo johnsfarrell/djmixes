@@ -358,11 +358,18 @@
 
 #### **2.4. Download Mix**
 
-- **Endpoint**: `/api/mixes/{mix_id}/download`
+- **Endpoint**: `/api/mixes/{mix_id}/download/:part?`
 - **Method**: `GET`
 - **Description**: Downloads a mix if downloading is allowed.
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                                        |
+|---------------|----------|--------------------------------------------------------|
+| `part`        | string   | optional param for download option, mix file if omit,  |
+| can be cover, drum, synth, vocal, bass for downaloding the correspond file        |
+
 - **Response**:
-  - The actual audio file (e.g., in `mp3` format) as a file download.
+  - The actual file (e.g., in `mp3` format) as a file download, picture format for cover.
 
 #### **2.4. Share Mix via Link**
 

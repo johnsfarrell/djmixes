@@ -25,15 +25,19 @@ export interface Mix {
   userId: number;
   title: string;
   fileUrl: string;
-  coverUrl?: string;
+  coverUrl: string;
   tags?: string[];
   visibility: 'public' | 'private' | 'unlisted' | 'friends';
   allowDownload: boolean;
   createdAt: Date;
   updatedAt: Date;
   artist: string;
-  album?: string;
+  album: string;
   isDeleted: boolean;
+  stemDrumUrl: string; // Represent the number of likes
+  stemVocalUrl: string; // Represent the number of likes
+  stemBassUrl: string; // Represent the number of likes
+  stemSynthUrl: string; // Represent the number of likes
 }
 
 export interface User {

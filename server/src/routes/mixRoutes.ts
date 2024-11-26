@@ -7,11 +7,8 @@ const mixController = new MixController();
 // Route for get random mixes
 router.get('/random', mixController.getRandomMixIds);
 
-// Route for downloading a mix
-router.get('/:mixId/download', mixController.downloadMix);
-
-// Route for getting a mix File
-router.get('/:mixId/file', mixController.getMixFile);
+// Route for downloading a file
+router.get('/:mixId/download/:part?', mixController.downloadFile);
 
 // Route for fetching a mix by its ID
 router.get('/:mixId', mixController.getMix);

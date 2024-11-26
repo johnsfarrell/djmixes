@@ -19,7 +19,7 @@ async function getMixes(mixId: number): Promise<Mix | null> {
         userId: row.user_id,
         title: row.title,
         fileUrl: row.file_url,
-        coverUrl: row.cover_url || undefined, // Ensure optional field is handled
+        coverUrl: row.cover_url || "", 
         tags: row.tags ? row.tags.split(',') : undefined, // Convert tags to array if present
         visibility: row.visibility,
         allowDownload: Boolean(row.allow_download), // Cast to boolean
@@ -28,6 +28,10 @@ async function getMixes(mixId: number): Promise<Mix | null> {
         artist: row.artist,
         album: row.album || undefined,
         isDeleted: Boolean(row.is_deleted),
+        stemBassUrl: row.stem_bass_url,
+        stemDrumUrl: row.stem_drum_url,
+        stemVocalUrl: row.stem_vocal_url,
+        stemSynthUrl: row.stem_synth_url,
       };
       
       return mix;

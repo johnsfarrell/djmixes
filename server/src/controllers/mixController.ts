@@ -11,6 +11,9 @@ import { UploadedFile } from 'express-fileupload';
 import { SplitTimestamps, StemmedAudio } from '@/utils/algorithm';
 import { algorithm as algo } from '@/index';
 import { insertMixes } from '@/database/update/updateMixes';
+import { removePrefix } from '@/utils/helperFunctions'
+import { downloadFromS3 } from '@/utils/s3Client'
+import { file } from 'jszip';
 
 class MixController {
   /**
@@ -72,56 +75,12 @@ class MixController {
   };
 
   /**
- * Controller for downloading a mix file from S3
- * @param req - Request object, containing the mix ID
- * @param res - Response object, used to send a response back to the client
- * @returns void
- * @throws Error - If the file download fails
- */
-  getMixFile = async (req: Request, res: Response): Promise<void> => {
-    const mixId = req.params.mixId;
-
-    try {
-      // Retrieve mix details from the database
-      const mix = await getMixes(parseInt(mixId, 10));
-
-      if (!mix || !mix.fileUrl) {
-        res.status(404).json({ error: 'Mix not found' });
-        return;
-      }
-
-      const fileKey = mix.fileUrl.split('/').pop() || '';
-
-      // Download parameters
-      const params = {
-        Bucket: bucketName,
-        Key: mix.fileUrl
-      };
-
-      // Download file from S3
-      const downloadStream = await s3Client.send(new GetObjectCommand(params));
-      res.setHeader('Content-Type', 'audio/mpeg');
-
-      // Stream the file to the response
-      pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
-        if (err) {
-          console.error('Error streaming file:', err);
-          res.status(500).json({ error: 'Failed to download file' });
-        }
-      });
-    } catch (error) {
-      console.error('Error downloading file:', error);
-      res.status(500).json({ error: 'Failed to download file' });
-    }
-  };
-
-  /**
- * Controller for get random set of mix ids
- * @param req - Request object, optionally contain number mixes wanted
- * @param res - Response object, used to send a response back to the client
- * @returns void
- * @throws Error - If retrieve fails
- */
+  * Controller for get random set of mix ids
+  * @param req - Request object, optionally contain number mixes wanted
+  * @param res - Response object, used to send a response back to the client
+  * @returns void
+  * @throws Error - If retrieve fails
+  */
   getRandomMixIds = async (req: Request, res: Response): Promise<void> => {
     try {
       const { number_of_mixes } = req.body; // Ensure these are in the request body
@@ -223,60 +182,69 @@ class MixController {
   };
 
   /**
-   * Controller for downloading a mix file from S3
-   * @param req - Request object, containing the mix ID
+   * Controller for downloading a file from S3
+   * @param req - Request object, containing the mix ID, and part in the url for specific file
    * @param res - Response object, used to send a response back to the client
    * @returns void
    * @throws Error - If the file download fails
    */
-  downloadMix = async (req: Request, res: Response): Promise<void> => {
+  downloadFile = async (req: Request, res: Response): Promise<void> => {
     const mixId = req.params.mixId;
-
+    const part = req.params.part || "full";
+    console.log(part)
+  
     try {
-      // Retrieve mix details from the database
+      // get mix id, and validate
       const mix = await getMixes(parseInt(mixId, 10));
-
+      let fileKey = "";
       if (!mix || !mix.fileUrl) {
-        res.status(404).json({ error: 'Mix not found' });
+        res.status(404).json({ error: "Mix not found" });
         return;
       }
-
       if (!mix.allowDownload) {
-        res.status(403).json({ error: 'Download not allowed for this mix' });
+        res.status(403).json({ error: "Download not allowed for this mix" });
+        return;
+      }
+      
+      // check which part for download
+      if (part === "drum") {
+        fileKey = mix.stemDrumUrl;
+      } else if (part === "bass") {
+        fileKey = mix.stemBassUrl;
+      } else if (part === "vocal") {
+        fileKey = mix.stemVocalUrl;
+      } else if (part === "synth") {
+        fileKey = mix.stemSynthUrl;
+      } else if (part === "cover") {
+        fileKey = mix.coverUrl;
+      } else if (part === "full") {
+        fileKey = mix.fileUrl;
+      } else {
+        res.status(404).json({ error: "Endpoint doesn't exist" });
         return;
       }
 
-      const fileKey = mix.fileUrl.split('/').pop() || '';
+      // validate url
       console.log(fileKey)
-      console.log(mix.fileUrl)
-
-      // Download parameters
+      if (!fileKey && fileKey === ""){
+        res.status(404).json({ error: "Can't find the file" });
+        return;
+      }
+      
+      //download
+      const filename = removePrefix(fileKey);
       const params = {
         Bucket: bucketName,
-        Key: fileKey
+        Key: fileKey,
       };
-
-      // Download file from S3
-      const downloadStream = await s3Client.send(new GetObjectCommand(params));
-
-      res.setHeader('Content-Disposition', `attachment; filename="${fileKey}"`);
-      res.setHeader(
-        'Content-Type',
-        downloadStream.ContentType || 'application/octet-stream'
-      );
-
-      // Stream the file to the response
-      pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
-        if (err) {
-          console.error('Error streaming file:', err);
-          res.status(500).json({ error: 'Failed to download file' });
-        }
-      });
+  
+      await downloadFromS3(s3Client, params, res, filename);
     } catch (error) {
-      console.error('Error downloading file:', error);
-      res.status(500).json({ error: 'Failed to download file' });
+      console.error("Error downloading mix:", error);
+      res.status(500).json({ error: "Failed to download file" });
     }
   };
+  
 
   /**
    * Controller for uploading a mix file to S3 and inserting its details into the database
