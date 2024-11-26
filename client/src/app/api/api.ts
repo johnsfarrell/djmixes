@@ -10,7 +10,7 @@ interface Request {
   mock?: boolean;
 }
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api';
 
 const apiAdapter = async (
   url: string = API_URL,
@@ -43,9 +43,20 @@ const getMix = async ({
     }
   });
 
-  // TODO: Type check the response
+  let resJson = (await res.json()) as GetMixResponse;
 
-  return res.json();
+  const fileRes = await apiAdapter(API_URL, `/mixes/${mixId}/download`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  resJson.fileUrl = URL.createObjectURL(await fileRes.blob());
+
+  resJson.coverUrl = ''; // TODO: will be replaced once we have a download cover endpoint
+
+  return resJson;
 };
 
 interface UploadMixRequest extends Request, MixUploadRequest {}
@@ -84,14 +95,21 @@ const getSavedMixes = async ({
     return Promise.resolve([mockMixResponse, mockMixResponse]);
   }
 
-  const res = await apiAdapter(API_URL, `/users/${userId}/mixes`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+  // const res = await apiAdapter(API_URL, `/users/${userId}/mixes`, {
+  //   method: 'GET',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   }
+  // });
 
-  return res.json();
+  const mixes = [];
+
+  // TODO: switch to use real data
+  for (const mixId of [1]) {
+    mixes.push(await getMix({ mixId }));
+  }
+
+  return mixes;
 };
 
 interface GetFollowedProfilesRequest extends Request {

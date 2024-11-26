@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
 import AudioProcessor from './utils/algorithm';
 import initializeDatabase from './database/db_init';
+import cors from 'cors';
 
 initializeDatabase()
   .catch((err) => {
@@ -19,6 +20,9 @@ initializeDatabase()
 
 // Create express app
 const app = express();
+
+// Allow cross-origin requests
+app.use(cors({ origin: '*' }));
 
 // Load environment variables
 dotenv.config();
