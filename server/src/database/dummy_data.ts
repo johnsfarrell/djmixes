@@ -1,8 +1,8 @@
 const insertRecordsQuery: string = `
 INSERT INTO mixes (user_id, title, file_url, cover_url, tags, visibility, allow_download, artist, album, is_deleted)
 VALUES
-(1, 'Mix1', '/file1.mp3', '/cover1.jpg', 'tag1,tag2', 'public', TRUE, 'Artist 1', 'Album 1', 0),
-(2, 'Mix2', '/file2.mp3', '/cover2.jpg', 'tag3,tag4', 'private', FALSE, 'Artist 2', 'Album 2', 0),
+(1, 'Mix1', '1732581611898_track1.mp3', '1732581611898_cover1.jpg', 'tag1,tag2', 'public', TRUE, 'Artist 1', 'Album 1', 0),
+(2, 'Mix2', '1732581781195_track2.mp3', '1732581781195_cover2.jpg', 'tag3,tag4', 'private', FALSE, 'Artist 2', 'Album 2', 0),
 (3, 'Mix3', '/file3.mp3', '/cover3.jpg', 'tag5,tag6', 'public', TRUE, 'Artist 3', 'Album 3', 0)
 ON DUPLICATE KEY UPDATE user_id = VALUES(user_id);
 `;

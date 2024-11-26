@@ -247,11 +247,13 @@ class MixController {
       }
 
       const fileKey = mix.fileUrl.split('/').pop() || '';
+      console.log(fileKey)
+      console.log(mix.fileUrl)
 
       // Download parameters
       const params = {
         Bucket: bucketName,
-        Key: mix.fileUrl
+        Key: fileKey
       };
 
       // Download file from S3
@@ -334,16 +336,16 @@ class MixController {
       // Insert file details into the database
       // TODO: user_id and other fields should be camelCase
       await insertMixes(
-        req.body.user_id,
-        req.body.title,
-        req.body.artist,
-        req.body.album,
-        req.body.release_date,
+        req.body.user_id || null,
+        req.body.title || null,
+        req.body.artist || null,
+        req.body.album || null,
+        req.body.release_date|| null,
         mixFileKey,
         coverFileKey,
-        req.body.tags,
-        req.body.visibility,
-        req.body.allow_download
+        req.body.tags|| null,
+        req.body.visibility|| null,
+        req.body.allow_download|| null
       );
 
       const response: UploadMixResponse = {
