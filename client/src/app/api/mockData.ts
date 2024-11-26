@@ -2,8 +2,8 @@ import { GetMixResponse, GetProfileResponse } from './types';
 
 export const mockMixResponse: GetMixResponse = {
   title: 'Test Mix',
-  fileUrl: '',
-  coverUrl: '',
+  fileUrl: '/mock/track1.mp3',
+  coverUrl: '/mock/cover1.jpg',
   visibility: 'public',
   allowDownload: true,
   tags: ['tag1', 'tag2'],
@@ -23,5 +23,5 @@ export const mockProfileResponse: GetProfileResponse = {
   bio: 'Test bio',
   mixes: [],
   events: [],
-  profilePhoto: ''
+  profilePhoto: '/mock/profile1.png'
 };
