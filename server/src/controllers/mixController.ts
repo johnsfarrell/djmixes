@@ -3,8 +3,8 @@ import { getMixes, getRandomMixes } from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { getUserById } from '@/database/search/getUser';
-import { User, Mix, UploadUser, MixResponse, UploadMixResponse } from '@/utils/interface';
-import { s3Client, bucketName } from '@/utils/s3Client';
+import { User, Mix, UploadUser, MixResponse, UploadMixResponse, UploadParams } from '@/utils/interface';
+import { s3Client, bucketName, downloadFromS3, uploadToS3 } from '@/utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
@@ -12,7 +12,7 @@ import { SplitTimestamps, StemmedAudio } from '@/utils/algorithm';
 import { algorithm as algo } from '@/index';
 import { insertMixes } from '@/database/update/updateMixes';
 import { removePrefix } from '@/utils/helperFunctions'
-import { downloadFromS3 } from '@/utils/s3Client'
+import { } from '@/utils/s3Client'
 import { file } from 'jszip';
 
 class MixController {
@@ -64,7 +64,8 @@ class MixController {
         },
         comments: [], // Placeholder for comments
         album: mixData.album,
-        likeCount: likeCount  // Represent the number of likes
+        likeCount: likeCount,  // Represent the number of likes
+        splitJson: mixData.splitJson
       };
 
       res.json(response);
@@ -207,6 +208,10 @@ class MixController {
       }
       
       // check which part for download
+      console.log(mixId)
+      console.log(mix.splitJson)
+      console.log(mix.stemDrumUrl)
+
       if (part === "drum") {
         fileKey = mix.stemDrumUrl;
       } else if (part === "bass") {
@@ -246,64 +251,39 @@ class MixController {
   };
   
 
-  /**
-   * Controller for uploading a mix file to S3 and inserting its details into the database
-   * @param req - Request object, containing the uploaded file and metadata
-   * @param res - Response object, used to send a response back to the client
-   * @returns void
-   * @throws Error - If the file upload fails
-   */
   uploadMix = async (req: Request, res: Response): Promise<void> => {
-    // TODO: Add validation for the request body fields
-
-    if (!req.files || !req.files.mix) {
-      res.status(400).json({ error: 'No file uploaded' });
+    if (!req.files || !req.files.mix || !req.files.cover) {
+      res.status(400).json({ error: 'Required files not uploaded' });
       return;
     }
-
+  
     try {
+      // Set file and filekey
       const mixFile = req.files.mix as UploadedFile;
       const coverFile = req.files.cover as UploadedFile;
       const mixFileKey = `${Date.now()}_${mixFile.name}`;
       const coverFileKey = `${Date.now()}_${coverFile.name}`;
-
-      // Upload parameters
-      const mixParams = {
+      
+      // UploadParam
+      const mixParams: UploadParams = {
         Bucket: bucketName,
         Key: mixFileKey,
-        Body: mixFile.data
+        Body: mixFile.data,
       };
-      const coverParams = {
+      const coverParams: UploadParams = {
         Bucket: bucketName,
         Key: coverFileKey,
-        Body: coverFile.data
+        Body: coverFile.data,
       };
+      
+      // Upload
+      const mixUploadResult = await uploadToS3(s3Client, mixParams);
+      const coverUploadResult = await uploadToS3(s3Client, coverParams);
+      console.log('Mix file uploaded:', mixUploadResult);
+      console.log('Cover file uploaded:', coverUploadResult);
 
-      // TODO: make other functions so we don't have to 'await' for them to finish here
-      // const stamps: SplitTimestamps = await algo.getSplitTimestamps(
-      //   mixFile.data
-      // );
-      // const stems: StemmedAudio = await algo.getStemmedAudio(mixFile.data);
-
-      // // TODO: Remove these console logs (here for debugging)
-      // console.log('Split timestamps:', stamps);
-      // console.log('Stemmed audio:', stems);
-
-      // Upload file to S3
-      const mixUploadResult = await s3Client.send(
-        new PutObjectCommand(mixParams)
-      );
-      const coverUploadResult = await s3Client.send(
-        new PutObjectCommand(coverParams)
-      );
-      console.log(`Successfully uploaded object: ${bucketName}/${mixFileKey}`);
-      console.log(
-        `Successfully uploaded object: ${bucketName}/${coverFileKey}`
-      );
-
-      // Insert file details into the database
-      // TODO: user_id and other fields should be camelCase
-      await insertMixes(
+      // Update DB
+      const mixId = await insertMixes(
         req.body.user_id || null,
         req.body.title || null,
         req.body.artist || null,
@@ -316,16 +296,27 @@ class MixController {
         req.body.allow_download|| null
       );
 
-      const response: UploadMixResponse = {
-        message: 'File uploaded successfully',
-        fileKey: mixFileKey,
-        uploadResult: mixUploadResult
-      };
-
-      res.status(200).json(response);
+      // Algo part for split and stem
+      // TODO: make other functions so we don't have to 'await' for them to finish here
+      // "Fire and forget" asynchronous tasks for analysis
+      algo.getSplitTimestamps(mixId, mixFile.data).catch((err) =>
+        console.error('Error in getSplitTimestamps:', err)
+      );
+      algo.getStemmedAudio(mixId, mixFile.data).catch((err) =>
+        console.error('Error in getStemmedAudio:', err)
+      );
+      // // TODO: Remove these console logs (here for debugging)
+      // console.log('Split timestamps:', stamps);
+      // console.log('Stemmed audio:', stems);
+  
+      res.status(200).json({
+        message: 'Files uploaded successfully',
+        mixFileKey,
+        coverFileKey,
+      });
     } catch (error) {
-      console.error('Error uploading file:', error);
-      res.status(500).json({ error: 'Failed to upload file' });
+      console.error('Error uploading files:', error);
+      res.status(500).json({ error: 'Failed to upload files' });
     }
   };
 }

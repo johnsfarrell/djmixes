@@ -18,6 +18,7 @@ services:
       - app-network
 
   algorithm:
+    container_name: algorithm
     build:
       context: ./algorithm
       dockerfile: Dockerfile

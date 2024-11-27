@@ -1,3 +1,5 @@
+import { S3Client, GetObjectCommand, GetObjectCommandInput, PutObjectCommandOutput } from "@aws-sdk/client-s3";
+
 export interface UploadUser {
   userId: number;
   username: string;
@@ -17,6 +19,7 @@ export interface MixResponse {
   comments: string[];
   album?: string;
   likeCount: number; // Represent the number of likes
+  splitJson: string;
 }
 
 // Define the type for the mix data
@@ -34,10 +37,11 @@ export interface Mix {
   artist: string;
   album: string;
   isDeleted: boolean;
-  stemDrumUrl: string; // Represent the number of likes
-  stemVocalUrl: string; // Represent the number of likes
-  stemBassUrl: string; // Represent the number of likes
-  stemSynthUrl: string; // Represent the number of likes
+  stemDrumUrl: string; 
+  stemVocalUrl: string; 
+  stemBassUrl: string; 
+  stemSynthUrl: string;
+  splitJson: string;
 }
 
 export interface User {
@@ -115,3 +119,14 @@ export interface UploadEventResponse {
   message: string; // Success or informational message about the event
   eventId: number; // Unique identifier for the created event
 }
+
+export type UploadParams = {
+  Bucket: string|undefined;
+  Key: string;
+  Body: Buffer | Uint8Array | Blob | string;
+};
+
+export type UploadResult = {
+  key: string;
+  result: PutObjectCommandOutput;
+};

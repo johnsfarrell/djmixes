@@ -32,6 +32,7 @@ async function getMixes(mixId: number): Promise<Mix | null> {
         stemDrumUrl: row.stem_drum_url,
         stemVocalUrl: row.stem_vocal_url,
         stemSynthUrl: row.stem_synth_url,
+        splitJson: row.split_json
       };
       
       return mix;

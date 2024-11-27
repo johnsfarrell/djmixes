@@ -286,11 +286,7 @@
     "user_id": 1234,
     "username": "anita"
   },
-  "split_JSON":"{\"songname1\":\"songTime1\",\"songname2\":\"songTime2\"}",
-  "stem_drum_url": "example.com/drum",
-  "stem_bass_url": "example.com/bass",
-  "stem_synth_url": "example.com/synth",
-  "stem_vocal_url": "example.com/vocal",
+  "split_json":"{\"songname1\":\"songTime1\",\"songname2\":\"songTime2\"}",
   "comments": [
     {
       "comment_id": 2233,
@@ -312,11 +308,7 @@
 | tags           | array   | A list of tags associated with the mix.            |
 | user_id        | number  | The unique identifier for the uploader.            |
 | username       | string  | The uploader's display name.                       |
-| split_JSON     | string  | The JSON string for splitting songs & times.       |
-| stem_drum_url  | string  | The url of drum stem audio.                        |
-| stem_bass_url  | string  | The url of bass stem audio.                        |
-| stem_synth_url | string  | The url of synth stem audio                        |
-| stem_vocal_url | string  | The url of vocal stem audio                        |
+| split_json     | string  | The JSON string for splitting songs & times.       |
 | comment_id     | number  | The unique identifier for the comment.             |
 | user           | string  | The name of the user who commented.                |
 | comment        | string  | The text of the comment.                           |

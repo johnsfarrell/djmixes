@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import path from 'path';
-import { S3Client, GetObjectCommand, GetObjectCommandInput } from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand, PutObjectCommand, GetObjectCommandInput } from "@aws-sdk/client-s3";
+import { UploadParams, UploadResult } from "./interface";
 import { Response } from "express";
 import { pipeline } from "stream";
 import { promisify } from "util";
@@ -54,3 +55,23 @@ export const downloadFromS3 = async (
     throw new Error("Failed to download file");
   }
 };
+
+/**
+ * Helper function to upload a file to S3
+ * @param s3Client - Instance of S3Client
+ * @param params - Upload parameters for the file
+ * @returns Promise resolving with the upload result
+ */
+export async function uploadToS3(
+  s3Client: S3Client,
+  params: UploadParams
+): Promise<UploadResult> {
+  try {
+    const result = await s3Client.send(new PutObjectCommand(params));
+    console.log(`Successfully uploaded: ${params.Bucket}/${params.Key}`);
+    return { key: params.Key, result };
+  } catch (error) {
+    console.error(`Error uploading file: ${params.Key}`, error);
+    throw new Error(`Failed to upload file: ${params.Key}`);
+  }
+}
