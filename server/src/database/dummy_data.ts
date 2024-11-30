@@ -34,6 +34,15 @@ const insertLikesQuery: string = `
     ON DUPLICATE KEY UPDATE mix_id = VALUES(mix_id);
 `;
 
+const insertFollowsQuery: string = `
+  INSERT INTO follows (user_id, artist_id)
+  VALUES
+    (1, 1),
+    (1, 2),
+    (2, 3)
+  ON DUPLICATE KEY UPDATE user_id = VALUES(user_id), artist_id = VALUES(artist_id);
+`;
+
 const insertEventsQuery: string = `
   INSERT INTO events (title, date, artist_id, user_id, description, created_at)
   VALUES
@@ -58,6 +67,7 @@ export {
   insertRecordsQuery,
   insertCommentsQuery,
   insertLikesQuery,
+  insertFollowsQuery,
   insertEventsQuery,
   insertUserProfilesQuery
 };

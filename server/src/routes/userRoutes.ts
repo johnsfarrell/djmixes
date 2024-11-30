@@ -11,4 +11,10 @@ router.post('/register', userController.register);
 // Route for user login
 router.post('/login', userController.login);
 
+// Route to follow an artist
+router.post('/:userId/follow', userController.followArtist);
+
+// Route to get all followed artists
+router.get('/:userId/following', userController.getFollowedArtists);
+
 export default router;

@@ -5,11 +5,13 @@ import createCommentsTable from './tables/commentsTable';
 import createEventsTable from './tables/eventsTable';
 import createLikesTable from './tables/likesTable';
 import createProfilesTable from './tables/profilesTable';
+import createFollowsTable from './tables/followsTable';
 import {
   insertUsersQuery,
   insertRecordsQuery,
   insertCommentsQuery,
   insertLikesQuery,
+  insertFollowsQuery,
   insertEventsQuery,
   insertUserProfilesQuery
 } from './dummy_data';
@@ -22,6 +24,7 @@ async function createTables(): Promise<void> {
     { name: 'comments', query: createCommentsTable.createCommentTableQuery },
     { name: 'events', query: createEventsTable.createEventsTableQuery },
     { name: 'likes', query: createLikesTable.createLikesTableQuery },
+    { name: 'follows', query: createFollowsTable.createFollowsTableQuery },
     {
       name: 'user_profiles',
       query: createProfilesTable.createProfilesTableQuery
@@ -60,6 +63,7 @@ async function createTables(): Promise<void> {
     insertRecordsQuery,
     insertCommentsQuery,
     insertLikesQuery,
+    insertFollowsQuery,
     insertEventsQuery,
     insertUserProfilesQuery
   ];

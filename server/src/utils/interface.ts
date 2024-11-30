@@ -54,6 +54,13 @@ export interface User {
   createTime: Date; // Timestamp of when the account was created
 }
 
+export interface FollowedArtist {
+  artistId: number; // Unique identifier for the artist
+  name: string; // Name of the artist
+  profileUrl: string; // URL of the artist's profile
+  avatar: string; // Avatar image for the artist
+}
+
 // Define the type for the user profile data
 export interface UserProfile {
   profileId: number;

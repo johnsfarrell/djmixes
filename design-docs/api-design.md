@@ -648,3 +648,77 @@
   | Attribute        | Type   | Description                  |
   | ---------------- | ------ | ---------------------------- |
   | radio_stream_url | string | The URL to the radio stream. |
+
+
+
+### **7. Social Features**
+
+#### **7.1 Follow an Artist**
+
+- **Endpoint**: `/api/user/{user_id}/follow`
+- **Method**: `POST`
+- **Description**: Allows a user to follow a specific artist.
+- **Request:**
+
+```json
+{
+  "artist_id": 567
+}
+```
+
+- **Request Attributes:**
+
+| Attribute | Type   | Description                                    |
+| --------- | ------ | ---------------------------------------------- |
+| artist_id | number | The unique identifier of the artist to follow. |
+
+- **Response:**
+
+```json
+{
+  "message": "Successfully followed the artist"
+}
+```
+
+- **Response Attributes:**
+
+| Attribute | Type   | Description                                   |
+| --------- | ------ | --------------------------------------------- |
+| message   | string | Confirms if the follow action was successful. |
+
+------
+
+#### **7.2 Get All Followed Artists**
+
+- **Endpoint**: `/api/user/{user_id}/following`
+- **Method**: `GET`
+- **Description**: Retrieves all the artists that a user is following.
+- **Response:**
+
+```json
+{
+  "following": [
+    {
+      "artist_id": 567,
+      "name": "DJ Cool",
+      "profile_url": "/api/profile/567",
+      "avatar": "cool_avatar.jpg"
+    },
+    {
+      "artist_id": 568,
+      "name": "DJ Smooth",
+      "profile_url": "/api/profile/568",
+      "avatar": "smooth_avatar.jpg"
+    }
+  ]
+}
+```
+
+- **Response Attributes:**
+
+| Attribute   | Type   | Description                            |
+| ----------- | ------ | -------------------------------------- |
+| artist_id   | number | The unique identifier of the artist.   |
+| name        | string | The display name of the artist.        |
+| profile_url | string | URL endpoint for the artist's profile. |
+| avatar      | file   | The avatar image file for the artist.  |

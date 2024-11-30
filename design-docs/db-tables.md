@@ -185,3 +185,31 @@ detailed profile information for each user.
   - `insertLikes(like_id, user_id, mix_id)`: insert like information into database
 
   - `deleteLikes(user_id)`: delete like from table
+
+### Table: `follows`
+
+| Column Name  | Data Type   | Constraints                                             | Description                                    |
+| ------------ | ----------- | ------------------------------------------------------- | ---------------------------------------------- |
+| `follow_id`  | `INT`       | `PRIMARY KEY`, `AUTO_INCREMENT`                         | Unique identifier for each follow relationship |
+| `user_id`    | `INT`       | `NOT NULL`, `FOREIGN KEY REFERENCES users(user_id)`     | ID of the user who follows an artist           |
+| `artist_id`  | `INT`       | `NOT NULL`, `FOREIGN KEY REFERENCES artists(artist_id)` | ID of the artist being followed                |
+| `created_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP`                             | Time when the follow relationship was created  |
+
+------
+
+### Related Class/Module for Table: `follows`
+
+- **Class/Module**: `FollowsService`
+
+#### **Public Methods:**
+
+- `insertFollow(user_id, artist_id)`:
+  - Adds a follow relationship between a user and an artist.
+  - **Input**: `user_id` (integer), `artist_id` (integer).
+  - **Output**: None.
+  - **Behavior**: Inserts a new record into the `follows` table.
+- `getFollowedArtists(user_id)`:
+  - Retrieves all artists followed by a specific user.
+  - **Input**: `user_id` (integer).
+  - **Output**: A list of followed artists including `artist_id`, `name`, `profile_url`, and `avatar`.
+  - **Behavior**: Joins the `follows` table with the `artists` table to fetch artist details for a given user.
