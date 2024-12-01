@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the registration page component that renders
+ * the registration form, handles form submission, and redirects the user to the
+ * home page upon successful registration.
+ */
+
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -5,6 +13,12 @@ import { useRouter } from 'next/navigation';
 import AuthCard from '@/components/Auth/AuthCard';
 import AuthInput from '@/components/Auth/AuthInput';
 
+/**
+ * The register page component renders the registration form, handles form
+ * submission, and redirects the user to the home page upon successful
+ * registration.
+ * @returns The register page component
+ */
 export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState('');

@@ -1,11 +1,24 @@
-"use client";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the login page component that renders the
+ * login form, handles form submission, and redirects the user to the home page
+ * upon successful login.
+ */
+
+'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AuthCard from '@/components/Auth/AuthCard';
 import AuthInput from '@/components/Auth/AuthInput';
 
-export default function LoginPage() {
+/**
+ * The login page component renders the login form, handles form submission, and
+ * redirects the user to the home page upon successful login.
+ * @returns The login page component
+ */
+export default function LoginPage(): JSX.Element {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Prevents multiple form submissions

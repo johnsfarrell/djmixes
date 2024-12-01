@@ -1,9 +1,20 @@
-"use client";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the creator view page component that displays
+ * a creator's profile information, mixes, and communication feed.
+ */
 
+'use client';
 import { useState } from "react";
 import Image from "next/image";
 
-export default function CreatorViewPage() {
+/**
+ * The creator view page component displays a creator's profile information,
+ * mixes, and communication feed.
+ * @returns The creator view page component
+ */
+export default function CreatorViewPage(): JSX.Element {
   // State for the creator's info, mixes, and communication feed
   const [creator] = useState({
     id: 1,

@@ -1,12 +1,23 @@
-'use client';
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the home page component that displays the 
+ * currently playing mix's details and user's library.
+ */
 
+'use client';
 import React, { useEffect, useState } from 'react';
 import CurrentMixDetails from '@/components/CurrentMixDetails/CurrentMixDetails';
 import UserLibrary from '@/components/UserLibrary/UserLibrary';
 import { GetMixResponse } from '@/app/api/types';
 import { getMix } from '@/app/api/api';
 
-export default function Home() {
+/**
+ * The home page component displays all the content on the home page, including
+ * the currently playing mix's details and the user's library.
+ * @returns The home page component
+ */
+export default function Home(): JSX.Element {
   const [mix, setMix] = useState<GetMixResponse | null>(null);
 
   useEffect(() => {
@@ -37,7 +48,7 @@ export default function Home() {
             <UserLibrary />
           </div>
 
-          {/* Right column - TODO? */}
+          {/* Right column - TBD */}
           {/* <div className="lg:col-span-3"> */}
           {/* </div> */}
         </div>
