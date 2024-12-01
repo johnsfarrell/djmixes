@@ -1,7 +1,22 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the CurrentMixDetails component that displays
+ * the details of the current mix, including the songs used and stems.
+ */
+
 import { GetMixResponse } from '@/app/api/types';
 import SongItem from './SongItem';
 import StemItem from './StemItem';
 
+/**
+ * The CurrentMixDetails component displays the details of the current mix,
+ * including the songs used and stems.
+ * 
+ * @param mix The current mix to display details for.
+ * 
+ * @returns The CurrentMixDetails component.
+ */
 export default function CurrentMixDetails({ mix }: { mix: GetMixResponse }) {
   // TODO once byron adds songs and stems to api, replace this with actual data
 

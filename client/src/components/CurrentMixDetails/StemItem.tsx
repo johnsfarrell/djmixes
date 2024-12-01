@@ -1,8 +1,24 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the StemItem component that displays a stem
+ * item with the stem name and download button.
+ */
+
 interface StemItemProps {
   stemName: string;
   file?: File;
 }
 
+/**
+ * The StemItem component displays a stem item with the stem name and download
+ * button.
+ * 
+ * @param stemName The name of the stem.
+ * @param file The file to download when the download button is clicked.
+ * 
+ * @returns The StemItem component.
+ */
 export default function StemItem({ stemName, file }: StemItemProps) {
   const handleDownload = () => {
     if (file) {

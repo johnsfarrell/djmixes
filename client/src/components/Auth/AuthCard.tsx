@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the AuthCard component that displays a card
+ * with a title and subtitle in the center of the screen for authentication
+ * pages.
+ */
+
 import Logo from '@/components/Logo';
 
 interface AuthCardProps {
