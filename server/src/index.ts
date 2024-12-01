@@ -10,13 +10,7 @@ import AudioProcessor from './utils/algorithm';
 import initializeDatabase from './database/db_init';
 import cors from 'cors';
 
-initializeDatabase()
-  .catch((err) => {
-    console.error('Database not initialized. Did you start the MySQL server?');
-  })
-  .then(() => {
-    console.log('Database initialized');
-  });
+initializeDatabase();
 
 // Create express app
 const app = express();

@@ -18,7 +18,7 @@
 - **Request Attributes**：
 
 | Attribute | Type   | Description                                                        |
-| ----------| -------| ------------------------------------------------------------------ |
+| --------- | ------ | ------------------------------------------------------------------ |
 | username  | string | The unique name chosen by the user to represent their account.     |
 | email     | string | The user's email address, used for login and account verification. |
 | password  | string | The password for account security, stored securely.                |
@@ -77,6 +77,7 @@
 | token     | string | A session token (JWT) to authenticate subsequent requests.      |
 
 #### 1.3 Create User Profile
+
 ### Table: `user_profiles`
 
 - **Endpoint**: `/api/profile/{user_id}`
@@ -93,10 +94,10 @@
 
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
-| `bio`         | text     | bio info                                               |
-| `avatar`      | file     | profile picture                                        |
+| **Attribute** | **Type** | **Description** |
+| ------------- | -------- | --------------- |
+| `bio`         | text     | bio info        |
+| `avatar`      | file     | profile picture |
 
 - **Response**:
 
@@ -108,9 +109,9 @@
 
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
-| `message`     | string   | Creation message                                       |
+| **Attribute** | **Type** | **Description**  |
+| ------------- | -------- | ---------------- |
+| `message`     | string   | Creation message |
 
 #### 1.4 Get User Profile
 
@@ -143,7 +144,7 @@
 - **Response Attributes:**
 
 | **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
+| ------------- | -------- | ------------------------------------------------------ |
 | `username`    | string   | The user's display name.                               |
 | `bio`         | string   | A brief description or bio provided by the user.       |
 | `mix_id`      | number   | The unique identifier for the mix.                     |
@@ -168,9 +169,9 @@
 
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
-| `avatar`      | file     | The user's avatar                                      |
+| **Attribute** | **Type** | **Description**   |
+| ------------- | -------- | ----------------- |
+| `avatar`      | file     | The user's avatar |
 
 #### 1.6 Get User Liked Mixes
 
@@ -187,9 +188,9 @@
 
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
-| `mix_ids`     | number   | The unique identifier for the mix.                     |
+| **Attribute** | **Type** | **Description**                    |
+| ------------- | -------- | ---------------------------------- |
+| `mix_ids`     | number   | The unique identifier for the mix. |
 
 #### 1.7 Get User Commented Mixes
 
@@ -206,9 +207,9 @@
 
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
-| `mix_ids`     | number   | The unique identifier for the mix.                     |
+| **Attribute** | **Type** | **Description**                    |
+| ------------- | -------- | ---------------------------------- |
+| `mix_ids`     | number   | The unique identifier for the mix. |
 
 ### 2. Mix Management
 
@@ -235,17 +236,17 @@
 
 - **Request Attributes:**
 
-| Attribute      | Type              | Description                                                                     |
-| -------------- | ----------------- | ------------------------------------------------------------------------------- |
-| title          | string            | The name of the uploaded mix.                                                   |
-| mix            | file           | The mix file to be uploaded.                                                    |
-| cover          | file | The image file that acts as the visual cover for the mix.                |
-| tags           | array             | A list of tags or genres associated with the mix for categorization.            |
-| visibility     | string            | Determines who can access the mix (`public`, `private`, `unlisted`, `friends`). |
-| allow_download | boolean           | A boolean value specifying if others can download the mix.                      |
-| artist         | string(optional)  | The name of the artist.                                                         |
-| album          | string(optional)  | The album name.                                                                 |
-| user_id        | number             | The ID of the user uploading the mix.                                           |
+| Attribute      | Type             | Description                                                                     |
+| -------------- | ---------------- | ------------------------------------------------------------------------------- |
+| title          | string           | The name of the uploaded mix.                                                   |
+| mix            | file             | The mix file to be uploaded.                                                    |
+| cover          | file             | The image file that acts as the visual cover for the mix.                       |
+| tags           | array            | A list of tags or genres associated with the mix for categorization.            |
+| visibility     | string           | Determines who can access the mix (`public`, `private`, `unlisted`, `friends`). |
+| allow_download | boolean          | A boolean value specifying if others can download the mix.                      |
+| artist         | string(optional) | The name of the artist.                                                         |
+| album          | string(optional) | The album name.                                                                 |
+| user_id        | number           | The ID of the user uploading the mix.                                           |
 
 - **Response**:
 
@@ -286,7 +287,7 @@
     "user_id": 1234,
     "username": "anita"
   },
-  "split_json":"{\"songname1\":\"songTime1\",\"songname2\":\"songTime2\"}",
+  "split_json": "{\"songname1\":\"songTime1\",\"songname2\":\"songTime2\"}",
   "comments": [
     {
       "comment_id": 2233,
@@ -330,9 +331,9 @@
 
 - **Request Attributes:**
 
-| **Attribute**     | **Type** | **Description**                                        |
-|-------------------|----------|--------------------------------------------------------|
-| `number_of_mixes` | number   | Number of mix ids generated, 1 if omit, 10 at max      |
+| **Attribute**     | **Type** | **Description**                                   |
+| ----------------- | -------- | ------------------------------------------------- |
+| `number_of_mixes` | number   | Number of mix ids generated, 1 if omit, 10 at max |
 
 - **Response**:
 
@@ -344,9 +345,9 @@
 
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
-| `mix_ids`     | number   | The unique identifier for the mix.                     |
+| **Attribute** | **Type** | **Description**                    |
+| ------------- | -------- | ---------------------------------- |
+| `mix_ids`     | number   | The unique identifier for the mix. |
 
 #### **2.4. Download Mix**
 
@@ -355,10 +356,10 @@
 - **Description**: Downloads a mix if downloading is allowed.
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-|---------------|----------|--------------------------------------------------------|
-| `part`        | string   | optional param for download option, mix file if omit,  |
-| can be cover, drum, synth, vocal, bass for downaloding the correspond file        |
+| **Attribute**                                                              | **Type** | **Description**                                       |
+| -------------------------------------------------------------------------- | -------- | ----------------------------------------------------- |
+| `part`                                                                     | string   | optional param for download option, mix file if omit, |
+| can be cover, drum, other, vocal, bass for downaloding the correspond file |
 
 - **Response**:
   - The actual file (e.g., in `mp3` format) as a file download, picture format for cover.
@@ -445,10 +446,9 @@
 
 - **Request Attributes:**
 
-| Attribute | Type   | Description                     |
-| --------- | ------ | ------------------------------- |
-| user_id   | number | the user that likes             |
-
+| Attribute | Type   | Description         |
+| --------- | ------ | ------------------- |
+| user_id   | number | the user that likes |
 
 - **Response:**
 
@@ -555,7 +555,7 @@
   | Attribute | Type   | Description                                        |
   | --------- | ------ | -------------------------------------------------- |
   | message   | string | Confirms the successful posting of the event/news. |
-  | event_id  | number    | The unique identifier for the event/news.          |
+  | event_id  | number | The unique identifier for the event/news.          |
 
 #### **5.2. Get DJ Events**
 
@@ -584,7 +584,7 @@
 
   | Attribute   | Type     | Description                          |
   | ----------- | -------- | ------------------------------------ |
-  | event_id    | number      | The unique identifier for the event. |
+  | event_id    | number   | The unique identifier for the event. |
   | title       | string   | The name of the event.               |
   | description | string   | A description of the event.          |
   | date        | datetime | The date and time of the event.      |
@@ -621,10 +621,10 @@
 
   | Attribute | Type   | Description                                   |
   | --------- | ------ | --------------------------------------------- |
-  | mix_id    | number    | The unique identifier of the recommended mix. |
+  | mix_id    | number | The unique identifier of the recommended mix. |
   | title     | string | The title of the mix.                         |
   | tags      | array  | The genres or tags associated with the mix.   |
-  | user_id   | number    | The unique identifier for the uploader.       |
+  | user_id   | number | The unique identifier for the uploader.       |
   | username  | string | The uploader's display name.                  |
 
 #### **6.2. Play Radio**
@@ -648,8 +648,6 @@
   | Attribute        | Type   | Description                  |
   | ---------------- | ------ | ---------------------------- |
   | radio_stream_url | string | The URL to the radio stream. |
-
-
 
 ### **7. Social Features**
 
@@ -686,7 +684,7 @@
 | --------- | ------ | --------------------------------------------- |
 | message   | string | Confirms if the follow action was successful. |
 
-------
+---
 
 #### **7.2 Get All Followed Artists**
 

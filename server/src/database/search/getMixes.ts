@@ -19,7 +19,7 @@ async function getMixes(mixId: number): Promise<Mix | null> {
         userId: row.user_id,
         title: row.title,
         fileUrl: row.file_url,
-        coverUrl: row.cover_url || "", 
+        coverUrl: row.cover_url || '',
         tags: row.tags ? row.tags.split(',') : undefined, // Convert tags to array if present
         visibility: row.visibility,
         allowDownload: Boolean(row.allow_download), // Cast to boolean
@@ -31,10 +31,10 @@ async function getMixes(mixId: number): Promise<Mix | null> {
         stemBassUrl: row.stem_bass_url,
         stemDrumUrl: row.stem_drum_url,
         stemVocalUrl: row.stem_vocal_url,
-        stemSynthUrl: row.stem_synth_url,
+        stemOtherUrl: row.stem_other_url,
         splitJson: row.split_json
       };
-      
+
       return mix;
     } else {
       console.log(`Mix with id ${mixId} not found or has been deleted.`);
@@ -45,7 +45,6 @@ async function getMixes(mixId: number): Promise<Mix | null> {
     throw error;
   }
 }
-
 
 // The function  for getMixes
 async function getRandomMixes(numberOfMixes: number): Promise<number[] | null> {

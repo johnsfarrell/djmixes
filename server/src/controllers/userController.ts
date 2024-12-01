@@ -1,24 +1,21 @@
 import { Request, Response } from 'express';
 import { User, ProfileResponse } from '@/utils/interface';
 import { getUserByEmail, getUserByName } from '@/database/search/getUser';
-import createConnection from '@/database/connection';
 import { createUser } from '@/database/update/updateUser';
 import { followArtist } from '@/database/update/updateFollows';
 import { getFollowedArtists } from '@/database/search/getFollows';
-import { RowDataPacket } from 'mysql2';
 import jwt from 'jsonwebtoken'; // Import for creating JWT tokens
-
 
 const SECRET_KEY = 'your-secret-key'; // Replace with actual secret key
 
 class UserController {
   /**
-  * Controller for register a user
-  * @param req - Request object, contains username, email, and password in body
-  * @param res - Response object, used to send a response back to the client
-  * @returns void
-  * @throws Error - If the register fails
-  */
+   * Controller for register a user
+   * @param req - Request object, contains username, email, and password in body
+   * @param res - Response object, used to send a response back to the client
+   * @returns void
+   * @throws Error - If the register fails
+   */
   register = async (req: Request, res: Response): Promise<void> => {
     try {
       // Access data from the request body
@@ -33,20 +30,25 @@ class UserController {
       // Fetch the user to check if id exist
       const userById: User | null = await getUserByName(username); // Using user_id instead of username
       if (userById) {
-        res.status(409).send({ error: 'Username already exist'});
+        res.status(409).send({ error: 'Username already exist' });
         return;
       }
 
       // Fetch the user to check if email exist
       const userByEmail: User | null = await getUserByEmail(email); // Using user_id instead of username
       if (userByEmail) {
-        res.status(409).send({ error: 'Email already exist'});
+        res.status(409).send({ error: 'Email already exist' });
         return;
       }
 
-      const userID: number | null = await createUser(username, email, password, 1); // Using user_id instead of username
+      const userID: number | null = await createUser(
+        username,
+        email,
+        password,
+        1
+      ); // Using user_id instead of username
       res.status(200).json({
-        message: "Registration successful",
+        message: 'Registration successful',
         user_id: userID
       });
     } catch (error) {
@@ -85,7 +87,7 @@ class UserController {
 
       res.status(200).json({
         message: 'Login successful',
-        token,
+        token
       });
     } catch (error) {
       console.error('Error during login:', error);

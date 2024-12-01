@@ -1,4 +1,9 @@
-import { S3Client, GetObjectCommand, GetObjectCommandInput, PutObjectCommandOutput } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  GetObjectCommand,
+  GetObjectCommandInput,
+  PutObjectCommandOutput
+} from '@aws-sdk/client-s3';
 
 export interface UploadUser {
   userId: number;
@@ -37,10 +42,10 @@ export interface Mix {
   artist: string;
   album: string;
   isDeleted: boolean;
-  stemDrumUrl: string; 
-  stemVocalUrl: string; 
-  stemBassUrl: string; 
-  stemSynthUrl: string;
+  stemDrumUrl: string;
+  stemVocalUrl: string;
+  stemBassUrl: string;
+  stemOtherUrl: string;
   splitJson: string;
 }
 
@@ -128,7 +133,7 @@ export interface UploadEventResponse {
 }
 
 export type UploadParams = {
-  Bucket: string|undefined;
+  Bucket: string | undefined;
   Key: string;
   Body: Buffer | Uint8Array | Blob | string;
 };

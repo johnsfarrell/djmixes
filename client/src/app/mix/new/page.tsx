@@ -8,6 +8,7 @@ import MixVisibilitySettings from '@/components/MixUpload/MixVisibilitySettings'
 import TagInput from '@/components/MixUpload/TagInput';
 import { MixUploadRequest, UploadMixResponse } from '@/app/api/types';
 import { uploadMix } from '@/app/api/api';
+import { formatDateTime } from '@/util/helpers';
 
 interface Tag {
   id: string;
@@ -60,10 +61,11 @@ export default function MixUploadPage() {
   };
 
   const handleUpload = async () => {
-    if (!artwork || !audioFile) {
+    if (!artwork || !audioFile || !mixTitle || !tags.length) {
       alert('Please fill out all required fields');
       return;
     }
+
     const data: MixUploadRequest = {
       title: mixTitle,
       visibility,
@@ -72,14 +74,16 @@ export default function MixUploadPage() {
       artist: 'DJ Name', // TODO: Replace with current user's DJ name
       mix: audioFile,
       cover: artwork,
-      album: 'Mix Album', // TODO: Replace with current user's album
-      releaseDate: new Date().toISOString(),
+      album: 'Mix Album', // TODO: Replace with current user's album (or remove this? not sure if we need it)
+      releaseDate: formatDateTime(),
       allowDownload: downloadable
     };
 
-    const res: UploadMixResponse = await uploadMix({ ...data, mock: true });
+    console.log(data); // TODO: remove later
 
-    window.location.href = `/mix/${res.fileKey}`; // TODO redirect should be to mixId not fileKey
+    const res: UploadMixResponse = await uploadMix({ ...data, mock: false });
+
+    // window.location.href = `/mix/${res.fileKey}`; // TODO redirect should be to mixId not fileKey
   };
 
   return (
