@@ -10,6 +10,12 @@ export interface UploadUser {
   username: string;
 }
 
+export interface LoginResponse {
+  message: string;
+  token: string;   // JWT token for authentication
+  userId: number;  // User ID for frontend storage
+}
+
 export interface MixResponse {
   title: string;
   fileUrl: string;

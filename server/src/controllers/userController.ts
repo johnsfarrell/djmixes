@@ -41,7 +41,7 @@ class UserController {
         return;
       }
 
-      const userID: number | null = await createUser(
+      const userId: number | null = await createUser(
         username,
         email,
         password,
@@ -49,7 +49,7 @@ class UserController {
       ); // Using user_id instead of username
       res.status(200).json({
         message: 'Registration successful',
-        user_id: userID
+        user_id: userId
       });
     } catch (error) {
       console.error('Error while registering the user:', error);
@@ -87,7 +87,8 @@ class UserController {
 
       res.status(200).json({
         message: 'Login successful',
-        token
+        token,
+        user_id: user.userId, // Include user_id here
       });
     } catch (error) {
       console.error('Error during login:', error);

@@ -65,16 +65,18 @@
 ```json
 {
   "message": "Login successful",
-  "token": ""
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user_id": 1234
 }
 ```
 
 - **Response Attributes**:
 
-| Attribute | Type   | Description                                                     |
-| --------- | ------ | --------------------------------------------------------------- |
+| Attribute | Type   | Description                                                  |
+| --------- | ------ | ------------------------------------------------------------ |
 | message   | string | A success or failure message:"Login successful", "Login failed" |
-| token     | string | A session token (JWT) to authenticate subsequent requests.      |
+| token     | string | A session token (JWT) to authenticate subsequent requests.   |
+| user_id   | number | A unique identifier for the logged-in user.                  |
 
 #### 1.3 Create User Profile
 
