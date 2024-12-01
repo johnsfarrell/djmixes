@@ -62,6 +62,16 @@ const getMix = async ({
 interface UploadMixRequest extends Request, MixUploadRequest {}
 
 const uploadMix = async ({
+  userId,
+  title,
+  artist,
+  album,
+  releaseDate,
+  mix,
+  cover,
+  tags,
+  visibility,
+  allowDownload,
   mock
 }: UploadMixRequest): Promise<UploadMixResponse> => {
   if (mock) {
@@ -72,12 +82,21 @@ const uploadMix = async ({
     });
   }
 
-  const res = await apiAdapter(API_URL, '/mixes', {
+  const formData = new FormData();
+  formData.append('user_id', userId.toString());
+  formData.append('title', title);
+  formData.append('artist', artist);
+  formData.append('album', album);
+  formData.append('release_date', releaseDate);
+  formData.append('tags', JSON.stringify(tags));
+  formData.append('visibility', visibility);
+  formData.append('allow_download', allowDownload ? '1' : '0');
+  formData.append('mix', mix);
+  formData.append('cover', cover);
+
+  const res = await apiAdapter(API_URL, '/mixes/upload', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-    // TODO add body
+    body: formData
   });
 
   return res.json();
@@ -125,6 +144,17 @@ const getFollowedDJs = async ({
   }
 
   const res = await apiAdapter(API_URL, `/users/${userId}/djs`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return res.json();
+};
+
+const getProfile = async (userId: number): Promise<GetProfileResponse> => {
+  const res = await apiAdapter(API_URL, `/users/${userId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

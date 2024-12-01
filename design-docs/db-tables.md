@@ -120,11 +120,11 @@ detailed profile information for each user.
 | `updated_at`     | `TIMESTAMP`                                        | `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP` | Time when the mix was last updated                               |
 | `artist`         | `VARCHAR(255)`                                     | `NOT NULL`                                              | Artist of the song                                               |
 | `album`          | `VARCHAR(255)`                                     | `NULL`                                                  | Album name (if applicable)                                       |
-| `split_json`     | `VARCHAR(255)`                                     | `NULL`                                                  | JSON String for song splits
-| `stem_drum_url`     | `VARCHAR(255)`                                     | `NULL`                                                  | url for drum url
-| `stem_bass_url`     | `VARCHAR(255)`                                     | `NULL`                                                  | url for bass url
-| `stem_synth_url`     | `VARCHAR(255)`                                     | `NULL`                                                  | url for synth url
-| `stem_vocal_url`     | `VARCHAR(255)`                                     | `NULL`                                                  | url for vocal url
+| `split_json`     | `VARCHAR(255)`                                     | `NULL`                                                  | JSON String for song splits                                      |
+| `stem_drum_url`  | `VARCHAR(255)`                                     | `NULL`                                                  | url for drum url                                                 |
+| `stem_bass_url`  | `VARCHAR(255)`                                     | `NULL`                                                  | url for bass url                                                 |
+| `stem_other_url` | `VARCHAR(255)`                                     | `NULL`                                                  | url for other url                                                |
+| `stem_vocal_url` | `VARCHAR(255)`                                     | `NULL`                                                  | url for vocal url                                                |
 | `is_deleted`     | `TINYINT`                                          | `DEFAULT 0`                                             | 0 - active, 1 - soft deleted                                     |
 
 ### related class/Module for table `mixes`
@@ -195,7 +195,7 @@ detailed profile information for each user.
 | `artist_id`  | `INT`       | `NOT NULL`, `FOREIGN KEY REFERENCES artists(artist_id)` | ID of the artist being followed                |
 | `created_at` | `TIMESTAMP` | `DEFAULT CURRENT_TIMESTAMP`                             | Time when the follow relationship was created  |
 
-------
+---
 
 ### Related Class/Module for Table: `follows`
 
