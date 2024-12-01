@@ -41,7 +41,7 @@ export default function CurrentMixDetails({ mix }: { mix: GetMixResponse }) {
   const stems = [
     { id: '1', title: 'Drums' },
     { id: '2', title: 'Bass' },
-    { id: '3', title: 'Synth Lead' },
+    { id: '3', title: 'Other' },
     { id: '4', title: 'Vocals' }
   ];
 

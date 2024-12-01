@@ -5,7 +5,11 @@ The REST API is an interface for interacting with the algorithm and database ser
 ## Run the REST API (with Docker):
 
 ```bash
-TBD
+# Build the image
+docker build -t server .
+
+# Run the image
+docker run -d -p 4000:4000 server
 ```
 
 ## Run the REST API (without Docker):

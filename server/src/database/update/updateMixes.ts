@@ -1,5 +1,4 @@
 import createConnection from '@/database/connection';
-import { Mix } from '@/utils/interface';
 import { ResultSetHeader } from 'mysql2';
 
 async function insertMixes(

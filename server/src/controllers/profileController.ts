@@ -1,15 +1,23 @@
 import { Request, Response } from 'express';
 import createConnection from '@/database/connection';
-import { QueryResult, RowDataPacket } from 'mysql2';
-import { ProfileResponse } from '@/utils/interface';
+import { RowDataPacket } from 'mysql2';
 import { getUserLiked } from '@/database/search/getLikes';
 import { getUserCommented } from '@/database/search/getComments';
+import { getUserById } from '@/database/search/getUser';
+import { getMixesByUploadedUser, getMixesByUserLiked } from '@/database/search/getMixes';
+import { getEvent} from '@/database/search/getEvents';
 import { getProfile } from '@/database/search/getProfiles';
 import { s3Client, bucketName } from '@/utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
-import { insertProfile, deleteProfile, updateProfileAvatar, updateProfileBio } from '@/database/update/updateProfiles';
+import { User} from '@/utils/interface';
+import {
+  insertProfile,
+  deleteProfile,
+  updateProfileAvatar,
+  updateProfileBio
+} from '@/database/update/updateProfiles';
 
 class ProfileController {
   /**
@@ -30,6 +38,22 @@ class ProfileController {
         return;
       }
 
+      // username
+      const user: User | null = await getUserById(userId);
+      const username = user?.username
+
+      // get all mixes created
+      const uploadedMixIds = await getMixesByUploadedUser(userId)
+
+      // get all mixes liked
+      const likedMixIds = await getMixesByUserLiked(userId)
+
+      // get all events
+      const events = await getEvent(userId)
+
+      // TODO: get all user_id followed
+
+      // Geting the rest
       const connection = await createConnection();
       const [rows]: [RowDataPacket[], any] = await connection.execute(
         'SELECT * FROM user_profiles WHERE user_id = ?',
@@ -41,7 +65,11 @@ class ProfileController {
         return;
       }
 
-      const profile = rows[0];
+      var profile = rows[0];
+      profile["username"] = username
+      profile["uploaded_mixes"] = uploadedMixIds
+      profile["liked_mixes"] = likedMixIds
+      profile["events"] = events
       res.status(200).json(profile);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -67,7 +95,7 @@ class ProfileController {
         return;
       }
 
-      const userProfile = await getProfile(userId)
+      const userProfile = await getProfile(userId);
       if (!userProfile || !userProfile.avatarUrl) {
         res.status(404).json({ error: 'Avatar not exist' });
         return;
@@ -84,7 +112,7 @@ class ProfileController {
       // Download file from S3
       const downloadStream = await s3Client.send(new GetObjectCommand(params));
 
-      res.setHeader('Content-Type','image/jpeg');
+      res.setHeader('Content-Type', 'image/jpeg');
 
       // Stream the file to the response
       pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
@@ -92,8 +120,7 @@ class ProfileController {
           console.error('Error streaming file:', err);
           res.status(500).json({ error: 'Failed to download file' });
         }
-      })
-
+      });
     } catch (error) {
       console.error('Error fetching user profile avatar:', error);
       res.status(500).json({ error: 'Internal server error' });
@@ -109,14 +136,14 @@ class ProfileController {
    */
   updateProfile = async (req: Request, res: Response): Promise<void> => {
     try {
-      console.log("bucketName")
-      console.log(bucketName)
+      console.log('bucketName');
+      console.log(bucketName);
       // Accessing userId from the request param
       const userId = parseInt(req.params.userId, 10);
-      const oldProfile = await getProfile(userId)
+      const oldProfile = await getProfile(userId);
       let { bio } = req.body;
-      let avatarFileKey = ""
-      let result = ""
+      let avatarFileKey = '';
+      let result = '';
 
       // Validate the userId
       if (!userId || isNaN(userId)) {
@@ -126,23 +153,25 @@ class ProfileController {
 
       // case we don't update avatar
       if (!req.files || !req.files.avatar) {
-      } else{
+      } else {
         const avatarFile = req.files.avatar as UploadedFile;
         avatarFileKey = `${Date.now()}_${avatarFile.name}`;
-  
+
         // Upload parameters
         const avatarParams = {
           Bucket: bucketName,
           Key: avatarFileKey,
           Body: avatarFile.data
         };
-  
+
         // Upload file to S3
         const avatarUploadResult = await s3Client.send(
           new PutObjectCommand(avatarParams)
         );
-        console.log(`Successfully uploaded object: ${bucketName}/${avatarFileKey}`);
-        result += "Avatar Uploaded\n";
+        console.log(
+          `Successfully uploaded object: ${bucketName}/${avatarFileKey}`
+        );
+        result += 'Avatar Uploaded\n';
       }
 
       if (!oldProfile) {
@@ -150,15 +179,21 @@ class ProfileController {
           bio = ''; // Set bio to an empty string if undefined
         }
         const insertResult = await insertProfile(userId, bio, avatarFileKey);
-        result += "Profile Created}\n";
+        result += 'Profile Created}\n';
       } else {
         if (req.files && req.files.avatar) {
-          const avatarUpdateResult = await updateProfileAvatar(oldProfile.profileId, avatarFileKey);
-          result += "Updated Avatar\n";
+          const avatarUpdateResult = await updateProfileAvatar(
+            oldProfile.profileId,
+            avatarFileKey
+          );
+          result += 'Updated Avatar\n';
         }
         if (bio !== undefined) {
-          const bioUpdateResult = await updateProfileBio(oldProfile.profileId, bio);
-          result += "Updated Bio";
+          const bioUpdateResult = await updateProfileBio(
+            oldProfile.profileId,
+            bio
+          );
+          result += 'Updated Bio';
         }
       }
 
@@ -188,7 +223,7 @@ class ProfileController {
       }
 
       const likedList: number[] | null = await getUserLiked(userId);
-      res.status(200).json({mix_ids: likedList});
+      res.status(200).json({ mix_ids: likedList });
     } catch (error) {
       console.error('Error fetching user profile:', error);
       res.status(500).json({ error: 'Internal server error' });
@@ -214,8 +249,7 @@ class ProfileController {
       }
 
       const commentedList: number[] | null = await getUserCommented(userId);
-      res.status(200).json({mix_ids: commentedList});
-
+      res.status(200).json({ mix_ids: commentedList });
     } catch (error) {
       console.error('Error fetching user profile:', error);
       res.status(500).json({ error: 'Internal server error' });
@@ -237,7 +271,9 @@ class ProfileController {
       const result = await deleteProfile(userId);
 
       if (!result || result.affectedRows === 0) {
-        res.status(404).json({ message: 'Profile not found or already deleted' });
+        res
+          .status(404)
+          .json({ message: 'Profile not found or already deleted' });
         return;
       }
 

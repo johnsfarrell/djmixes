@@ -16,7 +16,7 @@ const createTableQuery: string = `
     stem_bass_url VARCHAR(255) NULL,
     stem_drum_url VARCHAR(255) NULL,
     stem_vocal_url VARCHAR(255) NULL,
-    stem_synth_url VARCHAR(255) NULL,
+    stem_other_url VARCHAR(255) NULL,
     split_json VARCHAR(255) NULL,
     is_deleted TINYINT DEFAULT 0
     );

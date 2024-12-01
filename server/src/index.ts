@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import mixRoutes from './routes/mixRoutes';
+import searchRoutes from './routes/searchRoutes';
 import profileRoutes from './routes/profileRoutes';
 import eventRoutes from './routes/eventRoutes';
 import userRoutes from './routes/userRoutes';
@@ -10,13 +11,7 @@ import AudioProcessor from './utils/algorithm';
 import initializeDatabase from './database/db_init';
 import cors from 'cors';
 
-initializeDatabase()
-  .catch((err) => {
-    console.error('Database not initialized. Did you start the MySQL server?');
-  })
-  .then(() => {
-    console.log('Database initialized');
-  });
+initializeDatabase();
 
 // Create express app
 const app = express();
@@ -45,6 +40,7 @@ app.use('/api/mixes', mixRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/dj', eventRoutes);
+app.use('/api/search', searchRoutes);
 
 // 404 route, redirect to home page
 app.use((req: Request, res: Response) => {
