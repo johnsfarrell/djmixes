@@ -124,13 +124,8 @@
 {
   "username": "anita",
   "bio": "music producer",
-  "mixes": [
-    {
-      "mix_id": 5678,
-      "title": "sound of music",
-      "visibility": "public"
-    }
-  ],
+  "uploaded_mixes": [5678],
+  "liked_mixes": [5678],
   "events": [
     {
       "event_id": 1012,
@@ -143,16 +138,17 @@
 
 - **Response Attributes:**
 
-| **Attribute** | **Type** | **Description**                                        |
-| ------------- | -------- | ------------------------------------------------------ |
-| `username`    | string   | The user's display name.                               |
-| `bio`         | string   | A brief description or bio provided by the user.       |
-| `mix_id`      | number   | The unique identifier for the mix.                     |
-| `title`       | string   | The title of the mix.                                  |
-| `visibility`  | string   | The visibility status of the mix: "public", "private". |
-| `event_id`    | number   | Unique identifier for the event.                       |
-| `title`       | string   | Title of the event.                                    |
-| `date`        | datetime | The date and time of the event.                        |
+| **Attribute**    | **Type** | **Description**                                        |
+| ---------------- | -------- | ------------------------------------------------------ |
+| `username`       | string   | The user's display name.                               |
+| `bio`            | string   | A brief description or bio provided by the user.       |
+| `uploaded_mixes` | list     | List of numbers represents mix_ids uploaded by user    |
+| `liked_mixes`    | list     | List of numbers represents mix_ids liked by user       |
+| `title`          | string   | The title of the mix.                                  |
+| `visibility`     | string   | The visibility status of the mix: "public", "private". |
+| `event_id`       | number   | Unique identifier for the event.                       |
+| `title`          | string   | Title of the event.                                    |
+| `date`           | datetime | The date and time of the event.                        |
 
 #### 1.5 Get User Profile Picture
 

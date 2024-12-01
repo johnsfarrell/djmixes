@@ -28,9 +28,9 @@ const insertCommentsQuery: string = `
 const insertLikesQuery: string = `
   INSERT INTO likes (user_id, mix_id)
   VALUES
-    (1, 101),
-    (2, 102),
-    (3, 103)
+    (1, 2),
+    (2, 3),
+    (3, 1)
     ON DUPLICATE KEY UPDATE mix_id = VALUES(mix_id);
 `;
 

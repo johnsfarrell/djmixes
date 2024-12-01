@@ -3,11 +3,15 @@ import createConnection from '@/database/connection';
 import { RowDataPacket } from 'mysql2';
 import { getUserLiked } from '@/database/search/getLikes';
 import { getUserCommented } from '@/database/search/getComments';
+import { getUserById } from '@/database/search/getUser';
+import { getMixesByUploadedUser, getMixesByUserLiked } from '@/database/search/getMixes';
+import { getEvent} from '@/database/search/getEvents';
 import { getProfile } from '@/database/search/getProfiles';
 import { s3Client, bucketName } from '@/utils/s3Client';
 import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
+import { User} from '@/utils/interface';
 import {
   insertProfile,
   deleteProfile,
@@ -34,6 +38,22 @@ class ProfileController {
         return;
       }
 
+      // username
+      const user: User | null = await getUserById(userId);
+      const username = user?.username
+
+      // get all mixes created
+      const uploadedMixIds = await getMixesByUploadedUser(userId)
+
+      // get all mixes liked
+      const likedMixIds = await getMixesByUserLiked(userId)
+
+      // get all events
+      const events = await getEvent(userId)
+
+      // TODO: get all user_id followed
+
+      // Geting the rest
       const connection = await createConnection();
       const [rows]: [RowDataPacket[], any] = await connection.execute(
         'SELECT * FROM user_profiles WHERE user_id = ?',
@@ -45,7 +65,11 @@ class ProfileController {
         return;
       }
 
-      const profile = rows[0];
+      var profile = rows[0];
+      profile["username"] = username
+      profile["uploaded_mixes"] = uploadedMixIds
+      profile["liked_mixes"] = likedMixIds
+      profile["events"] = events
       res.status(200).json(profile);
     } catch (error) {
       console.error('Error fetching user profile:', error);
