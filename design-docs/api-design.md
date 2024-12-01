@@ -716,3 +716,26 @@
 | name        | string | The display name of the artist.        |
 | profile_url | string | URL endpoint for the artist's profile. |
 | avatar      | file   | The avatar image file for the artist.  |
+
+#### **8.0 Get Search Result**
+
+- **Endpoint**: `/api/search/user1`
+- **Method**: `GET`
+- **Description**: Retrieves all serach result from username, mix title, and event title that matches the keyword
+- **Response:**
+
+```json
+{
+    "users": [1, 2 ,3],
+    "mixes": [101, 25 ,333],
+    "events": [1, 2 ,3]
+}
+```
+
+- **Response Attributes:**
+
+| Attribute   | Type   | Description                                                 |
+| ----------- | ------ | ----------------------------------------------------------- |
+| users       | list   | list of user_id where the username contains the keyword     |
+| mixes       | list   | list of mix_id where the mix title contains the keyword     |
+| events      | list   | list of event_id where the event title contains the keyword |

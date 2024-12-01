@@ -103,6 +103,24 @@ async function getMixesByUserLiked(userId: number): Promise<number[] | null> {
   }
 }
 
-export { getMixes, getRandomMixes, getMixesByUploadedUser, getMixesByUserLiked};
+
+// The function for geting Mixes by checking if title contains the keyword
+async function searchMixesByTitle(title: string): Promise<number[] | null> {
+  const connection = await createConnection();
+  try {
+    const [rows] = await connection.execute<RowDataPacket[]>(
+      `SELECT DISTINCT mix_id FROM mixes WHERE title like ?`, [`%${title}%`]
+    );
+
+    // Map rows to a list of mixId numbers
+    const mixIds: number[] = rows.map((row) => row.mix_id);
+    return mixIds;
+  } catch (error) {
+    console.error('Retrieving mix Error:', error);
+    throw error;
+  }
+}
+
+export { getMixes, getRandomMixes, getMixesByUploadedUser, getMixesByUserLiked, searchMixesByTitle};
 
 

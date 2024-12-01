@@ -84,4 +84,27 @@ async function getUserByEmail(email: string): Promise<User | null> {
   }
 }
 
-export { getUserByName, getUserById, getUserByEmail };
+// Function to get a user by their username
+async function searchUserByName(username: string): Promise<Number[] | null> {
+  const connection: Connection = await createConnection();
+  try {
+    const [rows]: [RowDataPacket[], any] = await connection.execute(
+      'SELECT user_id FROM users WHERE username LIKE ?',
+  [`%${username}%`]
+    );
+
+    if (rows.length > 0) {
+      return rows.map(row => row.user_id);
+    } else {
+      console.log(`User with username "${username}" not found or has been deleted.`);
+      return null;
+    }
+  } catch (error) {
+    console.error('Get User By Name Error:', error);
+    throw error;
+  } finally {
+    await connection.end(); // Close the connection
+  }
+}
+
+export { getUserByName, getUserById, getUserByEmail, searchUserByName};

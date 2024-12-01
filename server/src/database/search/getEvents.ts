@@ -45,4 +45,21 @@ async function getEvent(eventId: number): Promise<Event | null> {
   }
 }
 
-export { getEventsBasedOnDj, getEvent };
+// The function for geting event by checking if title contains the keyword
+async function searchEventsByTitle(title: string): Promise<number[] | null> {
+  const connection = await createConnection();
+  try {
+    const [rows] = await connection.execute<RowDataPacket[]>(
+      `SELECT DISTINCT event_id FROM events WHERE title like ?`, [`%${title}%`]
+    );
+
+    // Map rows to a list of mixId numbers
+    const eventIds: number[] = rows.map((row) => row.event_id);
+    return eventIds;
+  } catch (error) {
+    console.error('Retrieving events Error:', error);
+    throw error;
+  }
+}
+
+export { getEventsBasedOnDj, getEvent, searchEventsByTitle };
