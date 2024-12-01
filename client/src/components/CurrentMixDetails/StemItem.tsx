@@ -19,7 +19,7 @@ interface StemItemProps {
  * 
  * @returns The StemItem component.
  */
-export default function StemItem({ stemName, file }: StemItemProps) {
+export default function StemItem({ stemName, file }: StemItemProps): JSX.Element {
   const handleDownload = () => {
     if (file) {
       const url = URL.createObjectURL(file);

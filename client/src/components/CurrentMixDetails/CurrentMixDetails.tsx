@@ -17,7 +17,7 @@ import StemItem from './StemItem';
  * 
  * @returns The CurrentMixDetails component.
  */
-export default function CurrentMixDetails({ mix }: { mix: GetMixResponse }) {
+export default function CurrentMixDetails({ mix }: { mix: GetMixResponse }): JSX.Element {
   // TODO once byron adds songs and stems to api, replace this with actual data
 
   const songs = [

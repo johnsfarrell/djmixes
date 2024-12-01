@@ -18,7 +18,7 @@ interface SongItemProps {
  * 
  * @returns The SongItem component.
  */
-export default function SongItem({ songName, artist }: SongItemProps) {
+export default function SongItem({ songName, artist }: SongItemProps): JSX.Element {
   return (
     <div className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-800/50 transition-colors">
       <div className="min-w-0 flex-1">

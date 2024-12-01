@@ -1,6 +1,18 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the SearchBar component that displays a 
+ * search bar with a search icon.
+ */
+
 import { Search } from 'lucide-react';
 
-export default function SearchBar() {
+/**
+ * The SearchBar component displays a search bar with a search icon.
+ * 
+ * @returns The SearchBar component.
+ */
+export default function SearchBar(): JSX.Element {
   return (
     <div className="relative flex-1 max-w-2xl">
       <input

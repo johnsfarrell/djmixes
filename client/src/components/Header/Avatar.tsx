@@ -1,5 +1,11 @@
-"use client";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the Avatar component that displays a user
+ * avatar with a dropdown menu for profile and logout actions.
+ */
 
+'use client';
 import { useRef, useState } from 'react';
 import { User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -10,7 +16,15 @@ interface AvatarProps {
   imageUrl?: string;
 }
 
-export default function Avatar({ imageUrl }: AvatarProps) {
+/**
+ * The Avatar component displays a user avatar with a dropdown menu for profile
+ * and logout actions.
+ * 
+ * @param imageUrl The URL of the user avatar image.
+ * 
+ * @returns The Avatar component.
+ */
+export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
