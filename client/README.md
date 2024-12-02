@@ -32,7 +32,31 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 - `/mix/:mixId` - The mix detail page displays detailed information about a specific mix.
 
-- `/mix/new` - The new mix page allows users to create a new mix by uploading files and adding metadata.
+- `/mix/new` - The new mix page allows users to create a new mix by uploading files and adding 
+
+## Project Structure
+-   client/
+    ├── .env.example          # Example environment variables
+    ├── .next/                # Next.js build output
+    ├── Dockerfile            # Docker configuration
+    ├── next-env.d.ts         # TypeScript environment declarations
+    ├── next.config.ts        # Next.js configuration
+    ├── package.json          # Project dependencies and scripts
+    ├── postcss.config.mjs    # PostCSS configuration
+    ├── public/               # Public assets
+    ├── README.md             # Project documentation
+    ├── src/                  # Source code
+    │   ├── app/              # Next.js app directory
+    │   │   ├── components/   # React components
+    │   │   ├── context/      # React context providers
+    │   │   ├── mix/          # Mix-related pages
+    │   │   ├── creator/      # Creator-related pages
+    │   │   ├── page.tsx      # Home page
+    │   │   └── layout.tsx    # Root layout
+    │   ├── styles/           # Global styles
+    │   ├── tailwind.config.ts # Tailwind CSS configuration
+    │   └── tsconfig.json     # TypeScript configuration
+    └── yarn.lock             # Yarn lockfile
 
 ### Components:
 

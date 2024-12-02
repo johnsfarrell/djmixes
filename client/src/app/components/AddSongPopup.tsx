@@ -7,6 +7,14 @@ interface AddSongPopupProps {
   onAdd: (song: Omit<Song, 'id'>) => void; // Omit the id field from the Song type
 }
 
+/**
+ * AddSongPopup component allows users to add a new song to the mix.
+ *
+ * @param {AddSongPopupProps} props - The props for the AddSongPopup component.
+ * @param {() => void} props.onClose - Function to close the popup.
+ * @param {(songData: { title: string; artist: string; timestamp: string }) => void} props.onAdd - Function to add the new song.
+ * @returns {JSX.Element} The rendered AddSongPopup component.
+ */
 export default function AddSongPopup({
   onClose,
   onAdd

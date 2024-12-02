@@ -29,7 +29,7 @@ export interface Mix {
   file_url: string;
   cover_url?: string;
   tags?: string[];
-  visibility: 'public' | 'private' | 'unlisted' | 'friends';
+  visibility: "public" | "private" | "unlisted" | "friends";
   allow_download: boolean;
   created_at: Date;
   updated_at: Date;
