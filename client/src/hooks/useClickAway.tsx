@@ -1,4 +1,11 @@
-"use client";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the useClickAway hook that calls a handler
+ * when a click event occurs outside of the given element.
+ */
+
+'use client';
 
 import { useEffect } from 'react';
 

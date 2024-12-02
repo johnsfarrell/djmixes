@@ -1,8 +1,23 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the MixCard component that displays a mix 
+ * card with the mix's artwork, title, artist, and a play button.
+ */
+
 import Image from 'next/image';
 import { GetMixResponse } from '@/app/api/types';
 import { useState } from 'react';
 
-export default function MixCard({ mix }: { mix: GetMixResponse }) {
+/**
+ * The MixCard component displays a mix card with the mix's artwork, title, 
+ * artist, and a play button.
+ * 
+ * @param mix The mix to display.
+ * 
+ * @returns The MixCard component.
+ */
+export default function MixCard({ mix }: { mix: GetMixResponse }): JSX.Element {
   const [audio] = useState(new Audio(mix.fileUrl));
 
   const handlePlay = () => {

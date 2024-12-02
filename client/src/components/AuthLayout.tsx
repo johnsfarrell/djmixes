@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the AuthLayout component that displays the
+ * header and audio player if the user is authenticated.
+ */
+
 'use client';
 import { usePathname } from 'next/navigation';
 import Header from '@/components/Header/Header';

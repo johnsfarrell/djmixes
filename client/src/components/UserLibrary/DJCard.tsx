@@ -1,8 +1,22 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the DJCard component that displays a DJ's
+ * profile photo and username.
+ */
+
 import Image from 'next/image';
 import { GetProfileResponse } from '@/app/api/types';
 import { User } from 'lucide-react';
 
-export default function DJCard({ dj }: { dj: GetProfileResponse }) {
+/**
+ * The DJCard component displays a DJ's profile photo and username.
+ * 
+ * @param dj The DJ to display.
+ * 
+ * @returns The DJCard component.
+ */
+export default function DJCard({ dj }: { dj: GetProfileResponse }): JSX.Element {
   return (
     <div className="group cursor-pointer">
       <div className="aspect-square mb-2 relative">
