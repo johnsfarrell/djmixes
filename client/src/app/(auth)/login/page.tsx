@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AuthCard from '@/components/Auth/AuthCard';
 import AuthInput from '@/components/Auth/AuthInput';
+import { login } from '@/app/api/api';
 
 /**
  * The login page component renders the login form, handles form submission, and
@@ -25,17 +26,27 @@ export default function LoginPage(): JSX.Element {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
     setIsLoading(true);
+    setError('');
 
-    // TODO: Implement actual login logic
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const res = await login(email, password);
+      console.log(res);
+
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.message);
+        setIsLoading(false);
+        return;
+      }
+
       router.push('/');
-    } catch (err) {
-      setError('Invalid email or password');
-    } finally {
+    } catch (error) {
+      setError('An unexpected error occurred. Please try again.');
       setIsLoading(false);
     }
   };

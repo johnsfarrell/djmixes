@@ -164,4 +164,16 @@ const getProfile = async (userId: number): Promise<GetProfileResponse> => {
   return res.json();
 };
 
-export { getMix, uploadMix, getSavedMixes, getFollowedDJs };
+const login = async (email: string, password: string): Promise<Response> => {
+  const res = await apiAdapter(API_URL, '/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email, password })
+  });
+
+  return res;
+}
+
+export { getMix, uploadMix, getSavedMixes, getFollowedDJs, login };
