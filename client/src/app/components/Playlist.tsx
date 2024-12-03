@@ -1,39 +1,43 @@
-import React from 'react';
-import { BsMusicNoteBeamed } from 'react-icons/bs';
-import { useAudioPlayerContext } from '@/context/audioPlayerContext';
-import { tracks } from '@/api/mockData';
+import React from "react";
+import { BsMusicNoteBeamed } from "react-icons/bs";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
+import { Mix } from "@/api/types";
 
 // renders playlist component
 export const PlayList: React.FC = () => {
-  const { currentTrack, setIsPlaying, setCurrentTrack } =
+  const { currentMix, setIsPlaying, setCurrentMix, mixes } =
     useAudioPlayerContext();
 
-  const handleClick = (track: (typeof tracks)[0]) => {
-    setCurrentTrack(track);
+  const handleClick = (mix: Mix) => {
+    setCurrentMix(mix);
     setIsPlaying(true);
   };
 
+  if (!mixes || mixes.length === 0) {
+    return <div>No mixes available</div>;
+  }
+
   return (
     <ul className="bg-[#4c4848] text-white max-h-72 overflow-y-auto">
-      {tracks.map((track, index) => (
+      {mixes.map((mix, index) => (
         <li
           key={index}
           className={`flex items-center gap-3 p-[0.5rem_10px] cursor-pointer ${
-            currentTrack.title === track.title ? 'bg-[#a66646]' : ''
+            currentMix?.title === mix.title ? "bg-[#a66646]" : ""
           }`}
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              handleClick(track);
+            if (e.key === "Enter" || e.key === " ") {
+              handleClick(mix);
             }
           }}
-          onClick={() => handleClick(track)}
+          onClick={() => handleClick(mix)}
         >
           <div className="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-sm overflow-hidden">
-            {track.thumbnail ? (
+            {mix.cover_url ? (
               <img
                 className="w-full h-full object-cover"
-                src={track.thumbnail.src}
+                src={mix.cover_url}
                 alt="audio avatar"
               />
             ) : (
@@ -45,8 +49,8 @@ export const PlayList: React.FC = () => {
             )}
           </div>
           <div>
-            <p className="font-bold text-sm">{track.title}</p>
-            <p className="text-sm text-gray-400">{track.author}</p>
+            <p className="font-bold text-sm">{mix.title}</p>
+            <p className="text-sm text-gray-400">{mix.artist}</p>
           </div>
         </li>
       ))}

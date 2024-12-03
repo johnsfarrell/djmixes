@@ -1,24 +1,18 @@
-'use client';
+"use client";
 import React, {
   createContext,
   useContext,
   useState,
   useRef,
-  ReactNode
-} from 'react';
-import { tracks } from '@/api/mockData';
-import { StaticImageData } from 'next/image';
-
-interface Track {
-  title: string;
-  src: string;
-  author: string;
-  thumbnail?: StaticImageData;
-}
+  ReactNode,
+  useEffect,
+} from "react";
+import { getMix } from "@/api/api";
+import { Mix } from "@/api/types";
 
 interface AudioPlayerContextType {
-  currentTrack: Track;
-  setCurrentTrack: React.Dispatch<React.SetStateAction<Track>>;
+  currentMix: Mix | null;
+  setCurrentMix: React.Dispatch<React.SetStateAction<Mix | null>>;
   isPlaying: boolean;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
   timeProgress: number;
@@ -27,9 +21,11 @@ interface AudioPlayerContextType {
   setDuration: React.Dispatch<React.SetStateAction<number>>;
   audioRef: React.RefObject<HTMLAudioElement>;
   progressBarRef: React.RefObject<HTMLInputElement>;
-  setTrackIndex: React.Dispatch<React.SetStateAction<number>>;
+  setMixIndex: React.Dispatch<React.SetStateAction<number>>;
   mixId: string;
   setMixId: React.Dispatch<React.SetStateAction<string>>;
+  mixes: Mix[];
+  setMixes: React.Dispatch<React.SetStateAction<Mix[]>>;
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
@@ -37,18 +33,33 @@ const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
 );
 
 export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
-  const [trackIndex, setTrackIndex] = useState<number>(0);
-  const [currentTrack, setCurrentTrack] = useState<Track>(tracks[trackIndex]);
+  const [mixIndex, setMixIndex] = useState<number>(0);
+  const [currentMix, setCurrentMix] = useState<Mix | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [timeProgress, setTimeProgress] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
-  const [mixId, setMixId] = useState<string>('exampleMixId');
+  const [mixId, setMixId] = useState<string>("exampleMixId");
+  const [mixes, setMixes] = useState<Mix[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const fetchMixes = async () => {
+      try {
+        const fetchedMix = await getMix({ mixId: 1, mock: true }); // Example mixId
+        setMixes([fetchedMix]);
+        setCurrentMix(fetchedMix);
+      } catch (error) {
+        console.error("Error fetching mixes:", error);
+      }
+    };
+
+    fetchMixes();
+  }, []);
+
   const contextValue = {
-    currentTrack,
-    setCurrentTrack,
+    currentMix,
+    setCurrentMix,
     isPlaying,
     setIsPlaying,
     timeProgress,
@@ -57,9 +68,11 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     setDuration,
     audioRef,
     progressBarRef,
-    setTrackIndex,
+    setMixIndex,
     mixId,
-    setMixId
+    setMixId,
+    mixes,
+    setMixes,
   };
 
   return (
@@ -73,7 +86,7 @@ export const useAudioPlayerContext = (): AudioPlayerContextType => {
   const context = useContext(AudioPlayerContext);
   if (context === undefined) {
     throw new Error(
-      'useAudioPlayerContext must be used within an AudioPlayerProvider'
+      "useAudioPlayerContext must be used within an AudioPlayerProvider"
     );
   }
   return context;

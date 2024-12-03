@@ -1,17 +1,21 @@
-import React from 'react';
-import { BsMusicNoteBeamed } from 'react-icons/bs';
-import { useAudioPlayerContext } from '../../context/audioPlayerContext';
+import React from "react";
+import { BsMusicNoteBeamed } from "react-icons/bs";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 export const TrackInfo: React.FC = () => {
-  const { currentTrack, mixId } = useAudioPlayerContext();
+  const { currentMix } = useAudioPlayerContext();
+
+  if (!currentMix) {
+    return null; // or return a loading state
+  }
 
   return (
     <div className="flex items-center gap-4">
       <div className="w-24 h-24 flex items-center justify-center bg-gray-200 rounded-md overflow-hidden">
-        {currentTrack.thumbnail ? (
+        {currentMix.cover_url ? (
           <img
             className="w-full h-full object-cover"
-            src={currentTrack.thumbnail.src}
+            src={currentMix.cover_url}
             alt="audio avatar"
           />
         ) : (
@@ -23,10 +27,8 @@ export const TrackInfo: React.FC = () => {
         )}
       </div>
       <div>
-        <p className="font-bold lg:truncate lg:max-w-64">
-          {currentTrack.title}
-        </p>
-        <p className="text-sm text-gray-400">{currentTrack.author}</p>
+        <p className="font-bold lg:truncate lg:max-w-64">{currentMix.title}</p>
+        <p className="text-sm text-gray-400">{currentMix.artist}</p>
       </div>
     </div>
   );
