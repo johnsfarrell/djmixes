@@ -1,19 +1,19 @@
-import React from 'react';
-import { useAudioPlayerContext } from '@/context/audioPlayerContext';
+import React from "react";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 export const ProgressBar: React.FC = () => {
   const { progressBarRef, audioRef, timeProgress, duration, setTimeProgress } =
     useAudioPlayerContext();
 
   const formatTime = (time: number | undefined): string => {
-    if (typeof time === 'number' && !isNaN(time)) {
+    if (typeof time === "number" && !isNaN(time)) {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);
-      const formatMinutes = minutes.toString().padStart(2, '0');
-      const formatSeconds = seconds.toString().padStart(2, '0');
+      const formatMinutes = minutes.toString().padStart(2, "0");
+      const formatSeconds = seconds.toString().padStart(2, "0");
       return `${formatMinutes}:${formatSeconds}`;
     }
-    return '00:00';
+    return "00:00";
   };
 
   const handleProgressChange = () => {
@@ -22,8 +22,8 @@ export const ProgressBar: React.FC = () => {
       audioRef.current.currentTime = newTime;
       setTimeProgress(newTime);
       progressBarRef.current.style.setProperty(
-        '--range-progress',
-        `${(newTime / duration) * 100}%`
+        "--range-progress",
+        `${(newTime / duration) * 100}%`,
       );
     }
   };

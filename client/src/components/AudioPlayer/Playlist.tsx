@@ -1,6 +1,6 @@
-import React from 'react';
-import { BsMusicNoteBeamed } from 'react-icons/bs';
-import { useAudioPlayerContext } from '@/context/audioPlayerContext';
+import React from "react";
+import { BsMusicNoteBeamed } from "react-icons/bs";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 interface PlayListProps {
   tracks: any;
@@ -22,11 +22,11 @@ export const PlayList = ({ tracks }: PlayListProps) => {
         <li
           key={index}
           className={`flex items-center gap-3 p-[0.5rem_10px] cursor-pointer ${
-            currentTrack.title === track.title ? 'bg-[#a66646]' : ''
+            currentTrack.title === track.title ? "bg-[#a66646]" : ""
           }`}
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               handleClick(track);
             }
           }}

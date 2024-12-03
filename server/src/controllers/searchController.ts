@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { searchUserByName } from '@/database/search/getUser';
-import { searchMixesByTitle } from '@/database/search/getMixes';
-import { searchEventsByTitle} from '@/database/search/getEvents';
+import { Request, Response } from "express";
+import { searchUserByName } from "@/database/search/getUser";
+import { searchMixesByTitle } from "@/database/search/getMixes";
+import { searchEventsByTitle } from "@/database/search/getEvents";
 
 class SearchController {
   /**
@@ -17,14 +17,16 @@ class SearchController {
       const keyword = req.params.keyword;
 
       // username
-      const userResult = await searchUserByName(keyword)
-      const mixesResult = await searchMixesByTitle(keyword)
-      const eventResult = await searchEventsByTitle(keyword)
+      const userResult = await searchUserByName(keyword);
+      const mixesResult = await searchMixesByTitle(keyword);
+      const eventResult = await searchEventsByTitle(keyword);
 
-      res.status(200).json({'users': userResult, 'mixes': mixesResult, 'events': eventResult});
+      res
+        .status(200)
+        .json({ users: userResult, mixes: mixesResult, events: eventResult });
     } catch (error) {
-      console.error('Error fetching user profile:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error fetching user profile:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 }

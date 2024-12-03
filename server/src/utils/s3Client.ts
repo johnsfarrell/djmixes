@@ -1,12 +1,17 @@
 import dotenv from "dotenv";
-import path from 'path';
-import { S3Client, GetObjectCommand, PutObjectCommand, GetObjectCommandInput } from "@aws-sdk/client-s3";
+import path from "path";
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+  GetObjectCommandInput,
+} from "@aws-sdk/client-s3";
 import { UploadParams, UploadResult } from "./interface";
 import { Response } from "express";
 import { pipeline } from "stream";
 import { promisify } from "util";
 
-dotenv.config({path:path.join(__dirname, '..', '..', '.env')});
+dotenv.config({ path: path.join(__dirname, "..", "..", ".env") });
 
 export const s3Client = new S3Client({
   endpoint: process.env.AWS_ENDPOINT,
@@ -35,7 +40,7 @@ export const downloadFromS3 = async (
   s3Client: S3Client,
   params: GetObjectCommandInput,
   res: Response,
-  filename: string
+  filename: string,
 ): Promise<void> => {
   try {
     // Get the object from S3
@@ -45,7 +50,7 @@ export const downloadFromS3 = async (
     res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
     res.setHeader(
       "Content-Type",
-      downloadStream.ContentType || "application/octet-stream"
+      downloadStream.ContentType || "application/octet-stream",
     );
 
     // Stream the file to the response
@@ -64,7 +69,7 @@ export const downloadFromS3 = async (
  */
 export async function uploadToS3(
   s3Client: S3Client,
-  params: UploadParams
+  params: UploadParams,
 ): Promise<UploadResult> {
   try {
     const result = await s3Client.send(new PutObjectCommand(params));

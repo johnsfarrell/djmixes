@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   BsFillFastForwardFill,
   BsFillPauseFill,
@@ -7,9 +7,9 @@ import {
   BsSkipEndFill,
   BsSkipStartFill,
   BsShuffle,
-  BsRepeat
-} from 'react-icons/bs';
-import { tracks, useAudioPlayerContext } from '@/context/audioPlayerContext';
+  BsRepeat,
+} from "react-icons/bs";
+import { tracks, useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 //rendering the audio player controls
 export const Controls: React.FC = () => {
@@ -23,7 +23,7 @@ export const Controls: React.FC = () => {
     progressBarRef,
     duration,
     setTimeProgress,
-    setTrackIndex
+    setTrackIndex,
   } = useAudioPlayerContext();
 
   // State to handle shuffle and repeat functionality (have not tested shuffle)
@@ -39,8 +39,8 @@ export const Controls: React.FC = () => {
       setTimeProgress(currentTime);
       progressBarRef.current.value = currentTime.toString();
       progressBarRef.current.style.setProperty(
-        '--range-progress',
-        `${(currentTime / duration) * 100}%`
+        "--range-progress",
+        `${(currentTime / duration) * 100}%`,
       );
     }
   }, [duration, setTimeProgress, audioRef, progressBarRef]);
@@ -87,7 +87,7 @@ export const Controls: React.FC = () => {
           : prevIndex + 1;
       setCurrentTrack({
         ...tracks[newIndex],
-        thumbnail: tracks[newIndex].thumbnail // Assuming thumbnail is of type StaticImageData
+        thumbnail: tracks[newIndex].thumbnail, // Assuming thumbnail is of type StaticImageData
       });
       return newIndex;
     });
@@ -103,7 +103,7 @@ export const Controls: React.FC = () => {
           : prevIndex - 1;
       setCurrentTrack({
         ...tracks[newIndex],
-        thumbnail: tracks[newIndex].thumbnail // Assuming thumbnail is of type StaticImageData
+        thumbnail: tracks[newIndex].thumbnail, // Assuming thumbnail is of type StaticImageData
       });
       return newIndex;
     });
@@ -199,10 +199,10 @@ export const Controls: React.FC = () => {
         <BsSkipEndFill size={20} />
       </button>
       <button onClick={() => setIsShuffle((prev) => !prev)}>
-        <BsShuffle size={20} className={isShuffle ? 'text-[#f50]' : ''} />
+        <BsShuffle size={20} className={isShuffle ? "text-[#f50]" : ""} />
       </button>
       <button onClick={() => setIsRepeat((prev) => !prev)}>
-        <BsRepeat size={20} className={isRepeat ? 'text-[#f50]' : ''} />
+        <BsRepeat size={20} className={isRepeat ? "text-[#f50]" : ""} />
       </button>
     </div>
   );

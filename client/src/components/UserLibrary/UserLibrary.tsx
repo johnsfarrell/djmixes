@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
-import MixCard from './MixCard';
-import DJCard from './DJCard';
-import { getFollowedDJs, getRandomMixes, getSavedMixes } from '@/app/api/api';
-import { useEffect, useState } from 'react';
+import { GetMixResponse, GetProfileResponse } from "@/app/api/types";
+import MixCard from "./MixCard";
+import DJCard from "./DJCard";
+import { getFollowedDJs, getRandomMixes, getSavedMixes } from "@/app/api/api";
+import { useEffect, useState } from "react";
 
 export default function UserLibrary() {
   const [savedMixes, setSavedMixes] = useState<GetMixResponse[]>([]);

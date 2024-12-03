@@ -1,5 +1,5 @@
 "use client";
-import { Upload } from 'lucide-react';
+import { Upload } from "lucide-react";
 
 interface UploadButtonProps {
   onClick: () => void;

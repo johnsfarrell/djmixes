@@ -1,11 +1,13 @@
 "use client";
-import { Upload } from 'lucide-react';
+import { Upload } from "lucide-react";
 
 interface MobileUploadButtonProps {
   onClick: () => void;
 }
 
-export default function MobileUploadButton({ onClick }: MobileUploadButtonProps) {
+export default function MobileUploadButton({
+  onClick,
+}: MobileUploadButtonProps) {
   return (
     <button
       onClick={onClick}

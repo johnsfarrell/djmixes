@@ -1,35 +1,35 @@
 "use client";
-import { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import AuthCard from '@/components/Auth/AuthCard';
-import AuthInput from '@/components/Auth/AuthInput';
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import AuthCard from "@/components/Auth/AuthCard";
+import AuthInput from "@/components/Auth/AuthInput";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Prevents multiple form submissions
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
 
     // TODO: Implement actual login logic
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      router.push('/');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      router.push("/");
     } catch (err) {
-      setError('Invalid email or password');
+      setError("Invalid email or password");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <AuthCard 
-      title="Welcome back" 
+    <AuthCard
+      title="Welcome back"
       subtitle="Sign in to your account to continue"
     >
       <form onSubmit={handleSubmit}>
@@ -54,7 +54,7 @@ export default function LoginPage() {
         />
 
         <div className="flex justify-end mb-6">
-          <Link 
+          <Link
             href="/forgot-password"
             className="text-sm text-gray-400 hover:text-white transition-colors"
           >
@@ -67,13 +67,13 @@ export default function LoginPage() {
           disabled={isLoading}
           className="w-full bg-white text-gray-900 py-2 px-4 rounded-md font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Signing in...' : 'Sign in'}
+          {isLoading ? "Signing in..." : "Sign in"}
         </button>
 
         <p className="mt-4 text-center text-gray-400">
-          Don't have an account?{' '}
-          <Link 
-            href="/register" 
+          Don't have an account?{" "}
+          <Link
+            href="/register"
             className="text-white hover:text-gray-300 transition-colors"
           >
             Sign up

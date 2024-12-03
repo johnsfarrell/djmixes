@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import { GetMixResponse } from '@/app/api/types';
-import { useState } from 'react';
+import Image from "next/image";
+import { GetMixResponse } from "@/app/api/types";
+import { useState } from "react";
 
 export default function MixCard({ mix }: { mix: GetMixResponse }) {
   const [audio] = useState(new Audio(mix.fileUrl));
