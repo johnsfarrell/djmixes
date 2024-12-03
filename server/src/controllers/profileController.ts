@@ -1,21 +1,21 @@
-import { Request, Response } from 'express';
-import createConnection from '@/database/connection';
-import { FieldPacket, RowDataPacket } from 'mysql2';
-import { getUserLiked } from '@/database/search/getLikes';
-import { getUserCommented } from '@/database/search/getComments';
-import { getUserById } from '@/database/search/getUser';
+import { Request, Response } from "express";
+import createConnection from "@/database/connection";
+import { FieldPacket, RowDataPacket } from "mysql2";
+import { getUserLiked } from "@/database/search/getLikes";
+import { getUserCommented } from "@/database/search/getComments";
+import { getUserById } from "@/database/search/getUser";
 import {
   getMixesByUploadedUser,
-  getMixesByUserLiked
-} from '@/database/search/getMixes';
-import { getEvent } from '@/database/search/getEvents';
-import { getProfile } from '@/database/search/getProfiles';
-import { s3Client, bucketName } from '@/utils/s3Client';
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { pipeline } from 'stream';
-import { UploadedFile } from 'express-fileupload';
-import { User } from '@/utils/interface';
-import { deleteProfile } from '@/database/update/updateProfiles';
+  getMixesByUserLiked,
+} from "@/database/search/getMixes";
+import { getEvent } from "@/database/search/getEvents";
+import { getProfile } from "@/database/search/getProfiles";
+import { s3Client, bucketName } from "@/utils/s3Client";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { pipeline } from "stream";
+import { UploadedFile } from "express-fileupload";
+import { User } from "@/utils/interface";
+import { deleteProfile } from "@/database/update/updateProfiles";
 
 class ProfileController {
   /**
@@ -32,7 +32,7 @@ class ProfileController {
 
       // Validate the userId
       if (!userId || isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid or missing user ID' });
+        res.status(400).json({ error: "Invalid or missing user ID" });
         return;
       }
 
@@ -54,24 +54,24 @@ class ProfileController {
       // Geting the rest
       const connection = await createConnection();
       const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.execute(
-        'SELECT * FROM user_profiles WHERE user_id = ?',
-        [userId]
+        "SELECT * FROM user_profiles WHERE user_id = ?",
+        [userId],
       );
 
       if (rows.length === 0) {
-        res.status(404).json({ message: 'Profile not found' });
+        res.status(404).json({ message: "Profile not found" });
         return;
       }
 
       const profile = rows[0];
-      profile['username'] = username;
-      profile['uploaded_mixes'] = uploadedMixIds;
-      profile['liked_mixes'] = likedMixIds;
-      profile['events'] = events;
+      profile["username"] = username;
+      profile["uploaded_mixes"] = uploadedMixIds;
+      profile["liked_mixes"] = likedMixIds;
+      profile["events"] = events;
       res.status(200).json(profile);
     } catch (error) {
-      console.error('Error fetching user profile:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error fetching user profile:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 
@@ -89,20 +89,20 @@ class ProfileController {
 
       // Validate the userId
       if (!userId || isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid or missing user ID' });
+        res.status(400).json({ error: "Invalid or missing user ID" });
         return;
       }
 
       const userProfile = await getProfile(userId);
       if (!userProfile || !userProfile.avatarUrl) {
-        res.status(404).json({ error: 'Avatar not exist' });
+        res.status(404).json({ error: "Avatar not exist" });
         return;
       }
 
       // Download parameters
       const params = {
         Bucket: bucketName,
-        Key: userProfile.avatarUrl
+        Key: userProfile.avatarUrl,
       };
 
       // const resultFileName = userProfile.avatarUrl.split('/').pop() || '';
@@ -110,18 +110,18 @@ class ProfileController {
       // Download file from S3
       const downloadStream = await s3Client.send(new GetObjectCommand(params));
 
-      res.setHeader('Content-Type', 'image/jpeg');
+      res.setHeader("Content-Type", "image/jpeg");
 
       // Stream the file to the response
       pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
         if (err) {
-          console.error('Error streaming file:', err);
-          res.status(500).json({ error: 'Failed to download file' });
+          console.error("Error streaming file:", err);
+          res.status(500).json({ error: "Failed to download file" });
         }
       });
     } catch (error) {
-      console.error('Error fetching user profile avatar:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error fetching user profile avatar:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 
@@ -134,18 +134,18 @@ class ProfileController {
    */
   updateProfile = async (req: Request, res: Response): Promise<void> => {
     try {
-      console.log('bucketName');
+      console.log("bucketName");
       console.log(bucketName);
       // Accessing userId from the request param
       const userId = parseInt(req.params.userId, 10);
       const oldProfile = await getProfile(userId);
       let { bio } = req.body;
-      let avatarFileKey = '';
-      let result = '';
+      let avatarFileKey = "";
+      let result = "";
 
       // Validate the userId
       if (!userId || isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid or missing user ID' });
+        res.status(400).json({ error: "Invalid or missing user ID" });
         return;
       }
 
@@ -166,38 +166,38 @@ class ProfileController {
         //   new PutObjectCommand(avatarParams)
         // );
         console.log(
-          `Successfully uploaded object: ${bucketName}/${avatarFileKey}`
+          `Successfully uploaded object: ${bucketName}/${avatarFileKey}`,
         );
-        result += 'Avatar Uploaded\n';
+        result += "Avatar Uploaded\n";
       }
 
       if (!oldProfile) {
         if (bio === undefined) {
-          bio = ''; // Set bio to an empty string if undefined
+          bio = ""; // Set bio to an empty string if undefined
         }
         // const insertResult = await insertProfile(userId, bio, avatarFileKey);
-        result += 'Profile Created}\n';
+        result += "Profile Created}\n";
       } else {
         if (req.files && req.files.avatar) {
           // const avatarUpdateResult = await updateProfileAvatar(
           //   oldProfile.profileId,
           //   avatarFileKey
           // );
-          result += 'Updated Avatar\n';
+          result += "Updated Avatar\n";
         }
         if (bio !== undefined) {
           // const bioUpdateResult = await updateProfileBio(
           //   oldProfile.profileId,
           //   bio
           // );
-          result += 'Updated Bio';
+          result += "Updated Bio";
         }
       }
 
       res.status(200).json({ message: result });
     } catch (error) {
-      console.error('Error updating user profile:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 
@@ -215,15 +215,15 @@ class ProfileController {
 
       // Validate the userId
       if (!userId || isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid or missing user ID' });
+        res.status(400).json({ error: "Invalid or missing user ID" });
         return;
       }
 
       const likedList: number[] | null = await getUserLiked(userId);
       res.status(200).json({ mix_ids: likedList });
     } catch (error) {
-      console.error('Error fetching user profile:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error fetching user profile:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 
@@ -241,15 +241,15 @@ class ProfileController {
 
       // Validate the userId
       if (!userId || isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid or missing user ID' });
+        res.status(400).json({ error: "Invalid or missing user ID" });
         return;
       }
 
       const commentedList: number[] | null = await getUserCommented(userId);
       res.status(200).json({ mix_ids: commentedList });
     } catch (error) {
-      console.error('Error fetching user profile:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error fetching user profile:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 
@@ -261,7 +261,7 @@ class ProfileController {
       const userId = parseInt(req.params.userId, 10);
 
       if (!userId || isNaN(userId)) {
-        res.status(400).json({ error: 'Invalid or missing user ID' });
+        res.status(400).json({ error: "Invalid or missing user ID" });
         return;
       }
 
@@ -270,14 +270,14 @@ class ProfileController {
       if (!result) {
         res
           .status(404)
-          .json({ message: 'Profile not found or already deleted' });
+          .json({ message: "Profile not found or already deleted" });
         return;
       }
 
-      res.status(200).json({ message: 'Profile deleted successfully' });
+      res.status(200).json({ message: "Profile deleted successfully" });
     } catch (error) {
-      console.error('Error deleting user profile:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      console.error("Error deleting user profile:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   };
 }

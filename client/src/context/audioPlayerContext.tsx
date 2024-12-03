@@ -1,29 +1,29 @@
-'use client';
+"use client";
 import React, {
   createContext,
   useContext,
   useState,
   useRef,
-  ReactNode
-} from 'react';
-import { StaticImageData } from 'next/image';
+  ReactNode,
+} from "react";
+import { StaticImageData } from "next/image";
 
-import cover1 from '../../public/mock/cover1.jpg';
-import cover2 from '../../public/mock/cover1.jpg';
+import cover1 from "../../public/mock/cover1.jpg";
+import cover2 from "../../public/mock/cover1.jpg";
 
 export const tracks = [
   {
-    title: 'Last Words',
-    src: '',
-    author: 'Kenny Beats',
-    thumbnail: cover1
+    title: "Last Words",
+    src: "",
+    author: "Kenny Beats",
+    thumbnail: cover1,
   },
   {
-    title: 'Some',
-    src: '',
-    author: 'Steve Lacy',
-    thumbnail: cover2
-  }
+    title: "Some",
+    src: "",
+    author: "Steve Lacy",
+    thumbnail: cover2,
+  },
 ];
 
 interface Track {
@@ -50,7 +50,7 @@ interface AudioPlayerContextType {
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
@@ -59,7 +59,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [timeProgress, setTimeProgress] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
-  const [mixId, setMixId] = useState<string>('exampleMixId');
+  const [mixId, setMixId] = useState<string>("exampleMixId");
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
 
@@ -76,7 +76,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     progressBarRef,
     setTrackIndex,
     mixId,
-    setMixId
+    setMixId,
   };
 
   return (
@@ -90,7 +90,7 @@ export const useAudioPlayerContext = (): AudioPlayerContextType => {
   const context = useContext(AudioPlayerContext);
   if (context === undefined) {
     throw new Error(
-      'useAudioPlayerContext must be used within an AudioPlayerProvider'
+      "useAudioPlayerContext must be used within an AudioPlayerProvider",
     );
   }
   return context;

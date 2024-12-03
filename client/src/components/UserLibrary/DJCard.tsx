@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import { GetProfileResponse } from '@/app/api/types';
-import { User } from 'lucide-react';
+import Image from "next/image";
+import { GetProfileResponse } from "@/app/api/types";
+import { User } from "lucide-react";
 
 export default function DJCard({ dj }: { dj: GetProfileResponse }) {
   return (

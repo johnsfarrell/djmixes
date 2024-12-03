@@ -1,6 +1,6 @@
-import { RowDataPacket } from 'mysql2';
-import createConnection from '@/database/connection';
-import { UserProfile } from '@/utils/interface';
+import { RowDataPacket } from "mysql2";
+import createConnection from "@/database/connection";
+import { UserProfile } from "@/utils/interface";
 
 // Function to get profile data for a specific user
 async function getProfile(userId: number): Promise<UserProfile | null> {
@@ -9,8 +9,8 @@ async function getProfile(userId: number): Promise<UserProfile | null> {
   try {
     // Query the profile data for the provided user_id
     const [rows] = await connection.execute<RowDataPacket[]>(
-      'SELECT profile_id, user_id, bio, avatar_url, created_at FROM user_profiles WHERE user_id = ?',
-      [userId]
+      "SELECT profile_id, user_id, bio, avatar_url, created_at FROM user_profiles WHERE user_id = ?",
+      [userId],
     );
 
     if (rows.length === 0) {
@@ -30,7 +30,7 @@ async function getProfile(userId: number): Promise<UserProfile | null> {
 
     return userProfile;
   } catch (error) {
-    console.error('Error fetching profile for user:', error);
+    console.error("Error fetching profile for user:", error);
     return null; // Return null in case of an error
   } finally {
     await connection.end(); // Ensure the connection is closed

@@ -1,5 +1,5 @@
-import createConnection from '@/database/connection';
-import { QueryResult, ResultSetHeader } from 'mysql2';
+import createConnection from "@/database/connection";
+import { QueryResult, ResultSetHeader } from "mysql2";
 
 async function insertMixes(
   userId: number,
@@ -10,8 +10,8 @@ async function insertMixes(
   fileUrl: string,
   coverUrl: string | null,
   tags: string | null,
-  visibility: 'public' | 'private' | 'unlisted' | 'friends',
-  allowDownload: boolean
+  visibility: "public" | "private" | "unlisted" | "friends",
+  allowDownload: boolean,
 ): Promise<number | null> {
   const connection = await createConnection();
 
@@ -30,12 +30,12 @@ async function insertMixes(
       coverUrl,
       tags,
       visibility,
-      allowDownload
+      allowDownload,
     ]);
-    console.log('Mix inserted successfully:', result);
+    console.log("Mix inserted successfully:", result);
     return result.insertId;
   } catch (error) {
-    console.error('Error inserting mix:', error);
+    console.error("Error inserting mix:", error);
     return null;
   }
 }
@@ -50,8 +50,8 @@ async function updateMixes(
   fileUrl: string,
   coverUrl: string | null,
   tags: string | null,
-  visibility: 'public' | 'private' | 'unlisted' | 'friends',
-  allowDownload: boolean
+  visibility: "public" | "private" | "unlisted" | "friends",
+  allowDownload: boolean,
 ): Promise<QueryResult | null> {
   const connection = await createConnection();
 
@@ -72,12 +72,12 @@ async function updateMixes(
       tags,
       visibility,
       allowDownload,
-      mixId
+      mixId,
     ]);
-    console.log('Mix updated successfully:', result);
+    console.log("Mix updated successfully:", result);
     return result;
   } catch (error) {
-    console.error('Error updating mix:', error);
+    console.error("Error updating mix:", error);
     return null;
   }
 }
@@ -85,7 +85,7 @@ async function updateMixes(
 async function updateMixField(
   mixId: number | null,
   field: string,
-  value: string
+  value: string,
 ): Promise<QueryResult | null> {
   const connection = await createConnection();
 
@@ -93,10 +93,10 @@ async function updateMixField(
     // Dynamically insert the field into the query to avoid syntax issues
     const query = `UPDATE mixes SET ${field} = ? WHERE mix_id = ? AND is_deleted = 0`;
     const [result] = await connection.execute(query, [value, mixId]);
-    console.log('Mix updated successfully:', result);
+    console.log("Mix updated successfully:", result);
     return result;
   } catch (error) {
-    console.error('Error updating mix:', error);
+    console.error("Error updating mix:", error);
     return null;
   }
 }
@@ -106,10 +106,10 @@ async function deleteMixes(mixId: number): Promise<QueryResult | null> {
   try {
     const query = `UPDATE mixes SET is_deleted = 1 WHERE mix_id = ?`;
     const [result] = await connection.execute(query, [mixId]);
-    console.log('Mix marked as deleted:', result);
+    console.log("Mix marked as deleted:", result);
     return result;
   } catch (error) {
-    console.error('Error deleting mix:', error);
+    console.error("Error deleting mix:", error);
     return null;
   }
 }

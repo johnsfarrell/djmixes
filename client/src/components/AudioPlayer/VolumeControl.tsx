@@ -1,6 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import { IoMdVolumeHigh, IoMdVolumeOff, IoMdVolumeLow } from 'react-icons/io';
-import { useAudioPlayerContext } from '@/context/audioPlayerContext';
+import React, { useState, useEffect, ChangeEvent } from "react";
+import { IoMdVolumeHigh, IoMdVolumeOff, IoMdVolumeLow } from "react-icons/io";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 export const VolumeControl: React.FC = () => {
   const [volume, setVolume] = useState<number>(60);
@@ -38,7 +38,7 @@ export const VolumeControl: React.FC = () => {
           className="volumn"
           onChange={handleVolumeChange}
           style={{
-            background: `linear-gradient(to right, #f50 ${volume}%, #ccc ${volume}%)`
+            background: `linear-gradient(to right, #f50 ${volume}%, #ccc ${volume}%)`,
           }}
         />
       </div>

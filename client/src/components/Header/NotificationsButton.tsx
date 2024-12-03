@@ -1,5 +1,5 @@
 "use client";
-import { Bell } from 'lucide-react';
+import { Bell } from "lucide-react";
 
 interface NotificationsButtonProps {
   hasNotifications?: boolean;
@@ -7,10 +7,10 @@ interface NotificationsButtonProps {
   onClick?: () => void;
 }
 
-export default function NotificationsButton({ 
-  hasNotifications = false, 
+export default function NotificationsButton({
+  hasNotifications = false,
   count = 0,
-  onClick = () => {}
+  onClick = () => {},
 }: NotificationsButtonProps) {
   return (
     <button
@@ -20,7 +20,7 @@ export default function NotificationsButton({
       <Bell size={20} />
       {hasNotifications && count > 0 && (
         <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-          {count > 9 ? '9+' : count}
+          {count > 9 ? "9+" : count}
         </div>
       )}
     </button>

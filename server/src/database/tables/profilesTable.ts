@@ -1,5 +1,5 @@
 // create user profiles table
-const createProfilesTableQuery:string = `
+const createProfilesTableQuery: string = `
     CREATE TABLE IF NOT EXISTS user_profiles (
         profile_id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT NOT NULL,
