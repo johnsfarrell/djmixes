@@ -1,5 +1,5 @@
 import createConnection from '@/database/connection';
-import { Event } from '@/utils/interface';
+import { QueryResult } from 'mysql2';
 
 async function insertEvent(
   title: string,
@@ -7,7 +7,7 @@ async function insertEvent(
   artistId: number,
   userId: number,
   description: string | null
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -29,7 +29,7 @@ async function updateEvent(
   artistId: number,
   userId: number,
   description: string | null
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(

@@ -15,6 +15,7 @@ import {
   insertEventsQuery,
   insertUserProfilesQuery
 } from './dummy_data';
+import { QueryResult } from 'mysql2';
 
 async function createTables(): Promise<void> {
   const connection = await createConnection();
@@ -36,7 +37,7 @@ async function createTables(): Promise<void> {
     const [databases] = await connection.query('SHOW DATABASES LIKE ?', [
       dbName
     ]);
-    if ((databases as any[]).length === 0) {
+    if ((databases as QueryResult[]).length === 0) {
       await connection.execute(`CREATE DATABASE \`${dbName}\``);
       console.log(`Database "${dbName}" created.`);
     } else {

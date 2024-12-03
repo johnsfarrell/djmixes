@@ -1,4 +1,4 @@
-import { RowDataPacket } from 'mysql2';
+import { FieldPacket, RowDataPacket } from 'mysql2';
 import createConnection from '@/database/connection';
 import { Comment } from '@/utils/interface';
 
@@ -9,7 +9,7 @@ function mapCommentRow(row: RowDataPacket): Comment {
     userId: row.user_id,
     mixId: row.mix_id,
     commentText: row.comment_text,
-    createdAt: new Date(row.created_at),
+    createdAt: new Date(row.created_at)
   };
 }
 
@@ -19,7 +19,7 @@ async function getComments(mixId: number): Promise<Comment[]> {
 
   try {
     // Get all the comments related to the provided mix_id
-    const [rows]: [RowDataPacket[], any] = await connection.execute(
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.execute(
       'SELECT comment_id, user_id, mix_id, comment_text, created_at FROM comments WHERE mix_id = ? ORDER BY created_at DESC',
       [mixId]
     );

@@ -1,5 +1,5 @@
 import createConnection from '../connection';
-import { RowDataPacket } from 'mysql2';
+import { FieldPacket, RowDataPacket } from 'mysql2';
 
 /**
  * Function to get all artists followed by a user
@@ -7,10 +7,12 @@ import { RowDataPacket } from 'mysql2';
  * @returns Promise<RowDataPacket[]> - List of followed artists
  * @throws Error if the query fails
  */
-export const getFollowedArtists = async (userId: number): Promise<RowDataPacket[]> => {
+export const getFollowedArtists = async (
+  userId: number
+): Promise<RowDataPacket[]> => {
   const connection = await createConnection();
   try {
-    const [rows]: [RowDataPacket[], any] = await connection.execute(
+    const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.execute(
       `
       SELECT a.artist_id as artistId, a.name, a.profile_url as profileUrl, a.avatar
       FROM follows f

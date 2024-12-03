@@ -1,6 +1,5 @@
 import { RowDataPacket } from 'mysql2';
 import createConnection from '@/database/connection';
-import { Like} from '@/utils/interface';
 
 // Function to get the number of likes for a specific mix
 async function getLikes(mixId: number): Promise<number> {

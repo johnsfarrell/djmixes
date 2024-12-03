@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User, ProfileResponse } from '@/utils/interface';
+import { User } from '@/utils/interface';
 import { getUserByEmail, getUserByName } from '@/database/search/getUser';
 import { createUser } from '@/database/update/updateUser';
 import { followArtist } from '@/database/update/updateFollows';
@@ -88,7 +88,7 @@ class UserController {
       res.status(200).json({
         message: 'Login successful',
         token,
-        user_id: user.userId, // Include user_id here
+        user_id: user.userId // Include user_id here
       });
     } catch (error) {
       console.error('Error during login:', error);

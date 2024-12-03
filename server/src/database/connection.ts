@@ -25,11 +25,12 @@ async function createConnection(): Promise<mysql.Connection> {
 
       console.log('Connected to the database.');
       return connection;
-    } catch (error: any) {
+    } catch (error) {
       console.error(
         `Connection attempt failed. Attempts remaining: ${--attempts}`
       );
-      console.error('Error Details:', error.message);
+
+      console.error('Connection Error:', error);
 
       if (attempts === 0) {
         throw new Error(

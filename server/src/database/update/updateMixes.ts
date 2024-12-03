@@ -1,5 +1,5 @@
 import createConnection from '@/database/connection';
-import { ResultSetHeader } from 'mysql2';
+import { QueryResult, ResultSetHeader } from 'mysql2';
 
 async function insertMixes(
   userId: number,
@@ -52,7 +52,7 @@ async function updateMixes(
   tags: string | null,
   visibility: 'public' | 'private' | 'unlisted' | 'friends',
   allowDownload: boolean
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
 
   try {
@@ -86,7 +86,7 @@ async function updateMixField(
   mixId: number | null,
   field: string,
   value: string
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
 
   try {
@@ -101,7 +101,7 @@ async function updateMixField(
   }
 }
 
-async function deleteMixes(mixId: number): Promise<any | null> {
+async function deleteMixes(mixId: number): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const query = `UPDATE mixes SET is_deleted = 1 WHERE mix_id = ?`;
