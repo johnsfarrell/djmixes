@@ -3,12 +3,13 @@
 import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
 import MixCard from './MixCard';
 import DJCard from './DJCard';
-import { getFollowedDJs, getSavedMixes } from '@/app/api/api';
+import { getFollowedDJs, getRandomMixes, getSavedMixes } from '@/app/api/api';
 import { useEffect, useState } from 'react';
 
 export default function UserLibrary() {
   const [savedMixes, setSavedMixes] = useState<GetMixResponse[]>([]);
   const [favoriteDjs, setFavoriteDjs] = useState<GetProfileResponse[]>([]);
+  const [randomMixes, setRandomMixes] = useState<GetMixResponse[]>([]);
 
   useEffect(() => {
     const fetchSavedMixes = async () => {
@@ -21,8 +22,14 @@ export default function UserLibrary() {
       setFavoriteDjs(res);
     };
 
+    const fetchRandomMixes = async () => {
+      const res = await getRandomMixes({ mock: false });
+      setRandomMixes(res);
+    };
+
     fetchSavedMixes();
     fetchFavoriteDJs();
+    fetchRandomMixes();
   }, []);
 
   return (
@@ -42,10 +49,10 @@ export default function UserLibrary() {
         </div>
 
         <div>
-          <h3 className="text-white text-lg mb-3">Favorite DJs</h3>
+          <h3 className="text-white text-lg mb-3">Random Mixes</h3>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-            {favoriteDjs.map((dj) => (
-              <DJCard key={dj.username} dj={dj} />
+            {randomMixes.map((mix) => (
+              <MixCard key={mix.title} mix={mix} />
             ))}
           </div>
         </div>
