@@ -2,8 +2,8 @@ const insertRecordsQuery: string = `
 INSERT INTO mixes (user_id, title, file_url, cover_url, tags, visibility, allow_download, artist, album, is_deleted)
 VALUES
 (1, 'user1Mix1', '1732581611898_track1.mp3', '1732581611898_cover1.jpg', 'tag1,tag2', 'public', TRUE, 'Artist 1', 'Album 1', 0),
-(2, 'Mix2', '1732581781195_track2.mp3', '1732581781195_cover2.jpg', 'tag3,tag4', 'private', FALSE, 'Artist 2', 'Album 2', 0),
-(3, 'user1Mix3', '/file3.mp3', '/cover3.jpg', 'tag5,tag6', 'public', TRUE, 'Artist 3', 'Album 3', 0)
+(2, 'Mix2', '1732581781195_track2.mp3', '1732581781195_cover2.jpg', 'tag3,tag4', 'public', FALSE, 'Artist 2', 'Album 2', 0),
+(3, 'user1Mix3', '1732581611898_track1.mp3', '1732581611898_cover1.jpg', 'tag5,tag6', 'public', TRUE, 'Artist 3', 'Album 3', 0)
 ON DUPLICATE KEY UPDATE user_id = VALUES(user_id);
 `;
 
@@ -28,7 +28,7 @@ const insertCommentsQuery: string = `
 const insertLikesQuery: string = `
   INSERT INTO likes (user_id, mix_id)
   VALUES
-    (1, 2),
+    (1, 1),
     (2, 3),
     (3, 1)
     ON DUPLICATE KEY UPDATE mix_id = VALUES(mix_id);
@@ -60,7 +60,6 @@ const insertUserProfilesQuery: string = `
     (3, 'Enjoys creating mixes and exploring new genres.', 'https://example.com/avatar3.jpg', NOW())
     ON DUPLICATE KEY UPDATE bio = VALUES(bio), avatar_url = VALUES(avatar_url);
 `;
-
 
 export {
   insertUsersQuery,

@@ -45,16 +45,30 @@ const getMix = async ({
 
   let resJson = (await res.json()) as GetMixResponse;
 
-  const fileRes = await apiAdapter(API_URL, `/mixes/${mixId}/download`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+  let fileRes: Response;
+  let coverRes: Response;
 
-  resJson.fileUrl = URL.createObjectURL(await fileRes.blob());
+  try {
+    fileRes = await apiAdapter(API_URL, `/mixes/${mixId}/download`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-  resJson.coverUrl = ''; // TODO: will be replaced once we have a download cover endpoint
+    resJson.fileUrl = URL.createObjectURL(await fileRes.blob());
+
+    coverRes = await apiAdapter(API_URL, `/mixes/${mixId}/download/cover`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    resJson.coverUrl = URL.createObjectURL(await coverRes.blob());
+  } catch (error) {
+    console.error('Error fetching mix file:', error);
+  }
 
   return resJson;
 };
@@ -114,18 +128,24 @@ const getSavedMixes = async ({
     return Promise.resolve([mockMixResponse, mockMixResponse]);
   }
 
-  // const res = await apiAdapter(API_URL, `/users/${userId}/mixes`, {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   }
-  // });
+  const res = await apiAdapter(API_URL, `/profile/${userId}/liked`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const resJson = await res.json();
+  const mixIds = resJson.mix_ids;
 
   const mixes = [];
 
-  // TODO: switch to use real data
-  for (const mixId of [1]) {
-    mixes.push(await getMix({ mixId }));
+  for (const mixId of mixIds) {
+    try {
+      mixes.push(await getMix({ mixId }));
+    } catch (error) {
+      console.error('Error fetching mix:', error);
+    }
   }
 
   return mixes;
@@ -164,4 +184,40 @@ const getProfile = async (userId: number): Promise<GetProfileResponse> => {
   return res.json();
 };
 
-export { getMix, uploadMix, getSavedMixes, getFollowedDJs };
+const getRandomMixes = async (
+  { mock }: Request = { mock: false }
+): Promise<GetMixResponse[]> => {
+  if (mock) {
+    return Promise.resolve([mockMixResponse, mockMixResponse]);
+  }
+
+  const res = await apiAdapter(API_URL, '/mixes/random', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const resJson = await res.json();
+  const mixIds = resJson.mix_ids;
+
+  const mixes = [];
+  for (const mixId of mixIds) {
+    try {
+      mixes.push(await getMix({ mixId }));
+    } catch (error) {
+      console.error('Error fetching mix:', error);
+    }
+  }
+
+  return res.json();
+};
+
+export {
+  getMix,
+  uploadMix,
+  getSavedMixes,
+  getFollowedDJs,
+  getRandomMixes,
+  getProfile
+};

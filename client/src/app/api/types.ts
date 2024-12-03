@@ -9,7 +9,7 @@ export interface UploadUser {
 
 export interface GetMixResponse {
   title: string;
-  fileUrl: string;
+  fileUrl?: string;
   coverUrl?: string;
   visibility: string;
   allowDownload: boolean;
