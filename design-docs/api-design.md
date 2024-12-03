@@ -314,24 +314,11 @@
 | artist         | string  | The name of the artist.                            |
 | album          | string  | The album name (if available).                     |
 
-#### 2.3 Get User Commented Mixes
+#### 2.3 Get Random Mixes
 
-- **Endpoint**: `/api/mixes/random`
+- **Endpoint**: `/api/mixes/random/:num`
 - **Method**: `GET`
-- **Description**: Get random Mix ids
-- **Response**:
-
-```json
-{
-  "number_of_mixes": 1
-}
-```
-
-- **Request Attributes:**
-
-| **Attribute**     | **Type** | **Description**                                   |
-| ----------------- | -------- | ------------------------------------------------- |
-| `number_of_mixes` | number   | Number of mix ids generated, 1 if omit, 10 at max |
+- **Description**: Get random public Mix ids, number equals to num keyword, 10 max, 1 if omit
 
 - **Response**:
 
@@ -721,7 +708,7 @@
 
 #### **8.0 Get Search Result**
 
-- **Endpoint**: `/api/search/user1`
+- **Endpoint**: `/api/search/:keyword`
 - **Method**: `GET`
 - **Description**: Retrieves all serach result from username, mix title, and event title that matches the keyword
 - **Response:**

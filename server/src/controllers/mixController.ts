@@ -85,7 +85,7 @@ class MixController {
   getRandomMixIds = async (req: Request, res: Response): Promise<void> => {
     try {
       console.log(req.body);
-      const { number_of_mixes } = req.body; // Ensure these are in the request body
+      const number_of_mixes = parseInt(req.params.num, 10);
       let mixesList: number[] | null;
 
       // Validate username
