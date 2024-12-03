@@ -141,9 +141,12 @@ const insertUserProfilesQuery: string = `
     (7, 'Drummer and sound engineer.', 'https://example.com/avatar7.jpg', NOW()),
     (8, 'Classical pianist with a modern twist.', 'https://example.com/avatar8.jpg', NOW()),
     (9, 'Hip hop artist and lyricist.', 'https://example.com/avatar9.jpg', NOW()),
-    (10, 'Indie folk singer with a passion for storytelling.', 'https://example.com/avatar10.jpg', NOW()),
-  ON DUPLICATE KEY UPDATE bio = VALUES(bio), avatar_url = VALUES(avatar_url);
-`;
+    (10, 'Indie folk singer with a passion for storytelling.', 'https://example.com/avatar10.jpg', NOW())
+  ON DUPLICATE KEY UPDATE 
+    bio = VALUES(bio), 
+    avatar_url = VALUES(avatar_url);
+  `;
+  
 
 export {
   insertUsersQuery,
