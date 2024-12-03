@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import createConnection from '@/database/connection';
-import { RowDataPacket } from 'mysql2';
-import { EventsResponse, UploadEventResponse } from '@/utils/interface';
+import { FieldPacket, QueryResult, RowDataPacket } from 'mysql2';
+import { EventsResponse } from '@/utils/interface';
 
 class EventController {
   /**
@@ -20,7 +20,7 @@ class EventController {
       }
 
       const connection = await createConnection();
-      const [rows]: [RowDataPacket[], any] = await connection.execute(
+      const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.execute(
         'SELECT * FROM events WHERE artist_id = ?',
         [djId]
       );
@@ -70,14 +70,15 @@ class EventController {
       }
 
       const connection = await createConnection();
-      const [result]: any = await connection.execute(
+      const [result]: [QueryResult, FieldPacket[]] = await connection.execute(
         `INSERT INTO events (title, date, artist_id, user_id, description) VALUES (?, ?, ?, ?, ?)`,
         [title, new Date(date), djId, userId, description]
       );
 
       res.status(201).json({
         message: 'Event posted successfully',
-        event_id: result.insertId
+        // @ts-expect-error: insertId is not defined in QueryResult
+        eventId: result.insertId
       });
     } catch (error) {
       console.error('Error uploading event:', error);

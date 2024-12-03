@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.JWT_SECRET || 'default_secret_key'; // Use an environment variable for the secret key
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction): void => {
+export const authenticateToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
@@ -14,9 +18,10 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    (req as any).user = decoded; // Add decoded token data to the request object
-    next(); // Proceed to the next middleware or route handler
+    (req as JwtPayload).user = decoded;
+    next();
   } catch (error) {
+    console.error('Error verifying token:', error);
     res.status(403).json({ error: 'Invalid token.' });
   }
 };

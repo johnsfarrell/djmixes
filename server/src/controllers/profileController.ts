@@ -1,23 +1,21 @@
 import { Request, Response } from 'express';
 import createConnection from '@/database/connection';
-import { RowDataPacket } from 'mysql2';
+import { FieldPacket, RowDataPacket } from 'mysql2';
 import { getUserLiked } from '@/database/search/getLikes';
 import { getUserCommented } from '@/database/search/getComments';
 import { getUserById } from '@/database/search/getUser';
-import { getMixesByUploadedUser, getMixesByUserLiked } from '@/database/search/getMixes';
-import { getEvent} from '@/database/search/getEvents';
+import {
+  getMixesByUploadedUser,
+  getMixesByUserLiked
+} from '@/database/search/getMixes';
+import { getEvent } from '@/database/search/getEvents';
 import { getProfile } from '@/database/search/getProfiles';
 import { s3Client, bucketName } from '@/utils/s3Client';
-import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
-import { User} from '@/utils/interface';
-import {
-  insertProfile,
-  deleteProfile,
-  updateProfileAvatar,
-  updateProfileBio
-} from '@/database/update/updateProfiles';
+import { User } from '@/utils/interface';
+import { deleteProfile } from '@/database/update/updateProfiles';
 
 class ProfileController {
   /**
@@ -40,22 +38,22 @@ class ProfileController {
 
       // username
       const user: User | null = await getUserById(userId);
-      const username = user?.username
+      const username = user?.username;
 
       // get all mixes created
-      const uploadedMixIds = await getMixesByUploadedUser(userId)
+      const uploadedMixIds = await getMixesByUploadedUser(userId);
 
       // get all mixes liked
-      const likedMixIds = await getMixesByUserLiked(userId)
+      const likedMixIds = await getMixesByUserLiked(userId);
 
       // get all events
-      const events = await getEvent(userId)
+      const events = await getEvent(userId);
 
       // TODO: get all user_id followed
 
       // Geting the rest
       const connection = await createConnection();
-      const [rows]: [RowDataPacket[], any] = await connection.execute(
+      const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.execute(
         'SELECT * FROM user_profiles WHERE user_id = ?',
         [userId]
       );
@@ -65,11 +63,11 @@ class ProfileController {
         return;
       }
 
-      var profile = rows[0];
-      profile["username"] = username
-      profile["uploaded_mixes"] = uploadedMixIds
-      profile["liked_mixes"] = likedMixIds
-      profile["events"] = events
+      const profile = rows[0];
+      profile['username'] = username;
+      profile['uploaded_mixes'] = uploadedMixIds;
+      profile['liked_mixes'] = likedMixIds;
+      profile['events'] = events;
       res.status(200).json(profile);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -107,7 +105,7 @@ class ProfileController {
         Key: userProfile.avatarUrl
       };
 
-      const resultFileName = userProfile.avatarUrl.split('/').pop() || '';
+      // const resultFileName = userProfile.avatarUrl.split('/').pop() || '';
 
       // Download file from S3
       const downloadStream = await s3Client.send(new GetObjectCommand(params));
@@ -152,22 +150,21 @@ class ProfileController {
       }
 
       // case we don't update avatar
-      if (!req.files || !req.files.avatar) {
-      } else {
+      if (req.files && req.files.avatar) {
         const avatarFile = req.files.avatar as UploadedFile;
         avatarFileKey = `${Date.now()}_${avatarFile.name}`;
 
         // Upload parameters
-        const avatarParams = {
-          Bucket: bucketName,
-          Key: avatarFileKey,
-          Body: avatarFile.data
-        };
+        // const avatarParams = {
+        //   Bucket: bucketName,
+        //   Key: avatarFileKey,
+        //   Body: avatarFile.data
+        // };
 
         // Upload file to S3
-        const avatarUploadResult = await s3Client.send(
-          new PutObjectCommand(avatarParams)
-        );
+        // const avatarUploadResult = await s3Client.send(
+        //   new PutObjectCommand(avatarParams)
+        // );
         console.log(
           `Successfully uploaded object: ${bucketName}/${avatarFileKey}`
         );
@@ -178,21 +175,21 @@ class ProfileController {
         if (bio === undefined) {
           bio = ''; // Set bio to an empty string if undefined
         }
-        const insertResult = await insertProfile(userId, bio, avatarFileKey);
+        // const insertResult = await insertProfile(userId, bio, avatarFileKey);
         result += 'Profile Created}\n';
       } else {
         if (req.files && req.files.avatar) {
-          const avatarUpdateResult = await updateProfileAvatar(
-            oldProfile.profileId,
-            avatarFileKey
-          );
+          // const avatarUpdateResult = await updateProfileAvatar(
+          //   oldProfile.profileId,
+          //   avatarFileKey
+          // );
           result += 'Updated Avatar\n';
         }
         if (bio !== undefined) {
-          const bioUpdateResult = await updateProfileBio(
-            oldProfile.profileId,
-            bio
-          );
+          // const bioUpdateResult = await updateProfileBio(
+          //   oldProfile.profileId,
+          //   bio
+          // );
           result += 'Updated Bio';
         }
       }
@@ -270,7 +267,7 @@ class ProfileController {
 
       const result = await deleteProfile(userId);
 
-      if (!result || result.affectedRows === 0) {
+      if (!result) {
         res
           .status(404)
           .json({ message: 'Profile not found or already deleted' });

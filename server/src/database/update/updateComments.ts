@@ -1,11 +1,11 @@
 import createConnection from '@/database/connection';
-import { Comment } from '@/utils/interface';
+import { QueryResult } from 'mysql2';
 
 async function insertComment(
   userId: number,
   mixId: number,
   commentText: string
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -26,7 +26,7 @@ async function updateComment(
   userId: number,
   mixId: number,
   commentText: string | null
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -41,7 +41,7 @@ async function updateComment(
   }
 }
 
-async function deleteComment(commentId: number): Promise<any | null> {
+async function deleteComment(commentId: number): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(

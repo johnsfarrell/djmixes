@@ -5,6 +5,7 @@ export default async function initializeDatabase(): Promise<boolean> {
     await createTables();
     return true;
   } catch (error) {
+    console.error('Error initializing database:', error);
     return false;
   }
 }

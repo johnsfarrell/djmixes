@@ -1,10 +1,10 @@
 import createConnection from '@/database/connection';
-import { Like } from '@/utils/interface';
+import { QueryResult } from 'mysql2';
 
 async function insertLike(
   userId: number,
   mixId: number
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -22,7 +22,7 @@ async function insertLike(
 async function deleteLike(
   userId: number,
   mixId: number
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(

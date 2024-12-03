@@ -1,6 +1,5 @@
 import createConnection from '@/database/connection';
-import { ResultSetHeader } from 'mysql2';
-import { User } from '@/utils/interface';
+import { QueryResult, ResultSetHeader } from 'mysql2';
 
 async function createUser(
   username: string,
@@ -15,7 +14,7 @@ async function createUser(
       [username, email]
     );
 
-    if ((existingUsers as any[]).length > 0) {
+    if ((existingUsers as QueryResult[]).length > 0) {
       console.log('User already exists with the same username or email.');
       return null;
     }

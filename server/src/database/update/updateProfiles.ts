@@ -1,11 +1,11 @@
 import createConnection from '@/database/connection';
-import { UserProfile } from '@/utils/interface';
+import { QueryResult } from 'mysql2';
 
 async function insertProfile(
   userId: number,
   bio: string | null,
   avatarUrl: string | null
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -26,7 +26,7 @@ async function updateProfile(
   userId: number,
   bio: string | null,
   avatarUrl: string | null
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -46,7 +46,7 @@ async function updateProfile(
 async function updateProfileBio(
   profileId: number,
   bio: string | null
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -66,7 +66,7 @@ async function updateProfileBio(
 async function updateProfileAvatar(
   profileId: number,
   avatarUrl: string | null
-): Promise<any | null> {
+): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -83,7 +83,7 @@ async function updateProfileAvatar(
   }
 }
 
-async function deleteProfile(userId: number): Promise<any | null> {
+async function deleteProfile(userId: number): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
@@ -99,4 +99,10 @@ async function deleteProfile(userId: number): Promise<any | null> {
   }
 }
 
-export { insertProfile, updateProfile, updateProfileBio, updateProfileAvatar, deleteProfile };
+export {
+  insertProfile,
+  updateProfile,
+  updateProfileBio,
+  updateProfileAvatar,
+  deleteProfile
+};

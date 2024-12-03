@@ -7,7 +7,10 @@ import createConnection from '../connection';
  * @returns Promise<void>
  * @throws Error if the query fails
  */
-export const followArtist = async (userId: number, artistId: number): Promise<void> => {
+export const followArtist = async (
+  userId: number,
+  artistId: number
+): Promise<void> => {
   const connection = await createConnection();
   try {
     await connection.execute(
