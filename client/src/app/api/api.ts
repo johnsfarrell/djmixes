@@ -184,9 +184,7 @@ const getProfile = async (userId: number): Promise<GetProfileResponse> => {
   return res.json();
 };
 
-const getRandomMixes = async (
-  { mock }: Request = { mock: false }
-): Promise<GetMixResponse[]> => {
+const getRandomMixes = async ({ mock }: Request): Promise<GetMixResponse[]> => {
   if (mock) {
     return Promise.resolve([mockMixResponse, mockMixResponse]);
   }
@@ -210,7 +208,7 @@ const getRandomMixes = async (
     }
   }
 
-  return res.json();
+  return mixes;
 };
 
 export {
