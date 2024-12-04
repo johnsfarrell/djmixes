@@ -165,7 +165,7 @@ const getProfile = async (userId: number): Promise<GetProfileResponse> => {
 };
 
 const login = async (email: string, password: string): Promise<Response> => {
-  const res = await apiAdapter(API_URL, '/auth/login', {
+  const res = await apiAdapter(API_URL, '/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -174,6 +174,22 @@ const login = async (email: string, password: string): Promise<Response> => {
   });
 
   return res;
-}
+};
 
-export { getMix, uploadMix, getSavedMixes, getFollowedDJs, login };
+const register = async (
+  username: string,
+  email: string,
+  password: string
+): Promise<Response> => {
+  const res = await apiAdapter(API_URL, '/user/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ username, email, password })
+  });
+
+  return res;
+};
+
+export { getMix, uploadMix, getSavedMixes, getFollowedDJs, login, register };

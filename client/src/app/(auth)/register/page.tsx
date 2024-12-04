@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AuthCard from '@/components/Auth/AuthCard';
 import AuthInput from '@/components/Auth/AuthInput';
+import { register } from '@/app/api/api';
 
 /**
  * The register page component renders the registration form, handles form
@@ -29,14 +30,30 @@ export default function RegisterPage() {
     setError('');
     setIsLoading(true);
 
-    // TODO: Implement actual registration logic
+    const username = e.currentTarget.username.value;
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+    const confirmPassword = e.currentTarget.confirmPassword.value;
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.push('/');
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
+      // Call the register API endpoint
+      const res = await register(username, email, password);
+
+      if (res.ok) {
+        router.push('/');
+      } else {
+        const data = await res.json();
+        setError(data.error);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
       setIsLoading(false);
     }
   };
@@ -55,6 +72,7 @@ export default function RegisterPage() {
 
         <AuthInput
           label="DJ Name"
+          name="username"
           type="text"
           placeholder="Your DJ name"
           required
@@ -62,6 +80,7 @@ export default function RegisterPage() {
 
         <AuthInput
           label="Email"
+          name="email"
           type="email"
           placeholder="you@example.com"
           required
@@ -69,6 +88,7 @@ export default function RegisterPage() {
 
         <AuthInput
           label="Password"
+          name="password"
           type="password"
           placeholder="••••••••"
           required
@@ -76,6 +96,7 @@ export default function RegisterPage() {
 
         <AuthInput
           label="Confirm Password"
+          name="confirmPassword"
           type="password"
           placeholder="••••••••"
           required

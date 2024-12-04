@@ -27,26 +27,22 @@ export default function LoginPage(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
 
     try {
       const res = await login(email, password);
-      console.log(res);
 
-      if (!res.ok) {
+      if (res.ok) {
+        router.push('/');
+      } else {
         const data = await res.json();
-        setError(data.message);
+        setError(data.error);
         setIsLoading(false);
-        return;
       }
-
-      router.push('/');
     } catch (error) {
-      setError('An unexpected error occurred. Please try again.');
+      setError('Invalid email or password');
       setIsLoading(false);
     }
   };
@@ -65,6 +61,7 @@ export default function LoginPage(): JSX.Element {
 
         <AuthInput
           label="Email"
+          name="email"
           type="email"
           placeholder="you@example.com"
           required
@@ -72,6 +69,7 @@ export default function LoginPage(): JSX.Element {
 
         <AuthInput
           label="Password"
+          name="password"
           type="password"
           placeholder="••••••••"
           required
