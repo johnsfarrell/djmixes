@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the MixInfo component that displays the mix
+ * title, DJ name, and info.
+ */
+
 import { useState } from "react";
 
 interface MixInfoProps {
@@ -8,6 +15,19 @@ interface MixInfoProps {
   onInfoChange: (info: string) => void;
 }
 
+/**
+ * The MixInfo component displays the mix title, DJ name, and info. The title
+ * and info are editable so that the user can change them.
+ * 
+ * @param title The title of the mix.
+ * @param dj The name of the DJ.
+ * @param info The info about the mix.
+ * @param onTitleChange The function to call when the title is changed.
+ * @param onInfoChange The function to call when the info is changed.
+ * 
+ * @returns The MixInfo component.
+ * 
+ */
 export default function MixInfo({
   title,
   dj,

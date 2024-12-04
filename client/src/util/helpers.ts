@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains helper functions for the frontend
+ * application.
+ */
+
+/**
+ * Formats a date object into a string in the format "YYYY-MM-DD HH:MM:SS", or
+ * the current date if no date object is provided.
+ * 
+ * @param date The date object to format (optional).
+ * 
+ * @returns The formatted date string.
+ */
 export const formatDateTime = (date?: Date): string => {
   const d = date || new Date();
 

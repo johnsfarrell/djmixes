@@ -1,7 +1,14 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the root layout component that wraps the 
+ * entire application and provides global styles and context providers.
+ */
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { AudioPlayerProvider } from "@/context/audioPlayerContext";
-import "./globals.css";
+import "@/app/globals.css";
 import AuthLayout from "@/components/AuthLayout";
 
 const geistSans = localFont({

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the AuthInput component that displays a
+ * styled input field for authentication forms.
+ */
+
 import { forwardRef } from "react";
 
 interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {

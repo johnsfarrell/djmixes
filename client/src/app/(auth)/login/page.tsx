@@ -1,11 +1,25 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the login page component that renders the
+ * login form, handles form submission, and redirects the user to the home page
+ * upon successful login.
+ */
+
 "use client";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthCard from "@/components/Auth/AuthCard";
 import AuthInput from "@/components/Auth/AuthInput";
+import { login } from '@/app/api/api';
 
-export default function LoginPage() {
+/**
+ * The login page component renders the login form, handles form submission, and
+ * redirects the user to the home page upon successful login.
+ * @returns The login page component
+ */
+export default function LoginPage(): JSX.Element {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Prevents multiple form submissions
@@ -15,14 +29,21 @@ export default function LoginPage() {
     setError("");
     setIsLoading(true);
 
-    // TODO: Implement actual login logic
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.push("/");
-    } catch (err) {
+      const res = await login(email, password);
+
+      if (res.ok) {
+        router.push('/');
+      } else {
+        const data = await res.json();
+        setError(data.error);
+        setIsLoading(false);
+      }
+    } catch (error) {
       setError("Invalid email or password");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -41,6 +62,7 @@ export default function LoginPage() {
 
         <AuthInput
           label="Email"
+          name="email"
           type="email"
           placeholder="you@example.com"
           required
@@ -48,6 +70,7 @@ export default function LoginPage() {
 
         <AuthInput
           label="Password"
+          name="password"
           type="password"
           placeholder="••••••••"
           required

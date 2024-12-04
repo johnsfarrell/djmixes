@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the AuthCard component that displays a card
+ * with a title and subtitle in the center of the screen for authentication
+ * pages.
+ */
+
 import Logo from "@/components/Logo";
 
 interface AuthCardProps {
@@ -16,7 +24,7 @@ interface AuthCardProps {
  *
  * @returns The AuthCard component.
  */
-export default function AuthCard({ children, title, subtitle }: AuthCardProps) {
+export default function AuthCard({ children, title, subtitle }: AuthCardProps): JSX.Element {
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md">

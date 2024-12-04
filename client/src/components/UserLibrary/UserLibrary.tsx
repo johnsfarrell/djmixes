@@ -1,12 +1,23 @@
-"use client";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the UserLibrary component that displays the
+ * user's saved mixes and favorite DJs.
+ */
 
+"use client";
 import { GetMixResponse, GetProfileResponse } from "@/app/api/types";
 import MixCard from "./MixCard";
 import DJCard from "./DJCard";
 import { getFollowedDJs, getRandomMixes, getSavedMixes } from "@/app/api/api";
 import { useEffect, useState } from "react";
 
-export default function UserLibrary() {
+/**
+ * The UserLibrary component displays the user's saved mixes and favorite DJs.
+ * 
+ * @returns The UserLibrary component.
+ */
+export default function UserLibrary(): JSX.Element {
   const [savedMixes, setSavedMixes] = useState<GetMixResponse[]>([]);
   const [favoriteDjs, setFavoriteDjs] = useState<GetProfileResponse[]>([]);
   const [randomMixes, setRandomMixes] = useState<GetMixResponse[]>([]);

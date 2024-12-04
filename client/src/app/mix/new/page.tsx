@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the mix upload page component that renders
+ * the mix upload form, handles form submission, and redirects the user to the
+ * mix page upon successful mix upload.
+ */
+
 "use client";
 import { v4 as uuidv4 } from "uuid";
 import { Upload, Image, Music, Plus } from "lucide-react";
@@ -10,13 +18,29 @@ import { MixUploadRequest, UploadMixResponse } from "@/app/api/types";
 import { uploadMix } from "@/app/api/api";
 import { formatDateTime } from "@/util/helpers";
 
+/**
+ * The Tag interface represents a tag object with an ID and text.
+ * 
+ * @interface
+ */
 interface Tag {
+  /**
+   * The unique identifier of the tag.
+   */
   id: string;
+
+  /**
+   * The text of the tag.
+   */
   text: string;
 }
 
-export default function MixUploadPage() {
-  // State
+/**
+ * The mix upload page component renders the mix upload form, handles form
+ * submission, and redirects the user to the mix page upon successful mix upload.
+ * @returns The mix upload page component
+ */
+export default function MixUploadPage(): JSX.Element {
   const [tags, setTags] = useState<Tag[]>([]);
   const [visibility, setVisibility] = useState("public");
   const [downloadable, setDownloadable] = useState(false);
@@ -25,11 +49,9 @@ export default function MixUploadPage() {
   const [artwork, setArtwork] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
-  // Refs
   const artworkInputRef = useRef<HTMLInputElement>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
 
-  // Handlers
   const handleArtworkUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
