@@ -19,7 +19,7 @@ class ShazamAdapter(SongRecognitionInterface):
         return title
 
 class SongSplitter:
-    def __init__(self, adapter: SongRecognitionInterface = ShazamAdapter(), chunk_duration: int =60):
+    def __init__(self, adapter: SongRecognitionInterface = ShazamAdapter(), chunk_duration: int = 60):
         self.chunk_duration = chunk_duration
         self.adapter = adapter
 
@@ -72,6 +72,7 @@ class SongSplitter:
 
 
 # Usage
-# song = 'wonka.mp3'
+# import os
+# song = os.path.join(os.path.dirname(__file__), 'files/realmix.mp3')
 # splitter = SongSplitter()
 # splitter.graph_splits(song, asyncio.run(splitter.split(song)))

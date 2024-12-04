@@ -17,7 +17,7 @@ def plot_audio_waveform(audio_file, labels=[], title='Audio Waveform'):
     plt.figure(figsize=(14, 5))
     plt.plot(t, y)
 
-    for time_stamp, label in labels:
+    for label, time_stamp in labels.items():
         plt.axvline(x=time_stamp, color='r', linestyle='-')
         plt.text(time_stamp - 10, plt.ylim()[0], label, rotation=90)
 
