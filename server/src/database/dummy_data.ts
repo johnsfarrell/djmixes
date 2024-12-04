@@ -3,69 +3,72 @@ INSERT INTO mixes (user_id, title, file_url, cover_url, tags, visibility, allow_
 VALUES
 (1, 'DJMix1', '1732581611898_track1.mp3', '1732581611898_cover1.jpg', 'house,techno', 'public', TRUE, 'DJ One', 'House Vibes', 0),
 (1, 'DJMix2', '1732581611898_track2.mp3', '1732581611898_cover1.jpg', 'house,techno', 'public', TRUE, 'DJ One', 'House Vibes', 0),
-(2, 'ElectroMix1', '1732581781195_track3.mp3', '1732581781195_cover2.jpg', 'electro,edm', 'private', TRUE, 'Electro Master', 'EDM Universe', 0),
-(2, 'ElectroMix2', '1732581781195_track4.mp3', '1732581781195_cover2.jpg', 'electro,edm', 'public', TRUE, 'Electro Master', 'EDM Universe', 0),
-(3, 'IndieMix1', '1732581611898_track5.mp3', '1732581611898_cover3.jpg', 'indie,acoustic', 'public', TRUE, 'Indie Artist', 'Strum Acoustic', 0),
-(3, 'IndieMix2', '1732581611898_track6.mp3', '1732581611898_cover3.jpg', 'indie,acoustic', 'private', TRUE, 'Indie Artist', 'Strum Acoustic', 0),
-(4, 'PopMix1', '1732581891254_track7.mp3', '1732581891254_cover4.jpg', 'pop,summer', 'public', TRUE, 'Pop Singer', 'Summer Hits', 0),
-(5, 'RockMix1', '1732581991122_track8.mp3', '1732581991122_cover5.jpg', 'rock,classic', 'public', TRUE, 'Rock Band', 'Classic Rock Anthems', 0),
-(5, 'RockMix2', '1732581991122_track9.mp3', '1732581991122_cover5.jpg', 'rock,classic', 'public', TRUE, 'Rock Band', 'Classic Rock Anthems', 0),
-(6, 'JazzMix1', '1732582091323_track10.mp3', '1732582091323_cover6.jpg', 'jazz,smooth', 'private', TRUE, 'Jazz Trio', 'Smooth Jazz Vibes', 0),
-(7, 'ChillMix1', '1732582191456_track11.mp3', '1732582191456_cover7.jpg', 'chill,lounge', 'public', TRUE, 'Chill Beats', 'Lounge Grooves', 0),
-(8, 'TrapMix1', '1732582291789_track12.mp3', '1732582291789_cover8.jpg', 'trap,hiphop', 'public', TRUE, 'Trap King', 'Bassline Trap', 0),
-(9, 'EDMMix1', '1732582391876_track13.mp3', '1732582391876_cover9.jpg', 'edm,techno', 'private', TRUE, 'DJ Electro', 'Techno Night', 0),
+(2, '99%', '1733329013616_99%.mp3', '1733331498145_Loading copy.tiff', 'hip hop', 'public', TRUE, 'ZZZ Studio', 'Loading...', 0),
+(3, 'Tear Da Club (Speed Up  Long Version)', '1733329102937_AraabMuzik - Tear Da Club (Speed Up  Long Version).mp3', '1733329102937_Tear Da Club.avif', 'hip hop', 'public', TRUE, 'AraabMuzik', 'AraabMuzik', 0),
+(4, 'TRNDSTTR (Lucian Remix)', '1733329210965_Black Coast - TRNDSTTR (Lucian Remix).mp3', '1733329210965_TRNDSTTR.avif', 'edm, remix', 'public', TRUE, 'Lucian', 'Remix', 0),
+(2, 'Endless Construction Day - Day (Bass Boost Version)', '1733329303381_Endless Construction Day - Day (Bass Boost Version)  EOUS'' ANTHEMS Music  Zenless Zone Zero.mp3', '1733329303381_Endless Construction Day.png', 'edm', 'public', TRUE, 'zzz_studio', 'EOUS'' ANTHEMS', 0),
+(5, 'Hol'' Up', '1733329411846_Hol'' Up.mp3', '1733329411846_Hol'' Up.avif', 'hip hop', 'public', TRUE, 'Kendrick Lamar', 'Section.80', 0),
+(2, 'Fearless', '1733329526771_Lighter EP - Fearless  Zenless Zone Zero.mp3', '1733329526771_Lighter EP.avif', 'edm', 'public', TRUE, 'ZZZ Studio', 'Lighter - EP', 0),
+(6, 'Moonbeats Broadcast  Yung Bae DJ Set', '1733329641609_Moonbeats Broadcast  Yung Bae DJ Set.mp3', '1733329641609_MoonBeats.avif', 'edm, remix', 'public', TRUE, 'Yung Bae', 'Live DJ SET', 0),
+(7, 'What''s Up Danger.mp3', '1733329768599_What''s Up Danger.mp3', '1733329768599_What''s Up Danger.avif', 'hip hop', 'public', TRUE, 'Black Caviar, Blackway', 'Spider-Man: Into the Spider-Verse', 0),
+(8, 'Jocelyn Flores', '1733329894347_XXXTENTACION - Jocelyn Flores (Audio).mp3', '1733329894347_Jocelyn Flores.avif', 'hip hop', 'public', TRUE, 'XXXTENTACION', '17', 0),
+(6, 'Digital Mirage Set', '1733330022306_Yung Bae - Digital Mirage Set.mp3', '1733330022306_Digital Mirage Set.avif', 'trap,hiphop,remix', 'public', TRUE, 'Yung Bae', 'Live DJ Set', 0),
+(9, 'ZEZE Remix', '1733330125614_ZEZE Remix - Eminem, Tyga, G-Eazy, Chris Brown, Travis Scott,Dr. Dre,50 Cent,Offset [Nitin Randhawa].mp3', '1733330125614_ZEZE Remix.avif', 'hip hop,remix', 'public', TRUE, 'Nitin Randhawa', 'AskNitin', 0),
 (10, 'HipHopMix1', '1732582491987_track14.mp3', '1732582491987_cover10.jpg', 'hiphop,rap', 'public', TRUE, 'HipHop Legend', 'Rap Origins', 0),
-(1, 'DJMix3', '1732581611898_track15.mp3', '1732581611898_cover1.jpg', 'house,techno', 'public', TRUE, 'DJ One', 'House Vibes', 0),
-(2, 'ElectroMix3', '1732581781195_track16.mp3', '1732581781195_cover2.jpg', 'electro,edm', 'private', TRUE, 'Electro Master', 'EDM Universe', 0),
-(3, 'IndieMix3', '1732581611898_track17.mp3', '1732581611898_cover3.jpg', 'indie,acoustic', 'public', TRUE, 'Indie Artist', 'Strum Acoustic', 0),
-(4, 'PopMix2', '1732581891254_track18.mp3', '1732581891254_cover4.jpg', 'pop,summer', 'private', TRUE, 'Pop Singer', 'Summer Hits', 0),
-(5, 'RockMix3', '1732581991122_track19.mp3', '1732581991122_cover5.jpg', 'rock,classic', 'public', TRUE, 'Rock Band', 'Classic Rock Anthems', 0),
-(6, 'JazzMix2', '1732582091323_track20.mp3', '1732582091323_cover6.jpg', 'jazz,smooth', 'private', TRUE, 'Jazz Trio', 'Smooth Jazz Vibes', 0),
-(7, 'ChillMix2', '1732582191456_track21.mp3', '1732582191456_cover7.jpg', 'chill,lounge', 'public', TRUE, 'Chill Beats', 'Lounge Grooves', 0),
-(8, 'TrapMix2', '1732582291789_track22.mp3', '1732582291789_cover8.jpg', 'trap,hiphop', 'private', TRUE, 'Trap King', 'Bassline Trap', 0),
-(9, 'EDMMix2', '1732582391876_track23.mp3', '1732582391876_cover9.jpg', 'edm,techno', 'public', TRUE, 'DJ Electro', 'Techno Night', 0),
+(10, 'DJMix3', '1732581611898_track15.mp3', '1732581611898_cover1.jpg', 'house,techno', 'public', TRUE, 'DJ One', 'House Vibes', 0),
+(10, 'ElectroMix3', '1732581781195_track16.mp3', '1732581781195_cover2.jpg', 'electro,edm', 'private', TRUE, 'Electro Master', 'EDM Universe', 0),
+(10, 'IndieMix3', '1732581611898_track17.mp3', '1732581611898_cover3.jpg', 'indie,acoustic', 'public', TRUE, 'Indie Artist', 'Strum Acoustic', 0),
+(10, 'PopMix2', '1732581891254_track18.mp3', '1732581891254_cover4.jpg', 'pop,summer', 'private', TRUE, 'Pop Singer', 'Summer Hits', 0),
+(10, 'RockMix3', '1732581991122_track19.mp3', '1732581991122_cover5.jpg', 'rock,classic', 'public', TRUE, 'Rock Band', 'Classic Rock Anthems', 0),
+(10, 'JazzMix2', '1732582091323_track20.mp3', '1732582091323_cover6.jpg', 'jazz,smooth', 'private', TRUE, 'Jazz Trio', 'Smooth Jazz Vibes', 0),
+(10, 'ChillMix2', '1732582191456_track21.mp3', '1732582191456_cover7.jpg', 'chill,lounge', 'public', TRUE, 'Chill Beats', 'Lounge Grooves', 0),
+(10, 'TrapMix2', '1732582291789_track22.mp3', '1732582291789_cover8.jpg', 'trap,hiphop', 'private', TRUE, 'Trap King', 'Bassline Trap', 0),
+(10, 'EDMMix2', '1732582391876_track23.mp3', '1732582391876_cover9.jpg', 'edm,techno', 'public', TRUE, 'DJ Electro', 'Techno Night', 0),
 (10, 'HipHopMix2', '1732582491987_track24.mp3', '1732582491987_cover10.jpg', 'hiphop,rap', 'private', TRUE, 'HipHop Legend', 'Rap Origins', 0),
-(1, 'DJMix4', '1732581611898_track25.mp3', '1732581611898_cover1.jpg', 'house,techno', 'public', TRUE, 'DJ One', 'House Vibes', 0),
-(2, 'ElectroMix4', '1732581781195_track26.mp3', '1732581781195_cover2.jpg', 'electro,edm', 'private', TRUE, 'Electro Master', 'EDM Universe', 0),
-(3, 'IndieMix4', '1732581611898_track27.mp3', '1732581611898_cover3.jpg', 'indie,acoustic', 'public', TRUE, 'Indie Artist', 'Strum Acoustic', 0),
-(4, 'PopMix3', '1732581891254_track28.mp3', '1732581891254_cover4.jpg', 'pop,summer', 'private', TRUE, 'Pop Singer', 'Summer Hits', 0),
-(5, 'RockMix4', '1732581991122_track29.mp3', '1732581991122_cover5.jpg', 'rock,classic', 'public', TRUE, 'Rock Band', 'Classic Rock Anthems', 0),
-(6, 'JazzMix3', '1732582091323_track30.mp3', '1732582091323_cover6.jpg', 'jazz,smooth', 'private', TRUE, 'Jazz Trio', 'Smooth Jazz Vibes', 0),
-(7, 'ChillMix3', '1732582191456_track31.mp3', '1732582191456_cover7.jpg', 'chill,lounge', 'public', TRUE, 'Chill Beats', 'Lounge Grooves', 0),
-(8, 'TrapMix3', '1732582291789_track32.mp3', '1732582291789_cover8.jpg', 'trap,hiphop', 'private', TRUE, 'Trap King', 'Bassline Trap', 0),
-(9, 'EDMMix3', '1732582391876_track33.mp3', '1732582391876_cover9.jpg', 'edm,techno', 'public', TRUE, 'DJ Electro', 'Techno Night', 0),
-(10, 'HipHopMix3', '1732582491987_track34.mp3', '1732582491987_cover10.jpg', 'hiphop,rap', 'private', TRUE, 'HipHop Legend', 'Rap Origins', 0)
+(10, 'DJMix4', '1732581611898_track25.mp3', '1732581611898_cover1.jpg', 'house,techno', 'public', TRUE, 'DJ One', 'House Vibes', 0),
+(10, 'ElectroMix4', '1732581781195_track26.mp3', '1732581781195_cover2.jpg', 'electro,edm', 'private', TRUE, 'Electro Master', 'EDM Universe', 0),
+(11, 'IndieMix4', '1732581611898_track27.mp3', '1732581611898_cover3.jpg', 'indie,acoustic', 'public', TRUE, 'Indie Artist', 'Strum Acoustic', 0),
+(11, 'PopMix3', '1732581891254_track28.mp3', '1732581891254_cover4.jpg', 'pop,summer', 'private', TRUE, 'Pop Singer', 'Summer Hits', 0),
+(11, 'RockMix4', '1732581991122_track29.mp3', '1732581991122_cover5.jpg', 'rock,classic', 'public', TRUE, 'Rock Band', 'Classic Rock Anthems', 0),
+(11, 'JazzMix3', '1732582091323_track30.mp3', '1732582091323_cover6.jpg', 'jazz,smooth', 'private', TRUE, 'Jazz Trio', 'Smooth Jazz Vibes', 0),
+(11, 'ChillMix3', '1732582191456_track31.mp3', '1732582191456_cover7.jpg', 'chill,lounge', 'public', TRUE, 'Chill Beats', 'Lounge Grooves', 0),
+(12, 'TrapMix3', '1732582291789_track32.mp3', '1732582291789_cover8.jpg', 'trap,hiphop', 'private', TRUE, 'Trap King', 'Bassline Trap', 0),
+(12, 'EDMMix3', '1732582391876_track33.mp3', '1732582391876_cover9.jpg', 'edm,techno', 'public', TRUE, 'DJ Electro', 'Techno Night', 0),
+(13, 'HipHopMix3', '1732582491987_track34.mp3', '1732582491987_cover10.jpg', 'hiphop,rap', 'private', TRUE, 'HipHop Legend', 'Rap Origins', 0)
 ON DUPLICATE KEY UPDATE user_id = VALUES(user_id);
 `;
 
 const insertUsersQuery: string = `
   INSERT INTO users (username, email, password, registration_method, active)
   VALUES
-    ('user1', 'user1@example.com', 'password1', 0, 1),
-    ('user2', 'user2@example.com', 'password2', 1, 0),
-    ('user3', 'user3@example.com', 'password3', 1, 1),
-    ('user4', 'user4@example.com', 'password4', 0, 1),
-    ('user5', 'user5@example.com', 'password5', 1, 0),
-    ('user6', 'user6@example.com', 'password6', 1, 1),
-    ('user7', 'user7@example.com', 'password7', 0, 1),
-    ('user8', 'user8@example.com', 'password8', 1, 0),
-    ('user9', 'user9@example.com', 'password9', 1, 1),
-    ('user10', 'user10@example.com', 'password10', 0, 1)
+    ('tester', 'user1@example.com', 'password1', 0, 1),
+    ('zzz', 'user2@example.com', 'password2', 1, 0),
+    ('oldSchool', 'user3@example.com', 'password3', 1, 1),
+    ('Lucian', 'user4@example.com', 'password4', 0, 1),
+    ('KDfan', 'user5@example.com', 'password5', 1, 0),
+    ('Yung Bae', 'user6@example.com', 'password6', 1, 1),
+    ('SpiderMan', 'user7@example.com', 'password7', 0, 1),
+    ('XXXfan', 'user8@example.com', 'password8', 1, 0),
+    ('Nitin', 'user9@example.com', 'password9', 1, 1),
+    ('user10', 'user10@example.com', 'password10', 0, 1),
+    ('user11', 'user11@example.com', 'password11', 0, 1),
+    ('user12', 'user12@example.com', 'password12', 0, 1),
+    ('user13', 'user13@example.com', 'password13', 0, 1)
     ON DUPLICATE KEY UPDATE username = VALUES(username);`;
 
 const insertCommentsQuery: string = `
   INSERT INTO comments (user_id, mix_id, comment_text, created_at)
   VALUES
-    (1, 101, 'Great mix! Love the beats.', NOW()),
-    (2, 102, 'This mix is a bit too slow for me.', NOW()),
-    (3, 103, 'Amazing energy, would love to see more like this!', NOW()),
-    (4, 104, 'Very unique sound, enjoyed it!', NOW()),
-    (5, 105, 'Good effort but could use some refining.', NOW()),
-    (6, 106, 'Superb mix, added to my playlist!', NOW()),
-    (7, 107, 'Loved the transitions in this one.', NOW()),
-    (8, 108, 'A bit too experimental for my taste.', NOW()),
-    (9, 109, 'Absolutely brilliant, keep it up!', NOW()),
-    (10, 110, 'Not my style, but well done.', NOW())
+    (11, 1, 'Great mix! Love the beats.', NOW()),
+    (12, 2, 'This mix is a bit too slow for me.', NOW()),
+    (13, 3, 'Amazing energy, would love to see more like this!', NOW()),
+    (11, 4, 'Very unique sound, enjoyed it!', NOW()),
+    (12, 5, 'Good effort but could use some refining.', NOW()),
+    (13, 6, 'Superb mix, added to my playlist!', NOW()),
+    (11, 7, 'Loved the transitions in this one.', NOW()),
+    (11, 8, 'A bit too experimental for my taste.', NOW()),
+    (10, 9, 'Absolutely brilliant, keep it up!', NOW()),
+    (10, 10, 'Not my style, but well done.', NOW())
     ON DUPLICATE KEY UPDATE comment_text = VALUES(comment_text);`;
 
 const insertLikesQuery: string = `
@@ -132,16 +135,19 @@ const insertEventsQuery: string = `
 const insertUserProfilesQuery: string = `
   INSERT INTO user_profiles (user_id, bio, avatar_url, created_at)
   VALUES
-    (1, 'Music lover and DJ enthusiast.', 'https://example.com/avatar1.jpg', NOW()),
-    (2, 'Guitarist and music producer.', 'https://example.com/avatar2.jpg', NOW()),
-    (3, 'Enjoys creating mixes and exploring new genres.', 'https://example.com/avatar3.jpg', NOW()),
-    (4, 'Live performer with a passion for acoustic.', 'https://example.com/avatar4.jpg', NOW()),
-    (5, 'Pop artist and singer-songwriter.', 'https://example.com/avatar5.jpg', NOW()),
-    (6, 'Electronic music producer.', 'https://example.com/avatar6.jpg', NOW()),
-    (7, 'Drummer and sound engineer.', 'https://example.com/avatar7.jpg', NOW()),
-    (8, 'Classical pianist with a modern twist.', 'https://example.com/avatar8.jpg', NOW()),
-    (9, 'Hip hop artist and lyricist.', 'https://example.com/avatar9.jpg', NOW()),
-    (10, 'Indie folk singer with a passion for storytelling.', 'https://example.com/avatar10.jpg', NOW())
+    (1, 'Random Volunteer tester in the web.', 'https://example.com/avatar1.jpg', NOW()),
+    (2, 'ZZZ studio', '1733330929889_channels4_profile.jpg', NOW()),
+    (3, 'Old school Hip Hop dancer', '1733331051586_download.jpeg', NOW()),
+    (4, 'DJ Lucian', '1733331122988_download (1).jpeg', NOW()),
+    (5, 'Kendrick Lamar fan here', '1733331179726_download_2.jpeg', NOW()),
+    (6, 'DJ Yung Bae', '1733331219085_Yung Bae.jpeg', NOW()),
+    (7, 'Your friendly neighbor SpiderMan', '1733331274113_spider.jpeg', NOW()),
+    (8, 'XXX fan', '1733331322285_?.jpeg', NOW()),
+    (9, 'Nitin Randhawa #AskNitin', '1733331387109_channels4_profile (1).jpg', NOW()),
+    (10, 'Indie folk singer with a passion for storytelling.', 'https://example.com/avatar10.jpg', NOW()),
+    (11, 'mix lover', 'https://example.com/avatar11.jpg', NOW()),
+    (12, '', 'https://example.com/avatar12.jpg', NOW()),
+    (13, 'yo', 'https://example.com/avatar13.jpg', NOW())
   ON DUPLICATE KEY UPDATE 
     bio = VALUES(bio), 
     avatar_url = VALUES(avatar_url);
