@@ -5,26 +5,10 @@ import React, {
   useState,
   useRef,
   ReactNode,
+  useEffect,
 } from "react";
 import { StaticImageData } from "next/image";
-
-import cover1 from "../../public/mock/cover1.jpg";
-import cover2 from "../../public/mock/cover1.jpg";
-
-export const tracks = [
-  {
-    title: "Last Words",
-    src: "",
-    author: "Kenny Beats",
-    thumbnail: cover1,
-  },
-  {
-    title: "Some",
-    src: "",
-    author: "Steve Lacy",
-    thumbnail: cover2,
-  },
-];
+import { getMix, getMixResponse } from "@/app/api/api.ts";
 
 interface Track {
   title: string;
@@ -47,21 +31,46 @@ interface AudioPlayerContextType {
   setTrackIndex: React.Dispatch<React.SetStateAction<number>>;
   mixId: string;
   setMixId: React.Dispatch<React.SetStateAction<string>>;
+  mixData: GetMixResponse | null;
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
-  undefined,
+  undefined
 );
 
 export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
   const [trackIndex, setTrackIndex] = useState<number>(0);
-  const [currentTrack, setCurrentTrack] = useState<Track>(tracks[trackIndex]);
+  const [currentTrack, setCurrentTrack] = useState<Track>({
+    title: "",
+    src: "",
+    author: "",
+  });
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [timeProgress, setTimeProgress] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [mixId, setMixId] = useState<string>("exampleMixId");
+  const [mixData, setMixData] = useState<GetMixResponse | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const fetchMixData = async () => {
+      if (mixId) {
+        const data = await getMix({ mixId: parseInt(mixId), mock: true });
+        setMixData(data);
+        setCurrentTrack({
+          title: data.title,
+          src: data.fileUrl || "",
+          author: data.artist,
+          thumbnail: data.coverUrl
+            ? ({ src: data.coverUrl } as StaticImageData)
+            : undefined,
+        });
+      }
+    };
+
+    fetchMixData();
+  }, [mixId]);
 
   const contextValue = {
     currentTrack,
@@ -77,6 +86,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     setTrackIndex,
     mixId,
     setMixId,
+    mixData,
   };
 
   return (
@@ -90,7 +100,7 @@ export const useAudioPlayerContext = (): AudioPlayerContextType => {
   const context = useContext(AudioPlayerContext);
   if (context === undefined) {
     throw new Error(
-      "useAudioPlayerContext must be used within an AudioPlayerProvider",
+      "useAudioPlayerContext must be used within an AudioPlayerProvider"
     );
   }
   return context;

@@ -9,7 +9,7 @@ import {
   BsShuffle,
   BsRepeat,
 } from "react-icons/bs";
-import { tracks, useAudioPlayerContext } from "@/context/audioPlayerContext";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 //rendering the audio player controls
 export const Controls: React.FC = () => {
@@ -24,11 +24,13 @@ export const Controls: React.FC = () => {
     duration,
     setTimeProgress,
     setTrackIndex,
+    mixData,
   } = useAudioPlayerContext();
 
   // State to handle shuffle and repeat functionality (have not tested shuffle)
   const [isShuffle, setIsShuffle] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
+  const tracks = [currentTrack];
 
   const playAnimationRef = useRef<number | null>(null);
 
@@ -40,7 +42,7 @@ export const Controls: React.FC = () => {
       progressBarRef.current.value = currentTime.toString();
       progressBarRef.current.style.setProperty(
         "--range-progress",
-        `${(currentTime / duration) * 100}%`,
+        `${(currentTime / duration) * 100}%`
       );
     }
   }, [duration, setTimeProgress, audioRef, progressBarRef]);
@@ -80,6 +82,7 @@ export const Controls: React.FC = () => {
   // Function to handle the next track
   const handleNext = useCallback(() => {
     setTrackIndex((prevIndex) => {
+      if (!mixData || mixData.comments.length <= 1) return prevIndex; // Do nothing if there's only one track
       const newIndex = isShuffle
         ? Math.floor(Math.random() * tracks.length)
         : prevIndex >= tracks.length - 1
@@ -96,6 +99,7 @@ export const Controls: React.FC = () => {
   // Function to handle the previous track
   const handlePrevious = useCallback(() => {
     setTrackIndex((prevIndex) => {
+      if (!mixData || mixData.comments.length <= 1) return prevIndex; // Do nothing if there's only one track
       const newIndex = isShuffle
         ? Math.floor(Math.random() * tracks.length)
         : prevIndex === 0
