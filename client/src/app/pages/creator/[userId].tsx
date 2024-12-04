@@ -4,30 +4,27 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { ProfileResponse, ProfileMix, ProfileEvent } from "@/api/types";
-import { mockProfile } from "@/api/mockData";
+import { getCreator } from "@/api/api.ts";
 
 export default function CreatorViewPage() {
   // State for the creator's info, mixes, and communication feed
-  const router = userRouter();
-  cost {userId} = router.query;
+  const router = useRouter();
+  const { userId } = {router.query.userId};
 
   const [creator, setCreator] = useState<ProfileResponse | null>(null);
 
   useEffect(() => {
     // Fetch the creator's data from the backend
-    async function fetchCreatorData() {
-      if (!userId) return; // Ensure userId is available
-
+    async function fetchCreator() {
       try {
-        const response = await fetch(`/api/creators/${userId}`);
-        const data: ProfileResponse = await response.json();
-        setCreator(data);
+        const fetchedCreator = await getCreator({ userId: 1, mock: true }); // Example userId
+        setCreator(fetchedCreator);
       } catch (error) {
         console.error("Error fetching creator data:", error);
       }
     }
 
-    fetchCreatorData();
+    fetchCreator();
   }, [userId]);
 
   if (!creator) {
