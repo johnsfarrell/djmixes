@@ -5,12 +5,12 @@
  * currently playing mix's details and user's library.
  */
 
-'use client';
-import React, { useEffect, useState } from 'react';
-import CurrentMixDetails from '@/components/CurrentMixDetails/CurrentMixDetails';
-import UserLibrary from '@/components/UserLibrary/UserLibrary';
-import { GetMixResponse } from '@/app/api/types';
-import { getMix } from '@/app/api/api';
+"use client";
+import React, { useEffect, useState } from "react";
+import CurrentMixDetails from "@/components/CurrentMixDetails/CurrentMixDetails";
+import UserLibrary from "@/components/UserLibrary/UserLibrary";
+import { GetMixResponse } from "@/app/api/types";
+import { getMix } from "@/app/api/api";
 
 /**
  * The home page component displays all the content on the home page, including

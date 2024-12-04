@@ -5,9 +5,9 @@
  * card with the mix's artwork, title, artist, and a play button.
  */
 
-import Image from 'next/image';
-import { GetMixResponse } from '@/app/api/types';
-import { useState } from 'react';
+import Image from "next/image";
+import { GetMixResponse } from "@/app/api/types";
+import { useState } from "react";
 
 /**
  * The MixCard component displays a mix card with the mix's artwork, title, 

@@ -4,7 +4,7 @@
  * @returns The filename without the prefix
  */
 export function removePrefix(filename: string): string {
-  const underscoreIndex = filename.indexOf('_');
+  const underscoreIndex = filename.indexOf("_");
   if (underscoreIndex !== -1) {
     return filename.substring(underscoreIndex + 1);
   }

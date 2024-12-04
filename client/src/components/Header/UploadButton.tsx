@@ -5,8 +5,8 @@
  * button with an upload icon and text.
  */
 
-'use client';
-import { Upload } from 'lucide-react';
+"use client";
+import { Upload } from "lucide-react";
 
 interface UploadButtonProps {
   onClick: () => void;

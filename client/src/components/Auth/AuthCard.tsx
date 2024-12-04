@@ -6,7 +6,7 @@
  * pages.
  */
 
-import Logo from '@/components/Logo';
+import Logo from "@/components/Logo";
 
 interface AuthCardProps {
   children: React.ReactNode;
@@ -17,11 +17,11 @@ interface AuthCardProps {
 /**
  * The AuthCard component displays a card with a title and subtitle in the
  * center of the screen for authentication pages.
- * 
+ *
  * @param children The children to render inside the card.
  * @param title The title of the card.
  * @param subtitle The subtitle of the card.
- * 
+ *
  * @returns The AuthCard component.
  */
 export default function AuthCard({ children, title, subtitle }: AuthCardProps): JSX.Element {
@@ -32,9 +32,7 @@ export default function AuthCard({ children, title, subtitle }: AuthCardProps): 
           <div className="text-center mb-6">
             <Logo />
             <h1 className="text-white text-2xl font-bold mb-2">{title}</h1>
-            {subtitle && (
-              <p className="text-gray-400">{subtitle}</p>
-            )}
+            {subtitle && <p className="text-gray-400">{subtitle}</p>}
           </div>
           {children}
         </div>
@@ -42,4 +40,3 @@ export default function AuthCard({ children, title, subtitle }: AuthCardProps): 
     </div>
   );
 }
-  

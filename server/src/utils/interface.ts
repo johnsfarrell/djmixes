@@ -1,9 +1,4 @@
-import {
-  S3Client,
-  GetObjectCommand,
-  GetObjectCommandInput,
-  PutObjectCommandOutput
-} from '@aws-sdk/client-s3';
+import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
 
 export interface UploadUser {
   userId: number;
@@ -12,8 +7,8 @@ export interface UploadUser {
 
 export interface LoginResponse {
   message: string;
-  token: string;   // JWT token for authentication
-  userId: number;  // User ID for frontend storage
+  token: string; // JWT token for authentication
+  userId: number; // User ID for frontend storage
 }
 
 export interface MixResponse {
@@ -41,7 +36,7 @@ export interface Mix {
   fileUrl: string;
   coverUrl: string;
   tags?: string[];
-  visibility: 'public' | 'private' | 'unlisted' | 'friends';
+  visibility: "public" | "private" | "unlisted" | "friends";
   allowDownload: boolean;
   createdAt: Date;
   updatedAt: Date;

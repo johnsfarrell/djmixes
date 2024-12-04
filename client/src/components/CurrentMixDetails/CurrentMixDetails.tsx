@@ -5,9 +5,9 @@
  * the details of the current mix, including the songs used and stems.
  */
 
-import { GetMixResponse } from '@/app/api/types';
-import SongItem from './SongItem';
-import StemItem from './StemItem';
+import { GetMixResponse } from "@/app/api/types";
+import SongItem from "./SongItem";
+import StemItem from "./StemItem";
 
 /**
  * The CurrentMixDetails component displays the details of the current mix,
@@ -23,26 +23,26 @@ export default function CurrentMixDetails({ mix }: { mix: GetMixResponse }): JSX
   const songs = [
     // example songs
     {
-      id: '1',
-      title: 'Last Words',
-      artist: 'Kenny Beats',
-      timestamp: '0:00', // : separate song type from song timestamps on mixes
-      albumArt: undefined
+      id: "1",
+      title: "Last Words",
+      artist: "Kenny Beats",
+      timestamp: "0:00", // : separate song type from song timestamps on mixes
+      albumArt: undefined,
     },
     {
-      id: '2',
-      title: 'Some',
-      artist: 'Steve Lacy',
-      timestamp: '0:00', // : separate song type from song timestamps on mixes
-      albumArt: undefined
-    }
+      id: "2",
+      title: "Some",
+      artist: "Steve Lacy",
+      timestamp: "0:00", // : separate song type from song timestamps on mixes
+      albumArt: undefined,
+    },
   ];
 
   const stems = [
-    { id: '1', title: 'Drums' },
-    { id: '2', title: 'Bass' },
-    { id: '3', title: 'Other' },
-    { id: '4', title: 'Vocals' }
+    { id: "1", title: "Drums" },
+    { id: "2", title: "Bass" },
+    { id: "3", title: "Other" },
+    { id: "4", title: "Vocals" },
   ];
 
   return (

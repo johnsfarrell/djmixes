@@ -5,8 +5,8 @@
  * field for adding tags to a mix.
  */
 
-import { useState } from 'react';
-import Tag from '@/components/MixUpload/Tag';
+import { useState } from "react";
+import Tag from "@/components/MixUpload/Tag";
 
 interface TagType {
   id: string;
@@ -32,14 +32,14 @@ interface TagInputProps {
 export default function TagInput({
   tags,
   onAddTag,
-  onDeleteTag
+  onDeleteTag,
 }: TagInputProps): JSX.Element {
-  const [currentTag, setCurrentTag] = useState('');
+  const [currentTag, setCurrentTag] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && currentTag.trim()) {
+    if (e.key === "Enter" && currentTag.trim()) {
       onAddTag(currentTag.trim());
-      setCurrentTag('');
+      setCurrentTag("");
     }
   };
 

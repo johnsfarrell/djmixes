@@ -5,10 +5,10 @@
  * upload and notification buttons in the header.
  */
 
-'use client';
-import MobileUploadButton from '@/components/Header/MobileUploadButton';
-import UploadButton from '@/components/Header/UploadButton';
-import Avatar from '@/components/Header/Avatar';
+"use client";
+import MobileUploadButton from "@/components/Header/MobileUploadButton";
+import UploadButton from "@/components/Header/UploadButton";
+import Avatar from "@/components/Header/Avatar";
 
 interface MenuButtonsProps {
   avatarImageUrl?: string;

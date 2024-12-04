@@ -5,10 +5,10 @@
  * of the application with the logo, search bar, and menu buttons.
  */
 
-import Logo from '@/components/Logo';
-import SearchBar from '@/components/Header/SearchBar';
-import MenuButtons from '@/components/Header/MenuButtons';
-import Link from 'next/link';
+import Logo from "@/components/Logo";
+import SearchBar from "@/components/Header/SearchBar";
+import MenuButtons from "@/components/Header/MenuButtons";
+import Link from "next/link";
 
 interface HeaderProps {
   avatarImageUrl?: string;

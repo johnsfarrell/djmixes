@@ -5,8 +5,8 @@
  * displays the upload button for mobile devices.
  */
 
-'use client';
-import { Upload } from 'lucide-react';
+"use client";
+import { Upload } from "lucide-react";
 
 interface MobileUploadButtonProps {
   onClick: () => void;
@@ -20,7 +20,9 @@ interface MobileUploadButtonProps {
  * 
  * @returns The MobileUploadButton component.
  */
-export default function MobileUploadButton({ onClick }: MobileUploadButtonProps) {
+export default function MobileUploadButton({
+  onClick,
+}: MobileUploadButtonProps) {
   return (
     <button
       onClick={onClick}

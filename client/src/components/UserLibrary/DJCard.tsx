@@ -5,9 +5,9 @@
  * profile photo and username.
  */
 
-import Image from 'next/image';
-import { GetProfileResponse } from '@/app/api/types';
-import { User } from 'lucide-react';
+import Image from "next/image";
+import { GetProfileResponse } from "@/app/api/types";
+import { User } from "lucide-react";
 
 /**
  * The DJCard component displays a DJ's profile photo and username.

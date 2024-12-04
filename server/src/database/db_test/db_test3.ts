@@ -1,77 +1,77 @@
-import createConnection from '@/database/connection';
-import createTables from '@/database/table';
-import { getEventsBasedOnDj, getEvent } from '@/database/search/getEvents';
-import { getLikes } from '@/database/search/getLikes';
-import { getComments } from '@/database/search/getComments';
-import { getProfile } from '@/database/search/getProfiles';
+import createConnection from "@/database/connection";
+import createTables from "@/database/table";
+import { getEventsBasedOnDj, getEvent } from "@/database/search/getEvents";
+import { getLikes } from "@/database/search/getLikes";
+import { getComments } from "@/database/search/getComments";
+import { getProfile } from "@/database/search/getProfiles";
 import {
   insertComment,
   updateComment,
-  deleteComment
-} from '@/database/update/updateComments';
-import { insertEvent, updateEvent } from '@/database/update/updateEvents';
-import { insertLike, deleteLike } from '@/database/update/updateLikes';
+  deleteComment,
+} from "@/database/update/updateComments";
+import { insertEvent, updateEvent } from "@/database/update/updateEvents";
+import { insertLike, deleteLike } from "@/database/update/updateLikes";
 import {
   insertProfile,
   updateProfile,
-  deleteProfile
-} from '@/database/update/updateProfiles';
+  deleteProfile,
+} from "@/database/update/updateProfiles";
 
 async function testInsertComment() {
   const userId = 1;
   const mixId = 101;
-  const commentText = 'This is a test comment.';
+  const commentText = "This is a test comment.";
 
   const insertResult = await insertComment(userId, mixId, commentText);
-  console.log('Insert Comment Test Result:', insertResult);
+  console.log("Insert Comment Test Result:", insertResult);
 }
 
 async function testUpdateComment() {
   const commentId = 1;
   const userId = 1;
   const mixId = 101;
-  const commentText = 'Updated test comment.';
+  const commentText = "Updated test comment.";
 
   const updateResult = await updateComment(
     commentId,
     userId,
     mixId,
-    commentText
+    commentText,
   );
-  console.log('Update Comment Test Result:', updateResult);
+  console.log("Update Comment Test Result:", updateResult);
 }
 
 async function testDeleteComment() {
   const commentId = 1;
 
   const deleteResult = await deleteComment(commentId);
-  console.log('Delete Comment Test Result:', deleteResult);
+  console.log("Delete Comment Test Result:", deleteResult);
 }
 
 async function testInsertEvent() {
-  const title = 'Music Festival';
-  const date = new Date('2024-12-01');
+  const title = "Music Festival";
+  const date = new Date("2024-12-01");
   const artistId = 42;
   const userId = 7;
-  const description = 'A grand music festival featuring top artists.';
+  const description = "A grand music festival featuring top artists.";
 
   const insertResult = await insertEvent(
     title,
     date,
     artistId,
     userId,
-    description
+    description,
   );
-  console.log('Insert Event Test Result:', insertResult);
+  console.log("Insert Event Test Result:", insertResult);
 }
 
 async function testUpdateEvent() {
   const eventId = 1;
-  const title = 'Updated Music Festival';
-  const date = new Date('2024-12-02');
+  const title = "Updated Music Festival";
+  const date = new Date("2024-12-02");
   const artistId = 42;
   const userId = 7;
-  const description = 'An updated description for the music festival.';
+  const description = "An updated description for the music festival.";
 
   const updateResult = await updateEvent(
     eventId,
@@ -79,9 +79,9 @@ async function testUpdateEvent() {
     date,
     artistId,
     userId,
-    description
+    description,
   );
-  console.log('Update Event Test Result:', updateResult);
+  console.log("Update Event Test Result:", updateResult);
 }
 
 async function testInsertLike() {
@@ -89,7 +89,7 @@ async function testInsertLike() {
   const mixId = 101;
 
   const insertResult = await insertLike(userId, mixId);
-  console.log('Insert Like Test Result:', insertResult);
+  console.log("Insert Like Test Result:", insertResult);
 }
 
 async function testDeleteLike() {
@@ -97,38 +97,33 @@ async function testDeleteLike() {
   const mixId = 101;
 
   const deleteResult = await deleteLike(userId, mixId);
-  console.log('Delete Like Test Result:', deleteResult);
+  console.log("Delete Like Test Result:", deleteResult);
 }
 
 async function testInsertProfile() {
   const userId = 1;
-  const bio = 'This is a test bio';
-  const avatarUrl = 'https://example.com/avatar.png';
+  const bio = "This is a test bio";
+  const avatarUrl = "https://example.com/avatar.png";
 
   const insertResult = await insertProfile(userId, bio, avatarUrl);
-  console.log('Insert Profile Test Result:', insertResult);
+  console.log("Insert Profile Test Result:", insertResult);
 }
 
 async function testUpdateProfile() {
   const profileId = 1;
   const userId = 1;
-  const bio = 'Updated bio for testing';
-  const avatarUrl = 'https://example.com/updated-avatar.png';
+  const bio = "Updated bio for testing";
+  const avatarUrl = "https://example.com/updated-avatar.png";
 
-  const updateResult = await updateProfile(
-    profileId,
-    userId,
-    bio,
-    avatarUrl
-  );
-  console.log('Update Profile Test Result:', updateResult);
+  const updateResult = await updateProfile(profileId, userId, bio, avatarUrl);
+  console.log("Update Profile Test Result:", updateResult);
 }
 
 async function testDeleteProfile() {
   const userId = 1;
 
   const deleteResult = await deleteProfile(userId);
-  console.log('Delete Profile Test Result:', deleteResult);
+  console.log("Delete Profile Test Result:", deleteResult);
 }
 
 //--------------------------------------------------------
@@ -191,53 +186,53 @@ async function runTests(): Promise<void> {
 
   // test insert
 
-  console.log('Starting test for InsertComment...');
+  console.log("Starting test for InsertComment...");
   await testInsertComment();
 
-  console.log('Starting test for InsertEvent...');
+  console.log("Starting test for InsertEvent...");
   await testInsertEvent();
 
-  console.log('Starting test for InsertLike...');
+  console.log("Starting test for InsertLike...");
   await testInsertLike();
 
-  console.log('Starting test for InsertProfile...');
+  console.log("Starting test for InsertProfile...");
   await testInsertProfile();
 
   // test update
 
-  console.log('Starting test for UpdateProfile...');
+  console.log("Starting test for UpdateProfile...");
   await testUpdateProfile();
 
-  console.log('Starting test for UpdateComment...');
+  console.log("Starting test for UpdateComment...");
   await testUpdateComment();
 
-  console.log('Starting test for UpdateEvent...');
+  console.log("Starting test for UpdateEvent...");
   await testUpdateEvent();
 
   // test get
 
-  console.log('Starting test for getComments...');
+  console.log("Starting test for getComments...");
   await testGetComments();
 
-  console.log('Starting test for getProfile...');
+  console.log("Starting test for getProfile...");
   await testGetProfile();
 
-  console.log('Starting tests for getEventsBasedOnDj and getEvent...');
+  console.log("Starting tests for getEventsBasedOnDj and getEvent...");
   await testGetEventsBasedOnDj();
   await testGetEvent();
 
-  console.log('Starting test for getLikes...');
+  console.log("Starting test for getLikes...");
   await testGetLikes();
 
   // test delete
 
-  console.log('Starting test for DeleteComment...');
+  console.log("Starting test for DeleteComment...");
   await testDeleteComment();
 
-  console.log('Starting test for DeleteLike...');
+  console.log("Starting test for DeleteLike...");
   await testDeleteLike();
 
-  console.log('Starting test for DeleteProfile...');
+  console.log("Starting test for DeleteProfile...");
   await testDeleteProfile();
 
   await connection.execute(`DROP TABLE IF EXISTS events`);
@@ -248,5 +243,5 @@ async function runTests(): Promise<void> {
 }
 
 runTests().catch((error: Error) => {
-  console.error('Error running tests:', error);
+  console.error("Error running tests:", error);
 });
