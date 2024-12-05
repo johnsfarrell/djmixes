@@ -6,12 +6,12 @@
  * home page upon successful registration.
  */
 
-"use client";
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import AuthCard from "@/components/Auth/AuthCard";
-import AuthInput from "@/components/Auth/AuthInput";
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import AuthCard from '@/components/Auth/AuthCard';
+import AuthInput from '@/components/Auth/AuthInput';
 import { register } from '@/app/api/api';
 
 /**
@@ -22,40 +22,39 @@ import { register } from '@/app/api/api';
  */
 export default function RegisterPage() {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
-    setIsLoading(true);
+    router.push('/');
 
-    const username = e.currentTarget.username.value;
-    const email = e.currentTarget.email.value;
-    const password = e.currentTarget.password.value;
-    const confirmPassword = e.currentTarget.confirmPassword.value;
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      // Call the register API endpoint
-      const res = await register(username, email, password);
-
-      if (res.ok) {
-        router.push("/");
-      } else {
-        const data = await res.json();
-        setError(data.error);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      setError("An error occurred. Please try again.");
-      setIsLoading(false);
-    }
+    // e.preventDefault();
+    // setError("");
+    // setIsLoading(true);
+    // const username = e.currentTarget.username.value;
+    // const email = e.currentTarget.email.value;
+    // const password = e.currentTarget.password.value;
+    // const confirmPassword = e.currentTarget.confirmPassword.value;
+    // if (password !== confirmPassword) {
+    //   setError('Passwords do not match');
+    //   setIsLoading(false);
+    //   return;
+    // }
+    // try {
+    //   // Call the register API endpoint
+    //   const res = await register(username, email, password);
+    //   if (res.ok) {
+    //     router.push("/");
+    //   } else {
+    //     const data = await res.json();
+    //     setError(data.error);
+    //     setIsLoading(false);
+    //   }
+    // } catch (error) {
+    //   setError("An error occurred. Please try again.");
+    //   setIsLoading(false);
+    // }
   };
 
   return (
@@ -107,11 +106,11 @@ export default function RegisterPage() {
           disabled={isLoading}
           className="w-full bg-white text-gray-900 py-2 px-4 rounded-md font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Creating account..." : "Create account"}
+          {isLoading ? 'Creating account...' : 'Create account'}
         </button>
 
         <p className="mt-4 text-center text-gray-400">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link
             href="/login"
             className="text-white hover:text-gray-300 transition-colors"

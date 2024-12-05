@@ -7,6 +7,11 @@ export interface UploadUser {
   username: string;
 }
 
+export interface Split {
+  name: string;
+  timestamp: number;
+}
+
 export interface GetMixResponse {
   title: string;
   fileUrl?: string;
@@ -20,6 +25,14 @@ export interface GetMixResponse {
   upload_user: UploadUser;
   comments: string[];
   album?: string;
+  // stems
+  vocalsUrl?: string;
+  drumsUrl?: string;
+  bassUrl?: string;
+  otherUrl?: string;
+  // splits
+  splitJson?: string;
+  splits?: Split[];
 }
 
 export interface Mix {
@@ -29,7 +42,7 @@ export interface Mix {
   file_url: string;
   cover_url?: string;
   tags?: string[];
-  visibility: "public" | "private" | "unlisted" | "friends";
+  visibility: 'public' | 'private' | 'unlisted' | 'friends';
   allow_download: boolean;
   created_at: Date;
   updated_at: Date;
@@ -51,6 +64,7 @@ export interface ProfileEvent {
 }
 
 export interface UploadMixResponse {
+  mixId: number;
   message: string;
   fileKey: string;
   uploadResult: unknown;
