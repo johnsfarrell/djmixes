@@ -5,12 +5,12 @@
  * avatar with a dropdown menu for profile and logout actions.
  */
 
-"use client";
-import { useRef, useState } from "react";
-import { User } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { logout } from "@/app/actions";
-import { useClickAway } from "@/hooks/useClickAway";
+'use client';
+import { useRef, useState } from 'react';
+import { User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { logout } from '@/app/actions';
+import { useClickAway } from '@/hooks/useClickAway';
 
 interface AvatarProps {
   imageUrl?: string;
@@ -19,9 +19,9 @@ interface AvatarProps {
 /**
  * The Avatar component displays a user avatar with a dropdown menu for profile
  * and logout actions.
- * 
+ *
  * @param imageUrl The URL of the user avatar image.
- * 
+ *
  * @returns The Avatar component.
  */
 export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
@@ -33,7 +33,7 @@ export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
 
   const handleProfileClick = () => {
     setIsOpen(false);
-    router.push("/profile");
+    router.push('/creator');
   };
 
   const handleLogoutClick = async () => {

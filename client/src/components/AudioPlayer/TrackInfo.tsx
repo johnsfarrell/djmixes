@@ -1,6 +1,6 @@
-import React from "react";
-import { BsMusicNoteBeamed } from "react-icons/bs";
-import { useAudioPlayerContext } from "@/context/audioPlayerContext";
+import React from 'react';
+import { BsMusicNoteBeamed } from 'react-icons/bs';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 export const TrackInfo: React.FC = () => {
   const { currentTrack, mixId } = useAudioPlayerContext();
@@ -11,7 +11,7 @@ export const TrackInfo: React.FC = () => {
         {currentTrack.thumbnail ? (
           <img
             className="w-full h-full object-cover"
-            src={currentTrack.thumbnail.src}
+            src={'/placeholder.png'}
             alt="audio avatar"
           />
         ) : (

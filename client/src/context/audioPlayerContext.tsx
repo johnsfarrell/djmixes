@@ -1,14 +1,15 @@
-"use client";
+'use client';
 import React, {
   createContext,
   useContext,
   useState,
   useRef,
   ReactNode,
-  useEffect,
-} from "react";
-import { StaticImageData } from "next/image";
-import { getMix, getMixResponse } from "@/app/api/api.ts";
+  useEffect
+} from 'react';
+import { StaticImageData } from 'next/image';
+import { getMix } from '@/app/api/api';
+import { GetMixResponse } from '@/app/api/types';
 
 interface Track {
   title: string;
@@ -41,14 +42,14 @@ const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
 export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
   const [trackIndex, setTrackIndex] = useState<number>(0);
   const [currentTrack, setCurrentTrack] = useState<Track>({
-    title: "",
-    src: "",
-    author: "",
+    title: '',
+    src: '',
+    author: ''
   });
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [timeProgress, setTimeProgress] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
-  const [mixId, setMixId] = useState<string>("exampleMixId");
+  const [mixId, setMixId] = useState<string>('exampleMixId');
   const [mixData, setMixData] = useState<GetMixResponse | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
@@ -60,11 +61,11 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
         setMixData(data);
         setCurrentTrack({
           title: data.title,
-          src: data.fileUrl || "",
+          src: data.fileUrl || '',
           author: data.artist,
           thumbnail: data.coverUrl
             ? ({ src: data.coverUrl } as StaticImageData)
-            : undefined,
+            : undefined
         });
       }
     };
@@ -86,7 +87,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     setTrackIndex,
     mixId,
     setMixId,
-    mixData,
+    mixData
   };
 
   return (
@@ -100,7 +101,7 @@ export const useAudioPlayerContext = (): AudioPlayerContextType => {
   const context = useContext(AudioPlayerContext);
   if (context === undefined) {
     throw new Error(
-      "useAudioPlayerContext must be used within an AudioPlayerProvider"
+      'useAudioPlayerContext must be used within an AudioPlayerProvider'
     );
   }
   return context;

@@ -6,12 +6,12 @@
  * upon successful login.
  */
 
-"use client";
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import AuthCard from "@/components/Auth/AuthCard";
-import AuthInput from "@/components/Auth/AuthInput";
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import AuthCard from '@/components/Auth/AuthCard';
+import AuthInput from '@/components/Auth/AuthInput';
 import { login } from '@/app/api/api';
 
 /**
@@ -21,31 +21,33 @@ import { login } from '@/app/api/api';
  */
 export default function LoginPage(): JSX.Element {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Prevents multiple form submissions
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
-    setIsLoading(true);
+    router.push('/');
 
-    const email = e.currentTarget.email.value;
-    const password = e.currentTarget.password.value;
+    // setError("");
+    // setIsLoading(true);
 
-    try {
-      const res = await login(email, password);
+    // const email = e.currentTarget.email.value;
+    // const password = e.currentTarget.password.value;
 
-      if (res.ok) {
-        router.push('/');
-      } else {
-        const data = await res.json();
-        setError(data.error);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      setError("Invalid email or password");
-      setIsLoading(false);
-    }
+    // try {
+    //   const res = await login(email, password);
+
+    //   if (res.ok) {
+    //     router.push('/');
+    //   } else {
+    //     const data = await res.json();
+    //     setError(data.error);
+    //     setIsLoading(false);
+    //   }
+    // } catch (error) {
+    //   setError("Invalid email or password");
+    //   setIsLoading(false);
+    // }
   };
 
   return (
@@ -90,11 +92,11 @@ export default function LoginPage(): JSX.Element {
           disabled={isLoading}
           className="w-full bg-white text-gray-900 py-2 px-4 rounded-md font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Signing in..." : "Sign in"}
+          {isLoading ? 'Signing in...' : 'Sign in'}
         </button>
 
         <p className="mt-4 text-center text-gray-400">
-          Don't have an account?{" "}
+          Don't have an account?{' '}
           <Link
             href="/register"
             className="text-white hover:text-gray-300 transition-colors"

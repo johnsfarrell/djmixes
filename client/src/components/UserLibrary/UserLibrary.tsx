@@ -5,16 +5,16 @@
  * user's saved mixes and favorite DJs.
  */
 
-"use client";
-import { GetMixResponse, GetProfileResponse } from "@/app/api/types";
-import MixCard from "./MixCard";
-import DJCard from "./DJCard";
-import { getFollowedDJs, getRandomMixes, getSavedMixes } from "@/app/api/api";
-import { useEffect, useState } from "react";
+'use client';
+import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
+import MixCard from './MixCard';
+import DJCard from './DJCard';
+import { getFollowedDJs, getRandomMixes, getSavedMixes } from '@/app/api/api';
+import { useEffect, useState } from 'react';
 
 /**
  * The UserLibrary component displays the user's saved mixes and favorite DJs.
- * 
+ *
  * @returns The UserLibrary component.
  */
 export default function UserLibrary(): JSX.Element {
@@ -56,13 +56,13 @@ export default function UserLibrary(): JSX.Element {
             {savedMixes.length > 0 ? (
               savedMixes.map((mix) => <MixCard key={mix.title} mix={mix} />)
             ) : (
-              <p className="text-white">No saved mixes</p>
+              <p className="text-white">Loading saved mixes...</p>
             )}
           </div>
         </div>
 
         <div>
-          <h3 className="text-white text-lg mb-3">Random Mixes</h3>
+          <h3 className="text-white text-lg mb-3">Random Mix</h3>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
             {randomMixes.length > 0 ? (
               randomMixes.map((mix) => <MixCard key={mix.title} mix={mix} />)
