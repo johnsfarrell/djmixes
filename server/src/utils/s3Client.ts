@@ -45,9 +45,10 @@ export const downloadFromS3 = async (
   try {
     // Get the object from S3
     const downloadStream = await s3Client.send(new GetObjectCommand(params));
+    const safeFilename = encodeURIComponent(filename);
 
     // Set headers
-    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    res.setHeader("Content-Disposition", `attachment; filename="${safeFilename}"`);
     res.setHeader(
       "Content-Type",
       downloadStream.ContentType || "application/octet-stream",
