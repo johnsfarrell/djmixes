@@ -262,10 +262,21 @@ class MixController {
       return;
     }
 
+    const MAX_FILE_SIZE_MB = 10; // max file size in MB
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
+
     try {
       // Set file and filekey
       const mixFile = req.files.mix as UploadedFile;
       const coverFile = req.files.cover as UploadedFile;
+
+      if (mixFile.size > MAX_FILE_SIZE_BYTES || coverFile.size > MAX_FILE_SIZE_BYTES) {
+        res.status(400).json({
+          error: `File size exceeds limit of ${MAX_FILE_SIZE_MB} MB`,
+        });
+        return;
+      }
+
       const mixFileKey = `${Date.now()}_${mixFile.name}`;
       const coverFileKey = `${Date.now()}_${coverFile.name}`;
 
