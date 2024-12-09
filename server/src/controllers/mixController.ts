@@ -262,10 +262,30 @@ class MixController {
       return;
     }
 
+    const MAX_MIX_FILE_SIZE_MB = 50; // max file size in MB
+    const MAX_COVER_FILE_SIZE_MB = 10; // max file size in MB
+    const MAX_MIX_FILE_SIZE_BYTES = MAX_MIX_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
+    const MAX_COVER_FILE_SIZE_BYTES = MAX_COVER_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
+
     try {
       // Set file and filekey
       const mixFile = req.files.mix as UploadedFile;
       const coverFile = req.files.cover as UploadedFile;
+
+      if (mixFile.size > MAX_MIX_FILE_SIZE_BYTES) {
+        res.status(400).json({
+          error: `Mix file size exceeds limit of ${MAX_MIX_FILE_SIZE_MB} MB`,
+        });
+        return;
+      }
+
+      if (coverFile.size > MAX_COVER_FILE_SIZE_BYTES){
+        res.status(400).json({
+          error: `Cover file size exceeds limit of ${MAX_COVER_FILE_SIZE_MB} MB`,
+        });
+        return;
+      }
+
       const mixFileKey = `${Date.now()}_${mixFile.name}`;
       const coverFileKey = `${Date.now()}_${coverFile.name}`;
 
