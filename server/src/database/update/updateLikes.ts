@@ -16,6 +16,8 @@ async function insertLike(
   } catch (error) {
     console.error("Error inserting like:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -34,6 +36,8 @@ async function deleteLike(
   } catch (error) {
     console.error("Error deleting like:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

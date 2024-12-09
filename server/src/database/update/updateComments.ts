@@ -17,6 +17,8 @@ async function insertComment(
   } catch (error) {
     console.error("Error inserting comment:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -38,6 +40,8 @@ async function updateComment(
   } catch (error) {
     console.error("Error updating comment:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -53,6 +57,8 @@ async function deleteComment(commentId: number): Promise<QueryResult | null> {
   } catch (error) {
     console.error("Error deleting comment:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 export { insertComment, updateComment, deleteComment };

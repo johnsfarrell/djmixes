@@ -43,6 +43,8 @@ async function getMixes(mixId: number): Promise<Mix | null> {
   } catch (error) {
     console.error("Retrieving mix Error:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -61,6 +63,8 @@ async function getRandomMixes(numberOfMixes: number): Promise<number[] | null> {
   } catch (error) {
     console.error("Retrieving mix Error:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -82,6 +86,8 @@ async function getMixesByUploadedUser(
   } catch (error) {
     console.error("Retrieving mix Error:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -104,6 +110,8 @@ async function getMixesByUserLiked(userId: number): Promise<number[] | null> {
   } catch (error) {
     console.error("Retrieving mix Error:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

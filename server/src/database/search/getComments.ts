@@ -52,6 +52,8 @@ async function getUserCommented(userId: number): Promise<number[]> {
   } catch (error) {
     console.error("Error fetching likes for mix:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

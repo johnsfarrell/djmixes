@@ -18,6 +18,8 @@ async function insertProfile(
   } catch (error) {
     console.error("Error inserting profiles:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -40,6 +42,8 @@ async function updateProfile(
   } catch (error) {
     console.error("Error updating profiles:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -60,6 +64,8 @@ async function updateProfileBio(
   } catch (error) {
     console.error("Error updating profiles:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -80,6 +86,8 @@ async function updateProfileAvatar(
   } catch (error) {
     console.error("Error updating profiles:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -96,6 +104,8 @@ async function deleteProfile(userId: number): Promise<QueryResult | null> {
   } catch (error) {
     console.error("Error deleting profile:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

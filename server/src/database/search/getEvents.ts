@@ -19,6 +19,8 @@ async function getEventsBasedOnDj(artistId: number): Promise<Event[] | null> {
   } catch (error) {
     console.error("Error fetching events for artist:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -42,6 +44,8 @@ async function getEvent(eventId: number): Promise<Event | null> {
   } catch (error) {
     console.error("Error fetching event:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -60,6 +64,8 @@ async function searchEventsByTitle(title: string): Promise<number[] | null> {
   } catch (error) {
     console.error("Retrieving events Error:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

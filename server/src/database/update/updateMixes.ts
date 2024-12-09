@@ -37,6 +37,8 @@ async function insertMixes(
   } catch (error) {
     console.error("Error inserting mix:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -79,6 +81,8 @@ async function updateMixes(
   } catch (error) {
     console.error("Error updating mix:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -98,6 +102,8 @@ async function updateMixField(
   } catch (error) {
     console.error("Error updating mix:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -111,6 +117,8 @@ async function deleteMixes(mixId: number): Promise<QueryResult | null> {
   } catch (error) {
     console.error("Error deleting mix:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

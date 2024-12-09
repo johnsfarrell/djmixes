@@ -19,6 +19,8 @@ async function insertEvent(
   } catch (error) {
     console.error("Error inserting event:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -41,6 +43,8 @@ async function updateEvent(
   } catch (error) {
     console.error("Error updating event:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

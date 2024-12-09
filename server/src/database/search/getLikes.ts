@@ -17,6 +17,8 @@ async function getLikes(mixId: number): Promise<number> {
   } catch (error) {
     console.error("Error fetching likes for mix:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
@@ -38,6 +40,8 @@ async function getUserLiked(userId: number): Promise<number[]> {
   } catch (error) {
     console.error("Error fetching likes for mix:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
