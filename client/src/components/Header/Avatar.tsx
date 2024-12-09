@@ -6,7 +6,7 @@
  */
 
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/app/actions';
@@ -25,6 +25,16 @@ interface AvatarProps {
  * @returns The Avatar component.
  */
 export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserId(localStorage.getItem('userId'));
+
+    if (!localStorage.getItem('userId')) {
+      router.push('/login');
+    }
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -33,7 +43,7 @@ export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
 
   const handleProfileClick = () => {
     setIsOpen(false);
-    router.push('/creator');
+    router.push(`/creator/${userId}`);
   };
 
   const handleLogoutClick = async () => {

@@ -18,27 +18,18 @@ import { useState } from 'react';
  * @returns The MixCard component.
  */
 export default function MixCard({ mix }: { mix: GetMixResponse }): JSX.Element {
-  const [audio] = useState(new Audio(mix.fileUrl));
-  const [isPlaying, setIsPlaying] = useState(false);
   const [imageSrc, setImageSrc] = useState(mix.coverUrl || '/placeholder.png');
-
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
 
   const handleImageError = () => {
     setImageSrc('/placeholder.png');
   };
 
-  audio.onended = () => setIsPlaying(false);
+  const handleGoTo = () => {
+    window.location.href = `/mix/${mix.id}`;
+  };
 
   return (
-    <div className="group cursor-pointer">
+    <div className="group cursor-pointer" onClick={handleGoTo}>
       <div className="aspect-square mb-2 relative rounded-md overflow-hidden">
         <Image
           src={imageSrc}
@@ -50,7 +41,6 @@ export default function MixCard({ mix }: { mix: GetMixResponse }): JSX.Element {
       </div>
       <h3 className="text-white font-medium truncate">{mix.title}</h3>
       <p className="text-gray-400 text-sm truncate">{mix.artist}</p>
-      <button onClick={handlePlayPause}>{isPlaying ? '⏸️' : '▶️'}</button>
     </div>
   );
 }
