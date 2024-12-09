@@ -189,6 +189,49 @@ class MixController {
       res.status(500).json({ message: 'Failed to unlike mix' });
     }
   };
+  
+  /**
+   * Controller for deleting a mix
+   * @param req - Request object, containing the mix ID
+   * @param res - Response object, used to send a response back to the client
+   * @returns void
+   * @throws Error - If the deletion fails
+   */
+  deleteMix = async (req: Request, res: Response): Promise<void> => {
+    const mixId = req.params.mixId;
+  
+    try {
+      // Get mix ID and validate
+      const mix = await getMixes(parseInt(mixId, 10));
+      if (!mix || !mix.fileUrl) {
+        res.status(404).json({ error: "Mix not found" });
+        return;
+      }
+        
+      // Prepare delete actions for all file URLs
+      const fileUrls = [mix.fileUrl, mix.coverUrl, mix.stemBassUrl, mix.stemDrumUrl, mix.stemVocalUrl, mix.stemOtherUrl]
+      const deletePromises = fileUrls.map((fileUrl: string) =>
+      deleteFromS3(s3Client, {
+          Bucket: bucketName,
+          Key: fileUrl,
+        }).catch(error => console.error(`Error deleting file ${fileUrl}:`, error))
+      );
+
+      const dbDeletePromise = deleteMixes(parseInt(mixId, 10)).catch(error =>
+        console.error("Error deleting mix from database:", error)
+      );
+
+      // Trigger all deletions asynchronously (files and database)
+      Promise.all([...deletePromises, dbDeletePromise]).catch(error =>
+        console.error("Error during deletion process:", error)
+      );
+
+      res.status(200).json({ message: "Mix deletion initiated" });
+    } catch (error) {
+      console.error("Error initiating mix deletion:", error);
+      res.status(500).json({ error: "Failed to initiate mix deletion" });
+    }
+  };
 
   /**
    * Controller for downloading a file from S3
@@ -264,10 +307,30 @@ class MixController {
       return;
     }
 
+    const MAX_MIX_FILE_SIZE_MB = 50; // max file size in MB
+    const MAX_COVER_FILE_SIZE_MB = 10; // max file size in MB
+    const MAX_MIX_FILE_SIZE_BYTES = MAX_MIX_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
+    const MAX_COVER_FILE_SIZE_BYTES = MAX_COVER_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
+
     try {
       // Set file and filekey
       const mixFile = req.files.mix as UploadedFile;
       const coverFile = req.files.cover as UploadedFile;
+
+      if (mixFile.size > MAX_MIX_FILE_SIZE_BYTES) {
+        res.status(400).json({
+          error: `Mix file size exceeds limit of ${MAX_MIX_FILE_SIZE_MB} MB`,
+        });
+        return;
+      }
+
+      if (coverFile.size > MAX_COVER_FILE_SIZE_BYTES){
+        res.status(400).json({
+          error: `Cover file size exceeds limit of ${MAX_COVER_FILE_SIZE_MB} MB`,
+        });
+        return;
+      }
+
       const mixFileKey = `${Date.now()}_${mixFile.name}`;
       const coverFileKey = `${Date.now()}_${coverFile.name}`;
 

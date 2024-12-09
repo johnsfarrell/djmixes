@@ -134,8 +134,6 @@ class ProfileController {
    */
   updateProfile = async (req: Request, res: Response): Promise<void> => {
     try {
-      console.log('bucketName');
-      console.log(bucketName);
       // Accessing userId from the request param
       const userId = parseInt(req.params.userId, 10);
       const oldProfile = await getProfile(userId);
@@ -149,22 +147,20 @@ class ProfileController {
         return;
       }
 
-      // case we don't update avatar
+      // case we do update avatar
       if (req.files && req.files.avatar) {
+        const MAX_AVATAR_FILE_SIZE_MB = 5; // max file size in MB
+        const MAX_AVATAR_FILE_SIZE_BYTES = MAX_AVATAR_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
         const avatarFile = req.files.avatar as UploadedFile;
+    
+        if (avatarFile.size > MAX_AVATAR_FILE_SIZE_BYTES) {
+          res.status(400).json({
+            error: `Avatar file size exceeds limit of ${MAX_AVATAR_FILE_SIZE_MB} MB`,
+          });
+          return;
+        }
         avatarFileKey = `${Date.now()}_${avatarFile.name}`;
 
-        // Upload parameters
-        // const avatarParams = {
-        //   Bucket: bucketName,
-        //   Key: avatarFileKey,
-        //   Body: avatarFile.data
-        // };
-
-        // Upload file to S3
-        // const avatarUploadResult = await s3Client.send(
-        //   new PutObjectCommand(avatarParams)
-        // );
         console.log(
           `Successfully uploaded object: ${bucketName}/${avatarFileKey}`
         );
@@ -175,22 +171,30 @@ class ProfileController {
         if (bio === undefined) {
           bio = ''; // Set bio to an empty string if undefined
         }
-        // const insertResult = await insertProfile(userId, bio, avatarFileKey);
-        result += 'Profile Created}\n';
+        const insertResult = await insertProfile(userId, bio, avatarFileKey);
+        result += "Profile Created. ";
       } else {
         if (req.files && req.files.avatar) {
-          // const avatarUpdateResult = await updateProfileAvatar(
-          //   oldProfile.profileId,
-          //   avatarFileKey
-          // );
-          result += 'Updated Avatar\n';
+          const url: string | undefined = oldProfile.avatarUrl ?? undefined;
+          // Prepare delete actions
+          const s3DeletePromise = deleteFromS3(s3Client, {
+            Bucket: bucketName,
+            Key: url,
+          });
+          s3DeletePromise.catch(error => console.error("Error deleting from S3:", error));
+
+          const avatarUpdateResult = await updateProfileAvatar(
+            oldProfile.profileId,
+            avatarFileKey
+          );
+          result += "Updated Avatar. ";
         }
         if (bio !== undefined) {
-          // const bioUpdateResult = await updateProfileBio(
-          //   oldProfile.profileId,
-          //   bio
-          // );
-          result += 'Updated Bio';
+          const bioUpdateResult = await updateProfileBio(
+            oldProfile.profileId,
+            bio
+          );
+          result += "Updated Bio. ";
         }
       }
 
