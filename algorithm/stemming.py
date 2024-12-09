@@ -56,7 +56,6 @@ class SongStemmer:
         self.splitter.save_stems(separated, file)
 
 # Usage
-# song = 'files/shortest-mix.mp3'
-# stemmer = SongStemmer()
-# print(stemmer.stem(song))
-# stemmer.save_stems(separated, song)
+# song = 'files/realmix-trimmed.mp3'
+# stemmer = SongStemmer(DemucsStemmingAdapter())
+# zipped_stem_file = await stemmer.stem(song)

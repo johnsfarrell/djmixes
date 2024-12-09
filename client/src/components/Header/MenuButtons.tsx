@@ -5,10 +5,10 @@
  * upload and notification buttons in the header.
  */
 
-"use client";
-import MobileUploadButton from "@/components/Header/MobileUploadButton";
-import UploadButton from "@/components/Header/UploadButton";
-import Avatar from "@/components/Header/Avatar";
+'use client';
+import MobileUploadButton from '@/components/Header/MobileUploadButton';
+import UploadButton from '@/components/Header/UploadButton';
+import Avatar from '@/components/Header/Avatar';
 
 interface MenuButtonsProps {
   avatarImageUrl?: string;
@@ -17,12 +17,14 @@ interface MenuButtonsProps {
 /**
  * The MenuButtons component displays the upload and notification buttons in the
  * header.
- * 
+ *
  * @param avatarImageUrl The URL of the user's avatar image.
- * 
+ *
  * @returns The MenuButtons component.
  */
-export default function MenuButtons({ avatarImageUrl }: MenuButtonsProps): JSX.Element {
+export default function MenuButtons({
+  avatarImageUrl
+}: MenuButtonsProps): JSX.Element {
   const onUploadClick = () => {
     // go to upload page
     window.location.href = '/mix/new';

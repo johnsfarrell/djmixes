@@ -13,6 +13,8 @@ export interface Split {
 }
 
 export interface GetMixResponse {
+  id: number;
+  profileId: number;
   title: string;
   fileUrl?: string;
   coverUrl?: string;
@@ -61,6 +63,11 @@ export interface ProfileEvent {
   eventId: number;
   title: string;
   date: string;
+  artistId: number;
+  userId: number;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UploadMixResponse {
@@ -71,11 +78,15 @@ export interface UploadMixResponse {
 }
 
 export interface GetProfileResponse {
-  username: string;
+  profileId: number;
+  userId: number;
   bio: string;
-  mixes: ProfileMix[];
+  avatarUrl: string;
+  createdAt: string;
+  username: string;
+  uploadedMixIds: number[];
+  likedMixIds: number[];
   events: ProfileEvent[];
-  profilePhoto?: string;
 }
 
 export interface Event {
