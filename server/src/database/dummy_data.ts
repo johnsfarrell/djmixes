@@ -126,19 +126,19 @@ const insertEventsQuery: string = `
 const insertUserProfilesQuery: string = `
   INSERT INTO user_profiles (user_id, bio, avatar_url, created_at)
   VALUES
-    (1, 'Random Volunteer tester in the web.', 'https://example.com/avatar1.jpg', NOW()),
-    (2, 'ZZZ studio', '1733330929889_channels4_profile.jpg', NOW()),
-    (3, 'Old school Hip Hop dancer', '1733331051586_download.jpeg', NOW()),
-    (4, 'DJ Lucian', '1733331122988_download (1).jpeg', NOW()),
-    (5, 'Kendrick Lamar fan here', '1733331179726_download_2.jpeg', NOW()),
-    (6, 'DJ Yung Bae', '1733331219085_Yung Bae.jpeg', NOW()),
-    (7, 'Your friendly neighbor SpiderMan', '1733331274113_spider.jpeg', NOW()),
-    (8, 'XXX fan', '1733331322285_?.jpeg', NOW()),
-    (9, 'Nitin Randhawa #AskNitin', '1733331387109_channels4_profile (1).jpg', NOW()),
+    (1, 'Random Volunteer tester in the web.', '1733784175104_profile1.png', NOW()),
+    (2, 'ZZZ studio', '1733784816458_channels4_profile.jpg', NOW()),
+    (3, 'Old school Hip Hop dancer', '1733784851649_download.jpeg', NOW()),
+    (4, 'DJ Lucian', '1733784918048_download (1).jpeg', NOW()),
+    (5, 'Kendrick Lamar fan here', '1733784948859_download_2.jpeg', NOW()),
+    (6, 'DJ Yung Bae', '1733784977927_Yung Bae.jpeg', NOW()),
+    (7, 'Your friendly neighbor SpiderMan', '1733785000538_spider.jpeg', NOW()),
+    (8, 'XXX fan', '1733785061563_?.jpeg', NOW()),
+    (9, 'Nitin Randhawa #AskNitin', '1733785081034_channels4_profile (1).jpg', NOW()),
     (10, 'RIP Nujabes', '1733628514931_nujabes.jpeg', NOW()),
-    (11, 'Marshmello', '1733628455375_Mashmello.jpg', NOW()),
-    (12, 'Beatboxer. EP AVAILABLE : https://idol.lnk.to/ZIG', '1733628369186_Saro.jpg', NOW()),
-    (13, 'Tantalizing" is out NOW ! https://musical-freedom.lnk.to/tantalizing', '1733631546411_channels4_profile (2).jpg', NOW())
+    (11, 'Marshmello', '1733785136634_Mashmello.jpg', NOW()),
+    (12, 'Beatboxer. EP AVAILABLE : https://idol.lnk.to/ZIG', '1733785158826_Saro.jpg', NOW()),
+    (13, 'Tantalizing" is out NOW ! https://musical-freedom.lnk.to/tantalizing', '1733785189545_channels4_profile (2).jpg', NOW())
   ON DUPLICATE KEY UPDATE 
     bio = VALUES(bio), 
     avatar_url = VALUES(avatar_url);

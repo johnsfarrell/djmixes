@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getMixes, getRandomMixes } from '@/database/search/getMixes';
+import { getMixes, getRandomMixes} from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { getUserById } from '@/database/search/getUser';
@@ -8,11 +8,12 @@ import {
   s3Client,
   bucketName,
   downloadFromS3,
-  uploadToS3
+  uploadToS3,
+  deleteFromS3
 } from '@/utils/s3Client';
 import { UploadedFile } from 'express-fileupload';
 import { algorithm as algo } from '@/index';
-import { insertMixes } from '@/database/update/updateMixes';
+import { insertMixes, deleteMixes } from '@/database/update/updateMixes';
 import { removePrefix } from '@/utils/helpers';
 
 class MixController {
