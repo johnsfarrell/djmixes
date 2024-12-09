@@ -3,7 +3,7 @@
 import { useRouter, useParams } from 'next/navigation';
 import { GetMixResponse } from '@/app/api/types';
 import { useEffect, useState } from 'react';
-import { getMix } from '@/app/api/api';
+import { getMix, likeMix, unlikeMix } from '@/app/api/api';
 
 export default function MixDetailsPage(): JSX.Element {
   const { id } = useParams();
@@ -11,6 +11,8 @@ export default function MixDetailsPage(): JSX.Element {
   const [mix, setMix] = useState<GetMixResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -56,6 +58,21 @@ export default function MixDetailsPage(): JSX.Element {
     );
   }
 
+  const handleLike = async () => {
+    setLiked(!liked);
+    if (liked && localStorage.getItem('userId')) {
+      likeMix(
+        parseInt(id as string),
+        parseInt(localStorage.getItem('userId') as string)
+      );
+    } else if (localStorage.getItem('userId')) {
+      unlikeMix(
+        parseInt(id as string),
+        parseInt(localStorage.getItem('userId') as string)
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8 mb-28">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -87,11 +104,30 @@ export default function MixDetailsPage(): JSX.Element {
         <div className="lg:col-span-2">
           <div className="bg-gray-700 rounded-lg p-6">
             <h2 className="text-white text-lg font-semibold">
-              Listen to the Mix
+              Listen to {mix.title} by{' '}
+              <a href={`/creator/${mix.profileId}`}>
+                <u>{mix.artist}</u>
+              </a>
+              &nbsp;
+              <a
+                href={mix.fileUrl}
+                download={`${mix.title}.mp3`}
+                className="text-blue-400 hover:underline"
+              >
+                (Download)
+              </a>
             </h2>
             <audio controls src={mix.fileUrl} className="w-full mt-4">
               Your browser does not support the audio element.
             </audio>
+
+            <button
+              onClick={handleLike}
+              className="mt-4 bg-gray-800 p-2 rounded-lg text-white"
+            >
+              {liked ? 'Unlike 👎' : 'Like 👍'}
+            </button>
+
             <h2 className="text-white text-lg font-semibold mt-6">Comments</h2>
             {mix.comments.length > 0 ? (
               <ul className="mt-2 space-y-2">
@@ -120,7 +156,7 @@ export default function MixDetailsPage(): JSX.Element {
                 <li>
                   <a
                     href={mix.vocalsUrl}
-                    download
+                    download="vocals_stem.mp3"
                     className="text-blue-400 hover:underline"
                   >
                     Vocals Stem
@@ -131,7 +167,7 @@ export default function MixDetailsPage(): JSX.Element {
                 <li>
                   <a
                     href={mix.drumsUrl}
-                    download
+                    download="drums_stem.mp3"
                     className="text-blue-400 hover:underline"
                   >
                     Drums Stem
@@ -142,7 +178,7 @@ export default function MixDetailsPage(): JSX.Element {
                 <li>
                   <a
                     href={mix.bassUrl}
-                    download
+                    download="bass_stem.mp3"
                     className="text-blue-400 hover:underline"
                   >
                     Bass Stem
@@ -153,7 +189,7 @@ export default function MixDetailsPage(): JSX.Element {
                 <li>
                   <a
                     href={mix.otherUrl}
-                    download
+                    download="other_stem.mp3"
                     className="text-blue-400 hover:underline"
                   >
                     Other Stem
