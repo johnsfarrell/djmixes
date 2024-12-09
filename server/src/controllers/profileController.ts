@@ -10,7 +10,7 @@ import {
 } from "@/database/search/getMixes";
 import { getEvent } from "@/database/search/getEvents";
 import { getProfile } from "@/database/search/getProfiles";
-import { s3Client, bucketName } from "@/utils/s3Client";
+import { s3Client, bucketName, deleteFromS3 } from "@/utils/s3Client";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { pipeline } from "stream";
 import { UploadedFile } from "express-fileupload";
@@ -175,6 +175,14 @@ class ProfileController {
         result += "Profile Created. ";
       } else {
         if (req.files && req.files.avatar) {
+          const url: string | undefined = oldProfile.avatarUrl ?? undefined;
+          // Prepare delete actions
+          const s3DeletePromise = deleteFromS3(s3Client, {
+            Bucket: bucketName,
+            Key: url,
+          });
+          s3DeletePromise.catch(error => console.error("Error deleting from S3:", error));
+
           const avatarUpdateResult = await updateProfileAvatar(
             oldProfile.profileId,
             avatarFileKey

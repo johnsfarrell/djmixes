@@ -349,7 +349,7 @@
 - **Response**:
   - The actual file (e.g., in `mp3` format) as a file download, picture format for cover.
 
-#### **2.4. Share Mix via Link**
+#### **2.5. Share Mix via Link**
 
 - **Endpoint**: `/api/mixes/{mix_id}/share`
 
@@ -370,6 +370,26 @@
 | Attribute  | Type   | Description                                             |
 | ---------- | ------ | ------------------------------------------------------- |
 | share_link | string | A URL that can be shared with others to access the mix. |
+
+#### 2.6 Delete Mix
+
+- **Endpoint**: `/api/mixes/:mixId`
+- **Method**: `DELETE`
+- **Description**: DELETE mix with the mixId
+
+- **Response**:
+
+```json
+{
+  "message": "Mix deletion initiated"
+}
+```
+
+- **Response Attributes:**
+
+| **Attribute** | **Type** | **Description**                    |
+| ------------- | -------- | ---------------------------------- |
+| `message`     | string   | message indicate for deletion      |
 
 ### **3. Comments and Likes**
 

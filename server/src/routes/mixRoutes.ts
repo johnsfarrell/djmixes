@@ -23,4 +23,7 @@ router.post("/:mixId/like", mixController.likeMix);
 // Route for unliking a mix
 router.post("/:mixId/unlike", mixController.unlikeMix);
 
+// Route for deleting a mix
+router.delete("/:mixId", mixController.deleteMix);
+
 export default router;

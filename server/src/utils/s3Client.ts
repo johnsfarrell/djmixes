@@ -5,6 +5,8 @@ import {
   GetObjectCommand,
   PutObjectCommand,
   GetObjectCommandInput,
+  DeleteObjectCommand,
+  DeleteObjectCommandInput
 } from "@aws-sdk/client-s3";
 import { UploadParams, UploadResult } from "./interface";
 import { Response } from "express";
@@ -81,3 +83,25 @@ export async function uploadToS3(
     throw new Error(`Failed to upload file: ${params.Key}`);
   }
 }
+
+/**
+ * Deletes a file from S3.
+ * @param s3Client - An initialized S3 client
+ * @param params - Parameters for the DeleteObjectCommand
+ * @returns Promise<void>
+ */
+export const deleteFromS3 = async (
+  s3Client: S3Client,
+  params: DeleteObjectCommandInput,
+): Promise<void> => {
+  try {
+    // Delete the object from S3
+    if (params.Key){
+      await s3Client.send(new DeleteObjectCommand(params));
+      console.log(`File deleted successfully: ${params.Key}`);
+    }
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    throw new Error("Failed to delete file");
+  }
+};
