@@ -2,7 +2,12 @@ import { RowDataPacket } from 'mysql2';
 import createConnection from '@/database/connection';
 import { Mix } from '@/utils/interface';
 
-// The function signature for getMixes
+/**
+ * The function signature for getMixes
+ * @param mixId - The ID of the mix
+ * @returns Promise<Mix | null> - mix get by mixId
+ * @throws Error if the query fails
+ */
 async function getMixes(mixId: number): Promise<Mix | null> {
   const connection = await createConnection();
   try {
@@ -46,6 +51,12 @@ async function getMixes(mixId: number): Promise<Mix | null> {
   }
 }
 
+/**
+ * Function to get a specified number of random mixes
+ * @param numberOfMixes - The number of random mixes
+ * @returns Promise<number[] | null> - an array of mix IDs, or null if no mixes are found
+ * @throws Error if the query fails
+ */
 async function getRandomMixes(numberOfMixes: number): Promise<number[] | null> {
   const connection = await createConnection();
   try {
@@ -64,6 +75,12 @@ async function getRandomMixes(numberOfMixes: number): Promise<number[] | null> {
   }
 }
 
+/**
+ * Function to get all mix IDs uploaded by user
+ * @param userId - The ID of the user
+ * @returns Promise<number[] | null> - an array of mix IDs uploaded by the user, or null if no mixes are found
+ * @throws Error if the query fails
+ */
 async function getMixesByUploadedUser(
   userId: number
 ): Promise<number[] | null> {
@@ -84,6 +101,12 @@ async function getMixesByUploadedUser(
   }
 }
 
+/**
+ * Function to get all mix IDs liked by a user
+ * @param userId - The ID of the user
+ * @returns Promise<number[] | null> - array of mix IDs liked by the user, or null if no liked mixes are found
+ * @throws Error if the query fails
+ */
 async function getMixesByUserLiked(userId: number): Promise<number[] | null> {
   const connection = await createConnection();
   try {
@@ -105,6 +128,12 @@ async function getMixesByUserLiked(userId: number): Promise<number[] | null> {
   }
 }
 
+/**
+ * Function to search for mixes based on title
+ * @param title - mix titles
+ * @returns Promise<number[] | null> - an array of mix IDs that match the title, or null if no mixes are found
+ * @throws Error if the query fails
+ */
 async function searchMixesByTitle(title: string): Promise<number[] | null> {
   const connection = await createConnection();
   try {

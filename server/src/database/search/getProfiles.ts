@@ -2,7 +2,11 @@ import { RowDataPacket } from "mysql2";
 import createConnection from "@/database/connection";
 import { UserProfile } from "@/utils/interface";
 
-// Function to get profile data for a specific user
+/**
+ * Function to get profile data for a specific user
+ * @param userId - The ID of the user
+ * @returns Promise<UserProfile | null> - UserProfile object if found, or null if no profile found
+ */
 async function getProfile(userId: number): Promise<UserProfile | null> {
   const connection = await createConnection();
 

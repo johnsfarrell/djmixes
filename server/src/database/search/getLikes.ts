@@ -1,7 +1,12 @@
 import { RowDataPacket } from "mysql2";
 import createConnection from "@/database/connection";
 
-// Function to get the number of likes for a specific mix
+/**
+ * Function to get the number of likes for a specific mix
+ * @param mixId - The ID of the mix
+ * @returns Promise<number> - number of likes
+ * @throws Error if the query fails
+ */
 async function getLikes(mixId: number): Promise<number> {
   const connection = await createConnection();
 
@@ -22,7 +27,12 @@ async function getLikes(mixId: number): Promise<number> {
   }
 }
 
-// Function to get the number of likes for a specific mix
+/**
+ * Function to get the number of likes for a specific mix
+ * @param userId - The ID of the user
+ * @returns Promise<number> - number of likes
+ * @throws Error if the query fails
+ */
 async function getUserLiked(userId: number): Promise<number[]> {
   const connection = await createConnection();
 

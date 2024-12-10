@@ -2,6 +2,12 @@ import { RowDataPacket } from "mysql2";
 import createConnection from "@/database/connection";
 import { Event } from "@/utils/interface";
 
+/**
+ * Function to retrieve all events related to a specific artist (DJ)
+ * @param artistId - The ID of the artist (DJ)
+ * @returns Promise<Event[] | null> - an array of Event objects, or null if no events are found
+ * @throws Error if the query fails
+ */
 async function getEventsBasedOnDj(artistId: number): Promise<Event[] | null> {
   const connection = await createConnection();
 
@@ -24,7 +30,12 @@ async function getEventsBasedOnDj(artistId: number): Promise<Event[] | null> {
   }
 }
 
-// Function to get a specific event by event_id
+/**
+ * Function to retrieve a specific event by its event ID
+ * @param eventId - The ID of the event
+ * @returns Promise<Event | null> - Event object if found, or null if no event is found
+ * @throws Error if the query fails
+ */
 async function getEvent(eventId: number): Promise<Event | null> {
   const connection = await createConnection();
 
@@ -49,7 +60,12 @@ async function getEvent(eventId: number): Promise<Event | null> {
   }
 }
 
-// The function for geting event by checking if title contains the keyword
+/**
+ * Function to search for events where the title contains a specified keyword
+ * @param title - event titles
+ * @returns Promise<number[] | null> - array of event IDs, or null if no events are found
+ * @throws Error if the query fails
+ */
 async function searchEventsByTitle(title: string): Promise<number[] | null> {
   const connection = await createConnection();
   try {

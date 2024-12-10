@@ -1,6 +1,13 @@
 import createConnection from "@/database/connection";
 import { QueryResult } from "mysql2";
 
+/**
+ * Function to insert a new user profile into the database
+ * @param userId - The ID of the user
+ * @param bio - The bio of the user (can be null)
+ * @param avatarUrl - The URL of the user's avatar image (can be null)
+ * @returns Promise<QueryResult | null> - Result of the insert query, or null if failed
+ */
 async function insertProfile(
   userId: number,
   bio: string | null,
@@ -23,6 +30,14 @@ async function insertProfile(
   }
 }
 
+/**
+ * Function to update an existing user profile in the database
+ * @param profileId - The ID of the profile to be updated
+ * @param userId - The ID of the user
+ * @param bio - The new bio of the user (can be null)
+ * @param avatarUrl - The new URL of the user's avatar image (can be null)
+ * @returns Promise<QueryResult | null> - Result of the update query, or null if failed
+ */
 async function updateProfile(
   profileId: number,
   userId: number,
@@ -47,6 +62,12 @@ async function updateProfile(
   }
 }
 
+/**
+ * Function to update the bio of an existing user profile in the database
+ * @param profileId - The ID of the profile to be updated
+ * @param bio - The bio of the user (can be null)
+ * @returns Promise<QueryResult | null> - Result of the update query, or null if failed
+ */
 async function updateProfileBio(
   profileId: number,
   bio: string | null,
@@ -69,6 +90,12 @@ async function updateProfileBio(
   }
 }
 
+/**
+ * Function to update the avatar URL of an existing user profile in the database
+ * @param profileId - The ID of the profile to be updated
+ * @param avatarUrl - The new URL of the user's avatar (can be null)
+ * @returns Promise<QueryResult | null> - Result of the update query, or null if failed
+ */
 async function updateProfileAvatar(
   profileId: number,
   avatarUrl: string | null,
@@ -91,6 +118,11 @@ async function updateProfileAvatar(
   }
 }
 
+/**
+ * Function to delete a user profile from the database
+ * @param userId - The ID of the user
+ * @returns Promise<QueryResult | null> - Result of the deletion, or null if failed
+ */
 async function deleteProfile(userId: number): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {

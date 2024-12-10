@@ -1,6 +1,12 @@
 import * as mysql from 'mysql2/promise';
 import db from '@/utils/dbConfig';
 
+/**
+ * Create a new database connection
+ * @param timeoutMs - The timeout in milliseconds for the connection (default is 30000ms)
+ * @returns Promise<mysql.Connection> - The database connection
+ * @throws Error if fail to creat connections after several times
+ */
 async function createConnection(timeoutMs = 30000): Promise<mysql.Connection> {
   let attempts = 5;
 

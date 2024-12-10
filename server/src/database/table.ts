@@ -17,6 +17,12 @@ import {
 } from "./dummy_data";
 import { QueryResult } from "mysql2";
 
+
+/**
+ * Create the database and tables, and insert dummy data
+ * @returns Promise<void> - Resolves when the tables are created and data is inserted
+ * @throws Error if fail to create or insert data
+ */
 async function createTables(): Promise<void> {
   const connection = await createConnection();
   const tableQueries = [
