@@ -49,9 +49,9 @@ async function getMixes(mixId: number): Promise<Mix | null> {
 async function getRandomMixes(numberOfMixes: number): Promise<number[] | null> {
   const connection = await createConnection();
   try {
+    console.log(numberOfMixes)
     const [rows] = await connection.execute<RowDataPacket[]>(
-      `SELECT DISTINCT mix_id FROM mixes WHERE visibility = 'public' ORDER BY RAND() LIMIT ?`,
-      [numberOfMixes]
+      `SELECT DISTINCT mix_id FROM mixes WHERE visibility = 'public' ORDER BY RAND() LIMIT ${numberOfMixes}`
     );
 
     const randomMixIds: number[] = rows.map((row) => row.mix_id);
