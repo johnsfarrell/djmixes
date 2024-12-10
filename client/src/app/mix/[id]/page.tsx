@@ -78,7 +78,7 @@ export default function MixDetailsPage(): JSX.Element {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-1">
           <img
-            src={mix.coverUrl ?? '/placeholder.png'}
+            src={mix.cover_url ?? '/placeholder.png'}
             alt={`${mix.title} cover`}
             width={500}
             height={500}
@@ -93,10 +93,10 @@ export default function MixDetailsPage(): JSX.Element {
             <p className="text-gray-400">Visibility: {mix.visibility}</p>
             <p className="text-gray-400">Tags: {mix.tags.join(', ')}</p>
             <p className="text-gray-400">
-              Created At: {new Date(mix.createdAt).toLocaleDateString()}
+              Created At: {new Date(mix.created_at).toLocaleDateString()}
             </p>
             <p className="text-gray-400">
-              Updated At: {new Date(mix.updatedAt).toLocaleDateString()}
+              Updated At: {new Date(mix.updated_at).toLocaleDateString()}
             </p>
           </div>
         </div>
@@ -105,19 +105,19 @@ export default function MixDetailsPage(): JSX.Element {
           <div className="bg-gray-700 rounded-lg p-6">
             <h2 className="text-white text-lg font-semibold">
               Listen to {mix.title} by{' '}
-              <a href={`/creator/${mix.profileId}`}>
+              <a href={`/creator/${mix.upload_user.user_id}`}>
                 <u>{mix.artist}</u>
               </a>
               &nbsp;
               <a
-                href={mix.fileUrl}
+                href={mix.file_url}
                 download={`${mix.title}.mp3`}
                 className="text-blue-400 hover:underline"
               >
                 (Download)
               </a>
             </h2>
-            <audio controls src={mix.fileUrl} className="w-full mt-4">
+            <audio controls src={mix.file_url} className="w-full mt-4">
               Your browser does not support the audio element.
             </audio>
 
@@ -131,12 +131,12 @@ export default function MixDetailsPage(): JSX.Element {
             <h2 className="text-white text-lg font-semibold mt-6">Comments</h2>
             {mix.comments.length > 0 ? (
               <ul className="mt-2 space-y-2">
-                {mix.comments.map((comment, index) => (
+                {mix.comments.map((commentResponse, index) => (
                   <li
                     key={index}
                     className="bg-gray-800 p-3 rounded-lg text-gray-300"
                   >
-                    {comment}
+                    {commentResponse.comment_text}
                   </li>
                 ))}
               </ul>

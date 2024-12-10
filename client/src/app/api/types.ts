@@ -13,19 +13,18 @@ export interface Split {
 }
 
 export interface GetMixResponse {
-  id: number;
-  profileId: number;
+  mix_id: number;
   title: string;
-  fileUrl?: string;
-  coverUrl?: string;
+  file_url?: string;
+  cover_url?: string;
   visibility: string;
-  allowDownload: boolean;
+  allow_download: boolean;
   tags: string[];
-  updatedAt: Date;
-  createdAt: Date;
+  updated_at: Date;
+  created_at: Date;
   artist: string;
-  upload_user: UploadUser;
-  comments: string[];
+  upload_user: UploadUserResponse;
+  comments: CommentResponse[];
   album?: string;
   // stems
   vocalsUrl?: string;
@@ -33,7 +32,7 @@ export interface GetMixResponse {
   bassUrl?: string;
   otherUrl?: string;
   // splits
-  splitJson?: string;
+  split_json?: string;
   splits?: Split[];
 }
 
@@ -130,4 +129,26 @@ export interface GetSavedMixesRequest {
 
 export interface GetFollowedDJsRequest {
   userId: number;
+}
+
+// Define the type for the comment data
+export interface Comment {
+  commentId: number;
+  userId: number;
+  mixId: number;
+  commentText: string;
+  createdAt: Date;
+}
+
+export interface CommentResponse {
+  comment_id: number;
+  user_id: number;
+  mix_id: number;
+  comment_text: string;
+  created_at: Date;
+}
+
+export interface UploadUserResponse {
+  user_id: number;
+  username: string;
 }

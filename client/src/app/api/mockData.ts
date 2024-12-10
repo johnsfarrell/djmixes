@@ -1,22 +1,27 @@
 import { GetMixResponse, GetProfileResponse } from './types';
 
 export const mockMixResponse: GetMixResponse = {
-  id: 1,
-  profileId: 1,
+  mix_id: 1,
   title: 'Test Mix',
-  fileUrl: '/mock/track1.mp3',
-  coverUrl: '/mock/cover1.jpg',
+  file_url: '/mock/track1.mp3',
+  cover_url: '/mock/cover1.jpg',
   visibility: 'public',
-  allowDownload: true,
+  allow_download: true,
   tags: ['tag1', 'tag2'],
-  updatedAt: new Date(),
-  createdAt: new Date(),
+  updated_at: new Date(),
+  created_at: new Date(),
   artist: 'Test Artist',
   upload_user: {
     user_id: 1,
     username: 'testuser'
   },
-  comments: ['Great mix!', 'Love the transitions!'],
+  comments: [{
+      comment_id: 2233,
+      mix_id: 2,
+      user_id: 1,
+      comment_text: "The sound of a bouncing ball.",
+      created_at: new Date("2024-12-10T00:28:15.000Z"),
+  }],
   album: 'Test Album',
   vocalsUrl: '/mock/vocals.mp3',
   drumsUrl: '/mock/drums.mp3',

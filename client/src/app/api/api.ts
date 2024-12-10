@@ -67,7 +67,7 @@ const getMix = async ({
 
   let resJson = (await res.json()) as GetMixResponse;
 
-  resJson.coverUrl = await downloadResource(
+  resJson.cover_url = await downloadResource(
     mixId,
     `/mixes/${mixId}/download/cover`
   );
@@ -76,7 +76,7 @@ const getMix = async ({
     return resJson;
   }
 
-  resJson.fileUrl = await downloadResource(mixId, `/mixes/${mixId}/download`);
+  resJson.file_url = await downloadResource(mixId, `/mixes/${mixId}/download`);
 
   resJson.vocalsUrl = await downloadResource(
     mixId,
@@ -95,7 +95,7 @@ const getMix = async ({
     `/mixes/${mixId}/download/other`
   );
 
-  const jsonSplits = JSON.parse(resJson.splitJson || '{}');
+  const jsonSplits = JSON.parse(resJson.split_json || '{}');
 
   resJson.splits = Object.keys(jsonSplits).map((key) => ({
     name: key,

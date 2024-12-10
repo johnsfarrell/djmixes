@@ -14,7 +14,7 @@ import { s3Client, bucketName, deleteFromS3, uploadToS3, downloadFromS3 } from '
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
-import { User, UploadParams } from '@/utils/interface';
+import { User, UploadParams, ProfileResponse } from '@/utils/interface';
 import { removePrefix} from '@/utils/helpers';
 import { deleteProfile, insertProfile, updateProfileAvatar, updateProfileBio } from '@/database/update/updateProfiles';
 
@@ -69,6 +69,7 @@ class ProfileController {
       profile['uploaded_mixes'] = uploadedMixIds;
       profile['liked_mixes'] = likedMixIds;
       profile['events'] = events;
+      
       res.status(200).json(profile);
     } catch (error) {
       console.error('Error fetching user profile:', error);

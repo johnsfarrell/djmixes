@@ -289,8 +289,10 @@
   "comments": [
     {
       "comment_id": 2233,
-      "user": "anita",
-      "comment": "The sound of a bouncing ball."
+      "mix_id": 2,
+      "user_id": 1,
+      "comment_text": "The sound of a bouncing ball.",
+      "created_at": "2024-12-10T00:28:15.000Z",
     }
   ]
 }
@@ -309,8 +311,10 @@
 | username       | string  | The uploader's display name.                       |
 | split_json     | string  | The JSON string for splitting songs & times.       |
 | comment_id     | number  | The unique identifier for the comment.             |
-| user           | string  | The name of the user who commented.                |
-| comment        | string  | The text of the comment.                           |
+| mix_id         | number  | The unique identifier for the mix commented on     |
+| user_id        | number  | The id of the user who commented.                  |
+| comment_text   | string  | The text of the comment.                           |
+| created_at     | date    | The create date of the comment                     |
 | artist         | string  | The name of the artist.                            |
 | album          | string  | The album name (if available).                     |
 
