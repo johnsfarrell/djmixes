@@ -1,18 +1,21 @@
 import { Request, Response } from 'express';
-import { getMixes, getRandomMixes } from '@/database/search/getMixes';
+import { getMixes, getRandomMixes} from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
+import { insertComment } from '@/database/update/updateComments';
+import { getComments } from '@/database/search/getComments';
 import { getUserById } from '@/database/search/getUser';
 import { User, Mix, MixResponse, UploadParams } from '@/utils/interface';
 import {
   s3Client,
   bucketName,
   downloadFromS3,
-  uploadToS3
+  uploadToS3,
+  deleteFromS3
 } from '@/utils/s3Client';
 import { UploadedFile } from 'express-fileupload';
 import { algorithm as algo } from '@/index';
-import { insertMixes } from '@/database/update/updateMixes';
+import { insertMixes, deleteMixes } from '@/database/update/updateMixes';
 import { removePrefix } from '@/utils/helpers';
 
 class MixController {
@@ -46,6 +49,7 @@ class MixController {
 
       // Fetch the number of likes for the mix
       const likeCount = await getLikes(parseInt(mixId, 10));
+      const comments = await getComments(parseInt(mixId, 10));
 
       // Return the mix and user data in the response
       const response: MixResponse = {
@@ -64,7 +68,7 @@ class MixController {
           userId: mixData.userId,
           username: user.username
         },
-        comments: [], // Placeholder for comments
+        comments: comments, // Placeholder for comments
         album: mixData.album,
         likeCount: likeCount, // Represent the number of likes
         splitJson: mixData.splitJson
@@ -146,6 +150,51 @@ class MixController {
       res.status(500).json({ message: 'Failed to like mix' });
     }
   };
+
+    /**
+   * Controller for liking a mix
+   * @param req - Request object, containing the mix ID and user ID
+   * @param res - Response object, used to send a response back to the client
+   * @returns void
+   * @throws Error - If liking the mix fails
+   */
+    commentMix = async (req: Request, res: Response): Promise<void> => {
+      const mixId = req.params.mixId;
+      const userId = req.body.user_id;
+      const comment = req.body.comment;
+  
+      try {
+        // Validate mixId and userId
+        if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
+          res.status(400).json({ message: 'Invalid mix ID or user ID' });
+          return;
+        }
+  
+        // Check if the mix exists
+        const mix = await getMixes(parseInt(mixId, 10));
+        if (!mix) {
+          res.status(404).json({ message: 'Mix not found' });
+          return;
+        }
+  
+        // Insert like into the database
+        const result = await insertComment(
+          parseInt(userId, 10),
+          parseInt(mixId, 10),
+          comment
+        );
+        if (!result) {
+          res.status(500).json({ message: 'Failed to insert comment' });
+          return;
+        }
+  
+        // Return success response
+        res.status(200).json({ message: 'Mix commented successfully' });
+      } catch (error) {
+        console.error('Error commenting mix:', error);
+        res.status(500).json({ message: 'Failed to comment on mix' });
+      }
+    };
 
   /**
    * Controller for unliking a mix

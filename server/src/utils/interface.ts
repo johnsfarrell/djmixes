@@ -24,7 +24,7 @@ export interface MixResponse {
   createdAt: Date;
   artist: string;
   uploadUser: UploadUser;
-  comments: string[];
+  comments: Comment[];
   album?: string;
   likeCount: number; // Represent the number of likes
   splitJson: string;

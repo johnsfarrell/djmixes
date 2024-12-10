@@ -9,7 +9,7 @@ const profileController = new ProfileController();
 router.get("/:userId/avatar", profileController.getProfileAvatar);
 
 // Route for fetching a profile by its ID
-router.get("/:userId", profileController.getProfile);
+router.get("/:userId", profileController.getProfileDetails);
 
 // Route for create or update a profile by its ID
 router.post("/:userId", profileController.updateProfile);

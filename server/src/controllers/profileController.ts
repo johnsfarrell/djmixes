@@ -10,12 +10,13 @@ import {
 } from '@/database/search/getMixes';
 import { getEvent } from '@/database/search/getEvents';
 import { getProfile } from '@/database/search/getProfiles';
-import { s3Client, bucketName } from '@/utils/s3Client';
+import { s3Client, bucketName, deleteFromS3, uploadToS3, downloadFromS3 } from '@/utils/s3Client';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
-import { User } from '@/utils/interface';
-import { deleteProfile } from '@/database/update/updateProfiles';
+import { User, UploadParams } from '@/utils/interface';
+import { removePrefix} from '@/utils/helpers';
+import { deleteProfile, insertProfile, updateProfileAvatar, updateProfileBio } from '@/database/update/updateProfiles';
 
 class ProfileController {
   /**
@@ -25,7 +26,7 @@ class ProfileController {
    * @returns void
    * @throws Error - If the retrieve fails
    */
-  getProfile = async (req: Request, res: Response): Promise<void> => {
+  getProfileDetails = async (req: Request, res: Response): Promise<void> => {
     try {
       // Accessing userId from the request param
       const userId = parseInt(req.params.userId, 10);
@@ -100,25 +101,25 @@ class ProfileController {
       }
 
       // Download parameters
+      const filename = removePrefix(userProfile.avatarUrl);
       const params = {
         Bucket: bucketName,
         Key: userProfile.avatarUrl
       };
 
-      // const resultFileName = userProfile.avatarUrl.split('/').pop() || '';
-
       // Download file from S3
-      const downloadStream = await s3Client.send(new GetObjectCommand(params));
+      await downloadFromS3(s3Client, params, res, filename);
+      // const downloadStream = await s3Client.send(new GetObjectCommand(params));
 
-      res.setHeader('Content-Type', 'image/jpeg');
+      // res.setHeader('Content-Type', 'image/jpeg');
 
-      // Stream the file to the response
-      pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
-        if (err) {
-          console.error('Error streaming file:', err);
-          res.status(500).json({ error: 'Failed to download file' });
-        }
-      });
+      // // Stream the file to the response
+      // pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
+      //   if (err) {
+      //     console.error('Error streaming file:', err);
+      //     res.status(500).json({ error: 'Failed to download file' });
+      //   }
+      // });
     } catch (error) {
       console.error('Error fetching user profile avatar:', error);
       res.status(500).json({ error: 'Internal server error' });
@@ -161,10 +162,18 @@ class ProfileController {
         }
         avatarFileKey = `${Date.now()}_${avatarFile.name}`;
 
+        // Upload
+        const avatarParams: UploadParams = {
+          Bucket: bucketName,
+          Key: avatarFileKey,
+          Body: avatarFile.data
+        };
+        const avatarUploadResult = await uploadToS3(s3Client, avatarParams);
+
         console.log(
           `Successfully uploaded object: ${bucketName}/${avatarFileKey}`
         );
-        result += 'Avatar Uploaded\n';
+        result += 'Avatar Uploaded. ';
       }
 
       if (!oldProfile) {
