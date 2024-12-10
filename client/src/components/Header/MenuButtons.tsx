@@ -22,9 +22,7 @@ interface MenuButtonsProps {
  *
  * @returns The MenuButtons component.
  */
-export default function MenuButtons({
-  avatarImageUrl
-}: MenuButtonsProps): JSX.Element {
+export default function MenuButtons(): JSX.Element {
   const onUploadClick = () => {
     // go to upload page
     window.location.href = '/mix/new';
@@ -35,7 +33,7 @@ export default function MenuButtons({
       <MobileUploadButton onClick={onUploadClick} />
       <UploadButton onClick={onUploadClick} />
       <div className="flex items-center gap-4">
-        <Avatar imageUrl={avatarImageUrl} />
+        <Avatar />
       </div>
     </div>
   );

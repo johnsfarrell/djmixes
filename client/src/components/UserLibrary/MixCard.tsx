@@ -25,7 +25,7 @@ export default function MixCard({ mix }: { mix: GetMixResponse }): JSX.Element {
   };
 
   const handleGoTo = () => {
-    window.location.href = `/mix/${mix.mix_id}`;
+    window.location.href = `/mix/${mix.id}`;
   };
 
   return (

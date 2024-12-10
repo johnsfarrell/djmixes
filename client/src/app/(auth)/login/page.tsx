@@ -25,29 +25,30 @@ export default function LoginPage(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false); // Prevents multiple form submissions
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    // console.log(e);
     e.preventDefault();
-    router.push('/');
+    // router.push('/');
 
-    // setError("");
-    // setIsLoading(true);
-
-    // const email = e.currentTarget.email.value;
-    // const password = e.currentTarget.password.value;
-
-    // try {
-    //   const res = await login(email, password);
-
-    //   if (res.ok) {
-    //     router.push('/');
-    //   } else {
-    //     const data = await res.json();
-    //     setError(data.error);
-    //     setIsLoading(false);
-    //   }
-    // } catch (error) {
-    //   setError("Invalid email or password");
-    //   setIsLoading(false);
-    // }
+    setError('');
+    setIsLoading(true);
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+    try {
+      const res = await login(email, password);
+      const data = await res.json();
+      const userId = data.user_id;
+      if (res.ok && userId) {
+        window.localStorage.setItem('userId', userId);
+        router.push('/');
+      } else {
+        const data = await res.json();
+        setError(data.error);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError('Invalid email or password');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -77,15 +78,6 @@ export default function LoginPage(): JSX.Element {
           placeholder="••••••••"
           required
         />
-
-        <div className="flex justify-end mb-6">
-          <Link
-            href="/forgot-password"
-            className="text-sm text-gray-400 hover:text-white transition-colors"
-          >
-            Forgot password?
-          </Link>
-        </div>
 
         <button
           type="submit"

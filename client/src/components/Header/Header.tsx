@@ -22,7 +22,7 @@ interface HeaderProps {
  *
  * @returns The Header component.
  */
-export default function Header({ avatarImageUrl }: HeaderProps): JSX.Element {
+export default function Header(): JSX.Element {
   return (
     <header className="bg-gray-900 border-b border-gray-800">
       <div className="max-w-[1920px] mx-auto px-4 h-16">
@@ -38,7 +38,7 @@ export default function Header({ avatarImageUrl }: HeaderProps): JSX.Element {
           </div>
 
           {/* Right section */}
-          <MenuButtons avatarImageUrl={avatarImageUrl} />
+          <MenuButtons />
         </div>
       </div>
     </header>

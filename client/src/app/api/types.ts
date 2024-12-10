@@ -13,7 +13,7 @@ export interface Split {
 }
 
 export interface GetMixResponse {
-  mix_id: number;
+  id: number;
   title: string;
   file_url?: string;
   cover_url?: string;
