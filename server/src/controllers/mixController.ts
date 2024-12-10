@@ -5,7 +5,7 @@ import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { insertComment } from '@/database/update/updateComments';
 import { getComments } from '@/database/search/getComments';
 import { getUserById } from '@/database/search/getUser';
-import { User, Mix, MixResponse, UploadParams } from '@/utils/interface';
+import { User, Mix, MixResponse, UploadParams, Comment, CommentResponse } from '@/utils/interface';
 import {
   s3Client,
   bucketName,
@@ -50,28 +50,28 @@ class MixController {
       // Fetch the number of likes for the mix
       const likeCount = await getLikes(parseInt(mixId, 10));
       const comments = await getComments(parseInt(mixId, 10));
+      const mappedComments = mapCommentsToResponse(comments);
 
       // Return the mix and user data in the response
       const response: MixResponse = {
         id: mixData.mixId,
-        profileId: mixData.userId,
         title: mixData.title,
-        fileUrl: mixData.fileUrl,
-        coverUrl: mixData.coverUrl,
+        file_url: mixData.fileUrl,
+        cover_url: mixData.coverUrl,
         visibility: mixData.visibility,
-        allowDownload: mixData.allowDownload,
+        allow_download: mixData.allowDownload,
         tags: mixData.tags ?? [],
-        updatedAt: mixData.updatedAt,
-        createdAt: mixData.createdAt,
+        updated_at: mixData.updatedAt,
+        created_at: mixData.createdAt,
         artist: mixData.artist,
-        uploadUser: {
-          userId: mixData.userId,
+        upload_user: {
+          user_id: mixData.userId,
           username: user.username
         },
-        comments: comments, // Placeholder for comments
+        comments: mappedComments, // Placeholder for comments
         album: mixData.album,
-        likeCount: likeCount, // Represent the number of likes
-        splitJson: mixData.splitJson
+        like_count: likeCount, // Represent the number of likes
+        split_json: mixData.splitJson
       };
 
       res.json(response);
@@ -440,6 +440,16 @@ class MixController {
       res.status(500).json({ error: 'Failed to upload files' });
     }
   };
+}
+
+function mapCommentsToResponse(comments: Comment[]): CommentResponse[] {
+  return comments.map(comment => ({
+    comment_id: comment.commentId,
+    user_id: comment.userId,
+    mix_id: comment.mixId,
+    comment_text: comment.commentText,
+    created_at: comment.createdAt,
+  }));
 }
 
 export default MixController;

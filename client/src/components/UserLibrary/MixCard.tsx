@@ -18,14 +18,14 @@ import { useState } from 'react';
  * @returns The MixCard component.
  */
 export default function MixCard({ mix }: { mix: GetMixResponse }): JSX.Element {
-  const [imageSrc, setImageSrc] = useState(mix.coverUrl || '/placeholder.png');
+  const [imageSrc, setImageSrc] = useState(mix.cover_url || '/placeholder.png');
 
   const handleImageError = () => {
     setImageSrc('/placeholder.png');
   };
 
   const handleGoTo = () => {
-    window.location.href = `/mix/${mix.id}`;
+    window.location.href = `/mix/${mix.mix_id}`;
   };
 
   return (

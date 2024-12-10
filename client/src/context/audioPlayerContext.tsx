@@ -61,10 +61,10 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
         setMixData(data);
         setCurrentTrack({
           title: data.title,
-          src: data.fileUrl || '',
+          src: data.file_url || '',
           author: data.artist,
-          thumbnail: data.coverUrl
-            ? ({ src: data.coverUrl } as StaticImageData)
+          thumbnail: data.cover_url
+            ? ({ src: data.cover_url } as StaticImageData)
             : undefined
         });
       }
