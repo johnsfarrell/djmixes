@@ -31,24 +31,24 @@ export default function CreatorViewPage(): JSX.Element {
 
   useEffect(() => {
     const fetchCreator = async () => {
-      if (!id) return;
-      const profileId = parseInt(id as string);
-
-      const res = await getProfile(profileId);
-      setCreator(res);
-      setLoading(false);
-
-      for (const mixId of res.uploadedMixIds) {
-        const mix = await getMix({ mixId, includeAudio: false, mock: false });
-        setProfileMixes((prev) => [...prev, mix]);
-      }
-
-      for (const mixId of res.likedMixIds) {
-        const mix = await getMix({ mixId, includeAudio: false, mock: false });
-        setLikedMixes((prev) => [...prev, mix]);
+      try {
+        if (!id) return;
+        const profileId = parseInt(id as string);
+        const res = await getProfile(profileId);
+        setCreator(res);
+        setLoading(false);
+        for (const mixId of res.uploadedMixIds) {
+          const mix = await getMix({ mixId, includeAudio: false, mock: false });
+          setProfileMixes((prev) => [...prev, mix]);
+        }
+        for (const mixId of res.likedMixIds) {
+          const mix = await getMix({ mixId, includeAudio: false, mock: false });
+          setLikedMixes((prev) => [...prev, mix]);
+        }
+      } catch (err) {
+        setLoading(false);
       }
     };
-
     try {
       fetchCreator();
     } catch (err) {
@@ -58,8 +58,9 @@ export default function CreatorViewPage(): JSX.Element {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-white text-lg">Loading...</p>
+      <div className="min-h-screen flex items-center justify-center flex-col">
+        <p className="text-white text-lg mb-8">Loading Creator #{id}</p>
+        <p className="w-fit spinning">💿</p>
       </div>
     );
   }
@@ -110,11 +111,15 @@ export default function CreatorViewPage(): JSX.Element {
 
         <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-bold mb-4">Liked Mixes</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {likedMixes.map((mix) => (
-              <MixCard key={mix.title} mix={mix} />
-            ))}
-          </div>
+          {likedMixes ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {likedMixes.map((mix) => (
+                <MixCard key={mix.title} mix={mix} />
+              ))}
+            </div>
+          ) : (
+            <p>No liked mixes...</p>
+          )}
         </div>
       </div>
     </div>

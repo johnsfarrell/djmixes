@@ -19,3 +19,18 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.spinning {
+  scale: 2;
+  animation: spin 1s linear infinite;
+  text-shadow: 0 0 1rem rgba(255, 255, 255);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -36,15 +36,15 @@ export default function Home(): JSX.Element {
       <div className="max-w-[1920px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-9 gap-4">
           {/* Left column */}
-
+          {/* 
           {mix && (
             <div className="lg:col-span-3">
               <CurrentMixDetails mix={mix} />
             </div>
-          )}
+          )} */}
 
           {/* Middle column */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-9">
             <UserLibrary />
           </div>
 

@@ -3,7 +3,13 @@
 import { useRouter, useParams } from 'next/navigation';
 import { GetMixResponse } from '@/app/api/types';
 import { useEffect, useState } from 'react';
-import { commentOnMix, getMix, likeMix, unlikeMix } from '@/app/api/api';
+import {
+  commentOnMix,
+  getMix,
+  getProfile,
+  likeMix,
+  unlikeMix
+} from '@/app/api/api';
 
 export default function MixDetailsPage(): JSX.Element {
   const { id } = useParams();
@@ -11,14 +17,19 @@ export default function MixDetailsPage(): JSX.Element {
   const [mix, setMix] = useState<GetMixResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [likedMixIds, setLikedMixIds] = useState<number[]>([]);
 
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     if (!id) return;
-
     const fetchMix = async () => {
       try {
+        const data1 = await getProfile(
+          parseInt(localStorage.getItem('userId') as string)
+        );
+        setLikedMixIds(data1.likedMixIds);
+        setLiked(data1.likedMixIds.includes(parseInt(id as string)));
         const data = await getMix({
           mixId: parseInt(id as string),
           mock: false
@@ -30,14 +41,14 @@ export default function MixDetailsPage(): JSX.Element {
         setLoading(false);
       }
     };
-
     fetchMix();
   }, [id]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-white text-lg">Loading Mix {id}...</p>
+      <div className="min-h-screen flex items-center justify-center flex-col">
+        <p className="text-white text-lg mb-8">Loading Mix #{id}</p>
+        <p className="w-fit spinning">📀</p>
       </div>
     );
   }
@@ -60,7 +71,7 @@ export default function MixDetailsPage(): JSX.Element {
 
   const handleLike = async () => {
     setLiked(!liked);
-    if (liked && localStorage.getItem('userId')) {
+    if (!liked && localStorage.getItem('userId')) {
       likeMix(
         parseInt(id as string),
         parseInt(localStorage.getItem('userId') as string)
@@ -81,7 +92,14 @@ export default function MixDetailsPage(): JSX.Element {
         parseInt(id as string), // mixId (number)
         parseInt(localStorage.getItem('userId') as string) // userId (number)
       );
-      window.location.reload();
+      mix.comments.push({
+        comment_text: comment,
+        user_id: parseInt(localStorage.getItem('userId') as string),
+        comment_id: mix.comments.length + 1,
+        created_at: new Date(),
+        mix_id: parseInt(id as string)
+      });
+      setMix({ ...mix, comments: mix.comments });
     } else {
       alert('Please enter a comment');
     }
@@ -188,6 +206,8 @@ export default function MixDetailsPage(): JSX.Element {
                     key={index}
                     className="bg-gray-800 p-3 rounded-lg text-gray-300"
                   >
+                    {new Date(commentResponse.created_at).toLocaleDateString()}{' '}
+                    by{' '}
                     <a href={`/creator/${commentResponse.user_id}`}>
                       <u>User {commentResponse.user_id}</u>
                     </a>
