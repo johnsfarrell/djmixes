@@ -1,7 +1,7 @@
 import { GetMixResponse, GetProfileResponse } from './types';
 
 export const mockMixResponse: GetMixResponse = {
-  mix_id: 1,
+  id: 1,
   title: 'Test Mix',
   file_url: '/mock/track1.mp3',
   cover_url: '/mock/cover1.jpg',
@@ -15,13 +15,15 @@ export const mockMixResponse: GetMixResponse = {
     user_id: 1,
     username: 'testuser'
   },
-  comments: [{
+  comments: [
+    {
       comment_id: 2233,
       mix_id: 2,
       user_id: 1,
-      comment_text: "The sound of a bouncing ball.",
-      created_at: new Date("2024-12-10T00:28:15.000Z"),
-  }],
+      comment_text: 'The sound of a bouncing ball.',
+      created_at: new Date('2024-12-10T00:28:15.000Z')
+    }
+  ],
   album: 'Test Album',
   vocalsUrl: '/mock/vocals.mp3',
   drumsUrl: '/mock/drums.mp3',

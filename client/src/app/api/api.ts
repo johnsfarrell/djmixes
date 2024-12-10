@@ -310,6 +310,60 @@ const unlikeMix = async (mixId: number, userId: number): Promise<Response> => {
   return res;
 };
 
+const commentOnMix = async (comment: string, mixId: number, userId: number) => {
+  const res = await apiAdapter(API_URL, `/mixes/${mixId}/comment`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ user_id: userId, comment, mix_id: mixId })
+  });
+
+  return res;
+};
+
+export interface SearchResult {
+  users: GetProfileResponse[];
+  mixes: GetMixResponse[];
+}
+
+const search = async (query: string): Promise<SearchResult> => {
+  const res = await apiAdapter(API_URL, `/search/${query}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const resJson = await res.json();
+  const userIds = resJson.users;
+  const mixIds = resJson.mixes;
+
+  const mixes: GetMixResponse[] = [];
+  if (mixIds !== null) {
+    for (const mixId of mixIds) {
+      try {
+        mixes.push(await getMix({ mixId, includeAudio: false }));
+      } catch (error) {
+        console.error('Error fetching mix:', error);
+      }
+    }
+  }
+
+  const profiles: GetProfileResponse[] = [];
+  if (userIds !== null) {
+    for (const userId of userIds) {
+      try {
+        await getProfile(userId);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    }
+  }
+
+  return { users: profiles, mixes: mixes };
+};
+
 export {
   getMix,
   uploadMix,
@@ -320,5 +374,7 @@ export {
   getRandomMixes,
   getProfile,
   likeMix,
-  unlikeMix
+  unlikeMix,
+  commentOnMix,
+  search
 };

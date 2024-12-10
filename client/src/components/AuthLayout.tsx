@@ -40,7 +40,7 @@ export default function AuthLayout({ user, children }: AuthLayoutProps) {
     <>
       {user && (
         <>
-          <Header avatarImageUrl={user.avatarImageUrl} />
+          <Header />
           {children}
           <AudioPlayer />
         </>

@@ -11,6 +11,7 @@ import { User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/app/actions';
 import { useClickAway } from '@/hooks/useClickAway';
+import { getProfile } from '@/app/api/api';
 
 interface AvatarProps {
   imageUrl?: string;
@@ -24,15 +25,26 @@ interface AvatarProps {
  *
  * @returns The Avatar component.
  */
-export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
+export default function Avatar(): JSX.Element {
   const [userId, setUserId] = useState<string | null>(null);
 
-  useEffect(() => {
-    setUserId(localStorage.getItem('userId'));
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-    if (!localStorage.getItem('userId')) {
-      router.push('/login');
-    }
+  useEffect(() => {
+    const check = async () => {
+      setUserId(localStorage.getItem('userId'));
+
+      if (!localStorage.getItem('userId')) {
+        router.push('/login');
+      } else {
+        const profile = await getProfile(
+          parseInt(localStorage.getItem('userId') as string)
+        );
+        setImageUrl(profile.avatarUrl);
+      }
+    };
+
+    check();
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);

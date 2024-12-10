@@ -3,7 +3,7 @@
 import { useRouter, useParams } from 'next/navigation';
 import { GetMixResponse } from '@/app/api/types';
 import { useEffect, useState } from 'react';
-import { getMix, likeMix, unlikeMix } from '@/app/api/api';
+import { commentOnMix, getMix, likeMix, unlikeMix } from '@/app/api/api';
 
 export default function MixDetailsPage(): JSX.Element {
   const { id } = useParams();
@@ -73,6 +73,20 @@ export default function MixDetailsPage(): JSX.Element {
     }
   };
 
+  const handleComment = () => {
+    const comment = prompt('Enter your comment');
+    if (comment) {
+      commentOnMix(
+        comment, // comment (string)
+        parseInt(id as string), // mixId (number)
+        parseInt(localStorage.getItem('userId') as string) // userId (number)
+      );
+      window.location.reload();
+    } else {
+      alert('Please enter a comment');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8 mb-28">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -128,6 +142,44 @@ export default function MixDetailsPage(): JSX.Element {
               {liked ? 'Unlike 👎' : 'Like 👍'}
             </button>
 
+            {mix.vocalsUrl && (
+              <>
+                <h2 className="text-white text-lg font-semibold">
+                  Vocals Stem
+                </h2>
+                <audio controls src={mix.vocalsUrl} className="w-full mt-4">
+                  Your browser does not support the audio element.
+                </audio>
+              </>
+            )}
+
+            {mix.bassUrl && (
+              <>
+                <h2 className="text-white text-lg font-semibold">Bass Stem</h2>
+                <audio controls src={mix.bassUrl} className="w-full mt-4">
+                  Your browser does not support the audio element.
+                </audio>
+              </>
+            )}
+
+            {mix.drumsUrl && (
+              <>
+                <h2 className="text-white text-lg font-semibold">Drums Stem</h2>
+                <audio controls src={mix.drumsUrl} className="w-full mt-4">
+                  Your browser does not support the audio element.
+                </audio>
+              </>
+            )}
+
+            {mix.otherUrl && (
+              <>
+                <h2 className="text-white text-lg font-semibold">Other Stem</h2>
+                <audio controls src={mix.otherUrl} className="w-full mt-4">
+                  Your browser does not support the audio element.
+                </audio>
+              </>
+            )}
+
             <h2 className="text-white text-lg font-semibold mt-6">Comments</h2>
             {mix.comments.length > 0 ? (
               <ul className="mt-2 space-y-2">
@@ -136,13 +188,22 @@ export default function MixDetailsPage(): JSX.Element {
                     key={index}
                     className="bg-gray-800 p-3 rounded-lg text-gray-300"
                   >
-                    {commentResponse.comment_text}
+                    <a href={`/creator/${commentResponse.user_id}`}>
+                      <u>User {commentResponse.user_id}</u>
+                    </a>
+                    :&nbsp;{commentResponse.comment_text}
                   </li>
                 ))}
               </ul>
             ) : (
               <p className="text-gray-400 mt-2">No comments yet.</p>
             )}
+            <button
+              className="bg-gray-100 p-2 rounded-sm text-black mt-2"
+              onClick={handleComment}
+            >
+              Write a Comment
+            </button>
           </div>
         </div>
       </div>
@@ -150,7 +211,9 @@ export default function MixDetailsPage(): JSX.Element {
       <div className="flex">
         {mix.vocalsUrl || mix.drumsUrl || mix.bassUrl || mix.otherUrl ? (
           <div className="bg-gray-700 rounded-lg p-6 mt-2 mr-2 w-fit">
-            <h2 className="text-white text-lg font-semibold">Stems</h2>
+            <h2 className="text-white text-lg font-semibold">
+              Stems (Downloads)
+            </h2>
             <ul className="mt-4 space-y-2">
               {mix.vocalsUrl && (
                 <li>
@@ -199,7 +262,7 @@ export default function MixDetailsPage(): JSX.Element {
             </ul>
           </div>
         ) : (
-          <div>
+          <div className="mt-2 bg-gray-700 rounded-lg p-6 mr-2">
             <h2 className="text-white text-lg font-semibold mr-6">
               No stems available
             </h2>
@@ -233,7 +296,7 @@ export default function MixDetailsPage(): JSX.Element {
             </ul>
           </div>
         ) : (
-          <div>
+          <div className="mt-2 bg-gray-700 rounded-lg p-6">
             <h2 className="text-white text-lg font-semibold">
               No splits available
             </h2>
