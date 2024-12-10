@@ -259,12 +259,19 @@ const register = async (
   return res;
 };
 
-const getRandomMixes = async ({ mock }: Request): Promise<GetMixResponse[]> => {
+interface GetMixesRequest extends Request {
+  count?: number;
+}
+
+const getRandomMixes = async ({
+  count = 1,
+  mock
+}: GetMixesRequest): Promise<GetMixResponse[]> => {
   if (mock) {
     return Promise.resolve([mockMixResponse]);
   }
 
-  const res = await apiAdapter(API_URL, '/mixes/random', {
+  const res = await apiAdapter(API_URL, `/mixes/random/${count}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

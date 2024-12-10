@@ -27,34 +27,33 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push('/');
-
-    // e.preventDefault();
-    // setError("");
-    // setIsLoading(true);
-    // const username = e.currentTarget.username.value;
-    // const email = e.currentTarget.email.value;
-    // const password = e.currentTarget.password.value;
-    // const confirmPassword = e.currentTarget.confirmPassword.value;
-    // if (password !== confirmPassword) {
-    //   setError('Passwords do not match');
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // try {
-    //   // Call the register API endpoint
-    //   const res = await register(username, email, password);
-    //   if (res.ok) {
-    //     router.push("/");
-    //   } else {
-    //     const data = await res.json();
-    //     setError(data.error);
-    //     setIsLoading(false);
-    //   }
-    // } catch (error) {
-    //   setError("An error occurred. Please try again.");
-    //   setIsLoading(false);
-    // }
+    setError('');
+    setIsLoading(true);
+    const username = e.currentTarget.username.value;
+    const email = e.currentTarget.email.value;
+    const password = e.currentTarget.password.value;
+    const confirmPassword = e.currentTarget.confirmPassword.value;
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+    try {
+      // Call the register API endpoint
+      const res = await register(username, email, password);
+      const resBody = await res.json();
+      if (res.ok && resBody.user_id) {
+        localStorage.setItem('userId', resBody.user_id);
+        router.push('/');
+      } else {
+        const data = await res.json();
+        setError(data.error);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   return (
