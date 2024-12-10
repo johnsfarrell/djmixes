@@ -37,6 +37,16 @@ import {
   updateMixField
 } from "@/database/update/updateMixes"
 
+async function testGetFollowedArtists() {
+  const testUserId = 2;
+  const followedArtists = await getFollowedArtists(testUserId);
+  if (followedArtists) {
+    console.log(`Followed artists for user with ID ${testUserId}:`, followedArtists);
+  } else {
+    console.log(`No followed artists found for user with ID ${testUserId}.`);
+  }
+}
+
 async function testGetMixes() {
   const testMixId = 1;
   const mixResult = await getMixes(testMixId);
@@ -362,6 +372,58 @@ async function runTests(): Promise<void> {
   const connection = await createConnection();
   await createTables();
 
+  // new testing function
+  console.log("Starting test for GetMixes...");
+  await testGetMixes();
+
+  console.log("Starting test for GetRandomMixes...");
+  await testGetRandomMixes();
+
+  console.log("Starting test for GetMixesByUserLiked...");
+  await testGetMixesByUserLiked();
+  
+  console.log("Starting test for SearchMixesByTitle...");
+  await testSearchMixesByTitle();
+  
+  console.log("Starting test for GetMixesByUploadedUser...");
+  await testGetMixesByUploadedUser();
+
+  console.log("Starting test for SearchEventsByTitle...");
+  await testSearchEventsByTitle();
+
+  console.log("Starting test for GetUserLiked...");
+  await testGetUserLiked();
+
+  console.log("Starting test for GetUserCommented...");
+  await testGetUserCommented();
+
+  console.log("Starting test for UpdateProfileBio...");
+  await testUpdateProfileBio();
+
+  console.log("Starting test for UpdateProfileAvatar...");
+  await testUpdateProfileAvatar();
+
+  console.log("Starting test for FollowArtist...");
+  await testFollowArtist();
+
+  console.log("Starting test for GetFollowedArtists...");
+  await testGetFollowedArtists();
+
+  console.log("Starting test for UpdateMixField...");
+  await testUpdateMixField();
+
+  console.log("Starting test for GetUserByName...");
+  await testGetUserByName();
+
+  console.log("Starting test for GetUserById...");
+  await testGetUserById();
+
+  console.log("Starting test for GetUserByEmail...");
+  await testGetUserByEmail();
+
+  console.log("Starting test for SearchUserByName...");
+  await testSearchUserByName();
+
   // test insert
 
   console.log("Starting test for InsertComment...");
@@ -417,6 +479,9 @@ async function runTests(): Promise<void> {
   await connection.execute(`DROP TABLE IF EXISTS comments`);
   await connection.execute(`DROP TABLE IF EXISTS likes`);
   await connection.execute(`DROP TABLE IF EXISTS user_Profile`);
+  await connection.execute(`DROP TABLE IF EXISTS follows`);
+  await connection.execute(`DROP TABLE IF EXISTS mixes`);
+  await connection.execute(`DROP TABLE IF EXISTS users`);
   await connection.end();
 }
 
