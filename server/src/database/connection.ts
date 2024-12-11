@@ -1,40 +1,53 @@
+import * as mysql from 'mysql2/promise';
+import db from '@/utils/dbConfig';
+
 /**
- * Copyright (c) 2024 DJMixes. All Rights Reserved.
- * Licensed under the MIT License.
- * Description: This file contains the function to create a connection to the MySQL database.
+ * Create a new database connection
+ * @param timeoutMs - The timeout in milliseconds for the connection (default is 30000ms)
+ * @returns Promise<mysql.Connection> - The database connection
+ * @throws Error if fail to creat connections after several times
  */
-
-import * as mysql from "mysql2/promise";
-import db from "@/utils/dbConfig";
-
-async function createConnection(): Promise<mysql.Connection> {
+async function createConnection(timeoutMs = 30000): Promise<mysql.Connection> {
   let attempts = 5;
 
   while (attempts > 0) {
     try {
-      console.log("Attempting to connect to the database...");
-      console.log("Connection details:", db);
+      console.log('Attempting to connect to the database...');
+      console.log('Connection details:', db);
 
       const connection = await mysql.createConnection({
         host: db.host,
         user: db.user,
         password: db.password,
         port: db.port,
-        database: db.database,
+        database: db.database
       });
 
-      console.log("Connected to the database.");
+      console.log('Connected to the database.');
+
+      const timer = setTimeout(() => {
+        console.warn('Closing the connection due to timeout.');
+        connection
+          .end()
+          .catch((err) => console.error('Error closing connection:', err));
+      }, timeoutMs);
+
+      const originalEnd = connection.end.bind(connection);
+      connection.end = async (...args) => {
+        clearTimeout(timer);
+        return originalEnd(...args);
+      };
+
       return connection;
     } catch (error) {
       console.error(
-        `Connection attempt failed. Attempts remaining: ${--attempts}`,
+        `Connection attempt failed. Attempts remaining: ${--attempts}`
       );
-
-      console.error("Connection Error:", error);
+      console.error('Connection Error:', error);
 
       if (attempts === 0) {
         throw new Error(
-          "Failed to connect to the database after multiple attempts.",
+          'Failed to connect to the database after multiple attempts.'
         );
       }
 
@@ -43,8 +56,7 @@ async function createConnection(): Promise<mysql.Connection> {
     }
   }
 
-  // In case retries are exhausted, we throw the error
-  throw new Error("Exhausted retries to connect to the database.");
+  throw new Error('Exhausted retries to connect to the database.');
 }
 
 export default createConnection;

@@ -1,6 +1,15 @@
 import createConnection from "@/database/connection";
 import { QueryResult, ResultSetHeader } from "mysql2";
 
+/**
+ * function to create a new user in the database
+ * @param username - The username of the user
+ * @param email - The email of the user
+ * @param password - The user's password
+ * @param registrationMethod - The method used to register the user
+ * @returns Promise<number | null> - The ID of the new user, or null if failed
+ * @throws Error if the creation operation fails
+ */
 async function createUser(
   username: string,
   email: string,
@@ -29,9 +38,17 @@ async function createUser(
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
+/**
+ * Function to delete a user from the database by username
+ * @param username - The username of the user
+ * @returns Promise<boolean> - True if deletion was successful, false if failed
+ * @throws Error if the creation operation fails
+ */
 async function deleteUser(username: string): Promise<boolean> {
   const connection = await createConnection();
   try {
@@ -43,6 +60,8 @@ async function deleteUser(username: string): Promise<boolean> {
   } catch (error) {
     console.error("Error deleting user:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

@@ -1,7 +1,12 @@
-import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
+import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
 
 export interface UploadUser {
   userId: number;
+  username: string;
+}
+
+export interface UploadUserResponse {
+  user_id: number;
   username: string;
 }
 
@@ -12,20 +17,21 @@ export interface LoginResponse {
 }
 
 export interface MixResponse {
+  id: number;
   title: string;
-  fileUrl: string;
-  coverUrl?: string;
+  file_url: string;
+  cover_url?: string;
   visibility: string;
-  allowDownload: boolean;
+  allow_download: boolean;
   tags: string[];
-  updatedAt: Date;
-  createdAt: Date;
+  updated_at: Date;
+  created_at: Date;
   artist: string;
-  uploadUser: UploadUser;
-  comments: string[];
+  upload_user: UploadUserResponse;
+  comments: CommentResponse[];
   album?: string;
-  likeCount: number; // Represent the number of likes
-  splitJson: string;
+  like_count: number; // Represent the number of likes
+  split_json: string;
 }
 
 // Define the type for the mix data
@@ -36,7 +42,7 @@ export interface Mix {
   fileUrl: string;
   coverUrl: string;
   tags?: string[];
-  visibility: "public" | "private" | "unlisted" | "friends";
+  visibility: 'public' | 'private' | 'unlisted' | 'friends';
   allowDownload: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -76,6 +82,14 @@ export interface UserProfile {
   createdAt: Date;
 }
 
+export interface UserProfileResponse {
+  profile_id: number;
+  user_id: number;
+  bio: string | null;
+  avatar_url: string | null;
+  created_at: Date;
+}
+
 export interface Like {
   likeId: number;
   userId: number;
@@ -90,6 +104,14 @@ export interface Comment {
   mixId: number;
   commentText: string;
   createdAt: Date;
+}
+
+export interface CommentResponse {
+  comment_id: number;
+  user_id: number;
+  mix_id: number;
+  comment_text: string;
+  created_at: Date;
 }
 
 export interface ProfileMix {
@@ -124,13 +146,16 @@ export interface Event {
   date: string; // Date of the event in ISO format (YYYY-MM-DD)
 }
 
-export interface EventsResponse {
-  events: Event[]; // List of events
+export interface EventResponse {
+  event_id: number; 
+  title: string; 
+  description: string;
+  date: string;
 }
 
 export interface UploadEventResponse {
   message: string; // Success or informational message about the event
-  eventId: number; // Unique identifier for the created event
+  event_id: number; // Unique identifier for the created event
 }
 
 export type UploadParams = {

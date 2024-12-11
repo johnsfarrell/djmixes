@@ -7,19 +7,33 @@ export interface UploadUser {
   username: string;
 }
 
+export interface Split {
+  name: string;
+  timestamp: number;
+}
+
 export interface GetMixResponse {
+  id: number;
   title: string;
-  fileUrl?: string;
-  coverUrl?: string;
+  file_url?: string;
+  cover_url?: string;
   visibility: string;
-  allowDownload: boolean;
+  allow_download: boolean;
   tags: string[];
-  updatedAt: Date;
-  createdAt: Date;
+  updated_at: Date;
+  created_at: Date;
   artist: string;
-  upload_user: UploadUser;
-  comments: string[];
+  upload_user: UploadUserResponse;
+  comments: CommentResponse[];
   album?: string;
+  // stems
+  vocalsUrl?: string;
+  drumsUrl?: string;
+  bassUrl?: string;
+  otherUrl?: string;
+  // splits
+  split_json?: string;
+  splits?: Split[];
 }
 
 export interface Mix {
@@ -29,7 +43,7 @@ export interface Mix {
   file_url: string;
   cover_url?: string;
   tags?: string[];
-  visibility: "public" | "private" | "unlisted" | "friends";
+  visibility: 'public' | 'private' | 'unlisted' | 'friends';
   allow_download: boolean;
   created_at: Date;
   updated_at: Date;
@@ -48,20 +62,30 @@ export interface ProfileEvent {
   eventId: number;
   title: string;
   date: string;
+  artistId: number;
+  userId: number;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UploadMixResponse {
+  mixId: number;
   message: string;
   fileKey: string;
   uploadResult: unknown;
 }
 
 export interface GetProfileResponse {
-  username: string;
+  profileId: number;
+  userId: number;
   bio: string;
-  mixes: ProfileMix[];
+  avatarUrl: string;
+  createdAt: string;
+  username: string;
+  uploadedMixIds: number[];
+  likedMixIds: number[];
   events: ProfileEvent[];
-  profilePhoto?: string;
 }
 
 export interface Event {
@@ -105,4 +129,26 @@ export interface GetSavedMixesRequest {
 
 export interface GetFollowedDJsRequest {
   userId: number;
+}
+
+// Define the type for the comment data
+export interface Comment {
+  commentId: number;
+  userId: number;
+  mixId: number;
+  commentText: string;
+  createdAt: Date;
+}
+
+export interface CommentResponse {
+  comment_id: number;
+  user_id: number;
+  mix_id: number;
+  comment_text: string;
+  created_at: Date;
+}
+
+export interface UploadUserResponse {
+  user_id: number;
+  username: string;
 }

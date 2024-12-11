@@ -5,6 +5,7 @@ node_modules
 # algorithm (pip)
 */venv
 **/__pycache__
+algorithm/files/*.mp3
 
 # client/server (npm)
 */.next/*

@@ -5,12 +5,13 @@
  * avatar with a dropdown menu for profile and logout actions.
  */
 
-"use client";
-import { useRef, useState } from "react";
-import { User } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { logout } from "@/app/actions";
-import { useClickAway } from "@/hooks/useClickAway";
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import { User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { logout } from '@/app/actions';
+import { useClickAway } from '@/hooks/useClickAway';
+import { getProfile } from '@/app/api/api';
 
 interface AvatarProps {
   imageUrl?: string;
@@ -19,12 +20,33 @@ interface AvatarProps {
 /**
  * The Avatar component displays a user avatar with a dropdown menu for profile
  * and logout actions.
- * 
+ *
  * @param imageUrl The URL of the user avatar image.
- * 
+ *
  * @returns The Avatar component.
  */
-export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
+export default function Avatar(): JSX.Element {
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const check = async () => {
+      setUserId(localStorage.getItem('userId'));
+
+      if (!localStorage.getItem('userId')) {
+        router.push('/login');
+      } else {
+        const profile = await getProfile(
+          parseInt(localStorage.getItem('userId') as string)
+        );
+        setImageUrl(profile.avatarUrl);
+      }
+    };
+
+    check();
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -33,7 +55,7 @@ export default function Avatar({ imageUrl }: AvatarProps): JSX.Element {
 
   const handleProfileClick = () => {
     setIsOpen(false);
-    router.push("/profile");
+    router.push(`/creator/${userId}`);
   };
 
   const handleLogoutClick = async () => {

@@ -2,7 +2,11 @@ import { Connection, FieldPacket, RowDataPacket } from "mysql2/promise";
 import createConnection from "@/database/connection";
 import { User } from "@/utils/interface";
 
-// Map database fields to the User interface
+/**
+ * Function to map database row fields to the User interface
+ * @param row - A row of user data
+ * @returns User - An User object
+ */
 function mapUserRow(row: RowDataPacket): User {
   return {
     userId: row.user_id,
@@ -15,7 +19,12 @@ function mapUserRow(row: RowDataPacket): User {
   };
 }
 
-// Function to get a user by their username
+/**
+ * Function to get a user by their username
+ * @param username - The username of the user
+ * @returns Promise<User | null> - User object if the user is found, or null if not found
+ * @throws Error if the query fails
+ */
 async function getUserByName(username: string): Promise<User | null> {
   const connection: Connection = await createConnection();
   try {
@@ -40,7 +49,12 @@ async function getUserByName(username: string): Promise<User | null> {
   }
 }
 
-// Function to get a user by their ID
+/**
+ * Function to get a user by their ID
+ * @param id - The ID of the user to be fetched
+ * @returns Promise<User | null> - User object if the user is found, or null if not found
+ * @throws Error if the query fails
+ */
 async function getUserById(id: number): Promise<User | null> {
   const connection: Connection = await createConnection();
   try {
@@ -63,7 +77,12 @@ async function getUserById(id: number): Promise<User | null> {
   }
 }
 
-// Function to get a user by their email
+/**
+ * Function to get a user by their email
+ * @param email - The email of the user to be fetched
+ * @returns Promise<User | null> - User object if the user is found, or null if not found
+ * @throws Error if the query fails
+ */
 async function getUserByEmail(email: string): Promise<User | null> {
   const connection: Connection = await createConnection();
   try {
@@ -86,7 +105,12 @@ async function getUserByEmail(email: string): Promise<User | null> {
   }
 }
 
-// Function to get a user by their username
+/**
+ * Function to search for users by their username
+ * @param username - The username to search for
+ * @returns Promise<number[] | null> - Array of user IDs, or null if no users are found
+ * @throws Error if the query fails
+ */
 async function searchUserByName(username: string): Promise<number[] | null> {
   const connection: Connection = await createConnection();
   try {

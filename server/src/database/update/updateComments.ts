@@ -1,6 +1,13 @@
 import createConnection from "@/database/connection";
 import { QueryResult } from "mysql2";
 
+/**
+ * Function to insert a comment for a specific mix by a user
+ * @param userId - The ID of the user
+ * @param mixId - The ID of the mix
+ * @param commentText - The text content of the comment being posted
+ * @returns Promise<QueryResult | null> - Query result after inserted, or null if the insertion fails
+ */
 async function insertComment(
   userId: number,
   mixId: number,
@@ -17,10 +24,19 @@ async function insertComment(
   } catch (error) {
     console.error("Error inserting comment:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
-// update comment text based on comment id
+/**
+ * Function to update a comment's text based on its ID
+ * @param commentId - The ID of the comment to be updated
+ * @param userId - The ID of the user updating the comment
+ * @param mixId - The ID of the mix the comment belongs to
+ * @param commentText - The new comment text, or null to remove the comment
+ * @returns Promise<QueryResult | null> - Result of the update query, or null if failed
+ */
 async function updateComment(
   commentId: number,
   userId: number,
@@ -38,9 +54,16 @@ async function updateComment(
   } catch (error) {
     console.error("Error updating comment:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
+/**
+ * Function to delete a comment by its ID
+ * @param commentId - The ID of the comment to be deleted
+ * @returns Promise<QueryResult | null> - Result of the delete query, or null if failed
+ */
 async function deleteComment(commentId: number): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
@@ -53,6 +76,8 @@ async function deleteComment(commentId: number): Promise<QueryResult | null> {
   } catch (error) {
     console.error("Error deleting comment:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 export { insertComment, updateComment, deleteComment };

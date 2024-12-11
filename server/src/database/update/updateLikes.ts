@@ -1,6 +1,12 @@
 import createConnection from "@/database/connection";
 import { QueryResult } from "mysql2";
 
+/**
+ * Function to insert a like for a specific mix by a user
+ * @param userId - The ID of the user liking the mix
+ * @param mixId - The ID of the mix being liked
+ * @returns Promise<QueryResult | null> - Result of the insert query, or null if failed
+ */
 async function insertLike(
   userId: number,
   mixId: number,
@@ -16,9 +22,17 @@ async function insertLike(
   } catch (error) {
     console.error("Error inserting like:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
+/**
+ * Function to remove a like from a specific mix by a user
+ * @param userId - The ID of the user removing the like
+ * @param mixId - The ID of the mix from which the like is being removed
+ * @returns Promise<QueryResult | null> - Result of the delete query, or null if failed
+ */
 async function deleteLike(
   userId: number,
   mixId: number,
@@ -34,6 +48,8 @@ async function deleteLike(
   } catch (error) {
     console.error("Error deleting like:", error);
     return null;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 

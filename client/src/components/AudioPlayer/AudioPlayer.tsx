@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { RiMenuAddLine } from "react-icons/ri";
-import { TrackInfo } from "@/components/AudioPlayer/TrackInfo";
-import { Controls } from "@/components/AudioPlayer/Controls";
-import { ProgressBar } from "@/components/AudioPlayer/ProgressBar";
-import { VolumeControl } from "@/components/AudioPlayer/VolumeControl";
-import { PlayList } from "@/components/AudioPlayer/Playlist";
-import { tracks } from "@/context/audioPlayerContext";
+import React, { useState } from 'react';
+import { RiMenuAddLine } from 'react-icons/ri';
+import { TrackInfo } from '@/components/AudioPlayer/TrackInfo';
+import { Controls } from '@/components/AudioPlayer/Controls';
+import { ProgressBar } from '@/components/AudioPlayer/ProgressBar';
+import { VolumeControl } from '@/components/AudioPlayer/VolumeControl';
+import { PlayList } from '@/components/AudioPlayer/Playlist';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 export const AudioPlayer: React.FC = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const { currentTrack } = useAudioPlayerContext();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white shadow-lg p-4 z-50">
@@ -29,11 +30,11 @@ export const AudioPlayer: React.FC = () => {
       </div>
       <div
         className={`transition-max-height duration-300 ease-in-out overflow-hidden ${
-          openDrawer ? "max-h-72" : "max-h-0"
+          openDrawer ? 'max-h-72' : 'max-h-0'
         }`}
       >
         <div className="bg-gray-800 text-white max-h-72 overflow-y-auto mt-4 rounded-lg p-2">
-          <PlayList tracks={tracks} />
+          <PlayList tracks={[currentTrack]} />
         </div>
       </div>
     </div>

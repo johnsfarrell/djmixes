@@ -5,10 +5,10 @@
  * header and audio player if the user is authenticated.
  */
 
-"use client";
-import { usePathname } from "next/navigation";
-import Header from "@/components/Header/Header";
-import { AudioPlayer } from "@/components/AudioPlayer/AudioPlayer";
+'use client';
+import { usePathname } from 'next/navigation';
+import Header from '@/components/Header/Header';
+import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
 
 interface AuthLayoutProps {
   user: {
@@ -30,7 +30,7 @@ interface AuthLayoutProps {
 export default function AuthLayout({ user, children }: AuthLayoutProps) {
   const pathname = usePathname();
   const isAuthPage =
-    pathname.startsWith("/login") || pathname.startsWith("/register");
+    pathname.startsWith('/login') || pathname.startsWith('/register');
 
   if (isAuthPage) {
     return children;
@@ -40,7 +40,7 @@ export default function AuthLayout({ user, children }: AuthLayoutProps) {
     <>
       {user && (
         <>
-          <Header avatarImageUrl={user.avatarImageUrl} />
+          <Header />
           {children}
           <AudioPlayer />
         </>

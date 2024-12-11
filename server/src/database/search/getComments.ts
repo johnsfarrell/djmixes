@@ -2,7 +2,11 @@ import { FieldPacket, RowDataPacket } from "mysql2";
 import createConnection from "@/database/connection";
 import { Comment } from "@/utils/interface";
 
-// Map database fields to the Comment interface
+/**
+ * Function to map a database row to a Comment object
+ * @param row - The row from the database query containing comment data
+ * @returns Comment - The mapped Comment object
+ */
 function mapCommentRow(row: RowDataPacket): Comment {
   return {
     commentId: row.comment_id,
@@ -13,7 +17,12 @@ function mapCommentRow(row: RowDataPacket): Comment {
   };
 }
 
-// Get comments for a specific mix
+/**
+ * Function to retrieve all comments for a specific mix
+ * @param mixId - The ID of the mix
+ * @returns Promise<Comment[]> - array of Comment objects
+ * @throws Error if the query fails
+ */
 async function getComments(mixId: number): Promise<Comment[]> {
   const connection = await createConnection();
 
@@ -34,7 +43,12 @@ async function getComments(mixId: number): Promise<Comment[]> {
   }
 }
 
-// Function to get the number of likes for a specific mix
+/**
+ * Function to retrieve the list of mix IDs that a user has commented on
+ * @param userId - The ID of the user
+ * @returns Promise<number[]> - array of mix IDs that the user has commented on
+ * @throws Error if the query fails
+ */
 async function getUserCommented(userId: number): Promise<number[]> {
   const connection = await createConnection();
 
@@ -52,6 +66,8 @@ async function getUserCommented(userId: number): Promise<number[]> {
   } catch (error) {
     console.error("Error fetching likes for mix:", error);
     throw error;
+  } finally {
+    await connection.end(); // Close the connection
   }
 }
 
