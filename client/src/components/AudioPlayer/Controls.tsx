@@ -25,12 +25,13 @@ export const Controls: React.FC = () => {
     setTimeProgress,
     setTrackIndex,
     mixData,
+    playlist,
+    setPlaylist,
   } = useAudioPlayerContext();
 
   // State to handle shuffle and repeat functionality (have not tested shuffle)
   const [isShuffle, setIsShuffle] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
-  const tracks = [currentTrack];
 
   const playAnimationRef = useRef<number | null>(null);
 
@@ -82,36 +83,30 @@ export const Controls: React.FC = () => {
   // Function to handle the next track
   const handleNext = useCallback(() => {
     setTrackIndex((prevIndex) => {
-      if (!mixData || mixData.comments.length <= 1) return prevIndex; // Do nothing if there's only one track
+      if (playlist.length <= 1) return prevIndex; // Do nothing if there's only one track
       const newIndex = isShuffle
-        ? Math.floor(Math.random() * tracks.length)
-        : prevIndex >= tracks.length - 1
+        ? Math.floor(Math.random() * playlist.length)
+        : prevIndex >= playlist.length - 1
           ? 0
           : prevIndex + 1;
-      setCurrentTrack({
-        ...tracks[newIndex],
-        thumbnail: tracks[newIndex].thumbnail, // Assuming thumbnail is of type StaticImageData
-      });
+      setCurrentTrack(playlist[newIndex]);
       return newIndex;
     });
-  }, [isShuffle, setCurrentTrack, setTrackIndex]);
+  }, [isShuffle, setCurrentTrack, setTrackIndex, playlist]);
 
   // Function to handle the previous track
   const handlePrevious = useCallback(() => {
     setTrackIndex((prevIndex) => {
-      if (!mixData || mixData.comments.length <= 1) return prevIndex; // Do nothing if there's only one track
+      if (playlist.length <= 1) return prevIndex; // Do nothing if there's only one track
       const newIndex = isShuffle
-        ? Math.floor(Math.random() * tracks.length)
+        ? Math.floor(Math.random() * playlist.length)
         : prevIndex === 0
-          ? tracks.length - 1
+          ? playlist.length - 1
           : prevIndex - 1;
-      setCurrentTrack({
-        ...tracks[newIndex],
-        thumbnail: tracks[newIndex].thumbnail, // Assuming thumbnail is of type StaticImageData
-      });
+      setCurrentTrack(playlist[newIndex]);
       return newIndex;
     });
-  }, [isShuffle, setCurrentTrack, setTrackIndex]);
+  }, [isShuffle, setCurrentTrack, setTrackIndex, playlist]);
 
   // Function to skip forward 15 seconds in the audio
   const skipForward = () => {
