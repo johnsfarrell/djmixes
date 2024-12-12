@@ -1,13 +1,6 @@
-/**
- * Copyright (c) 2024 DJMixes. All rights reserved.
- * Licensed under the MIT License.
- * Description: This file contains the SearchBar component that displays a
- * search bar with a search icon.
- */
-
 import { search, SearchResult } from '@/app/api/api';
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 /**
  * The SearchBar component displays a search bar with a search icon.
@@ -16,21 +9,37 @@ import { useState } from 'react';
  */
 export default function SearchBar(): JSX.Element {
   const [searchResults, setSearchResults] = useState<SearchResult>();
+  const [query, setQuery] = useState<string>('');
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const handleSearchChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const query = event.target.value;
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = event.target.value;
+    setQuery(newQuery);
 
-    if (query.length === 0) {
-      setSearchResults(undefined);
-      return;
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
     }
 
-    // Call the search API
-    const results = await search(query);
-    setSearchResults(results);
+    debounceTimeout.current = setTimeout(async () => {
+      if (newQuery.length === 0) {
+        setSearchResults(undefined);
+        return;
+      }
+
+      // Call the search API
+      console.log('Searching for:', newQuery);
+      const results = await search(newQuery);
+      setSearchResults(results);
+    }, 1000); // Adjust the debounce delay as needed
   };
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="relative flex-1 max-w-2xl">
@@ -39,6 +48,7 @@ export default function SearchBar(): JSX.Element {
         placeholder="Search..."
         className="w-full bg-gray-800 text-white rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-gray-700"
         onChange={handleSearchChange}
+        value={query}
       />
       <Search
         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -46,7 +56,7 @@ export default function SearchBar(): JSX.Element {
       />
       {searchResults && (
         <div
-          className="absolute top-full w-full max-h-52 overflow-y-auto bg-gray-800 rounded-b-lg shadow-lg p-4"
+          className="absolute top-full w-full max-h-52 overflow-y-auto bg-gray-800 rounded-lg shadow-lg p-4"
           style={{
             zIndex: 9999
           }}
