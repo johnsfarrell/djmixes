@@ -1,6 +1,12 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { IoMdVolumeHigh, IoMdVolumeOff, IoMdVolumeLow } from "react-icons/io";
-import { useAudioPlayerContext } from "@/context/audioPlayerContext";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio player volume control for the audio player component.
+ */
+
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { IoMdVolumeHigh, IoMdVolumeOff, IoMdVolumeLow } from 'react-icons/io';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 export const VolumeControl: React.FC = () => {
   const [volume, setVolume] = useState<number>(60);
@@ -38,7 +44,7 @@ export const VolumeControl: React.FC = () => {
           className="volumn"
           onChange={handleVolumeChange}
           style={{
-            background: `linear-gradient(to right, #f50 ${volume}%, #ccc ${volume}%)`,
+            background: `linear-gradient(to right, #f50 ${volume}%, #ccc ${volume}%)`
           }}
         />
       </div>

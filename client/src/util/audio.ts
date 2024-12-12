@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio utilities for downlodaing and exporting audio files.
+ */
+
 export class AudioUtils {
   static audioBufferToWav(buffer: AudioBuffer) {
     let numOfChan = buffer.numberOfChannels,

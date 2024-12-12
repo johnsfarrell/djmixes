@@ -1,6 +1,12 @@
-import React from "react";
-import { BsMusicNoteBeamed } from "react-icons/bs";
-import { useAudioPlayerContext } from "@/context/audioPlayerContext";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio player track info for the audio player component.
+ */
+
+import React from 'react';
+import { BsMusicNoteBeamed } from 'react-icons/bs';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 export const TrackInfo: React.FC = () => {
   const { currentTrack, mixId } = useAudioPlayerContext();

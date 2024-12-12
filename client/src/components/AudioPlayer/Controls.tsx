@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio player controls for playing audio tracks.
+ */
+
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   BsFillFastForwardFill,
   BsFillPauseFill,
@@ -7,9 +13,9 @@ import {
   BsSkipEndFill,
   BsSkipStartFill,
   BsShuffle,
-  BsRepeat,
-} from "react-icons/bs";
-import { useAudioPlayerContext } from "@/context/audioPlayerContext";
+  BsRepeat
+} from 'react-icons/bs';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 //rendering the audio player controls
 export const Controls: React.FC = () => {
@@ -26,7 +32,7 @@ export const Controls: React.FC = () => {
     setTrackIndex,
     mixData,
     playlist,
-    setPlaylist,
+    setPlaylist
   } = useAudioPlayerContext();
 
   // State to handle shuffle and repeat functionality (have not tested shuffle)
@@ -42,7 +48,7 @@ export const Controls: React.FC = () => {
       setTimeProgress(currentTime);
       progressBarRef.current.value = currentTime.toString();
       progressBarRef.current.style.setProperty(
-        "--range-progress",
+        '--range-progress',
         `${(currentTime / duration) * 100}%`
       );
     }
@@ -198,10 +204,10 @@ export const Controls: React.FC = () => {
         <BsSkipEndFill size={20} />
       </button>
       <button onClick={() => setIsShuffle((prev) => !prev)}>
-        <BsShuffle size={20} className={isShuffle ? "text-[#f50]" : ""} />
+        <BsShuffle size={20} className={isShuffle ? 'text-[#f50]' : ''} />
       </button>
       <button onClick={() => setIsRepeat((prev) => !prev)}>
-        <BsRepeat size={20} className={isRepeat ? "text-[#f50]" : ""} />
+        <BsRepeat size={20} className={isRepeat ? 'text-[#f50]' : ''} />
       </button>
     </div>
   );

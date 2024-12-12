@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the footer component for the application.
+ */
+
 export const Footer = () => {
   return (
     <footer className="bg-gray-900 rounded-lg shadow m-4 dark:bg-gray-800">

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio player component for playing audio tracks.
+ */
+
 'use client';
 
 import React, { useState } from 'react';
