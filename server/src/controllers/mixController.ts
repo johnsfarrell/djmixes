@@ -1,11 +1,18 @@
 import { Request, Response } from 'express';
-import { getMixes, getRandomMixes} from '@/database/search/getMixes';
+import { getMixes, getRandomMixes } from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';
 import { insertLike, deleteLike } from '@/database/update/updateLikes';
 import { insertComment } from '@/database/update/updateComments';
 import { getComments } from '@/database/search/getComments';
 import { getUserById } from '@/database/search/getUser';
-import { User, Mix, MixResponse, UploadParams, Comment, CommentResponse } from '@/utils/interface';
+import {
+  User,
+  Mix,
+  MixResponse,
+  UploadParams,
+  Comment,
+  CommentResponse
+} from '@/utils/interface';
 import {
   s3Client,
   bucketName,
@@ -151,50 +158,50 @@ class MixController {
     }
   };
 
-    /**
+  /**
    * Controller for liking a mix
    * @param req - Request object, containing the mix ID and user ID
    * @param res - Response object, used to send a response back to the client
    * @returns void
    * @throws Error - If liking the mix fails
    */
-    commentMix = async (req: Request, res: Response): Promise<void> => {
-      const mixId = req.params.mixId;
-      const userId = req.body.user_id;
-      const comment = req.body.comment;
-  
-      try {
-        // Validate mixId and userId
-        if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
-          res.status(400).json({ message: 'Invalid mix ID or user ID' });
-          return;
-        }
-  
-        // Check if the mix exists
-        const mix = await getMixes(parseInt(mixId, 10));
-        if (!mix) {
-          res.status(404).json({ message: 'Mix not found' });
-          return;
-        }
-  
-        // Insert like into the database
-        const result = await insertComment(
-          parseInt(userId, 10),
-          parseInt(mixId, 10),
-          comment
-        );
-        if (!result) {
-          res.status(500).json({ message: 'Failed to insert comment' });
-          return;
-        }
-  
-        // Return success response
-        res.status(200).json({ message: 'Mix commented successfully' });
-      } catch (error) {
-        console.error('Error commenting mix:', error);
-        res.status(500).json({ message: 'Failed to comment on mix' });
+  commentMix = async (req: Request, res: Response): Promise<void> => {
+    const mixId = req.params.mixId;
+    const userId = req.body.user_id;
+    const comment = req.body.comment;
+
+    try {
+      // Validate mixId and userId
+      if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
+        res.status(400).json({ message: 'Invalid mix ID or user ID' });
+        return;
       }
-    };
+
+      // Check if the mix exists
+      const mix = await getMixes(parseInt(mixId, 10));
+      if (!mix) {
+        res.status(404).json({ message: 'Mix not found' });
+        return;
+      }
+
+      // Insert like into the database
+      const result = await insertComment(
+        parseInt(userId, 10),
+        parseInt(mixId, 10),
+        comment
+      );
+      if (!result) {
+        res.status(500).json({ message: 'Failed to insert comment' });
+        return;
+      }
+
+      // Return success response
+      res.status(200).json({ message: 'Mix commented successfully' });
+    } catch (error) {
+      console.error('Error commenting mix:', error);
+      res.status(500).json({ message: 'Failed to comment on mix' });
+    }
+  };
 
   /**
    * Controller for unliking a mix
@@ -238,7 +245,7 @@ class MixController {
       res.status(500).json({ message: 'Failed to unlike mix' });
     }
   };
-  
+
   /**
    * Controller for deleting a mix
    * @param req - Request object, containing the mix ID
@@ -248,37 +255,46 @@ class MixController {
    */
   deleteMix = async (req: Request, res: Response): Promise<void> => {
     const mixId = req.params.mixId;
-  
+
     try {
       // Get mix ID and validate
       const mix = await getMixes(parseInt(mixId, 10));
       if (!mix || !mix.fileUrl) {
-        res.status(404).json({ error: "Mix not found" });
+        res.status(404).json({ error: 'Mix not found' });
         return;
       }
-        
+
       // Prepare delete actions for all file URLs
-      const fileUrls = [mix.fileUrl, mix.coverUrl, mix.stemBassUrl, mix.stemDrumUrl, mix.stemVocalUrl, mix.stemOtherUrl]
+      const fileUrls = [
+        mix.fileUrl,
+        mix.coverUrl,
+        mix.stemBassUrl,
+        mix.stemDrumUrl,
+        mix.stemVocalUrl,
+        mix.stemOtherUrl
+      ];
       const deletePromises = fileUrls.map((fileUrl: string) =>
-      deleteFromS3(s3Client, {
+        deleteFromS3(s3Client, {
           Bucket: bucketName,
-          Key: fileUrl,
-        }).catch(error => console.error(`Error deleting file ${fileUrl}:`, error))
+          Key: fileUrl
+        }).catch((error) =>
+          console.error(`Error deleting file ${fileUrl}:`, error)
+        )
       );
 
-      const dbDeletePromise = deleteMixes(parseInt(mixId, 10)).catch(error =>
-        console.error("Error deleting mix from database:", error)
+      const dbDeletePromise = deleteMixes(parseInt(mixId, 10)).catch((error) =>
+        console.error('Error deleting mix from database:', error)
       );
 
       // Trigger all deletions asynchronously (files and database)
-      Promise.all([...deletePromises, dbDeletePromise]).catch(error =>
-        console.error("Error during deletion process:", error)
+      Promise.all([...deletePromises, dbDeletePromise]).catch((error) =>
+        console.error('Error during deletion process:', error)
       );
 
-      res.status(200).json({ message: "Mix deletion initiated" });
+      res.status(200).json({ message: 'Mix deletion initiated' });
     } catch (error) {
-      console.error("Error initiating mix deletion:", error);
-      res.status(500).json({ error: "Failed to initiate mix deletion" });
+      console.error('Error initiating mix deletion:', error);
+      res.status(500).json({ error: 'Failed to initiate mix deletion' });
     }
   };
 
@@ -356,8 +372,8 @@ class MixController {
       return;
     }
 
-    const MAX_MIX_FILE_SIZE_MB = 50; // max file size in MB
-    const MAX_COVER_FILE_SIZE_MB = 10; // max file size in MB
+    const MAX_MIX_FILE_SIZE_MB = 500; // max file size in MB
+    const MAX_COVER_FILE_SIZE_MB = 250; // max file size in MB
     const MAX_MIX_FILE_SIZE_BYTES = MAX_MIX_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
     const MAX_COVER_FILE_SIZE_BYTES = MAX_COVER_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
 
@@ -368,14 +384,14 @@ class MixController {
 
       if (mixFile.size > MAX_MIX_FILE_SIZE_BYTES) {
         res.status(400).json({
-          error: `Mix file size exceeds limit of ${MAX_MIX_FILE_SIZE_MB} MB`,
+          error: `Mix file size exceeds limit of ${MAX_MIX_FILE_SIZE_MB} MB`
         });
         return;
       }
 
-      if (coverFile.size > MAX_COVER_FILE_SIZE_BYTES){
+      if (coverFile.size > MAX_COVER_FILE_SIZE_BYTES) {
         res.status(400).json({
-          error: `Cover file size exceeds limit of ${MAX_COVER_FILE_SIZE_MB} MB`,
+          error: `Cover file size exceeds limit of ${MAX_COVER_FILE_SIZE_MB} MB`
         });
         return;
       }
@@ -443,12 +459,12 @@ class MixController {
 }
 
 function mapCommentsToResponse(comments: Comment[]): CommentResponse[] {
-  return comments.map(comment => ({
+  return comments.map((comment) => ({
     comment_id: comment.commentId,
     user_id: comment.userId,
     mix_id: comment.mixId,
     comment_text: comment.commentText,
-    created_at: comment.createdAt,
+    created_at: comment.createdAt
   }));
 }
 

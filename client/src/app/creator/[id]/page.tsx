@@ -6,7 +6,7 @@
  */
 
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
@@ -29,12 +29,18 @@ export default function CreatorViewPage(): JSX.Element {
 
   const [creator, setCreator] = useState<GetProfileResponse | null>(null);
 
+  const [isSelf, setIsSelf] = useState(false);
+
   useEffect(() => {
     const fetchCreator = async () => {
       try {
         if (!id) return;
         const profileId = parseInt(id as string);
         const res = await getProfile(profileId);
+        const userId = parseInt(localStorage.getItem('userId') as string);
+
+        setIsSelf(profileId === userId);
+
         setCreator(res);
         setLoading(false);
         for (const mixId of res.uploadedMixIds) {
@@ -111,7 +117,7 @@ export default function CreatorViewPage(): JSX.Element {
 
         <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-bold mb-4">Liked Mixes</h2>
-          {likedMixes ? (
+          {likedMixes && likedMixes.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {likedMixes.map((mix) => (
                 <MixCard key={mix.title} mix={mix} />

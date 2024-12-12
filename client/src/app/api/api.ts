@@ -259,6 +259,17 @@ const register = async (
   return res;
 };
 
+const createProfile = async (userId: number): Promise<Response> => {
+  const res = await apiAdapter(API_URL, `/profile/${userId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return res;
+};
+
 interface GetMixesRequest extends Request {
   count?: number;
 }
@@ -383,5 +394,6 @@ export {
   likeMix,
   unlikeMix,
   commentOnMix,
-  search
+  search,
+  createProfile
 };

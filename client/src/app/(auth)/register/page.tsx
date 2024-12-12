@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AuthCard from '@/components/Auth/AuthCard';
 import AuthInput from '@/components/Auth/AuthInput';
-import { register } from '@/app/api/api';
+import { createProfile, register } from '@/app/api/api';
 
 /**
  * The register page component renders the registration form, handles form
@@ -44,6 +44,7 @@ export default function RegisterPage() {
       const resBody = await res.json();
       if (res.ok && resBody.user_id) {
         localStorage.setItem('userId', resBody.user_id);
+        await createProfile(resBody.user_id);
         router.push('/');
       } else {
         const data = await res.json();
