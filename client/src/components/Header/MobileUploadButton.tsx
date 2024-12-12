@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2024 DJMixes. All rights reserved.
  * Licensed under the MIT License.
- * Description: This file contains the MobileUploadButton component that 
+ * Description: This file contains the MobileUploadButton component that
  * displays the upload button for mobile devices.
  */
 
@@ -13,11 +13,11 @@ interface MobileUploadButtonProps {
 }
 
 /**
- * The MobileUploadButton component displays the upload button for mobile 
+ * The MobileUploadButton component displays the upload button for mobile
  * devices. It is hidden on larger screens.
- * 
+ *
  * @param onClick The function to call when the button is clicked.
- * 
+ *
  * @returns The MobileUploadButton component.
  */
 export default function MobileUploadButton({

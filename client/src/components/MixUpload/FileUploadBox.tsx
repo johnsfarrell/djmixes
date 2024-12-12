@@ -15,16 +15,16 @@ interface FileUploadBoxProps {
 }
 
 /**
- * The FileUploadBox component displays a box with an icon, text, and subtext 
+ * The FileUploadBox component displays a box with an icon, text, and subtext
  * for uploading files. The box is clickable and calls the onClick function when
  * clicked. The icon, text, and subtext are customizable so that the box can be
  * used for different types of file uploads (e.g. album art, mixes).
- * 
+ *
  * @param onClick The function to call when the box is clicked.
  * @param icon The icon to display in the box.
  * @param text The text to display in the box.
  * @param subtext The subtext to display in the box.
- * 
+ *
  * @returns The FileUploadBox component.
  */
 export default function FileUploadBox({

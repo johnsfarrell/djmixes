@@ -4,10 +4,10 @@
  * Description: This file contains the studio header component for Studio.
  */
 
-import { GetMixResponse } from '@/app/api/types';
-import { NamedAudioSegment } from './page';
-import { AudioUtils } from '@/util/audio';
-import { formatTimeSeconds } from '@/util/helpers';
+import { GetMixResponse } from "@/app/api/types";
+import { NamedAudioSegment } from "./page";
+import { AudioUtils } from "@/util/audio";
+import { formatTimeSeconds } from "@/util/helpers";
 
 interface StudioHeaderProps {
   mix: GetMixResponse;
@@ -25,7 +25,7 @@ interface StudioHeaderProps {
     string,
     [
       NamedAudioSegment[],
-      React.Dispatch<React.SetStateAction<NamedAudioSegment[]>>
+      React.Dispatch<React.SetStateAction<NamedAudioSegment[]>>,
     ]
   >;
   audioContextRef: React.RefObject<AudioContext>;
@@ -41,7 +41,7 @@ export const StudioHeader = ({
   resetMix,
   orderMap,
   segmentsMap,
-  audioContextRef
+  audioContextRef,
 }: StudioHeaderProps) => {
   return (
     <div className="sticky top-0 z-20 bg-gray-900 pt-4">
@@ -59,7 +59,7 @@ export const StudioHeader = ({
                 {mix.title}, {mix.artist}
               </span>
               <img
-                src={mix.cover_url ?? '/placeholder.jpg'}
+                src={mix.cover_url ?? "/placeholder.jpg"}
                 alt="Mix Artwork"
                 className="object-cover w-8 h-8 mb-2 rounded-lg border border-white bg-slate-300"
               />
@@ -72,7 +72,7 @@ export const StudioHeader = ({
           onClick={togglePlay}
           className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
         >
-          {isPlaying ? '❚❚' : '▶'}
+          {isPlaying ? "❚❚" : "▶"}
         </button>
         <span className="text-gray-400 text-sm">
           {formatTimeSeconds(currentTime)}
@@ -88,7 +88,7 @@ export const StudioHeader = ({
             background: `linear-gradient(to right, #89CFF0 ${(
               (currentTime / duration) *
               100
-            ).toFixed(2)}%, #4a5568 0%)`
+            ).toFixed(2)}%, #4a5568 0%)`,
           }}
         />
         <span className="text-gray-400 text-sm">
@@ -107,7 +107,7 @@ export const StudioHeader = ({
               duration,
               orderMap,
               segmentsMap,
-              mix
+              mix,
             )
           }
           className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded-md"

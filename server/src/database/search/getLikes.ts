@@ -4,8 +4,8 @@
  * Description: This file contains the database query to get the number of likes for a mix.
  */
 
-import { RowDataPacket } from 'mysql2';
-import createConnection from '@/database/connection';
+import { RowDataPacket } from "mysql2";
+import createConnection from "@/database/connection";
 
 /**
  * Function to get the number of likes for a specific mix
@@ -19,14 +19,14 @@ async function getLikes(mixId: number): Promise<number> {
   try {
     // Get the count of likes for the provided mix_id
     const [rows] = await connection.execute<RowDataPacket[]>(
-      'SELECT COUNT(*) AS like_count FROM likes WHERE mix_id = ?',
-      [mixId]
+      "SELECT COUNT(*) AS like_count FROM likes WHERE mix_id = ?",
+      [mixId],
     );
 
     // Return the number of likes
     return rows[0].like_count;
   } catch (error) {
-    console.error('Error fetching likes for mix:', error);
+    console.error("Error fetching likes for mix:", error);
     throw error;
   } finally {
     await connection.end(); // Close the connection
@@ -45,8 +45,8 @@ async function getUserLiked(userId: number): Promise<number[]> {
   try {
     // Get the count of likes for the provided mix_id
     const [rows] = await connection.execute<RowDataPacket[]>(
-      'SELECT DISTINCT mix_id FROM likes WHERE user_id = ?',
-      [userId]
+      "SELECT DISTINCT mix_id FROM likes WHERE user_id = ?",
+      [userId],
     );
 
     // Map rows to a list of mixId numbers
@@ -54,7 +54,7 @@ async function getUserLiked(userId: number): Promise<number[]> {
 
     return likedMixIds;
   } catch (error) {
-    console.error('Error fetching likes for mix:', error);
+    console.error("Error fetching likes for mix:", error);
     throw error;
   } finally {
     await connection.end(); // Close the connection

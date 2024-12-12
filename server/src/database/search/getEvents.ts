@@ -4,9 +4,9 @@
  * Description: This file contains the database search functions for retrieving events.
  */
 
-import { RowDataPacket } from 'mysql2';
-import createConnection from '@/database/connection';
-import { Event } from '@/utils/interface';
+import { RowDataPacket } from "mysql2";
+import createConnection from "@/database/connection";
+import { Event } from "@/utils/interface";
 
 /**
  * Function to retrieve all events related to a specific artist (DJ)
@@ -20,8 +20,8 @@ async function getEventsBasedOnDj(artistId: number): Promise<Event[] | null> {
   try {
     // Get all the events related to the provided artist_id
     const [rows] = await connection.execute<RowDataPacket[]>(
-      'SELECT event_id, title, date, artist_id, user_id, description, created_at, updated_at FROM events WHERE artist_id = ? ORDER BY date DESC',
-      [artistId]
+      "SELECT event_id, title, date, artist_id, user_id, description, created_at, updated_at FROM events WHERE artist_id = ? ORDER BY date DESC",
+      [artistId],
     );
 
     if (rows.length === 0) {
@@ -29,7 +29,7 @@ async function getEventsBasedOnDj(artistId: number): Promise<Event[] | null> {
     }
     return rows as Event[];
   } catch (error) {
-    console.error('Error fetching events for artist:', error);
+    console.error("Error fetching events for artist:", error);
     throw error;
   } finally {
     await connection.end(); // Close the connection
@@ -48,8 +48,8 @@ async function getEvent(eventId: number): Promise<Event | null> {
   try {
     // Get the event related to the provided event_id
     const [rows] = await connection.execute<RowDataPacket[]>(
-      'SELECT event_id, title, date, artist_id, user_id, description, created_at, updated_at FROM events WHERE event_id = ?',
-      [eventId]
+      "SELECT event_id, title, date, artist_id, user_id, description, created_at, updated_at FROM events WHERE event_id = ?",
+      [eventId],
     );
 
     if (rows.length === 0) {
@@ -59,7 +59,7 @@ async function getEvent(eventId: number): Promise<Event | null> {
     // Return the event data
     return rows[0] as Event;
   } catch (error) {
-    console.error('Error fetching event:', error);
+    console.error("Error fetching event:", error);
     throw error;
   } finally {
     await connection.end(); // Close the connection
@@ -77,14 +77,14 @@ async function searchEventsByTitle(title: string): Promise<number[] | null> {
   try {
     const [rows] = await connection.execute<RowDataPacket[]>(
       `SELECT DISTINCT event_id FROM events WHERE title like ?`,
-      [`%${title}%`]
+      [`%${title}%`],
     );
 
     // Map rows to a list of mixId numbers
     const eventIds: number[] = rows.map((row) => row.event_id);
     return eventIds;
   } catch (error) {
-    console.error('Retrieving events Error:', error);
+    console.error("Retrieving events Error:", error);
     throw error;
   } finally {
     await connection.end(); // Close the connection

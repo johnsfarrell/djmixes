@@ -4,7 +4,7 @@
  * Description: This file contains the database query to follow an artist.
  */
 
-import createConnection from '../connection';
+import createConnection from "../connection";
 
 /**
  * Function to follow an artist
@@ -15,17 +15,17 @@ import createConnection from '../connection';
  */
 export const followArtist = async (
   userId: number,
-  artistId: number
+  artistId: number,
 ): Promise<void> => {
   const connection = await createConnection();
   try {
     await connection.execute(
-      'INSERT INTO follows (user_id, artist_id) VALUES (?, ?)',
-      [userId, artistId]
+      "INSERT INTO follows (user_id, artist_id) VALUES (?, ?)",
+      [userId, artistId],
     );
   } catch (error) {
-    console.error('Error while following artist:', error);
-    throw new Error('Database error occurred');
+    console.error("Error while following artist:", error);
+    throw new Error("Database error occurred");
   } finally {
     await connection.end();
   }

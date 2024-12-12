@@ -4,8 +4,8 @@
  * Description: This file contains the audio utilities for downloading and exporting audio files.
  */
 
-import { NamedAudioSegment } from '@/app/mix/studio/[id]/page';
-import { encode } from 'wav-encoder';
+import { NamedAudioSegment } from "@/app/mix/studio/[id]/page";
+import { encode } from "wav-encoder";
 
 export class AudioUtils {
   static async exportMix(
@@ -19,10 +19,10 @@ export class AudioUtils {
       string,
       [
         NamedAudioSegment[],
-        React.Dispatch<React.SetStateAction<NamedAudioSegment[]>>
+        React.Dispatch<React.SetStateAction<NamedAudioSegment[]>>,
       ]
     >,
-    mix: { title: string; artist: string }
+    mix: { title: string; artist: string },
   ) {
     if (!audioContextRef.current) return;
 
@@ -31,10 +31,10 @@ export class AudioUtils {
     const offlineCtx = new OfflineAudioContext(
       2,
       Math.ceil(duration * sampleRate),
-      sampleRate
+      sampleRate,
     );
 
-    const connectStems = (stem: 'vocals' | 'bass' | 'drums' | 'other') => {
+    const connectStems = (stem: "vocals" | "bass" | "drums" | "other") => {
       const [order] = orderMap[stem];
       const [segments] = segmentsMap[stem];
 
@@ -58,10 +58,10 @@ export class AudioUtils {
       }
     };
 
-    connectStems('vocals');
-    connectStems('bass');
-    connectStems('drums');
-    connectStems('other');
+    connectStems("vocals");
+    connectStems("bass");
+    connectStems("drums");
+    connectStems("other");
 
     const renderedBuffer = await offlineCtx.startRendering();
 
@@ -74,16 +74,16 @@ export class AudioUtils {
   static async bufferToBlob(buffer: AudioBuffer) {
     const wavData = await encode({
       sampleRate: buffer.sampleRate,
-      channelData: [buffer.getChannelData(0), buffer.getChannelData(1)]
+      channelData: [buffer.getChannelData(0), buffer.getChannelData(1)],
     });
 
-    return new Blob([wavData], { type: 'audio/wav' });
+    return new Blob([wavData], { type: "audio/wav" });
   }
 
   // Downloads a blob as a file
   static async downloadBlob(blob: Blob, filename: string) {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = filename;
     a.click();

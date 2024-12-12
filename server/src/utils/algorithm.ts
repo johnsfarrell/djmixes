@@ -4,11 +4,11 @@
  * Description: This file contains the audio processing logic for the application.
  */
 
-import axios from 'axios';
-import JSZip from 'jszip';
-import { UploadParams } from '@/utils/interface';
-import { s3Client, bucketName, uploadToS3 } from '@/utils/s3Client';
-import { updateMixField } from '@/database/update/updateMixes';
+import axios from "axios";
+import JSZip from "jszip";
+import { UploadParams } from "@/utils/interface";
+import { s3Client, bucketName, uploadToS3 } from "@/utils/s3Client";
+import { updateMixField } from "@/database/update/updateMixes";
 
 export type SplitTimestamps = Record<string, number>;
 
@@ -25,17 +25,17 @@ class AudioProcessor {
    */
   public async getStemmedAudio(
     mixId: number | null,
-    buffer: Buffer
+    buffer: Buffer,
   ): Promise<string[]> {
     const formData = new FormData();
-    formData.append('file', new Blob([buffer]), 'audio-file');
+    formData.append("file", new Blob([buffer]), "audio-file");
 
     // Send the POST request to stem
-    const response = await axios.post('http://algorithm:5000/stem', formData, {
+    const response = await axios.post("http://algorithm:5000/stem", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        "Content-Type": "multipart/form-data",
       },
-      responseType: 'arraybuffer'
+      responseType: "arraybuffer",
     });
 
     // Load the zip content as a buffer
@@ -46,13 +46,13 @@ class AudioProcessor {
 
     // Extract and upload each file
     const uploadPromises = Object.keys(zip.files).map(async (filename) => {
-      const fileData = await zip.files[filename].async('nodebuffer');
+      const fileData = await zip.files[filename].async("nodebuffer");
       const fileKey = `${Date.now()}_${filename}`;
 
       const params: UploadParams = {
         Bucket: bucketName,
         Key: fileKey,
-        Body: fileData
+        Body: fileData,
       };
 
       try {
@@ -60,14 +60,14 @@ class AudioProcessor {
         console.log(`Uploaded stem: ${filename} as ${uploadResult.key}`);
         uploadedKeys.push(uploadResult.key);
 
-        if (filename.includes('drum')) {
-          await updateMixField(mixId, 'stem_drum_url', fileKey);
-        } else if (filename.includes('bass')) {
-          await updateMixField(mixId, 'stem_bass_url', fileKey);
-        } else if (filename.includes('vocal')) {
-          await updateMixField(mixId, 'stem_vocal_url', fileKey);
-        } else if (filename.includes('other')) {
-          await updateMixField(mixId, 'stem_other_url', fileKey);
+        if (filename.includes("drum")) {
+          await updateMixField(mixId, "stem_drum_url", fileKey);
+        } else if (filename.includes("bass")) {
+          await updateMixField(mixId, "stem_bass_url", fileKey);
+        } else if (filename.includes("vocal")) {
+          await updateMixField(mixId, "stem_vocal_url", fileKey);
+        } else if (filename.includes("other")) {
+          await updateMixField(mixId, "stem_other_url", fileKey);
         }
       } catch (error) {
         console.error(`Error uploading stem: ${filename}`, error);
@@ -87,23 +87,23 @@ class AudioProcessor {
    */
   public async getSplitTimestamps(
     mixId: number | null,
-    buffer: Buffer
+    buffer: Buffer,
   ): Promise<SplitTimestamps> {
     const formData = new FormData();
 
-    formData.append('file', new Blob([buffer]), 'audio-file');
+    formData.append("file", new Blob([buffer]), "audio-file");
 
-    console.log('Sending POST request to split');
+    console.log("Sending POST request to split");
 
     // Send the POST request to split
-    const response = await axios.post('http://algorithm:5000/split', formData, {
+    const response = await axios.post("http://algorithm:5000/split", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
 
-    console.log('Received response from split, updating mix');
-    await updateMixField(mixId, 'split_json', JSON.stringify(response.data));
+    console.log("Received response from split, updating mix");
+    await updateMixField(mixId, "split_json", JSON.stringify(response.data));
     return response.data;
   }
 }

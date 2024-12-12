@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2024 DJMixes. All rights reserved.
  * Licensed under the MIT License.
- * Description: This file contains the VisibilitySettings component that 
+ * Description: This file contains the VisibilitySettings component that
  * displays a list of visibility options for a mix.
  */
 
@@ -16,11 +16,11 @@ interface VisibilitySettingsProps {
  * The VisibilitySettings component displays a list of visibility options for a
  * mix. The user can select one of the options to change the visibility of the
  * mix when it is uploaded.
- * 
+ *
  * @param visibility The current visibility of the mix.
- * @param onVisibilityChange The function to call when the visibility is 
+ * @param onVisibilityChange The function to call when the visibility is
  * changed.
- * 
+ *
  * @returns The VisibilitySettings component.
  */
 export default function VisibilitySettings({

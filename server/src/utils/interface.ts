@@ -4,7 +4,7 @@
  * Description: This file contains the interfaces for the application.
  */
 
-import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
+import { PutObjectCommandOutput } from "@aws-sdk/client-s3";
 
 export interface UploadUser {
   userId: number;
@@ -48,7 +48,7 @@ export interface Mix {
   fileUrl: string;
   coverUrl: string;
   tags?: string[];
-  visibility: 'public' | 'private' | 'unlisted' | 'friends';
+  visibility: "public" | "private" | "unlisted" | "friends";
   allowDownload: boolean;
   createdAt: Date;
   updatedAt: Date;

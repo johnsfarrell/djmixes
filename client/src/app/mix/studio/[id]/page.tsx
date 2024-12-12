@@ -4,14 +4,14 @@
  * Description: Studio page that displays advanced options for remixing.
  */
 
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'next/navigation';
-import { getMix } from '@/app/api/api';
-import { GetMixResponse } from '@/app/api/types';
-import { StudioHeader } from './header';
-import { Line } from './line';
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
+import { getMix } from "@/app/api/api";
+import { GetMixResponse } from "@/app/api/types";
+import { StudioHeader } from "./header";
+import { Line } from "./line";
 
 export interface NamedAudioSegment {
   buffer: AudioBuffer;
@@ -74,20 +74,20 @@ export default function StudioPage(): JSX.Element {
     vocals: [vocalsOrder, setVocalsOrder],
     bass: [bassOrder, setBassOrder],
     drums: [drumsOrder, setDrumsOrder],
-    other: [otherOrder, setOtherOrder]
+    other: [otherOrder, setOtherOrder],
   };
 
   const segmentsMap: Record<
     string,
     [
       NamedAudioSegment[],
-      React.Dispatch<React.SetStateAction<NamedAudioSegment[]>>
+      React.Dispatch<React.SetStateAction<NamedAudioSegment[]>>,
     ]
   > = {
     vocals: [vocalsSegments, setVocalsSegments],
     bass: [bassSegments, setBassSegments],
     drums: [drumsSegments, setDrumsSegments],
-    other: [otherSegments, setOtherSegments]
+    other: [otherSegments, setOtherSegments],
   };
 
   // initialize mix data, or redirect if invalid
@@ -108,12 +108,12 @@ export default function StudioPage(): JSX.Element {
       try {
         const data = await getMix({
           mixId: parseInt(id as string),
-          mock: false
+          mock: false,
         });
         if (validStudioData(data)) window.location.href = `/mix/${id}`;
         else setMix(data);
       } catch (err) {
-        setError('Failed to fetch mix details.');
+        setError("Failed to fetch mix details.");
       } finally {
         setLoading(false);
       }
@@ -130,14 +130,14 @@ export default function StudioPage(): JSX.Element {
     const ctx = audioContextRef.current;
 
     const loadAndSegment = async (
-      audioUrl: string
+      audioUrl: string,
     ): Promise<NamedAudioSegment[]> => {
       const audioResopnse = await fetch(audioUrl);
       const arrayBuffer = await audioResopnse.arrayBuffer();
       const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
 
       const splits = (mix.splits ?? []).sort(
-        (a, b) => a.timestamp - b.timestamp
+        (a, b) => a.timestamp - b.timestamp,
       );
 
       // split the audio url into segments
@@ -152,7 +152,7 @@ export default function StudioPage(): JSX.Element {
         const segmentBuffer = ctx.createBuffer(
           audioBuffer.numberOfChannels,
           Math.ceil((segmentEnd - segmentStart) * audioBuffer.sampleRate),
-          audioBuffer.sampleRate
+          audioBuffer.sampleRate,
         );
 
         for (let ch = 0; ch < audioBuffer.numberOfChannels; ch++) {
@@ -160,7 +160,7 @@ export default function StudioPage(): JSX.Element {
             .getChannelData(ch)
             .subarray(
               Math.floor(segmentStart * audioBuffer.sampleRate),
-              Math.floor(segmentEnd * audioBuffer.sampleRate)
+              Math.floor(segmentEnd * audioBuffer.sampleRate),
             );
           segmentBuffer.getChannelData(ch).set(channelData);
         }
@@ -170,7 +170,7 @@ export default function StudioPage(): JSX.Element {
           start: segmentStart,
           end: segmentEnd,
           name: splits[i].name,
-          volume: 1
+          volume: 1,
         });
       }
 
@@ -188,7 +188,7 @@ export default function StudioPage(): JSX.Element {
           loadAndSegment(mix.vocalsUrl),
           loadAndSegment(mix.bassUrl),
           loadAndSegment(mix.drumsUrl),
-          loadAndSegment(mix.otherUrl)
+          loadAndSegment(mix.otherUrl),
         ]);
 
         // set stem segments
@@ -206,7 +206,7 @@ export default function StudioPage(): JSX.Element {
         // duration of all stems are the same
         setDuration(vocals[vocals.length - 1].end);
       } catch (err) {
-        console.error('Error loading or segmenting audio', err);
+        console.error("Error loading or segmenting audio", err);
       }
     };
 
@@ -241,7 +241,7 @@ export default function StudioPage(): JSX.Element {
     vocalsSegments,
     bassSegments,
     drumsSegments,
-    otherSegments
+    otherSegments,
   ]);
 
   const resetMix = () => {
@@ -271,13 +271,13 @@ export default function StudioPage(): JSX.Element {
       vocals: [] as AudioBufferSourceNode[],
       bass: [] as AudioBufferSourceNode[],
       drums: [] as AudioBufferSourceNode[],
-      other: [] as AudioBufferSourceNode[]
+      other: [] as AudioBufferSourceNode[],
     };
 
     const scheduleStems = (
       segments: NamedAudioSegment[],
       order: number[],
-      outputArray: AudioBufferSourceNode[]
+      outputArray: AudioBufferSourceNode[],
     ) => {
       let playbackStart = ctx.currentTime,
         accumulated = 0,
@@ -309,7 +309,7 @@ export default function StudioPage(): JSX.Element {
           (j === startSegmentIndex ? startOffsetWithinSegment : 0);
         source.start(
           playbackStart,
-          j === startSegmentIndex ? startOffsetWithinSegment : 0
+          j === startSegmentIndex ? startOffsetWithinSegment : 0,
         );
 
         playbackStart += segmentPlaybackDuration;
@@ -351,9 +351,9 @@ export default function StudioPage(): JSX.Element {
   }, [isPlaying, duration, isDraggingLine]);
 
   const handleSegmentVolumeChange = (
-    stemName: 'vocals' | 'bass' | 'drums' | 'other',
+    stemName: "vocals" | "bass" | "drums" | "other",
     segmentIndex: number,
-    newVolume: number
+    newVolume: number,
   ) => {
     const [segments, setSegments] = segmentsMap[stemName];
 
@@ -368,7 +368,7 @@ export default function StudioPage(): JSX.Element {
   const onDragStart = (stem: string, index: number) => (e: React.DragEvent) => {
     setDraggingStem(stem);
     setDraggingIndex(index);
-    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.effectAllowed = "move";
   };
 
   const onDragOver = (index: number) => (e: React.DragEvent) => {
@@ -407,7 +407,7 @@ export default function StudioPage(): JSX.Element {
   };
 
   const getCurrentlyPlayingSegments = () => {
-    function findCurStem(stem: 'vocals' | 'bass' | 'drums' | 'other'): number {
+    function findCurStem(stem: "vocals" | "bass" | "drums" | "other"): number {
       const isInRange = (start: number, end: number) => {
         return currentTime >= start && currentTime < end;
       };
@@ -427,10 +427,10 @@ export default function StudioPage(): JSX.Element {
     }
 
     return {
-      vocals: findCurStem('vocals'),
-      bass: findCurStem('bass'),
-      drums: findCurStem('drums'),
-      other: findCurStem('other')
+      vocals: findCurStem("vocals"),
+      bass: findCurStem("bass"),
+      drums: findCurStem("drums"),
+      other: findCurStem("other"),
     };
   };
 
@@ -438,8 +438,8 @@ export default function StudioPage(): JSX.Element {
   const currentlyPlaying = getCurrentlyPlayingSegments();
 
   const handleSegmentClick = (
-    stemName: 'vocals' | 'bass' | 'drums' | 'other',
-    clickedIndex: number
+    stemName: "vocals" | "bass" | "drums" | "other",
+    clickedIndex: number,
   ) => {
     const [segments] = segmentsMap[stemName];
     const [order] = orderMap[stemName];
@@ -457,10 +457,10 @@ export default function StudioPage(): JSX.Element {
     }
   };
 
-  const renderSegments = (stemName: 'vocals' | 'bass' | 'drums' | 'other') => {
+  const renderSegments = (stemName: "vocals" | "bass" | "drums" | "other") => {
     const currentIndex = currentlyPlaying[stemName];
 
-    const formattedName = (name: string) => name.padEnd(30, ' ');
+    const formattedName = (name: string) => name.padEnd(30, " ");
 
     const [order] = orderMap[stemName];
     const [segments] = segmentsMap[stemName];
@@ -474,10 +474,10 @@ export default function StudioPage(): JSX.Element {
           const segDuration = segment.buffer.duration;
           const segmentHeight = (segDuration * pixelsPerSecond) / 10;
 
-          let bgColor = isCurrent ? 'bg-yellow-500' : 'bg-gray-600';
-          let textColor = isCurrent ? 'text-black' : 'text-white';
-          bgColor = i === dragOverIndex ? 'bg-blue-700' : bgColor;
-          textColor = i === dragOverIndex ? 'text-white' : textColor;
+          let bgColor = isCurrent ? "bg-yellow-500" : "bg-gray-600";
+          let textColor = isCurrent ? "text-black" : "text-white";
+          bgColor = i === dragOverIndex ? "bg-blue-700" : bgColor;
+          textColor = i === dragOverIndex ? "text-white" : textColor;
 
           return (
             <div
@@ -490,7 +490,7 @@ export default function StudioPage(): JSX.Element {
               onClick={() => handleSegmentClick(stemName, i)}
               className={`relative px-2 py-1 border-t-white border-t-2 cursor-pointer flex flex-row justify-between items-center transition-colors w-full ${bgColor} ${textColor} studio-volume`}
               style={{
-                height: `${segmentHeight}px`
+                height: `${segmentHeight}px`,
               }}
             >
               <span className="text-sm mr-2">
@@ -509,7 +509,7 @@ export default function StudioPage(): JSX.Element {
                   handleSegmentVolumeChange(
                     stemName,
                     segmentIndex,
-                    1 - parseFloat(e.target.value)
+                    1 - parseFloat(e.target.value),
                   )
                 }
                 className="w-20 transform rotate-90 bg-transparent appearance-none mr-10 hover:cursor-grab active:cursor-grabbing studio-volume"
@@ -552,13 +552,13 @@ export default function StudioPage(): JSX.Element {
 
   useEffect(() => {
     if (isDraggingLine) {
-      window.addEventListener('mousemove', handleMouseMoveLine);
-      window.addEventListener('mouseup', handleMouseUpLine);
+      window.addEventListener("mousemove", handleMouseMoveLine);
+      window.addEventListener("mouseup", handleMouseUpLine);
     }
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMoveLine);
-      window.removeEventListener('mouseup', handleMouseUpLine);
+      window.removeEventListener("mousemove", handleMouseMoveLine);
+      window.removeEventListener("mouseup", handleMouseUpLine);
     };
   }, [isDraggingLine, currentTime, isPlaying]);
 
@@ -574,7 +574,7 @@ export default function StudioPage(): JSX.Element {
   if (error || !mix) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-white text-lg">{error || 'Mix not found.'}</p>
+        <p className="text-white text-lg">{error || "Mix not found."}</p>
       </div>
     );
   }
@@ -606,10 +606,10 @@ export default function StudioPage(): JSX.Element {
           />
 
           <div className="grid grid-cols-2 md:grid-cols-4">
-            <div className="bg-gray-800 p-2">{renderSegments('vocals')}</div>
-            <div className="bg-gray-800 p-2">{renderSegments('bass')}</div>
-            <div className="bg-gray-800 p-2">{renderSegments('drums')}</div>
-            <div className="bg-gray-800 p-2">{renderSegments('other')}</div>
+            <div className="bg-gray-800 p-2">{renderSegments("vocals")}</div>
+            <div className="bg-gray-800 p-2">{renderSegments("bass")}</div>
+            <div className="bg-gray-800 p-2">{renderSegments("drums")}</div>
+            <div className="bg-gray-800 p-2">{renderSegments("other")}</div>
           </div>
         </div>
       </div>

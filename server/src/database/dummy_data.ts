@@ -157,5 +157,5 @@ export {
   insertLikesQuery,
   insertFollowsQuery,
   insertEventsQuery,
-  insertUserProfilesQuery
+  insertUserProfilesQuery,
 };

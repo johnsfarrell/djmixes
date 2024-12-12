@@ -16,12 +16,14 @@ interface UploadButtonProps {
  * The UploadButton component displays a button with an upload icon and text.
  * It is hidden on smaller screens because the mobile upload button is displayed
  * instead.
- * 
+ *
  * @param onClick The function to call when the button is clicked.
- * 
+ *
  * @returns The UploadButton component.
  */
-export default function UploadButton({ onClick }: UploadButtonProps): JSX.Element {
+export default function UploadButton({
+  onClick,
+}: UploadButtonProps): JSX.Element {
   return (
     <button
       onClick={onClick}

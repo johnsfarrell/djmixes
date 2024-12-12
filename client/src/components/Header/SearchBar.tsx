@@ -4,9 +4,9 @@
  * Description: This file contains the search bar component for the application.
  */
 
-import { search, SearchResult } from '@/app/api/api';
-import { Search } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { search, SearchResult } from "@/app/api/api";
+import { Search } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
 /**
  * The SearchBar component displays a search bar with a search icon.
@@ -15,7 +15,7 @@ import { useState, useEffect, useRef } from 'react';
  */
 export default function SearchBar(): JSX.Element {
   const [searchResults, setSearchResults] = useState<SearchResult>();
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>("");
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ export default function SearchBar(): JSX.Element {
       }
 
       // Call the search API
-      console.log('Searching for:', newQuery);
+      console.log("Searching for:", newQuery);
       const results = await search(newQuery);
       setSearchResults(results);
     }, 1000); // Adjust the debounce delay as needed
@@ -64,7 +64,7 @@ export default function SearchBar(): JSX.Element {
         <div
           className="absolute top-full w-full max-h-52 overflow-y-auto bg-gray-800 rounded-lg shadow-lg p-4"
           style={{
-            zIndex: 9999
+            zIndex: 9999,
           }}
         >
           {searchResults.mixes.map((mix) => (

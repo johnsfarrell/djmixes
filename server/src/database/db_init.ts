@@ -4,7 +4,7 @@
  * Description: This file contains the database initialization function.
  */
 
-import createTables from './table';
+import createTables from "./table";
 
 /**
  * Initialize the database by creating necessary tables
@@ -15,7 +15,7 @@ export default async function initializeDatabase(): Promise<boolean> {
     await createTables();
     return true;
   } catch (error) {
-    console.error('Error initializing database:', error);
+    console.error("Error initializing database:", error);
     return false;
   }
 }

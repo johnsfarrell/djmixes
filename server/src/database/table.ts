@@ -4,14 +4,14 @@
  * Description: This file contains the database initialization function.
  */
 
-import createConnection from './connection';
-import createUsersTable from './tables/usersTable';
-import createMixesTable from './tables/mixesTable';
-import createCommentsTable from './tables/commentsTable';
-import createEventsTable from './tables/eventsTable';
-import createLikesTable from './tables/likesTable';
-import createProfilesTable from './tables/profilesTable';
-import createFollowsTable from './tables/followsTable';
+import createConnection from "./connection";
+import createUsersTable from "./tables/usersTable";
+import createMixesTable from "./tables/mixesTable";
+import createCommentsTable from "./tables/commentsTable";
+import createEventsTable from "./tables/eventsTable";
+import createLikesTable from "./tables/likesTable";
+import createProfilesTable from "./tables/profilesTable";
+import createFollowsTable from "./tables/followsTable";
 import {
   insertUsersQuery,
   insertRecordsQuery,
@@ -19,9 +19,9 @@ import {
   insertLikesQuery,
   insertFollowsQuery,
   insertEventsQuery,
-  insertUserProfilesQuery
-} from './dummy_data';
-import { QueryResult } from 'mysql2';
+  insertUserProfilesQuery,
+} from "./dummy_data";
+import { QueryResult } from "mysql2";
 
 /**
  * Create the database and tables, and insert dummy data
@@ -31,22 +31,22 @@ import { QueryResult } from 'mysql2';
 async function createTables(): Promise<void> {
   const connection = await createConnection();
   const tableQueries = [
-    { name: 'users', query: createUsersTable.createUsersTableQuery },
-    { name: 'mixes', query: createMixesTable.createTableQuery },
-    { name: 'comments', query: createCommentsTable.createCommentTableQuery },
-    { name: 'events', query: createEventsTable.createEventsTableQuery },
-    { name: 'likes', query: createLikesTable.createLikesTableQuery },
-    { name: 'follows', query: createFollowsTable.createFollowsTableQuery },
+    { name: "users", query: createUsersTable.createUsersTableQuery },
+    { name: "mixes", query: createMixesTable.createTableQuery },
+    { name: "comments", query: createCommentsTable.createCommentTableQuery },
+    { name: "events", query: createEventsTable.createEventsTableQuery },
+    { name: "likes", query: createLikesTable.createLikesTableQuery },
+    { name: "follows", query: createFollowsTable.createFollowsTableQuery },
     {
-      name: 'user_profiles',
-      query: createProfilesTable.createProfilesTableQuery
-    }
+      name: "user_profiles",
+      query: createProfilesTable.createProfilesTableQuery,
+    },
   ];
 
   try {
-    const dbName = 'app_database';
-    const [databases] = await connection.query('SHOW DATABASES LIKE ?', [
-      dbName
+    const dbName = "app_database";
+    const [databases] = await connection.query("SHOW DATABASES LIKE ?", [
+      dbName,
     ]);
     if ((databases as QueryResult[]).length === 0) {
       await connection.execute(`CREATE DATABASE \`${dbName}\``);
@@ -56,18 +56,18 @@ async function createTables(): Promise<void> {
     }
     await connection.changeUser({ database: dbName });
   } catch (error) {
-    console.error('Database Creation Error:', error);
+    console.error("Database Creation Error:", error);
   }
 
   try {
     // const dbName = 'app_database'; // TOCHECK: if we need another dbname here
-    await connection.query('USE app_database;');
+    await connection.query("USE app_database;");
     for (const table of tableQueries) {
       await connection.execute(table.query);
       console.log(`Table '${table.name}' created or already exists.`);
     }
   } catch (error) {
-    console.error('Tables Creation Error:', error);
+    console.error("Tables Creation Error:", error);
   }
 
   const dummy_data_list = [
@@ -77,7 +77,7 @@ async function createTables(): Promise<void> {
     insertLikesQuery,
     insertFollowsQuery,
     insertEventsQuery,
-    insertUserProfilesQuery
+    insertUserProfilesQuery,
   ];
 
   try {
@@ -85,7 +85,7 @@ async function createTables(): Promise<void> {
       await connection.execute(dummy_data);
     }
   } catch (error) {
-    console.error('dummy data Error:', error);
+    console.error("dummy data Error:", error);
   }
 }
 
