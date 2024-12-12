@@ -1,29 +1,35 @@
-import express from "express";
-import ProfileController from "@/controllers/profileController";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the profile routes for the application.
+ */
+
+import express from 'express';
+import ProfileController from '@/controllers/profileController';
 
 const router = express.Router();
 
 const profileController = new ProfileController();
 
 // Route for fetching a profile avatar by its ID
-router.get("/:userId/avatar", profileController.getProfileAvatar);
+router.get('/:userId/avatar', profileController.getProfileAvatar);
 
 // Route for fetching a profile by its ID
-router.get("/:userId", profileController.getProfileDetails);
+router.get('/:userId', profileController.getProfileDetails);
 
 // Route for create or update a profile by its ID
-router.post("/:userId", profileController.updateProfile);
+router.post('/:userId', profileController.updateProfile);
 
 // Route for fetching mixes a user liked by its ID
-router.get("/:userId/liked", profileController.getProfileLiked);
+router.get('/:userId/liked', profileController.getProfileLiked);
 
 // Route for fetching mixes a user commented by its ID
-router.get("/:userId/commented", profileController.getProfileCommented);
+router.get('/:userId/commented', profileController.getProfileCommented);
 
 // Update a user's profile
-router.put("/:userId", profileController.updateProfile);
+router.put('/:userId', profileController.updateProfile);
 
 // Delete a user's profile
-router.delete("/:userId", profileController.deleteProfile);
+router.delete('/:userId', profileController.deleteProfile);
 
 export default router;

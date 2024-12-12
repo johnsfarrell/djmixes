@@ -1,7 +1,13 @@
-import { Request, Response } from "express";
-import { searchUserByName } from "@/database/search/getUser";
-import { searchMixesByTitle } from "@/database/search/getMixes";
-import { searchEventsByTitle } from "@/database/search/getEvents";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the search controller for handling search requests.
+ */
+
+import { Request, Response } from 'express';
+import { searchUserByName } from '@/database/search/getUser';
+import { searchMixesByTitle } from '@/database/search/getMixes';
+import { searchEventsByTitle } from '@/database/search/getEvents';
 
 class SearchController {
   /**
@@ -25,8 +31,8 @@ class SearchController {
         .status(200)
         .json({ users: userResult, mixes: mixesResult, events: eventResult });
     } catch (error) {
-      console.error("Error fetching user profile:", error);
-      res.status(500).json({ error: "Internal server error" });
+      console.error('Error fetching user profile:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   };
 }

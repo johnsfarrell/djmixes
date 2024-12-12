@@ -1,5 +1,11 @@
-import dotenv from "dotenv";
-import path from "path";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the S3 client utility functions.
+ */
+
+import dotenv from 'dotenv';
+import path from 'path';
 import {
   S3Client,
   GetObjectCommand,
@@ -7,13 +13,13 @@ import {
   GetObjectCommandInput,
   DeleteObjectCommand,
   DeleteObjectCommandInput
-} from "@aws-sdk/client-s3";
-import { UploadParams, UploadResult } from "./interface";
-import { Response } from "express";
-import { pipeline } from "stream";
-import { promisify } from "util";
+} from '@aws-sdk/client-s3';
+import { UploadParams, UploadResult } from './interface';
+import { Response } from 'express';
+import { pipeline } from 'stream';
+import { promisify } from 'util';
 
-dotenv.config({ path: path.join(__dirname, "..", "..", ".env") });
+dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 
 export const s3Client = new S3Client({
   endpoint: process.env.AWS_ENDPOINT,
@@ -21,8 +27,8 @@ export const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+  }
 });
 
 export const bucketName = process.env.AWS_BUCKET_NAME;
@@ -42,7 +48,7 @@ export const downloadFromS3 = async (
   s3Client: S3Client,
   params: GetObjectCommandInput,
   res: Response,
-  filename: string,
+  filename: string
 ): Promise<void> => {
   try {
     // Get the object from S3
@@ -50,17 +56,20 @@ export const downloadFromS3 = async (
     const safeFilename = encodeURIComponent(filename);
 
     // Set headers
-    res.setHeader("Content-Disposition", `attachment; filename="${safeFilename}"`);
     res.setHeader(
-      "Content-Type",
-      downloadStream.ContentType || "application/octet-stream",
+      'Content-Disposition',
+      `attachment; filename="${safeFilename}"`
+    );
+    res.setHeader(
+      'Content-Type',
+      downloadStream.ContentType || 'application/octet-stream'
     );
 
     // Stream the file to the response
     await pipelinePromise(downloadStream.Body as NodeJS.ReadableStream, res);
   } catch (error) {
-    console.error("Error downloading file:", error);
-    throw new Error("Failed to download file");
+    console.error('Error downloading file:', error);
+    throw new Error('Failed to download file');
   }
 };
 
@@ -72,7 +81,7 @@ export const downloadFromS3 = async (
  */
 export async function uploadToS3(
   s3Client: S3Client,
-  params: UploadParams,
+  params: UploadParams
 ): Promise<UploadResult> {
   try {
     const result = await s3Client.send(new PutObjectCommand(params));
@@ -92,16 +101,16 @@ export async function uploadToS3(
  */
 export const deleteFromS3 = async (
   s3Client: S3Client,
-  params: DeleteObjectCommandInput,
+  params: DeleteObjectCommandInput
 ): Promise<void> => {
   try {
     // Delete the object from S3
-    if (params.Key){
+    if (params.Key) {
       await s3Client.send(new DeleteObjectCommand(params));
       console.log(`File deleted successfully: ${params.Key}`);
     }
   } catch (error) {
-    console.error("Error deleting file:", error);
-    throw new Error("Failed to delete file");
+    console.error('Error deleting file:', error);
+    throw new Error('Failed to delete file');
   }
 };

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the mix controller for handling mix-related operations.
+ */
+
 import { Request, Response } from 'express';
 import { getMixes, getRandomMixes } from '@/database/search/getMixes';
 import { getLikes } from '@/database/search/getLikes';

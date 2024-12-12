@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the profile controller for handling user profile operations.
+ */
+
 import { Request, Response } from 'express';
 import createConnection from '@/database/connection';
 import { FieldPacket, RowDataPacket } from 'mysql2';
@@ -10,13 +16,24 @@ import {
 } from '@/database/search/getMixes';
 import { getEvent } from '@/database/search/getEvents';
 import { getProfile } from '@/database/search/getProfiles';
-import { s3Client, bucketName, deleteFromS3, uploadToS3, downloadFromS3 } from '@/utils/s3Client';
+import {
+  s3Client,
+  bucketName,
+  deleteFromS3,
+  uploadToS3,
+  downloadFromS3
+} from '@/utils/s3Client';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { pipeline } from 'stream';
 import { UploadedFile } from 'express-fileupload';
 import { User, UploadParams, ProfileResponse } from '@/utils/interface';
-import { removePrefix} from '@/utils/helpers';
-import { deleteProfile, insertProfile, updateProfileAvatar, updateProfileBio } from '@/database/update/updateProfiles';
+import { removePrefix } from '@/utils/helpers';
+import {
+  deleteProfile,
+  insertProfile,
+  updateProfileAvatar,
+  updateProfileBio
+} from '@/database/update/updateProfiles';
 
 class ProfileController {
   /**
@@ -69,7 +86,7 @@ class ProfileController {
       profile['uploaded_mixes'] = uploadedMixIds;
       profile['liked_mixes'] = likedMixIds;
       profile['events'] = events;
-      
+
       res.status(200).json(profile);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -152,12 +169,13 @@ class ProfileController {
       // case we do update avatar
       if (req.files && req.files.avatar) {
         const MAX_AVATAR_FILE_SIZE_MB = 5; // max file size in MB
-        const MAX_AVATAR_FILE_SIZE_BYTES = MAX_AVATAR_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
+        const MAX_AVATAR_FILE_SIZE_BYTES =
+          MAX_AVATAR_FILE_SIZE_MB * 1024 * 1024; // convert to bytes
         const avatarFile = req.files.avatar as UploadedFile;
-    
+
         if (avatarFile.size > MAX_AVATAR_FILE_SIZE_BYTES) {
           res.status(400).json({
-            error: `Avatar file size exceeds limit of ${MAX_AVATAR_FILE_SIZE_MB} MB`,
+            error: `Avatar file size exceeds limit of ${MAX_AVATAR_FILE_SIZE_MB} MB`
           });
           return;
         }
@@ -182,29 +200,31 @@ class ProfileController {
           bio = ''; // Set bio to an empty string if undefined
         }
         const insertResult = await insertProfile(userId, bio, avatarFileKey);
-        result += "Profile Created. ";
+        result += 'Profile Created. ';
       } else {
         if (req.files && req.files.avatar) {
           const url: string | undefined = oldProfile.avatarUrl ?? undefined;
           // Prepare delete actions
           const s3DeletePromise = deleteFromS3(s3Client, {
             Bucket: bucketName,
-            Key: url,
+            Key: url
           });
-          s3DeletePromise.catch(error => console.error("Error deleting from S3:", error));
+          s3DeletePromise.catch((error) =>
+            console.error('Error deleting from S3:', error)
+          );
 
           const avatarUpdateResult = await updateProfileAvatar(
             oldProfile.profileId,
             avatarFileKey
           );
-          result += "Updated Avatar. ";
+          result += 'Updated Avatar. ';
         }
         if (bio !== undefined) {
           const bioUpdateResult = await updateProfileBio(
             oldProfile.profileId,
             bio
           );
-          result += "Updated Bio. ";
+          result += 'Updated Bio. ';
         }
       }
 

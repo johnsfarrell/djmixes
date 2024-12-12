@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database connection function.
+ */
+
 import * as mysql from 'mysql2/promise';
 import db from '@/utils/dbConfig';
 

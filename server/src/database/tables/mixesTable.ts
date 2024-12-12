@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to create the mixes table.
+ */
+
 // Define the SQL query for creating the 'mix' table
 const createTableQuery: string = `
     CREATE TABLE IF NOT EXISTS mixes (

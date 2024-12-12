@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to get all mixes uploaded by a user.
+ */
+
 import { RowDataPacket } from 'mysql2';
 import createConnection from '@/database/connection';
 import { Mix } from '@/utils/interface';
@@ -60,7 +66,7 @@ async function getMixes(mixId: number): Promise<Mix | null> {
 async function getRandomMixes(numberOfMixes: number): Promise<number[] | null> {
   const connection = await createConnection();
   try {
-    console.log(numberOfMixes)
+    console.log(numberOfMixes);
     const [rows] = await connection.execute<RowDataPacket[]>(
       `SELECT DISTINCT mix_id FROM mixes WHERE visibility = 'public' ORDER BY RAND() LIMIT ${numberOfMixes}`
     );

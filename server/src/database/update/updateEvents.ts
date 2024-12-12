@@ -1,5 +1,11 @@
-import createConnection from "@/database/connection";
-import { QueryResult } from "mysql2";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to create the events table.
+ */
+
+import createConnection from '@/database/connection';
+import { QueryResult } from 'mysql2';
 
 /**
  * Function to insert a new event
@@ -15,18 +21,18 @@ async function insertEvent(
   date: Date,
   artistId: number,
   userId: number,
-  description: string | null,
+  description: string | null
 ): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
-      "INSERT INTO events (title, date, artist_id, user_id, description) VALUES (?, ?, ?, ?, ?)",
-      [title, date, artistId, userId, description],
+      'INSERT INTO events (title, date, artist_id, user_id, description) VALUES (?, ?, ?, ?, ?)',
+      [title, date, artistId, userId, description]
     );
-    console.log("event inserted successfully:", result);
+    console.log('event inserted successfully:', result);
     return result;
   } catch (error) {
-    console.error("Error inserting event:", error);
+    console.error('Error inserting event:', error);
     return null;
   } finally {
     await connection.end(); // Close the connection
@@ -49,18 +55,18 @@ async function updateEvent(
   date: Date,
   artistId: number,
   userId: number,
-  description: string | null,
+  description: string | null
 ): Promise<QueryResult | null> {
   const connection = await createConnection();
   try {
     const [result] = await connection.execute(
-      "UPDATE events SET title = ?, date = ?, artist_id = ?, user_id = ?, description = ? WHERE event_id = ?",
-      [title, date, artistId, userId, description, eventId],
+      'UPDATE events SET title = ?, date = ?, artist_id = ?, user_id = ?, description = ? WHERE event_id = ?',
+      [title, date, artistId, userId, description, eventId]
     );
-    console.log("event uodated successfully:", result);
+    console.log('event uodated successfully:', result);
     return result;
   } catch (error) {
-    console.error("Error updating event:", error);
+    console.error('Error updating event:', error);
     return null;
   } finally {
     await connection.end(); // Close the connection

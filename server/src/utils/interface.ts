@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the interfaces for the application.
+ */
+
 import { PutObjectCommandOutput } from '@aws-sdk/client-s3';
 
 export interface UploadUser {
@@ -147,8 +153,8 @@ export interface Event {
 }
 
 export interface EventResponse {
-  event_id: number; 
-  title: string; 
+  event_id: number;
+  title: string;
   description: string;
   date: string;
 }
