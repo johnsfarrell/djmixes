@@ -116,7 +116,7 @@ export default function MixDetailsPage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8 pb-28">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-2">
         <div className="lg:col-span-1">
           <img
             src={mix.cover_url ?? '/placeholder.png'}
@@ -269,7 +269,7 @@ export default function MixDetailsPage(): JSX.Element {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-2">
         {mix.vocalsUrl || mix.drumsUrl || mix.bassUrl || mix.otherUrl ? (
           <div className="bg-gray-700 rounded-lg p-6 mt-2 lg:col-span-1">
             <h2 className="text-white text-lg font-semibold">

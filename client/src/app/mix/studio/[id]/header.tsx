@@ -17,14 +17,17 @@ interface StudioHeaderProps {
   duration: number;
   handleSeek: (e: React.ChangeEvent<HTMLInputElement>) => void;
   resetMix: () => void;
-  vocalsSegments: NamedAudioSegment[];
-  vocalsOrder: number[];
-  bassSegments: NamedAudioSegment[];
-  bassOrder: number[];
-  drumsSegments: NamedAudioSegment[];
-  drumsOrder: number[];
-  otherSegments: NamedAudioSegment[];
-  otherOrder: number[];
+  orderMap: Record<
+    string,
+    [number[], React.Dispatch<React.SetStateAction<number[]>>]
+  >;
+  segmentsMap: Record<
+    string,
+    [
+      NamedAudioSegment[],
+      React.Dispatch<React.SetStateAction<NamedAudioSegment[]>>
+    ]
+  >;
   audioContextRef: React.RefObject<AudioContext>;
 }
 
@@ -36,14 +39,8 @@ export const StudioHeader = ({
   duration,
   handleSeek,
   resetMix,
-  vocalsSegments,
-  vocalsOrder,
-  bassSegments,
-  bassOrder,
-  drumsSegments,
-  drumsOrder,
-  otherSegments,
-  otherOrder,
+  orderMap,
+  segmentsMap,
   audioContextRef
 }: StudioHeaderProps) => {
   return (
@@ -108,14 +105,8 @@ export const StudioHeader = ({
             AudioUtils.exportMix(
               audioContextRef,
               duration,
-              vocalsSegments,
-              vocalsOrder,
-              bassSegments,
-              bassOrder,
-              drumsSegments,
-              drumsOrder,
-              otherSegments,
-              otherOrder,
+              orderMap,
+              segmentsMap,
               mix
             )
           }

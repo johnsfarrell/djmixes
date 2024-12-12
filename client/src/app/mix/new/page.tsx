@@ -131,7 +131,7 @@ export default function MixUploadPage(): JSX.Element {
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-2">
           {/* Left Column - Mix Info */}
           <div className="lg:col-span-1">
             {/* Artwork Upload */}
@@ -213,7 +213,7 @@ export default function MixUploadPage(): JSX.Element {
           </div>
 
           {/* Middle and Right Columns - Wrapped in a container for mobile layout */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-2">
             {/* Right Column - Settings */}
             <div className="w-full">
               <div className="bg-gray-700 p-6 rounded-lg">

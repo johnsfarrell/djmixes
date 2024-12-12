@@ -560,7 +560,7 @@ export default function StudioPage(): JSX.Element {
       window.removeEventListener('mousemove', handleMouseMoveLine);
       window.removeEventListener('mouseup', handleMouseUpLine);
     };
-  }, [isDraggingLine]);
+  }, [isDraggingLine, currentTime, isPlaying]);
 
   if (loading) {
     return (
@@ -590,14 +590,8 @@ export default function StudioPage(): JSX.Element {
           duration={duration}
           resetMix={resetMix}
           handleSeek={handleSeek}
-          vocalsSegments={vocalsSegments}
-          vocalsOrder={vocalsOrder}
-          bassSegments={bassSegments}
-          bassOrder={bassOrder}
-          drumsSegments={drumsSegments}
-          drumsOrder={drumsOrder}
-          otherSegments={otherSegments}
-          otherOrder={otherOrder}
+          orderMap={orderMap}
+          segmentsMap={segmentsMap}
           audioContextRef={audioContextRef}
         />
 
