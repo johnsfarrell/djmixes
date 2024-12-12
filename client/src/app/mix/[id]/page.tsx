@@ -114,7 +114,7 @@ export default function MixDetailsPage(): JSX.Element {
             alt={`${mix.title} cover`}
             width={500}
             height={500}
-            className="object-cover w-52 h-52 mb-2 rounded-lg"
+            className="object-cover w-52 h-52 mb-2 rounded-lg border-2 border-white bg-slate-300"
           />
           <div className="bg-gray-700 rounded-lg p-4">
             <h1 className="text-white text-xl font-bold">{mix.title}</h1>
@@ -152,7 +152,6 @@ export default function MixDetailsPage(): JSX.Element {
             <audio controls src={mix.file_url} className="w-full mt-4">
               Your browser does not support the audio element.
             </audio>
-
             <button
               onClick={handleLike}
               className="mt-4 bg-gray-800 p-2 rounded-lg text-white"
@@ -160,44 +159,59 @@ export default function MixDetailsPage(): JSX.Element {
               {liked ? 'Unlike 👎' : 'Like 👍'}
             </button>
 
-            {mix.vocalsUrl && (
-              <>
-                <h2 className="text-white text-lg font-semibold">
-                  Vocals Stem
-                </h2>
-                <audio controls src={mix.vocalsUrl} className="w-full mt-4">
-                  Your browser does not support the audio element.
-                </audio>
-              </>
-            )}
+            <div className="flex flex-row mt-4">
+              {mix.vocalsUrl && (
+                <div className="flex flex-col w-1/4">
+                  <h2 className="text-white text-lg font-semibold">Vocals</h2>
+                  <audio
+                    controls
+                    src={mix.vocalsUrl}
+                    className="w-full mb-4 bg-[#fffffff0]"
+                  >
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              )}
 
-            {mix.bassUrl && (
-              <>
-                <h2 className="text-white text-lg font-semibold">Bass Stem</h2>
-                <audio controls src={mix.bassUrl} className="w-full mt-4">
-                  Your browser does not support the audio element.
-                </audio>
-              </>
-            )}
+              {mix.bassUrl && (
+                <div className="flex flex-col w-1/4">
+                  <h2 className="text-white text-lg font-semibold">Bass</h2>
+                  <audio
+                    controls
+                    src={mix.bassUrl}
+                    className="w-full mb-4 bg-[#fffffff0]"
+                  >
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              )}
 
-            {mix.drumsUrl && (
-              <>
-                <h2 className="text-white text-lg font-semibold">Drums Stem</h2>
-                <audio controls src={mix.drumsUrl} className="w-full mt-4">
-                  Your browser does not support the audio element.
-                </audio>
-              </>
-            )}
+              {mix.drumsUrl && (
+                <div className="flex flex-col w-1/4">
+                  <h2 className="text-white text-lg font-semibold">Drums</h2>
+                  <audio
+                    controls
+                    src={mix.drumsUrl}
+                    className="w-full mb-4 bg-[#fffffff0]"
+                  >
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              )}
 
-            {mix.otherUrl && (
-              <>
-                <h2 className="text-white text-lg font-semibold">Other Stem</h2>
-                <audio controls src={mix.otherUrl} className="w-full mt-4">
-                  Your browser does not support the audio element.
-                </audio>
-              </>
-            )}
-
+              {mix.otherUrl && (
+                <div className="flex flex-col w-1/4">
+                  <h2 className="text-white text-lg font-semibold">Other</h2>
+                  <audio
+                    controls
+                    src={mix.otherUrl}
+                    className="w-full mb-4 bg-[#fffffff0]"
+                  >
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              )}
+            </div>
             <h2 className="text-white text-lg font-semibold mt-6">Comments</h2>
             {mix.comments.length > 0 ? (
               <ul className="mt-2 space-y-2">
@@ -228,9 +242,9 @@ export default function MixDetailsPage(): JSX.Element {
         </div>
       </div>
 
-      <div className="flex">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {mix.vocalsUrl || mix.drumsUrl || mix.bassUrl || mix.otherUrl ? (
-          <div className="bg-gray-700 rounded-lg p-6 mt-2 mr-2 w-fit">
+          <div className="bg-gray-700 rounded-lg p-6 mt-2 mr-2 lg:col-span-1">
             <h2 className="text-white text-lg font-semibold">
               Stems (Downloads)
             </h2>
@@ -282,7 +296,7 @@ export default function MixDetailsPage(): JSX.Element {
             </ul>
           </div>
         ) : (
-          <div className="mt-2 bg-gray-700 rounded-lg p-6 mr-2">
+          <div className="mt-2 bg-gray-700 rounded-lg p-6 mr-2 lg:col-span-1">
             <h2 className="text-white text-lg font-semibold mr-6">
               No stems available
             </h2>
@@ -290,7 +304,7 @@ export default function MixDetailsPage(): JSX.Element {
         )}
 
         {mix.splits && mix.splits.length > 0 ? (
-          <div className="mt-2 bg-gray-700 rounded-lg p-6">
+          <div className="mt-2 bg-gray-700 rounded-lg p-6 lg:col-span-2">
             <h2 className="text-white text-lg font-semibold">Splits</h2>
             <ul className="mt-4 space-y-2">
               {mix.splits.map((split, index) => (
@@ -316,7 +330,7 @@ export default function MixDetailsPage(): JSX.Element {
             </ul>
           </div>
         ) : (
-          <div className="mt-2 bg-gray-700 rounded-lg p-6">
+          <div className="mt-2 bg-gray-700 rounded-lg p-6 lg:col-span-2">
             <h2 className="text-white text-lg font-semibold">
               No splits available
             </h2>

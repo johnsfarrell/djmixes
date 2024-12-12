@@ -9,13 +9,17 @@
 'use client';
 import { v4 as uuidv4 } from 'uuid';
 import { Upload, Image, Music, Plus } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import FileUploadBox from '@/components/MixUpload/FileUploadBox';
 import MixInfo from '@/components/MixUpload/MixInfo';
 import MixVisibilitySettings from '@/components/MixUpload/MixVisibilitySettings';
 import TagInput from '@/components/MixUpload/TagInput';
-import { MixUploadRequest, UploadMixResponse } from '@/app/api/types';
-import { uploadMix } from '@/app/api/api';
+import {
+  GetProfileResponse,
+  MixUploadRequest,
+  UploadMixResponse
+} from '@/app/api/types';
+import { getProfile, uploadMix } from '@/app/api/api';
 import { formatDateTime } from '@/util/helpers';
 
 /**
@@ -49,8 +53,22 @@ export default function MixUploadPage(): JSX.Element {
   const [artwork, setArtwork] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
+  const [profile, setProfile] = useState<GetProfileResponse | null>(null);
+
   const artworkInputRef = useRef<HTMLInputElement>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const settingCreator = async () => {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        const res = await getProfile(parseInt(userId));
+        setProfile(res);
+      }
+    };
+
+    settingCreator();
+  }, []);
 
   const handleArtworkUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -88,15 +106,17 @@ export default function MixUploadPage(): JSX.Element {
       return;
     }
 
+    const userId = localStorage.getItem('userId');
+
     const data: MixUploadRequest = {
       title: mixTitle,
       visibility,
       tags: tags.map((tag) => tag.text),
-      userId: 1, // TODO: Replace with current user's ID
-      artist: 'DJ Name', // TODO: Replace with current user's DJ name
+      userId: userId ? parseInt(userId) : 0,
+      artist: profile ? profile.username : '',
       mix: audioFile,
       cover: artwork,
-      album: 'Mix Album', // TODO: Replace with current user's album (or remove this? not sure if we need it)
+      album: 'Mix Album',
       releaseDate: formatDateTime(),
       allowDownload: downloadable
     };
@@ -151,7 +171,7 @@ export default function MixUploadPage(): JSX.Element {
 
             <MixInfo
               title={mixTitle}
-              dj={'DJ Name'} // TODO: Replace with current user's DJ name
+              dj={profile ? profile.username : ''}
               info={mixInfo}
               onTitleChange={setMixTitle}
               onInfoChange={setMixInfo}
