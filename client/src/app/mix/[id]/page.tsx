@@ -1,16 +1,22 @@
-"use client";
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the mix details page.
+ */
 
-import { useRouter, useParams } from "next/navigation";
-import { GetMixResponse } from "@/app/api/types";
-import { useEffect, useState } from "react";
+'use client';
+
+import { useRouter, useParams } from 'next/navigation';
+import { GetMixResponse } from '@/app/api/types';
+import { useEffect, useState } from 'react';
 import {
   commentOnMix,
   getMix,
   getProfile,
   likeMix,
-  unlikeMix,
-} from "@/app/api/api";
-import { useAudioPlayerContext } from "@/context/audioPlayerContext";
+  unlikeMix
+} from '@/app/api/api';
+import { useAudioPlayerContext } from '@/context/audioPlayerContext';
 
 export default function MixDetailsPage(): JSX.Element {
   const { id } = useParams();
@@ -28,18 +34,18 @@ export default function MixDetailsPage(): JSX.Element {
     const fetchMix = async () => {
       try {
         const data1 = await getProfile(
-          parseInt(localStorage.getItem("userId") as string)
+          parseInt(localStorage.getItem('userId') as string)
         );
         setLikedMixIds(data1.likedMixIds);
         setLiked(data1.likedMixIds.includes(parseInt(id as string)));
         const data = await getMix({
           mixId: parseInt(id as string),
-          mock: false,
+          mock: false
         });
         setMix(data);
         playMix(data);
       } catch (err) {
-        setError("Failed to fetch mix details.");
+        setError('Failed to fetch mix details.');
       } finally {
         setLoading(false);
       }
@@ -74,37 +80,37 @@ export default function MixDetailsPage(): JSX.Element {
 
   const handleLike = async () => {
     setLiked(!liked);
-    if (!liked && localStorage.getItem("userId")) {
+    if (!liked && localStorage.getItem('userId')) {
       likeMix(
         parseInt(id as string),
-        parseInt(localStorage.getItem("userId") as string)
+        parseInt(localStorage.getItem('userId') as string)
       );
-    } else if (localStorage.getItem("userId")) {
+    } else if (localStorage.getItem('userId')) {
       unlikeMix(
         parseInt(id as string),
-        parseInt(localStorage.getItem("userId") as string)
+        parseInt(localStorage.getItem('userId') as string)
       );
     }
   };
 
   const handleComment = () => {
-    const comment = prompt("Enter your comment");
+    const comment = prompt('Enter your comment');
     if (comment) {
       commentOnMix(
         comment, // comment (string)
         parseInt(id as string), // mixId (number)
-        parseInt(localStorage.getItem("userId") as string) // userId (number)
+        parseInt(localStorage.getItem('userId') as string) // userId (number)
       );
       mix.comments.push({
         comment_text: comment,
-        user_id: parseInt(localStorage.getItem("userId") as string),
+        user_id: parseInt(localStorage.getItem('userId') as string),
         comment_id: mix.comments.length + 1,
         created_at: new Date(),
-        mix_id: parseInt(id as string),
+        mix_id: parseInt(id as string)
       });
       setMix({ ...mix, comments: mix.comments });
     } else {
-      alert("Please enter a comment");
+      alert('Please enter a comment');
     }
   };
 
@@ -113,7 +119,7 @@ export default function MixDetailsPage(): JSX.Element {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-1">
           <img
-            src={mix.cover_url ?? "/placeholder.png"}
+            src={mix.cover_url ?? '/placeholder.png'}
             alt={`${mix.title} cover`}
             className="object-cover w-full aspect-square mb-2 rounded-lg border-4 border-white bg-slate-300"
           />
@@ -124,7 +130,7 @@ export default function MixDetailsPage(): JSX.Element {
               Album: {mix.album || <span className="italic">N/A</span>}
             </p>
             <p className="text-gray-400">Visibility: {mix.visibility}</p>
-            <p className="text-gray-400">Tags: {mix.tags.join(", ")}</p>
+            <p className="text-gray-400">Tags: {mix.tags.join(', ')}</p>
             <p className="text-gray-400">
               Created At: {new Date(mix.created_at).toLocaleDateString()}
             </p>
@@ -157,7 +163,7 @@ export default function MixDetailsPage(): JSX.Element {
             )}
           <div className="bg-gray-700 rounded-lg p-6">
             <h2 className="text-white text-lg font-semibold">
-              Listen to {mix.title} by{" "}
+              Listen to {mix.title} by{' '}
               <a href={`/creator/${mix.upload_user.user_id}`}>
                 <u>{mix.artist}</u>
               </a>
@@ -177,7 +183,7 @@ export default function MixDetailsPage(): JSX.Element {
               onClick={handleLike}
               className="mt-4 bg-gray-800 p-2 rounded-lg text-white"
             >
-              {liked ? "Unlike 👎" : "Like 👍"}
+              {liked ? 'Unlike 👎' : 'Like 👍'}
             </button>
 
             <div className="flex flex-row mt-4">
@@ -241,8 +247,8 @@ export default function MixDetailsPage(): JSX.Element {
                     key={index}
                     className="bg-gray-800 p-3 rounded-lg text-gray-300"
                   >
-                    {new Date(commentResponse.created_at).toLocaleDateString()}{" "}
-                    by{" "}
+                    {new Date(commentResponse.created_at).toLocaleDateString()}{' '}
+                    by{' '}
                     <a href={`/creator/${commentResponse.user_id}`}>
                       <u>User {commentResponse.user_id}</u>
                     </a>
