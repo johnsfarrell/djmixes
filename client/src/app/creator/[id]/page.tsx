@@ -80,7 +80,7 @@ export default function CreatorViewPage(): JSX.Element {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6 mb-32">
+    <div className="min-h-screen bg-gray-900 text-white p-6 pb-32">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Top Left Quadrant - Creator Info */}
         <div className="bg-gray-800 p-8 rounded-lg">
