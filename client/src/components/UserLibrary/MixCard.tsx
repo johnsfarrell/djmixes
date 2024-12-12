@@ -5,9 +5,10 @@
  * card with the mix's artwork, title, artist, and a play button.
  */
 
-import Image from 'next/image';
-import { GetMixResponse } from '@/app/api/types';
-import { useState } from 'react';
+import Image from "next/image";
+import { GetMixResponse } from "@/app/api/types";
+import { useState } from "react";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 /**
  * The MixCard component displays a mix card with the mix's artwork, title,
@@ -18,13 +19,17 @@ import { useState } from 'react';
  * @returns The MixCard component.
  */
 export default function MixCard({ mix }: { mix: GetMixResponse }): JSX.Element {
-  const [imageSrc, setImageSrc] = useState(mix.cover_url || '/placeholder.png');
+  const [imageSrc, setImageSrc] = useState(mix.cover_url || "/placeholder.png");
+  const { playMix } = useAudioPlayerContext();
 
   const handleImageError = () => {
-    setImageSrc('/placeholder.png');
+    setImageSrc("/placeholder.png");
   };
 
   const handleGoTo = () => {
+    if (playMix) {
+      playMix(mix);
+    }
     window.location.href = `/mix/${mix.id}`;
   };
 
