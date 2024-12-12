@@ -1,4 +1,8 @@
-### API
+##
+#  Copyright (c) 2024 DJMixes. All rights reserved.
+#  Licensed under the MIT License.
+#  Description: API for splitting and stemming songs.
+##
 
 from flask import Flask, request, jsonify, send_file
 

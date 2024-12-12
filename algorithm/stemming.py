@@ -1,3 +1,9 @@
+##
+#  Copyright (c) 2024 DJMixes. All rights reserved.
+#  Licensed under the MIT License.
+#  Description: Stemming mixes using source separation model Demucs (Facebook).
+##
+
 import demucs.api
 
 import os

@@ -1,3 +1,10 @@
+##
+#  Copyright (c) 2024 DJMixes. All rights reserved.
+#  Licensed under the MIT License.
+#  Description: Splitting mixes using song recongition.
+#   Example usage at the bottom.
+##
+
 import asyncio
 import librosa
 import soundfile as sf
