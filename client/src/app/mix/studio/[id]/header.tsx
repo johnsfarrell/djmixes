@@ -44,7 +44,7 @@ export const StudioHeader = ({
   audioContextRef
 }: StudioHeaderProps) => {
   return (
-    <div className="sticky top-0 z-50 bg-gray-900 pt-4">
+    <div className="sticky top-0 z-20 bg-gray-900 pt-4">
       <div className="bg-gray-700 rounded-lg p-4 mb-4">
         <h1 className="text-white text-2xl font-bold flex justify-between items-center">
           <span>
