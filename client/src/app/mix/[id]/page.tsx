@@ -109,15 +109,13 @@ export default function MixDetailsPage(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8 mb-28">
+    <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8 pb-28">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-1">
           <img
             src={mix.cover_url ?? "/placeholder.png"}
             alt={`${mix.title} cover`}
-            width={500}
-            height={500}
-            className="object-cover w-52 h-52 mb-2 rounded-lg border-2 border-white bg-slate-300"
+            className="object-cover w-full aspect-square mb-2 rounded-lg border-4 border-white bg-slate-300"
           />
           <div className="bg-gray-700 rounded-lg p-4">
             <h1 className="text-white text-xl font-bold">{mix.title}</h1>
@@ -136,7 +134,27 @@ export default function MixDetailsPage(): JSX.Element {
           </div>
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 flex flex-col justify-between">
+          {mix.drumsUrl &&
+            mix.bassUrl &&
+            mix.vocalsUrl &&
+            mix.otherUrl &&
+            mix.split_json &&
+            mix.splits &&
+            mix.splits.length && (
+              <div className="w-full flex justify-end">
+                <a
+                  href={`/mix/studio/${mix.id}`}
+                  className="w-full bg-gray-800 p-2 rounded-lg text-white mb-2
+                transition-all
+                hover:scale-105
+                hover:bg-gray-700"
+                >
+                  <b>Studio</b> 🎛️&nbsp;&nbsp;&nbsp; Remix <i>{mix.title}</i> by{' '}
+                  <i>{mix.artist}</i>
+                </a>
+              </div>
+            )}
           <div className="bg-gray-700 rounded-lg p-6">
             <h2 className="text-white text-lg font-semibold">
               Listen to {mix.title} by{" "}
@@ -247,7 +265,7 @@ export default function MixDetailsPage(): JSX.Element {
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {mix.vocalsUrl || mix.drumsUrl || mix.bassUrl || mix.otherUrl ? (
-          <div className="bg-gray-700 rounded-lg p-6 mt-2 mr-2 lg:col-span-1">
+          <div className="bg-gray-700 rounded-lg p-6 mt-2 lg:col-span-1">
             <h2 className="text-white text-lg font-semibold">
               Stems (Downloads)
             </h2>
@@ -299,8 +317,8 @@ export default function MixDetailsPage(): JSX.Element {
             </ul>
           </div>
         ) : (
-          <div className="mt-2 bg-gray-700 rounded-lg p-6 mr-2 lg:col-span-1">
-            <h2 className="text-white text-lg font-semibold mr-6">
+          <div className="mt-2 bg-gray-700 rounded-lg p-6 lg:col-span-1">
+            <h2 className="text-white text-lg font-semibold">
               No stems available
             </h2>
           </div>
@@ -310,26 +328,28 @@ export default function MixDetailsPage(): JSX.Element {
           <div className="mt-2 bg-gray-700 rounded-lg p-6 lg:col-span-2">
             <h2 className="text-white text-lg font-semibold">Splits</h2>
             <ul className="mt-4 space-y-2">
-              {mix.splits.map((split, index) => (
-                <li
-                  key={index}
-                  className="flex justify-between items-center bg-gray-800 p-3 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
-                  onClick={() => {
-                    const audio = document.querySelector("audio");
-                    if (audio) {
-                      audio.currentTime = split.timestamp;
-                      audio.play();
-                    }
-                  }}
-                >
-                  <span className="text-gray-300 mr-10">{split.name}</span>
-                  <span className="text-gray-400">
-                    {new Date(split.timestamp * 1000)
-                      .toISOString()
-                      .substr(11, 8)}
-                  </span>
-                </li>
-              ))}
+              {mix.splits
+                .sort((a, b) => a.timestamp - b.timestamp)
+                .map((split, index) => (
+                  <li
+                    key={index}
+                    className="flex justify-between items-center bg-gray-800 p-3 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
+                    onClick={() => {
+                      const audio = document.querySelector('audio');
+                      if (audio) {
+                        audio.currentTime = split.timestamp;
+                        audio.play();
+                      }
+                    }}
+                  >
+                    <span className="text-gray-300 mr-10">{split.name}</span>
+                    <span className="text-gray-400">
+                      {new Date(split.timestamp * 1000)
+                        .toISOString()
+                        .substr(11, 8)}
+                    </span>
+                  </li>
+                ))}
             </ul>
           </div>
         ) : (

@@ -9,6 +9,7 @@
 import { usePathname } from 'next/navigation';
 import Header from '@/components/Header/Header';
 import { AudioPlayer } from '@/components/AudioPlayer/AudioPlayer';
+import { Footer } from './Footer/Footer';
 
 interface AuthLayoutProps {
   user: {
@@ -42,7 +43,8 @@ export default function AuthLayout({ user, children }: AuthLayoutProps) {
         <>
           <Header />
           {children}
-          <AudioPlayer />
+          {/* <AudioPlayer /> */}
+          <Footer />
         </>
       )}
       {!user && children}

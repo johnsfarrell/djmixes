@@ -34,3 +34,18 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.spinning-2 {
+  display: inline-block;
+  text-shadow: 0 0 0.5em rgb(6, 224, 57);
+  animation: spin2 20s linear infinite;
+}
+
+@keyframes spin2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
