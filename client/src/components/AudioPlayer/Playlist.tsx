@@ -1,6 +1,6 @@
-import React from 'react';
-import { BsMusicNoteBeamed } from 'react-icons/bs';
-import { useAudioPlayerContext } from '@/context/audioPlayerContext';
+import React from "react";
+import { BsMusicNoteBeamed } from "react-icons/bs";
+import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 
 interface PlayListProps {
   tracks: any;
@@ -8,7 +8,7 @@ interface PlayListProps {
 
 // renders playlist component
 export const PlayList = ({ tracks }: PlayListProps) => {
-  const { currentTrack, setIsPlaying, setCurrentTrack } =
+  const { currentTrack, setIsPlaying, setCurrentTrack, playlist } =
     useAudioPlayerContext();
 
   const handleClick = (track: (typeof tracks)[0]) => {
@@ -18,15 +18,15 @@ export const PlayList = ({ tracks }: PlayListProps) => {
 
   return (
     <ul className="bg-[#4c4848] text-white max-h-72 overflow-y-auto">
-      {tracks.map((track: any, index: any) => (
+      {playlist.map((track, index) => (
         <li
           key={index}
           className={`flex items-center gap-3 p-[0.5rem_10px] cursor-pointer ${
-            currentTrack.title === track.title ? 'bg-[#a66646]' : ''
+            currentTrack.title === track.title ? "bg-[#a66646]" : ""
           }`}
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+            if (e.key === "Enter" || e.key === " ") {
               handleClick(track);
             }
           }}
@@ -36,7 +36,7 @@ export const PlayList = ({ tracks }: PlayListProps) => {
             {track.thumbnail ? (
               <img
                 className="w-full h-full object-cover"
-                src={'/placeholder.png'}
+                src={track.thumbnail.src}
                 alt="audio avatar"
               />
             ) : (
@@ -56,5 +56,3 @@ export const PlayList = ({ tracks }: PlayListProps) => {
     </ul>
   );
 };
-
-export default PlayList;

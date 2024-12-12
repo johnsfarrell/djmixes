@@ -8,7 +8,6 @@ import React, {
   useEffect,
 } from "react";
 import { StaticImageData } from "next/image";
-import { getMix } from "@/app/api/api";
 import { GetMixResponse } from "@/app/api/types";
 
 interface Track {
@@ -30,10 +29,12 @@ interface AudioPlayerContextType {
   audioRef: React.RefObject<HTMLAudioElement>;
   progressBarRef: React.RefObject<HTMLInputElement>;
   setTrackIndex: React.Dispatch<React.SetStateAction<number>>;
-  mixId: string;
-  setMixId: React.Dispatch<React.SetStateAction<string>>;
+  mixId: number;
+  setMixId: React.Dispatch<React.SetStateAction<number>>;
   mixData: GetMixResponse | null;
   playMix: (mix: GetMixResponse) => void;
+  playlist: Track[];
+  setPlaylist: React.Dispatch<React.SetStateAction<Track[]>>;
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
@@ -50,40 +51,74 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [timeProgress, setTimeProgress] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
-  const [mixId, setMixId] = useState<string>("exampleMixId");
+  const [mixId, setMixId] = useState<number>(0);
   const [mixData, setMixData] = useState<GetMixResponse | null>(null);
+  const [playlist, setPlaylist] = useState<Track[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
 
+  // Load persisted state on mount
   useEffect(() => {
-    const fetchMixData = async () => {
-      if (mixId) {
-        const data = await getMix({ mixId: parseInt(mixId), mock: false });
-        setMixData(data);
-        setCurrentTrack({
-          title: data.title,
-          src: data.file_url || "",
-          author: data.artist,
-          thumbnail: data.cover_url
-            ? ({ src: data.cover_url } as StaticImageData)
-            : undefined,
-        });
-      }
-    };
+    const savedTrack = localStorage.getItem("currentTrack");
+    const savedIsPlaying = localStorage.getItem("isPlaying");
+    const savedTimeProgress = localStorage.getItem("timeProgress");
+    const savedDuration = localStorage.getItem("duration");
+    const savedMixId = localStorage.getItem("mixId");
+    const savedMixData = localStorage.getItem("mixData");
+    const savedPlaylist = localStorage.getItem("playlist");
 
-    fetchMixData();
+    if (savedTrack) setCurrentTrack(JSON.parse(savedTrack));
+    if (savedIsPlaying) setIsPlaying(JSON.parse(savedIsPlaying));
+    if (savedTimeProgress) setTimeProgress(JSON.parse(savedTimeProgress));
+    if (savedDuration) setDuration(JSON.parse(savedDuration));
+    if (savedMixId) setMixId(JSON.parse(savedMixId));
+    if (savedMixData) setMixData(JSON.parse(savedMixData));
+    if (savedPlaylist) setPlaylist(JSON.parse(savedPlaylist));
+  }, []);
+
+  // Persist state changes to localStorage
+  useEffect(() => {
+    localStorage.setItem("currentTrack", JSON.stringify(currentTrack));
+  }, [currentTrack]);
+
+  useEffect(() => {
+    localStorage.setItem("isPlaying", JSON.stringify(isPlaying));
+  }, [isPlaying]);
+
+  useEffect(() => {
+    localStorage.setItem("timeProgress", JSON.stringify(timeProgress));
+  }, [timeProgress]);
+
+  useEffect(() => {
+    localStorage.setItem("duration", JSON.stringify(duration));
+  }, [duration]);
+
+  useEffect(() => {
+    localStorage.setItem("mixId", JSON.stringify(mixId));
   }, [mixId]);
 
+  useEffect(() => {
+    localStorage.setItem("mixData", JSON.stringify(mixData));
+  }, [mixData]);
+
+  useEffect(() => {
+    localStorage.setItem("playlist", JSON.stringify(playlist));
+  }, [playlist]);
+
   const playMix = (mix: GetMixResponse) => {
-    setCurrentTrack({
+    const newTrack: Track = {
       title: mix.title,
       src: mix.file_url || "",
       author: mix.artist,
       thumbnail: mix.cover_url
         ? ({ src: mix.cover_url } as StaticImageData)
         : undefined,
-    });
+    };
+    setMixData(mix);
+    setCurrentTrack(newTrack);
+    setMixId(mix.id);
     setIsPlaying(true);
+    setPlaylist((prevPlaylist) => [newTrack, ...prevPlaylist]);
   };
 
   const contextValue = {
@@ -102,6 +137,8 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     setMixId,
     mixData,
     playMix,
+    playlist,
+    setPlaylist,
   };
 
   return (
