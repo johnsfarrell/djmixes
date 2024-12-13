@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database test for testing database operations.
+ */
+
 import createConnection from "@/database/connection";
 import createTables from "@/database/table";
 import { getUserByName } from "@/database/search/getUser";

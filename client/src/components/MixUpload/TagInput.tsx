@@ -22,11 +22,11 @@ interface TagInputProps {
 /**
  * The TagInput component displays an input field for adding tags to a mix.
  * When a tag is added, it is displayed as a pill below the input field.
- * 
+ *
  * @param tags The list of tags to display.
  * @param onAddTag The function to call when a tag is added.
  * @param onDeleteTag The function to call when a tag is deleted.
- * 
+ *
  * @returns The TagInput component.
  */
 export default function TagInput({

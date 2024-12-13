@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to create the comments table.
+ */
+
 import createConnection from "@/database/connection";
 import { QueryResult } from "mysql2";
 

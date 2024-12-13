@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the mix details page.
+ */
+
 "use client";
 
 import { useRouter, useParams } from "next/navigation";
@@ -28,7 +34,7 @@ export default function MixDetailsPage(): JSX.Element {
     const fetchMix = async () => {
       try {
         const data1 = await getProfile(
-          parseInt(localStorage.getItem("userId") as string)
+          parseInt(localStorage.getItem("userId") as string),
         );
         setLikedMixIds(data1.likedMixIds);
         setLiked(data1.likedMixIds.includes(parseInt(id as string)));
@@ -77,12 +83,12 @@ export default function MixDetailsPage(): JSX.Element {
     if (!liked && localStorage.getItem("userId")) {
       likeMix(
         parseInt(id as string),
-        parseInt(localStorage.getItem("userId") as string)
+        parseInt(localStorage.getItem("userId") as string),
       );
     } else if (localStorage.getItem("userId")) {
       unlikeMix(
         parseInt(id as string),
-        parseInt(localStorage.getItem("userId") as string)
+        parseInt(localStorage.getItem("userId") as string),
       );
     }
   };
@@ -93,7 +99,7 @@ export default function MixDetailsPage(): JSX.Element {
       commentOnMix(
         comment, // comment (string)
         parseInt(id as string), // mixId (number)
-        parseInt(localStorage.getItem("userId") as string) // userId (number)
+        parseInt(localStorage.getItem("userId") as string), // userId (number)
       );
       mix.comments.push({
         comment_text: comment,
@@ -110,7 +116,7 @@ export default function MixDetailsPage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8 pb-28">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-2">
         <div className="lg:col-span-1">
           <img
             src={mix.cover_url ?? "/placeholder.png"}
@@ -150,7 +156,7 @@ export default function MixDetailsPage(): JSX.Element {
                 hover:scale-105
                 hover:bg-gray-700"
                 >
-                  <b>Studio</b> 🎛️&nbsp;&nbsp;&nbsp; Remix <i>{mix.title}</i> by{' '}
+                  <b>Studio</b> 🎛️&nbsp;&nbsp;&nbsp; Remix <i>{mix.title}</i> by{" "}
                   <i>{mix.artist}</i>
                 </a>
               </div>
@@ -263,7 +269,7 @@ export default function MixDetailsPage(): JSX.Element {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-2">
         {mix.vocalsUrl || mix.drumsUrl || mix.bassUrl || mix.otherUrl ? (
           <div className="bg-gray-700 rounded-lg p-6 mt-2 lg:col-span-1">
             <h2 className="text-white text-lg font-semibold">
@@ -335,7 +341,7 @@ export default function MixDetailsPage(): JSX.Element {
                     key={index}
                     className="flex justify-between items-center bg-gray-800 p-3 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
                     onClick={() => {
-                      const audio = document.querySelector('audio');
+                      const audio = document.querySelector("audio");
                       if (audio) {
                         audio.currentTime = split.timestamp;
                         audio.play();

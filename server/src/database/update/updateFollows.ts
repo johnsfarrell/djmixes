@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to follow an artist.
+ */
+
 import createConnection from "../connection";
 
 /**

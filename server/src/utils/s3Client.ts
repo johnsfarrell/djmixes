@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the S3 client utility functions.
+ */
+
 import dotenv from "dotenv";
 import path from "path";
 import {
@@ -6,7 +12,7 @@ import {
   PutObjectCommand,
   GetObjectCommandInput,
   DeleteObjectCommand,
-  DeleteObjectCommandInput
+  DeleteObjectCommandInput,
 } from "@aws-sdk/client-s3";
 import { UploadParams, UploadResult } from "./interface";
 import { Response } from "express";
@@ -50,7 +56,10 @@ export const downloadFromS3 = async (
     const safeFilename = encodeURIComponent(filename);
 
     // Set headers
-    res.setHeader("Content-Disposition", `attachment; filename="${safeFilename}"`);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${safeFilename}"`,
+    );
     res.setHeader(
       "Content-Type",
       downloadStream.ContentType || "application/octet-stream",
@@ -96,7 +105,7 @@ export const deleteFromS3 = async (
 ): Promise<void> => {
   try {
     // Delete the object from S3
-    if (params.Key){
+    if (params.Key) {
       await s3Client.send(new DeleteObjectCommand(params));
       console.log(`File deleted successfully: ${params.Key}`);
     }

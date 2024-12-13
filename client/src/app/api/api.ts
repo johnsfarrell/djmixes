@@ -1,21 +1,21 @@
-import { mockMixResponse, mockProfileResponse } from './mockData';
+import { mockMixResponse, mockProfileResponse } from "./mockData";
 import {
   GetMixResponse,
   GetProfileResponse,
   MixUploadRequest,
-  UploadMixResponse
-} from './types';
+  UploadMixResponse,
+} from "./types";
 
 interface Request {
   mock?: boolean;
 }
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api';
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000/api";
 
 const apiAdapter = async (
   url: string = API_URL,
-  slug: string = '',
-  options: RequestInit
+  slug: string = "",
+  options: RequestInit,
 ): Promise<Response> => {
   const response = await fetch(url + slug, options);
   if (!response.ok) {
@@ -31,14 +31,14 @@ interface GetMixRequest extends Request {
 
 const downloadResource = async (
   mixId: number,
-  resourcePath: string
+  resourcePath: string,
 ): Promise<string | undefined> => {
   try {
     const res = await apiAdapter(API_URL, resourcePath, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     const blob = await res.blob();
@@ -52,24 +52,24 @@ const downloadResource = async (
 const getMix = async ({
   mixId,
   includeAudio = true,
-  mock
+  mock,
 }: GetMixRequest): Promise<GetMixResponse> => {
   if (mock) {
     return Promise.resolve(mockMixResponse);
   }
 
   const res = await apiAdapter(API_URL, `/mixes/${mixId}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
 
   let resJson = (await res.json()) as GetMixResponse;
 
   resJson.cover_url = await downloadResource(
     mixId,
-    `/mixes/${mixId}/download/cover`
+    `/mixes/${mixId}/download/cover`,
   );
 
   if (!includeAudio) {
@@ -80,26 +80,26 @@ const getMix = async ({
 
   resJson.vocalsUrl = await downloadResource(
     mixId,
-    `/mixes/${mixId}/download/vocal`
+    `/mixes/${mixId}/download/vocal`,
   );
   resJson.drumsUrl = await downloadResource(
     mixId,
-    `/mixes/${mixId}/download/drum`
+    `/mixes/${mixId}/download/drum`,
   );
   resJson.bassUrl = await downloadResource(
     mixId,
-    `/mixes/${mixId}/download/bass`
+    `/mixes/${mixId}/download/bass`,
   );
   resJson.otherUrl = await downloadResource(
     mixId,
-    `/mixes/${mixId}/download/other`
+    `/mixes/${mixId}/download/other`,
   );
 
-  const jsonSplits = JSON.parse(resJson.split_json || '{}');
+  const jsonSplits = JSON.parse(resJson.split_json || "{}");
 
   resJson.splits = Object.keys(jsonSplits).map((key) => ({
     name: key,
-    timestamp: jsonSplits[key]
+    timestamp: jsonSplits[key],
   }));
 
   return resJson;
@@ -118,32 +118,32 @@ const uploadMix = async ({
   tags,
   visibility,
   allowDownload,
-  mock
+  mock,
 }: UploadMixRequest): Promise<UploadMixResponse> => {
   if (mock) {
     return Promise.resolve({
       mixId: 1,
-      message: 'Mix uploaded successfully',
-      fileKey: 'mock-file-key',
-      uploadResult: {}
+      message: "Mix uploaded successfully",
+      fileKey: "mock-file-key",
+      uploadResult: {},
     });
   }
 
   const formData = new FormData();
-  formData.append('user_id', userId.toString());
-  formData.append('title', title);
-  formData.append('artist', artist);
-  formData.append('album', album);
-  formData.append('release_date', releaseDate);
-  formData.append('tags', JSON.stringify(tags));
-  formData.append('visibility', visibility);
-  formData.append('allow_download', allowDownload ? '1' : '0');
-  formData.append('mix', mix);
-  formData.append('cover', cover);
+  formData.append("user_id", userId.toString());
+  formData.append("title", title);
+  formData.append("artist", artist);
+  formData.append("album", album);
+  formData.append("release_date", releaseDate);
+  formData.append("tags", JSON.stringify(tags));
+  formData.append("visibility", visibility);
+  formData.append("allow_download", allowDownload ? "1" : "0");
+  formData.append("mix", mix);
+  formData.append("cover", cover);
 
-  const res = await apiAdapter(API_URL, '/mixes/upload', {
-    method: 'POST',
-    body: formData
+  const res = await apiAdapter(API_URL, "/mixes/upload", {
+    method: "POST",
+    body: formData,
   });
 
   return res.json();
@@ -155,17 +155,17 @@ interface GetSavedMixesRequest extends Request {
 
 const getSavedMixes = async ({
   userId,
-  mock
+  mock,
 }: GetSavedMixesRequest): Promise<GetMixResponse[]> => {
   if (mock) {
     return Promise.resolve([mockMixResponse, mockMixResponse]);
   }
 
   const res = await apiAdapter(API_URL, `/profile/${userId}/liked`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
 
   const resJson = await res.json();
@@ -177,7 +177,7 @@ const getSavedMixes = async ({
     try {
       mixes.push(await getMix({ mixId, includeAudio: false }));
     } catch (error) {
-      console.error('Error fetching mix:', error);
+      console.error("Error fetching mix:", error);
     }
   }
 
@@ -190,17 +190,17 @@ interface GetFollowedProfilesRequest extends Request {
 
 const getFollowedDJs = async ({
   userId,
-  mock
+  mock,
 }: GetFollowedProfilesRequest): Promise<GetProfileResponse[]> => {
   if (mock) {
     return Promise.resolve([mockProfileResponse, mockProfileResponse]);
   }
 
   const res = await apiAdapter(API_URL, `/users/${userId}/djs`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
 
   return res.json();
@@ -208,10 +208,10 @@ const getFollowedDJs = async ({
 
 const getProfile = async (userId: number): Promise<GetProfileResponse> => {
   const res = await apiAdapter(API_URL, `/profile/${userId}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
 
   const resJson = await res.json();
@@ -222,22 +222,22 @@ const getProfile = async (userId: number): Promise<GetProfileResponse> => {
     profileId: resJson.profile_id,
     userId: resJson.user_id,
     bio: resJson.bio,
-    avatarUrl: avatarUrl || '',
+    avatarUrl: avatarUrl || "",
     createdAt: resJson.created_at,
     username: resJson.username,
     uploadedMixIds: resJson.uploaded_mixes,
     likedMixIds: resJson.liked_mixes,
-    events: []
+    events: [],
   };
 };
 
 const login = async (email: string, password: string): Promise<Response> => {
-  const res = await apiAdapter(API_URL, '/user/login', {
-    method: 'POST',
+  const res = await apiAdapter(API_URL, "/user/login", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password }),
   });
 
   return res;
@@ -246,14 +246,14 @@ const login = async (email: string, password: string): Promise<Response> => {
 const register = async (
   username: string,
   email: string,
-  password: string
+  password: string,
 ): Promise<Response> => {
-  const res = await apiAdapter(API_URL, '/user/register', {
-    method: 'POST',
+  const res = await apiAdapter(API_URL, "/user/register", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, email, password })
+    body: JSON.stringify({ username, email, password }),
   });
 
   return res;
@@ -261,10 +261,10 @@ const register = async (
 
 const createProfile = async (userId: number): Promise<Response> => {
   const res = await apiAdapter(API_URL, `/profile/${userId}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
 
   return res;
@@ -276,17 +276,17 @@ interface GetMixesRequest extends Request {
 
 const getRandomMixes = async ({
   count = 1,
-  mock
+  mock,
 }: GetMixesRequest): Promise<GetMixResponse[]> => {
   if (mock) {
     return Promise.resolve([mockMixResponse]);
   }
 
   const res = await apiAdapter(API_URL, `/mixes/random/${count}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
 
   const resJson = await res.json();
@@ -297,7 +297,7 @@ const getRandomMixes = async ({
     try {
       mixes.push(await getMix({ mixId, includeAudio: false }));
     } catch (error) {
-      console.error('Error fetching mix:', error);
+      console.error("Error fetching mix:", error);
     }
   }
 
@@ -306,11 +306,11 @@ const getRandomMixes = async ({
 
 const likeMix = async (mixId: number, userId: number): Promise<Response> => {
   const res = await apiAdapter(API_URL, `/mixes/${mixId}/like`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user_id: userId })
+    body: JSON.stringify({ user_id: userId }),
   });
 
   return res;
@@ -318,11 +318,11 @@ const likeMix = async (mixId: number, userId: number): Promise<Response> => {
 
 const unlikeMix = async (mixId: number, userId: number): Promise<Response> => {
   const res = await apiAdapter(API_URL, `/mixes/${mixId}/unlike`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user_id: userId })
+    body: JSON.stringify({ user_id: userId }),
   });
 
   return res;
@@ -330,11 +330,11 @@ const unlikeMix = async (mixId: number, userId: number): Promise<Response> => {
 
 const commentOnMix = async (comment: string, mixId: number, userId: number) => {
   const res = await apiAdapter(API_URL, `/mixes/${mixId}/comment`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user_id: userId, comment, mix_id: mixId })
+    body: JSON.stringify({ user_id: userId, comment, mix_id: mixId }),
   });
 
   return res;
@@ -347,10 +347,10 @@ export interface SearchResult {
 
 const search = async (query: string): Promise<SearchResult> => {
   const res = await apiAdapter(API_URL, `/search/${query}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
 
   const resJson = await res.json();
@@ -363,7 +363,7 @@ const search = async (query: string): Promise<SearchResult> => {
       try {
         mixes.push(await getMix({ mixId, includeAudio: false }));
       } catch (error) {
-        console.error('Error fetching mix:', error);
+        console.error("Error fetching mix:", error);
       }
     }
   }
@@ -374,7 +374,7 @@ const search = async (query: string): Promise<SearchResult> => {
       try {
         await getProfile(userId);
       } catch (error) {
-        console.error('Error fetching profile:', error);
+        console.error("Error fetching profile:", error);
       }
     }
   }
@@ -395,5 +395,5 @@ export {
   unlikeMix,
   commentOnMix,
   search,
-  createProfile
+  createProfile,
 };

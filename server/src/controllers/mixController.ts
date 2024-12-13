@@ -1,29 +1,35 @@
-import { Request, Response } from 'express';
-import { getMixes, getRandomMixes } from '@/database/search/getMixes';
-import { getLikes } from '@/database/search/getLikes';
-import { insertLike, deleteLike } from '@/database/update/updateLikes';
-import { insertComment } from '@/database/update/updateComments';
-import { getComments } from '@/database/search/getComments';
-import { getUserById } from '@/database/search/getUser';
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the mix controller for handling mix-related operations.
+ */
+
+import { Request, Response } from "express";
+import { getMixes, getRandomMixes } from "@/database/search/getMixes";
+import { getLikes } from "@/database/search/getLikes";
+import { insertLike, deleteLike } from "@/database/update/updateLikes";
+import { insertComment } from "@/database/update/updateComments";
+import { getComments } from "@/database/search/getComments";
+import { getUserById } from "@/database/search/getUser";
 import {
   User,
   Mix,
   MixResponse,
   UploadParams,
   Comment,
-  CommentResponse
-} from '@/utils/interface';
+  CommentResponse,
+} from "@/utils/interface";
 import {
   s3Client,
   bucketName,
   downloadFromS3,
   uploadToS3,
-  deleteFromS3
-} from '@/utils/s3Client';
-import { UploadedFile } from 'express-fileupload';
-import { algorithm as algo } from '@/index';
-import { insertMixes, deleteMixes } from '@/database/update/updateMixes';
-import { removePrefix } from '@/utils/helpers';
+  deleteFromS3,
+} from "@/utils/s3Client";
+import { UploadedFile } from "express-fileupload";
+import { algorithm as algo } from "@/index";
+import { insertMixes, deleteMixes } from "@/database/update/updateMixes";
+import { removePrefix } from "@/utils/helpers";
 
 class MixController {
   /**
@@ -42,7 +48,7 @@ class MixController {
       console.log(mixData);
 
       if (!mixData) {
-        res.status(404).send('Mix not found');
+        res.status(404).send("Mix not found");
         return;
       }
 
@@ -50,7 +56,7 @@ class MixController {
       const user: User | null = await getUserById(mixData.userId);
       console.log(user);
       if (!user) {
-        res.status(404).send('User not found');
+        res.status(404).send("User not found");
         return;
       }
 
@@ -73,18 +79,18 @@ class MixController {
         artist: mixData.artist,
         upload_user: {
           user_id: mixData.userId,
-          username: user.username
+          username: user.username,
         },
         comments: mappedComments, // Placeholder for comments
         album: mixData.album,
         like_count: likeCount, // Represent the number of likes
-        split_json: mixData.splitJson
+        split_json: mixData.splitJson,
       };
 
       res.json(response);
     } catch (error) {
-      console.error('Error retrieving mix:', error);
-      res.status(500).send('Error retrieving mix');
+      console.error("Error retrieving mix:", error);
+      res.status(500).send("Error retrieving mix");
     }
   };
 
@@ -110,8 +116,8 @@ class MixController {
 
       res.status(200).json({ mix_ids: mixesList });
     } catch (error) {
-      console.error('Error retrieving mix:', error);
-      res.status(500).send('Error retrieving mix');
+      console.error("Error retrieving mix:", error);
+      res.status(500).send("Error retrieving mix");
     }
   };
 
@@ -129,32 +135,32 @@ class MixController {
     try {
       // Validate mixId and userId
       if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
-        res.status(400).json({ message: 'Invalid mix ID or user ID' });
+        res.status(400).json({ message: "Invalid mix ID or user ID" });
         return;
       }
 
       // Check if the mix exists
       const mix = await getMixes(parseInt(mixId, 10));
       if (!mix) {
-        res.status(404).json({ message: 'Mix not found' });
+        res.status(404).json({ message: "Mix not found" });
         return;
       }
 
       // Insert like into the database
       const result = await insertLike(
         parseInt(userId, 10),
-        parseInt(mixId, 10)
+        parseInt(mixId, 10),
       );
       if (!result) {
-        res.status(500).json({ message: 'Failed to like the mix' });
+        res.status(500).json({ message: "Failed to like the mix" });
         return;
       }
 
       // Return success response
-      res.status(200).json({ message: 'Mix liked successfully' });
+      res.status(200).json({ message: "Mix liked successfully" });
     } catch (error) {
-      console.error('Error liking mix:', error);
-      res.status(500).json({ message: 'Failed to like mix' });
+      console.error("Error liking mix:", error);
+      res.status(500).json({ message: "Failed to like mix" });
     }
   };
 
@@ -173,14 +179,14 @@ class MixController {
     try {
       // Validate mixId and userId
       if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
-        res.status(400).json({ message: 'Invalid mix ID or user ID' });
+        res.status(400).json({ message: "Invalid mix ID or user ID" });
         return;
       }
 
       // Check if the mix exists
       const mix = await getMixes(parseInt(mixId, 10));
       if (!mix) {
-        res.status(404).json({ message: 'Mix not found' });
+        res.status(404).json({ message: "Mix not found" });
         return;
       }
 
@@ -188,18 +194,18 @@ class MixController {
       const result = await insertComment(
         parseInt(userId, 10),
         parseInt(mixId, 10),
-        comment
+        comment,
       );
       if (!result) {
-        res.status(500).json({ message: 'Failed to insert comment' });
+        res.status(500).json({ message: "Failed to insert comment" });
         return;
       }
 
       // Return success response
-      res.status(200).json({ message: 'Mix commented successfully' });
+      res.status(200).json({ message: "Mix commented successfully" });
     } catch (error) {
-      console.error('Error commenting mix:', error);
-      res.status(500).json({ message: 'Failed to comment on mix' });
+      console.error("Error commenting mix:", error);
+      res.status(500).json({ message: "Failed to comment on mix" });
     }
   };
 
@@ -217,32 +223,32 @@ class MixController {
     try {
       // Validate mixId and userId
       if (!mixId || isNaN(Number(mixId)) || !userId || isNaN(Number(userId))) {
-        res.status(400).json({ message: 'Invalid mix ID or user ID' });
+        res.status(400).json({ message: "Invalid mix ID or user ID" });
         return;
       }
 
       // Check if the mix exists
       const mix = await getMixes(parseInt(mixId, 10));
       if (!mix) {
-        res.status(404).json({ message: 'Mix not found' });
+        res.status(404).json({ message: "Mix not found" });
         return;
       }
 
       // Remove like from the database
       const result = await deleteLike(
         parseInt(userId, 10),
-        parseInt(mixId, 10)
+        parseInt(mixId, 10),
       );
       if (!result) {
-        res.status(500).json({ message: 'Failed to unlike the mix' });
+        res.status(500).json({ message: "Failed to unlike the mix" });
         return;
       }
 
       // Return success response
-      res.status(200).json({ message: 'Mix unliked successfully' });
+      res.status(200).json({ message: "Mix unliked successfully" });
     } catch (error) {
-      console.error('Error unliking mix:', error);
-      res.status(500).json({ message: 'Failed to unlike mix' });
+      console.error("Error unliking mix:", error);
+      res.status(500).json({ message: "Failed to unlike mix" });
     }
   };
 
@@ -260,7 +266,7 @@ class MixController {
       // Get mix ID and validate
       const mix = await getMixes(parseInt(mixId, 10));
       if (!mix || !mix.fileUrl) {
-        res.status(404).json({ error: 'Mix not found' });
+        res.status(404).json({ error: "Mix not found" });
         return;
       }
 
@@ -271,30 +277,30 @@ class MixController {
         mix.stemBassUrl,
         mix.stemDrumUrl,
         mix.stemVocalUrl,
-        mix.stemOtherUrl
+        mix.stemOtherUrl,
       ];
       const deletePromises = fileUrls.map((fileUrl: string) =>
         deleteFromS3(s3Client, {
           Bucket: bucketName,
-          Key: fileUrl
+          Key: fileUrl,
         }).catch((error) =>
-          console.error(`Error deleting file ${fileUrl}:`, error)
-        )
+          console.error(`Error deleting file ${fileUrl}:`, error),
+        ),
       );
 
       const dbDeletePromise = deleteMixes(parseInt(mixId, 10)).catch((error) =>
-        console.error('Error deleting mix from database:', error)
+        console.error("Error deleting mix from database:", error),
       );
 
       // Trigger all deletions asynchronously (files and database)
       Promise.all([...deletePromises, dbDeletePromise]).catch((error) =>
-        console.error('Error during deletion process:', error)
+        console.error("Error during deletion process:", error),
       );
 
-      res.status(200).json({ message: 'Mix deletion initiated' });
+      res.status(200).json({ message: "Mix deletion initiated" });
     } catch (error) {
-      console.error('Error initiating mix deletion:', error);
-      res.status(500).json({ error: 'Failed to initiate mix deletion' });
+      console.error("Error initiating mix deletion:", error);
+      res.status(500).json({ error: "Failed to initiate mix deletion" });
     }
   };
 
@@ -307,19 +313,19 @@ class MixController {
    */
   downloadFile = async (req: Request, res: Response): Promise<void> => {
     const mixId = req.params.mixId;
-    const part = req.params.part || 'full';
+    const part = req.params.part || "full";
     console.log(part);
 
     try {
       // get mix id, and validate
       const mix = await getMixes(parseInt(mixId, 10));
-      let fileKey = '';
+      let fileKey = "";
       if (!mix || !mix.fileUrl) {
-        res.status(404).json({ error: 'Mix not found' });
+        res.status(404).json({ error: "Mix not found" });
         return;
       }
       if (!mix.allowDownload) {
-        res.status(403).json({ error: 'Download not allowed for this mix' });
+        res.status(403).json({ error: "Download not allowed for this mix" });
         return;
       }
 
@@ -328,17 +334,17 @@ class MixController {
       console.log(mix.splitJson);
       console.log(mix.stemDrumUrl);
 
-      if (part === 'drum') {
+      if (part === "drum") {
         fileKey = mix.stemDrumUrl;
-      } else if (part === 'bass') {
+      } else if (part === "bass") {
         fileKey = mix.stemBassUrl;
-      } else if (part === 'vocal') {
+      } else if (part === "vocal") {
         fileKey = mix.stemVocalUrl;
-      } else if (part === 'other') {
+      } else if (part === "other") {
         fileKey = mix.stemOtherUrl;
-      } else if (part === 'cover') {
+      } else if (part === "cover") {
         fileKey = mix.coverUrl;
-      } else if (part === 'full') {
+      } else if (part === "full") {
         fileKey = mix.fileUrl;
       } else {
         res.status(404).json({ error: "Endpoint doesn't exist" });
@@ -347,7 +353,7 @@ class MixController {
 
       // validate url
       console.log(fileKey);
-      if (!fileKey && fileKey === '') {
+      if (!fileKey && fileKey === "") {
         res.status(404).json({ error: "Can't find the file" });
         return;
       }
@@ -356,19 +362,19 @@ class MixController {
       const filename = removePrefix(fileKey);
       const params = {
         Bucket: bucketName,
-        Key: fileKey
+        Key: fileKey,
       };
 
       await downloadFromS3(s3Client, params, res, filename);
     } catch (error) {
-      console.error('Error downloading mix:', error);
-      res.status(500).json({ error: 'Failed to download file' });
+      console.error("Error downloading mix:", error);
+      res.status(500).json({ error: "Failed to download file" });
     }
   };
 
   uploadMix = async (req: Request, res: Response): Promise<void> => {
     if (!req.files || !req.files.mix || !req.files.cover) {
-      res.status(400).json({ error: 'Required files not uploaded' });
+      res.status(400).json({ error: "Required files not uploaded" });
       return;
     }
 
@@ -384,14 +390,14 @@ class MixController {
 
       if (mixFile.size > MAX_MIX_FILE_SIZE_BYTES) {
         res.status(400).json({
-          error: `Mix file size exceeds limit of ${MAX_MIX_FILE_SIZE_MB} MB`
+          error: `Mix file size exceeds limit of ${MAX_MIX_FILE_SIZE_MB} MB`,
         });
         return;
       }
 
       if (coverFile.size > MAX_COVER_FILE_SIZE_BYTES) {
         res.status(400).json({
-          error: `Cover file size exceeds limit of ${MAX_COVER_FILE_SIZE_MB} MB`
+          error: `Cover file size exceeds limit of ${MAX_COVER_FILE_SIZE_MB} MB`,
         });
         return;
       }
@@ -403,19 +409,19 @@ class MixController {
       const mixParams: UploadParams = {
         Bucket: bucketName,
         Key: mixFileKey,
-        Body: mixFile.data
+        Body: mixFile.data,
       };
       const coverParams: UploadParams = {
         Bucket: bucketName,
         Key: coverFileKey,
-        Body: coverFile.data
+        Body: coverFile.data,
       };
 
       // Upload
       const mixUploadResult = await uploadToS3(s3Client, mixParams);
       const coverUploadResult = await uploadToS3(s3Client, coverParams);
-      console.log('Mix file uploaded:', mixUploadResult);
-      console.log('Cover file uploaded:', coverUploadResult);
+      console.log("Mix file uploaded:", mixUploadResult);
+      console.log("Cover file uploaded:", coverUploadResult);
 
       // Update DB
       const mixId = await insertMixes(
@@ -428,7 +434,7 @@ class MixController {
         coverFileKey,
         req.body.tags || null,
         req.body.visibility || null,
-        req.body.allow_download || null
+        req.body.allow_download || null,
       );
 
       // Algo part for split and stem
@@ -436,24 +442,24 @@ class MixController {
       // "Fire and forget" asynchronous tasks for analysis
       algo
         .getSplitTimestamps(mixId, mixFile.data)
-        .catch((err) => console.error('Error in getSplitTimestamps:', err));
+        .catch((err) => console.error("Error in getSplitTimestamps:", err));
       algo
         .getStemmedAudio(mixId, mixFile.data)
-        .catch((err) => console.error('Error in getStemmedAudio:', err));
+        .catch((err) => console.error("Error in getStemmedAudio:", err));
       // // TODO: Remove these console logs (here for debugging)
       // console.log('Split timestamps:', stamps);
       // console.log('Stemmed audio:', stems);
 
-      console.log('test123');
+      console.log("test123");
       res.status(200).json({
-        message: 'Files uploaded successfully',
+        message: "Files uploaded successfully",
         mixId,
         mixFileKey,
-        coverFileKey
+        coverFileKey,
       });
     } catch (error) {
-      console.error('Error uploading files:', error);
-      res.status(500).json({ error: 'Failed to upload files' });
+      console.error("Error uploading files:", error);
+      res.status(500).json({ error: "Failed to upload files" });
     }
   };
 }
@@ -464,7 +470,7 @@ function mapCommentsToResponse(comments: Comment[]): CommentResponse[] {
     user_id: comment.userId,
     mix_id: comment.mixId,
     comment_text: comment.commentText,
-    created_at: comment.createdAt
+    created_at: comment.createdAt,
   }));
 }
 

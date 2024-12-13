@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to create the users table.
+ */
+
 // Define the SQL query for creating the 'mix' table
 const createUsersTableQuery: string = `
   CREATE TABLE IF NOT EXISTS users (

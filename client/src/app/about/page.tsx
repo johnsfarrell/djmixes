@@ -4,7 +4,7 @@
  * Description: This is the about page. About how to use the DJMixes app.
  */
 
-'use client';
+"use client";
 
 /**
  * The about page component displays information about how to use the DJMixes app.
@@ -27,7 +27,7 @@ export default function AboutPage(): JSX.Element {
         must provide a username, email, and password.
       </p>
       <p>
-        If you have an account or once you have created an account, you can{' '}
+        If you have an account or once you have created an account, you can{" "}
         <a href="/login">login</a>.
       </p>
       <h2 className="text-3xl font-bold text-white mb-4 mt-8">

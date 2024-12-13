@@ -1,6 +1,16 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database test for testing database operations.
+ */
+
 import createConnection from "@/database/connection";
 import createTables from "@/database/table";
-import { getEventsBasedOnDj, getEvent, searchEventsByTitle } from "@/database/search/getEvents";
+import {
+  getEventsBasedOnDj,
+  getEvent,
+  searchEventsByTitle,
+} from "@/database/search/getEvents";
 import { getLikes, getUserLiked } from "@/database/search/getLikes";
 import { getComments, getUserCommented } from "@/database/search/getComments";
 import { getProfile } from "@/database/search/getProfiles";
@@ -18,30 +28,31 @@ import {
   updateProfileBio,
   updateProfileAvatar,
 } from "@/database/update/updateProfiles";
-import { getFollowedArtists } from "@/database/search/getFollows"
+import { getFollowedArtists } from "@/database/search/getFollows";
 import {
   getMixes,
   getRandomMixes,
   getMixesByUploadedUser,
   getMixesByUserLiked,
-  searchMixesByTitle
-} from "@/database/search/getMixes"
+  searchMixesByTitle,
+} from "@/database/search/getMixes";
 import {
-  getUserByName, 
-  getUserById, 
+  getUserByName,
+  getUserById,
   getUserByEmail,
-  searchUserByName
-} from "@/database/search/getUser"
-import { followArtist } from "@/database/update/updateFollows"
-import {
-  updateMixField
-} from "@/database/update/updateMixes"
+  searchUserByName,
+} from "@/database/search/getUser";
+import { followArtist } from "@/database/update/updateFollows";
+import { updateMixField } from "@/database/update/updateMixes";
 
 async function testGetFollowedArtists() {
   const testUserId = 2;
   const followedArtists = await getFollowedArtists(testUserId);
   if (followedArtists) {
-    console.log(`Followed artists for user with ID ${testUserId}:`, followedArtists);
+    console.log(
+      `Followed artists for user with ID ${testUserId}:`,
+      followedArtists,
+    );
   } else {
     console.log(`No followed artists found for user with ID ${testUserId}.`);
   }
@@ -81,7 +92,10 @@ async function testSearchMixesByTitle() {
   const testTitle = "DJMix2";
   const mixesByTitle = await searchMixesByTitle(testTitle);
   if (mixesByTitle) {
-    console.log(`Mixes found with title containing "${testTitle}":`, mixesByTitle);
+    console.log(
+      `Mixes found with title containing "${testTitle}":`,
+      mixesByTitle,
+    );
   } else {
     console.log(`No mixes found with title containing "${testTitle}".`);
   }
@@ -112,7 +126,10 @@ async function testGetUserLiked() {
 async function testGetUserCommented() {
   const testUserId = 2;
   const commentedItemsResult = await getUserCommented(testUserId);
-  console.log(`Items commented on by user with ID ${testUserId}:`, commentedItemsResult);
+  console.log(
+    `Items commented on by user with ID ${testUserId}:`,
+    commentedItemsResult,
+  );
 }
 
 async function testUpdateProfileBio() {
@@ -121,7 +138,7 @@ async function testUpdateProfileBio() {
   const updateResult = await updateProfileBio(testProfileId, newBio);
   if (updateResult) {
     console.log(
-      `Profile with ID ${testProfileId} successfully updated with new bio: "${newBio}".`
+      `Profile with ID ${testProfileId} successfully updated with new bio: "${newBio}".`,
     );
   } else {
     console.log(`Failed to update profile with ID ${testProfileId}.`);
@@ -134,10 +151,12 @@ async function testUpdateProfileAvatar() {
   const updateResult = await updateProfileAvatar(testProfileId, newAvatarUrl);
   if (updateResult) {
     console.log(
-      `Profile with ID ${testProfileId} successfully updated with new avatar URL: "${newAvatarUrl}".`
+      `Profile with ID ${testProfileId} successfully updated with new avatar URL: "${newAvatarUrl}".`,
     );
   } else {
-    console.log(`Failed to update avatar for profile with ID ${testProfileId}.`);
+    console.log(
+      `Failed to update avatar for profile with ID ${testProfileId}.`,
+    );
   }
 }
 
@@ -146,7 +165,7 @@ async function testFollowArtist() {
   const testArtistId = 1;
   await followArtist(testUserId, testArtistId);
   console.log(
-    `User with ID ${testUserId} successfully followed artist with ID ${testArtistId}.`
+    `User with ID ${testUserId} successfully followed artist with ID ${testArtistId}.`,
   );
 }
 
@@ -158,7 +177,7 @@ async function testUpdateMixField() {
   const updateResult = await updateMixField(testMixId, fieldToUpdate, newValue);
   if (updateResult) {
     console.log(
-      `Mix with ID ${testMixId} successfully updated. Field "${fieldToUpdate}" set to "${newValue}".`
+      `Mix with ID ${testMixId} successfully updated. Field "${fieldToUpdate}" set to "${newValue}".`,
     );
   } else {
     console.log(`Failed to update mix with ID ${testMixId}.`);
@@ -381,10 +400,10 @@ async function runTests(): Promise<void> {
 
   console.log("Starting test for GetMixesByUserLiked...");
   await testGetMixesByUserLiked();
-  
+
   console.log("Starting test for SearchMixesByTitle...");
   await testSearchMixesByTitle();
-  
+
   console.log("Starting test for GetMixesByUploadedUser...");
   await testGetMixesByUploadedUser();
 

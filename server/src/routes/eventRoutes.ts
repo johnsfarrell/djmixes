@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the event routes for the application.
+ */
+
 import express from "express";
 import EventController from "@/controllers/eventController";
 

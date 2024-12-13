@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the main server file for the application.
+ */
+
 import express, { Request, Response } from "express";
 import path from "path";
 import mixRoutes from "./routes/mixRoutes";

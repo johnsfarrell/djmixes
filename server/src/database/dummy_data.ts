@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database queries to insert dummy data.
+ */
+
 const insertRecordsQuery: string = `
 INSERT INTO mixes (user_id, title, file_url, cover_url, tags, visibility, allow_download, artist, album, stem_bass_url, stem_drum_url, stem_vocal_url, stem_other_url, split_json,is_deleted)
 VALUES
@@ -90,7 +96,7 @@ const insertLikesQuery: string = `
     (3, 19), (3, 21), (3, 23), (3, 28), (3, 30),
     (4, 25), (4, 26), (4, 27), (4, 29), (4, 30)
   ON DUPLICATE KEY UPDATE mix_id = VALUES(mix_id);
-`;  
+`;
 
 const insertFollowsQuery: string = `
   INSERT INTO follows (user_id, artist_id)
@@ -143,7 +149,6 @@ const insertUserProfilesQuery: string = `
     bio = VALUES(bio), 
     avatar_url = VALUES(avatar_url);
   `;
-  
 
 export {
   insertUsersQuery,

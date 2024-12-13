@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database initialization function.
+ */
+
 import createConnection from "./connection";
 import createUsersTable from "./tables/usersTable";
 import createMixesTable from "./tables/mixesTable";
@@ -16,7 +22,6 @@ import {
   insertUserProfilesQuery,
 } from "./dummy_data";
 import { QueryResult } from "mysql2";
-
 
 /**
  * Create the database and tables, and insert dummy data

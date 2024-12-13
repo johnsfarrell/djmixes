@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to get all users followed by a user.
+ */
+
 import createConnection from "../connection";
 import { FieldPacket, RowDataPacket } from "mysql2";
 

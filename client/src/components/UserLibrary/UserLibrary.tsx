@@ -5,12 +5,12 @@
  * user's saved mixes and favorite DJs.
  */
 
-'use client';
-import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
-import MixCard from './MixCard';
-import DJCard from './DJCard';
-import { getFollowedDJs, getRandomMixes, getSavedMixes } from '@/app/api/api';
-import { useEffect, useState } from 'react';
+"use client";
+import { GetMixResponse, GetProfileResponse } from "@/app/api/types";
+import MixCard from "./MixCard";
+import DJCard from "./DJCard";
+import { getFollowedDJs, getRandomMixes, getSavedMixes } from "@/app/api/api";
+import { useEffect, useState } from "react";
 
 /**
  * The UserLibrary component displays the user's saved mixes and favorite DJs.
@@ -23,7 +23,7 @@ export default function UserLibrary(): JSX.Element {
   const [randomMixes, setRandomMixes] = useState<GetMixResponse[]>([]);
 
   useEffect(() => {
-    const userId = parseInt(localStorage.getItem('userId') as string);
+    const userId = parseInt(localStorage.getItem("userId") as string);
 
     const fetchSavedMixes = async () => {
       const res = await getSavedMixes({ userId: userId, mock: false });

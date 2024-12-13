@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the tests for the MixController.
+ */
+
 import request from "supertest";
 import app from ".."; // Adjust the path based on your app's location
 import { getMixes } from "@/database/search/getMixes";

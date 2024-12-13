@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to get a user's profile data.
+ */
+
 import { RowDataPacket } from "mysql2";
 import createConnection from "@/database/connection";
 import { UserProfile } from "@/utils/interface";

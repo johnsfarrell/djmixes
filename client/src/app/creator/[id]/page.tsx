@@ -5,13 +5,13 @@
  * a creator's profile information, mixes, and communication feed.
  */
 
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { GetMixResponse, GetProfileResponse } from '@/app/api/types';
-import { getMix, getProfile } from '@/app/api/api';
-import MixCard from '@/components/UserLibrary/MixCard';
+"use client";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { GetMixResponse, GetProfileResponse } from "@/app/api/types";
+import { getMix, getProfile } from "@/app/api/api";
+import MixCard from "@/components/UserLibrary/MixCard";
 
 /**
  * The creator view page component displays a creator's profile information,
@@ -37,7 +37,7 @@ export default function CreatorViewPage(): JSX.Element {
         if (!id) return;
         const profileId = parseInt(id as string);
         const res = await getProfile(profileId);
-        const userId = parseInt(localStorage.getItem('userId') as string);
+        const userId = parseInt(localStorage.getItem("userId") as string);
 
         setIsSelf(profileId === userId);
 
@@ -108,7 +108,11 @@ export default function CreatorViewPage(): JSX.Element {
           <div className="mt-10">
             <h2 className="text-xl font-bold mb-4">Creator Mixes</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {profileMixes.map((mix) => (
+              {[
+                ...new Map(
+                  profileMixes.map((mix) => [mix.title, mix]),
+                ).values(),
+              ].map((mix) => (
                 <MixCard key={mix.title} mix={mix} />
               ))}
             </div>
@@ -119,7 +123,9 @@ export default function CreatorViewPage(): JSX.Element {
           <h2 className="text-xl font-bold mb-4">Liked Mixes</h2>
           {likedMixes && likedMixes.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {likedMixes.map((mix) => (
+              {[
+                ...new Map(likedMixes.map((mix) => [mix.title, mix])).values(),
+              ].map((mix) => (
                 <MixCard key={mix.title} mix={mix} />
               ))}
             </div>

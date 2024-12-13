@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database search functions for retrieving events.
+ */
+
 import { RowDataPacket } from "mysql2";
 import createConnection from "@/database/connection";
 import { Event } from "@/utils/interface";

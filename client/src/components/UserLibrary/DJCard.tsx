@@ -5,10 +5,10 @@
  * profile photo and username.
  */
 
-import Image from 'next/image';
-import { GetProfileResponse } from '@/app/api/types';
-import { User } from 'lucide-react';
-import { useState } from 'react';
+import Image from "next/image";
+import { GetProfileResponse } from "@/app/api/types";
+import { User } from "lucide-react";
+import { useState } from "react";
 
 /**
  * The DJCard component displays a DJ's profile photo and username.
@@ -18,14 +18,14 @@ import { useState } from 'react';
  * @returns The DJCard component.
  */
 export default function DJCard({
-  dj
+  dj,
 }: {
   dj: GetProfileResponse;
 }): JSX.Element {
-  const [imageSrc, setImageSrc] = useState(dj.avatarUrl || '/placeholder.png');
+  const [imageSrc, setImageSrc] = useState(dj.avatarUrl || "/placeholder.png");
 
   const handleImageError = () => {
-    setImageSrc('/placeholderprofile.png');
+    setImageSrc("/placeholderprofile.png");
   };
 
   const handleGoTo = () => {

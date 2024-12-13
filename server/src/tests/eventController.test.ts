@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the event controller tests for the application.
+ */
+
 import request from "supertest";
 import app from ".."; // Adjust the path based on your app's location
 import createConnection from "@/database/connection";

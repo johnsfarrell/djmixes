@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the user controller for handling user requests.
+ */
+
 import { Request, Response } from "express";
 import { User } from "@/utils/interface";
 import { getUserByEmail, getUserByName } from "@/database/search/getUser";

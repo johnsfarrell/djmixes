@@ -1,3 +1,9 @@
+##
+#  Copyright (c) 2024 DJMixes. All rights reserved.
+#  Licensed under the MIT License.
+#  Description: Test cases for the stemming module.
+##
+
 import unittest
 from unittest.mock import MagicMock, patch
 from torch import Tensor

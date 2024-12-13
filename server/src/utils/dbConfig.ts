@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database configuration for the application.
+ */
+
 import dotenv from "dotenv";
 import { ConnectionOptions } from "mysql2";
 import path from "path";

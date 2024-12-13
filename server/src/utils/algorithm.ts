@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio processing logic for the application.
+ */
+
 import axios from "axios";
 import JSZip from "jszip";
 import { UploadParams } from "@/utils/interface";

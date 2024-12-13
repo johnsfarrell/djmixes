@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the event controller for handling event data.
+ */
+
 import { Request, Response } from "express";
 import createConnection from "@/database/connection";
 import { FieldPacket, QueryResult, RowDataPacket } from "mysql2";
@@ -39,14 +45,14 @@ class EventController {
 
   getDJEventsMock = async (req: Request, res: Response): Promise<void> => {
     const mockResponse: EventResponse[] = [
-        {
-          event_id: 3344,
-          title: "Upcoming Music Event",
-          description: "The latest music festival will be held in New York!",
-          date: "2024-11-08",
-        },
-      ]
-    res.json({events: mockResponse});
+      {
+        event_id: 3344,
+        title: "Upcoming Music Event",
+        description: "The latest music festival will be held in New York!",
+        date: "2024-11-08",
+      },
+    ];
+    res.json({ events: mockResponse });
   };
 
   /**

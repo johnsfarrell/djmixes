@@ -8,9 +8,9 @@
 /**
  * Formats a date object into a string in the format "YYYY-MM-DD HH:MM:SS", or
  * the current date if no date object is provided.
- * 
+ *
  * @param date The date object to format (optional).
- * 
+ *
  * @returns The formatted date string.
  */
 export const formatDateTime = (date?: Date): string => {
@@ -24,4 +24,10 @@ export const formatDateTime = (date?: Date): string => {
   const seconds = String(d.getSeconds()).padStart(2, "0");
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+export const formatTimeSeconds = (timeSeconds: number) => {
+  const minutes = Math.floor(timeSeconds / 60);
+  const seconds = Math.floor(timeSeconds % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };

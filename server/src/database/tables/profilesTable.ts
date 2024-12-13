@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to create the profiles table.
+ */
+
 // create user profiles table
 const createProfilesTableQuery: string = `
     CREATE TABLE IF NOT EXISTS user_profiles (

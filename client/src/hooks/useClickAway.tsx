@@ -5,7 +5,7 @@
  * when a click event occurs outside of the given element.
  */
 
-'use client';
+"use client";
 
 import { useEffect } from "react";
 

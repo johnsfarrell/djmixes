@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio player progress bar for the audio player component.
+ */
+
 import React from "react";
 import { useAudioPlayerContext } from "@/context/audioPlayerContext";
 

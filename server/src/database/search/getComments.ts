@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query functions for fetching comments.
+ */
+
 import { FieldPacket, RowDataPacket } from "mysql2";
 import createConnection from "@/database/connection";
 import { Comment } from "@/utils/interface";

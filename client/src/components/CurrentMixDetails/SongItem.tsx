@@ -12,13 +12,16 @@ interface SongItemProps {
 
 /**
  * The SongItem component displays a song item with the song name and artist.
- * 
+ *
  * @param songName The name of the song.
  * @param artist The artist of the song.
- * 
+ *
  * @returns The SongItem component.
  */
-export default function SongItem({ songName, artist }: SongItemProps): JSX.Element {
+export default function SongItem({
+  songName,
+  artist,
+}: SongItemProps): JSX.Element {
   return (
     <div className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-800/50 transition-colors">
       <div className="min-w-0 flex-1">

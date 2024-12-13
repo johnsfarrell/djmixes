@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the database query to get a user by their username, ID, or email.
+ */
+
 import { Connection, FieldPacket, RowDataPacket } from "mysql2/promise";
 import createConnection from "@/database/connection";
 import { User } from "@/utils/interface";

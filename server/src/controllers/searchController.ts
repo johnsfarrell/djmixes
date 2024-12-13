@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the search controller for handling search requests.
+ */
+
 import { Request, Response } from "express";
 import { searchUserByName } from "@/database/search/getUser";
 import { searchMixesByTitle } from "@/database/search/getMixes";

@@ -5,13 +5,13 @@
  * avatar with a dropdown menu for profile and logout actions.
  */
 
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import { User } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { logout } from '@/app/actions';
-import { useClickAway } from '@/hooks/useClickAway';
-import { getProfile } from '@/app/api/api';
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { logout } from "@/app/actions";
+import { useClickAway } from "@/hooks/useClickAway";
+import { getProfile } from "@/app/api/api";
 
 interface AvatarProps {
   imageUrl?: string;
@@ -32,13 +32,13 @@ export default function Avatar(): JSX.Element {
 
   useEffect(() => {
     const check = async () => {
-      setUserId(localStorage.getItem('userId'));
+      setUserId(localStorage.getItem("userId"));
 
-      if (!localStorage.getItem('userId')) {
-        router.push('/login');
+      if (!localStorage.getItem("userId")) {
+        router.push("/login");
       } else {
         const profile = await getProfile(
-          parseInt(localStorage.getItem('userId') as string)
+          parseInt(localStorage.getItem("userId") as string),
         );
         setImageUrl(profile.avatarUrl);
       }

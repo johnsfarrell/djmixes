@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio player controls for playing audio tracks.
+ */
+
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   BsFillFastForwardFill,
@@ -43,7 +49,7 @@ export const Controls: React.FC = () => {
       progressBarRef.current.value = currentTime.toString();
       progressBarRef.current.style.setProperty(
         "--range-progress",
-        `${(currentTime / duration) * 100}%`
+        `${(currentTime / duration) * 100}%`,
       );
     }
   }, [duration, setTimeProgress, audioRef, progressBarRef]);

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: This file contains the audio player context for managing the audio player state.
+ */
+
 "use client";
 import React, {
   createContext,
@@ -38,7 +44,7 @@ interface AudioPlayerContextType {
 }
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
@@ -152,7 +158,7 @@ export const useAudioPlayerContext = (): AudioPlayerContextType => {
   const context = useContext(AudioPlayerContext);
   if (context === undefined) {
     throw new Error(
-      "useAudioPlayerContext must be used within an AudioPlayerProvider"
+      "useAudioPlayerContext must be used within an AudioPlayerProvider",
     );
   }
   return context;

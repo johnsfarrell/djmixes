@@ -6,21 +6,21 @@
  * mix page upon successful mix upload.
  */
 
-'use client';
-import { v4 as uuidv4 } from 'uuid';
-import { Upload, Image, Music, Plus } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
-import FileUploadBox from '@/components/MixUpload/FileUploadBox';
-import MixInfo from '@/components/MixUpload/MixInfo';
-import MixVisibilitySettings from '@/components/MixUpload/MixVisibilitySettings';
-import TagInput from '@/components/MixUpload/TagInput';
+"use client";
+import { v4 as uuidv4 } from "uuid";
+import { Upload, Image, Music, Plus } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import FileUploadBox from "@/components/MixUpload/FileUploadBox";
+import MixInfo from "@/components/MixUpload/MixInfo";
+import MixVisibilitySettings from "@/components/MixUpload/MixVisibilitySettings";
+import TagInput from "@/components/MixUpload/TagInput";
 import {
   GetProfileResponse,
   MixUploadRequest,
-  UploadMixResponse
-} from '@/app/api/types';
-import { getProfile, uploadMix } from '@/app/api/api';
-import { formatDateTime } from '@/util/helpers';
+  UploadMixResponse,
+} from "@/app/api/types";
+import { getProfile, uploadMix } from "@/app/api/api";
+import { formatDateTime } from "@/util/helpers";
 
 /**
  * The Tag interface represents a tag object with an ID and text.
@@ -46,10 +46,10 @@ interface Tag {
  */
 export default function MixUploadPage(): JSX.Element {
   const [tags, setTags] = useState<Tag[]>([]);
-  const [visibility, setVisibility] = useState('public');
+  const [visibility, setVisibility] = useState("public");
   const [downloadable, setDownloadable] = useState(false);
-  const [mixTitle, setMixTitle] = useState('New Mix Title');
-  const [mixInfo, setMixInfo] = useState('Add mix info');
+  const [mixTitle, setMixTitle] = useState("New Mix Title");
+  const [mixInfo, setMixInfo] = useState("Add mix info");
   const [artwork, setArtwork] = useState<File | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
@@ -60,7 +60,7 @@ export default function MixUploadPage(): JSX.Element {
 
   useEffect(() => {
     const settingCreator = async () => {
-      const userId = localStorage.getItem('userId');
+      const userId = localStorage.getItem("userId");
       if (userId) {
         const res = await getProfile(parseInt(userId));
         setProfile(res);
@@ -72,26 +72,26 @@ export default function MixUploadPage(): JSX.Element {
 
   const handleArtworkUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith("image/")) {
       setArtwork(file);
     } else {
-      alert('Please upload an image file');
+      alert("Please upload an image file");
     }
   };
 
   const handleAudioUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type.startsWith('audio/')) {
+    if (file && file.type.startsWith("audio/")) {
       setAudioFile(file);
     } else {
-      alert('Please upload an audio file');
+      alert("Please upload an audio file");
     }
   };
 
   const handleAddTag = (tagText: string) => {
     const newTag: Tag = {
       id: uuidv4(),
-      text: tagText
+      text: tagText,
     };
     setTags([...tags, newTag]);
   };
@@ -102,23 +102,23 @@ export default function MixUploadPage(): JSX.Element {
 
   const handleUpload = async () => {
     if (!artwork || !audioFile || !mixTitle || !tags.length) {
-      alert('Please fill out all required fields');
+      alert("Please fill out all required fields");
       return;
     }
 
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem("userId");
 
     const data: MixUploadRequest = {
       title: mixTitle,
       visibility,
       tags: tags.map((tag) => tag.text),
       userId: userId ? parseInt(userId) : 0,
-      artist: profile ? profile.username : '',
+      artist: profile ? profile.username : "",
       mix: audioFile,
       cover: artwork,
-      album: 'Mix Album',
+      album: "Mix Album",
       releaseDate: formatDateTime(),
-      allowDownload: downloadable
+      allowDownload: downloadable,
     };
 
     console.log(data); // TODO: remove later
@@ -131,7 +131,7 @@ export default function MixUploadPage(): JSX.Element {
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-2">
           {/* Left Column - Mix Info */}
           <div className="lg:col-span-1">
             {/* Artwork Upload */}
@@ -171,7 +171,7 @@ export default function MixUploadPage(): JSX.Element {
 
             <MixInfo
               title={mixTitle}
-              dj={profile ? profile.username : ''}
+              dj={profile ? profile.username : ""}
               info={mixInfo}
               onTitleChange={setMixTitle}
               onInfoChange={setMixInfo}
@@ -213,7 +213,7 @@ export default function MixUploadPage(): JSX.Element {
           </div>
 
           {/* Middle and Right Columns - Wrapped in a container for mobile layout */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-2">
             {/* Right Column - Settings */}
             <div className="w-full">
               <div className="bg-gray-700 p-6 rounded-lg">
@@ -227,15 +227,15 @@ export default function MixUploadPage(): JSX.Element {
                     <h3 className="text-white">Downloadable?:</h3>
                     <button
                       className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
-                        downloadable ? 'bg-white' : 'bg-gray-600'
+                        downloadable ? "bg-white" : "bg-gray-600"
                       }`}
                       onClick={() => setDownloadable(!downloadable)}
                     >
                       <div
                         className={`w-4 h-4 rounded-full transition-transform duration-200 ease-in-out ${
                           downloadable
-                            ? 'bg-gray-800 translate-x-6'
-                            : 'bg-white'
+                            ? "bg-gray-800 translate-x-6"
+                            : "bg-white"
                         }`}
                       ></div>
                     </button>
