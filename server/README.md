@@ -32,9 +32,19 @@ Please refer to [API design docs](../design-docs/api-design.md) for full API end
 ## Testing
 
 The command below will run all REST API tests, (included in the `tests` directory):
+After you have npm installed, you might also need to have packages installed by typing:
+
+```bash
+cd server # if you are not in the server folder
+npm ci # install the dependencies
+
+```
+
 To run backend test, please have the db clear and start the server before running
 
 ```bash
+cd .. # exit to root
+docker-compose up --build # start the server, wait until finishes
 npm run test
 ```
 
