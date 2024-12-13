@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: Mock data for frontend test & demo
+ */
 import { GetMixResponse, GetProfileResponse } from "./types";
 
 export const mockMixResponse: GetMixResponse = {

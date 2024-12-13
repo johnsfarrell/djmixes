@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 DJMixes. All rights reserved.
+ * Licensed under the MIT License.
+ * Description: The API collection to backend of the DJMixes
+ */
+
 import { mockMixResponse, mockProfileResponse } from "./mockData";
 import {
   GetMixResponse,
