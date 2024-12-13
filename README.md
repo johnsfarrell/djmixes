@@ -38,13 +38,13 @@ To test all services of the application, use the `scripts/test.sh` script. This 
 
 > Run `chmod +x scripts/test.sh` if having permission errors when running script files.
 
-To test services individually, see individual documentation: [Algorithm](algorithm/README.md), [API](api/README.md), [Frontend](frontend/README.md), [Database](database/README.md)
+To test services individually, see individual documentation: [Algorithm](algorithm/README.md), [Server](server/README.md), [Client](client/README.md)
 
 ## Documentation
 
 - [Algorithm](algorithm/README.md)
-- [API](api/README.md)
-- [Frontend](frontend/README.md)
+- [Server](server/README.md)
+- [Client](client/README.md)
 - Design Docs
   - [API Design](design-docs/api-design.md)
   - [Requirements and Specifications](design-docs/reqs-specs.md)
