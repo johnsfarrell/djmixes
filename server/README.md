@@ -23,12 +23,19 @@ npm run dev
 
 ## API Endpoints:
 
-TBD
+Please refer to [API design docs](../design-docs/api-design.md) for full API endpoint documentation.
 
 ## Testing
 
 The command below will run all REST API tests, (included in the `tests` directory):
 
 ```bash
-TBD
+npm run test
+```
+
+To test the database, run from the `server` directory:
+
+```bash
+cd dist/database/db_test
+node db_test.js
 ```
