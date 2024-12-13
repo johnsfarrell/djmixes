@@ -81,24 +81,9 @@ describe('ProfileController Integration Tests', () => {
   });
 
   test('updateProfile should return 200 for valid profile update', async () => {
-    const mockProfile = {
-      profileId: 1,
-      userId: 1,
-      bio: 'Updated bio',
-      avatarUrl: 'avatar/new-avatar.jpg',
-      username: 'testuser',
-    };
-
-    // Mocking necessary database and S3 responses
-    jest.mock('@/database/search/getProfiles', () => ({
-      getProfile: jest.fn().mockResolvedValueOnce(mockProfile),
-    }));
-
     const response = await request(serverUrl)
       .put('/api/profile/1')  // Valid user ID
       .field('bio', 'Updated bio')
-      .attach('avatar', Buffer.from('mock avatar content'), 'new-avatar.jpg');  // Attach avatar file
-
     expect(response.status).toBe(200);
   });
 

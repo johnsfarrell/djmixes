@@ -132,7 +132,7 @@ const insertEventsQuery: string = `
 const insertUserProfilesQuery: string = `
   INSERT INTO user_profiles (user_id, bio, avatar_url, created_at)
   VALUES
-    (1, 'Random Volunteer tester in the web.', '1733784175104_profile1.png', NOW()),
+    (1, 'Random Volunteer tester in the web.', '1734065375215_profile1.png', NOW()),
     (2, 'ZZZ studio', '1733784816458_channels4_profile.jpg', NOW()),
     (3, 'Old school Hip Hop dancer', '1733784851649_download.jpeg', NOW()),
     (4, 'DJ Lucian', '1733784918048_download (1).jpeg', NOW()),
