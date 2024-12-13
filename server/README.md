@@ -2,7 +2,11 @@
 
 The REST API is an interface for interacting with the algorithm and database services. `client` communicates with the REST API to send and receive data.
 
-## Run the REST API (with Docker):
+## Running the REST API
+
+> ⚠️ **Important:** users must have an `.env` file in the `server/` directory matching [`.env.example`](.env.example). The AWS parameters are used to setup a [Digital Ocean AWS S3 Bucket](https://www.digitalocean.com/products/spaces), required for running this API.
+
+### Run the REST API (with Docker):
 
 ```bash
 # Build the image
@@ -12,7 +16,7 @@ docker build -t server .
 docker run -d -p 4000:4000 server
 ```
 
-## Run the REST API (without Docker):
+### Run the REST API (without Docker):
 
 Make sure to have `.env` file variables (as shown in the `.env.example` file) in the root directory.
 
