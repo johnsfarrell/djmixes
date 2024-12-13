@@ -10,6 +10,8 @@ import path from "path";
 
 dotenv.config({ path: path.join(__dirname, "..", "..", ".env") });
 
+// Getting db configs from /server/.env
+// if .env is missing either create one or ask from the creator
 const db: ConnectionOptions = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

@@ -67,8 +67,6 @@ class ProfileController {
       // get all events
       const events = await getEvent(userId);
 
-      // TODO: get all user_id followed
-
       // Geting the rest
       const connection = await createConnection();
       const [rows]: [RowDataPacket[], FieldPacket[]] = await connection.execute(
@@ -127,17 +125,6 @@ class ProfileController {
 
       // Download file from S3
       await downloadFromS3(s3Client, params, res, filename);
-      // const downloadStream = await s3Client.send(new GetObjectCommand(params));
-
-      // res.setHeader('Content-Type', 'image/jpeg');
-
-      // // Stream the file to the response
-      // pipeline(downloadStream.Body as NodeJS.ReadableStream, res, (err) => {
-      //   if (err) {
-      //     console.error('Error streaming file:', err);
-      //     res.status(500).json({ error: 'Failed to download file' });
-      //   }
-      // });
     } catch (error) {
       console.error("Error fetching user profile avatar:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -195,6 +182,7 @@ class ProfileController {
         result += "Avatar Uploaded. ";
       }
 
+      // Case where we creating a new profile
       if (!oldProfile) {
         if (bio === undefined) {
           bio = ""; // Set bio to an empty string if undefined
@@ -202,6 +190,8 @@ class ProfileController {
         const insertResult = await insertProfile(userId, bio, avatarFileKey);
         result += "Profile Created. ";
       } else {
+        // Case where we updating old profile
+        // Upload avatar if exists
         if (req.files && req.files.avatar) {
           const url: string | undefined = oldProfile.avatarUrl ?? undefined;
           // Prepare delete actions
@@ -212,13 +202,14 @@ class ProfileController {
           s3DeletePromise.catch((error) =>
             console.error("Error deleting from S3:", error),
           );
-
+          // update db
           const avatarUpdateResult = await updateProfileAvatar(
             oldProfile.profileId,
             avatarFileKey,
           );
           result += "Updated Avatar. ";
         }
+        // Update bio if exists
         if (bio !== undefined) {
           const bioUpdateResult = await updateProfileBio(
             oldProfile.profileId,
@@ -288,19 +279,34 @@ class ProfileController {
   };
 
   /**
-   * Delete a user's profile
+   * Controller for delete user's profile
+   * @param req - Request object, contains userID in param
+   * @param res - Response object, send back msg to indicate the result
+   * @returns void
+   * @throws Error - If the deletion fails
    */
   deleteProfile = async (req: Request, res: Response): Promise<void> => {
     try {
       const userId = parseInt(req.params.userId, 10);
-
       if (!userId || isNaN(userId)) {
         res.status(400).json({ error: "Invalid or missing user ID" });
         return;
       }
 
-      const result = await deleteProfile(userId);
+      // delete avatar if exists
+      const profile = await getProfile(userId);
+      const url: string | undefined = profile?.avatarUrl ?? undefined;
+          // Prepare delete actions
+          const s3DeletePromise = deleteFromS3(s3Client, {
+            Bucket: bucketName,
+            Key: url,
+          });
+          s3DeletePromise.catch((error) =>
+            console.error("Error deleting from S3:", error),
+          );
 
+      // update db
+      const result = await deleteProfile(userId);
       if (!result) {
         res
           .status(404)

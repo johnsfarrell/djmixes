@@ -288,6 +288,7 @@ class MixController {
         ),
       );
 
+      //  delete promises
       const dbDeletePromise = deleteMixes(parseInt(mixId, 10)).catch((error) =>
         console.error("Error deleting mix from database:", error),
       );
@@ -330,10 +331,6 @@ class MixController {
       }
 
       // check which part for download
-      console.log(mixId);
-      console.log(mix.splitJson);
-      console.log(mix.stemDrumUrl);
-
       if (part === "drum") {
         fileKey = mix.stemDrumUrl;
       } else if (part === "bass") {
@@ -372,6 +369,13 @@ class MixController {
     }
   };
 
+  /**
+   * Controller for uploading a mix
+   * @param req - Request object, containing the mix file and cover file
+   * @param res - Response object, used to send a response back to the client
+   * @returns void
+   * @throws Error - If uploading fails
+   */
   uploadMix = async (req: Request, res: Response): Promise<void> => {
     if (!req.files || !req.files.mix || !req.files.cover) {
       res.status(400).json({ error: "Required files not uploaded" });
@@ -388,13 +392,13 @@ class MixController {
       const mixFile = req.files.mix as UploadedFile;
       const coverFile = req.files.cover as UploadedFile;
 
+      // Check if file size is too large
       if (mixFile.size > MAX_MIX_FILE_SIZE_BYTES) {
         res.status(400).json({
           error: `Mix file size exceeds limit of ${MAX_MIX_FILE_SIZE_MB} MB`,
         });
         return;
       }
-
       if (coverFile.size > MAX_COVER_FILE_SIZE_BYTES) {
         res.status(400).json({
           error: `Cover file size exceeds limit of ${MAX_COVER_FILE_SIZE_MB} MB`,
@@ -402,10 +406,9 @@ class MixController {
         return;
       }
 
+      // UploadParam
       const mixFileKey = `${Date.now()}_${mixFile.name}`;
       const coverFileKey = `${Date.now()}_${coverFile.name}`;
-
-      // UploadParam
       const mixParams: UploadParams = {
         Bucket: bucketName,
         Key: mixFileKey,
@@ -438,17 +441,12 @@ class MixController {
       );
 
       // Algo part for split and stem
-      // TODO: make other functions so we don't have to 'await' for them to finish here
-      // "Fire and forget" asynchronous tasks for analysis
       algo
         .getSplitTimestamps(mixId, mixFile.data)
         .catch((err) => console.error("Error in getSplitTimestamps:", err));
       algo
         .getStemmedAudio(mixId, mixFile.data)
         .catch((err) => console.error("Error in getStemmedAudio:", err));
-      // // TODO: Remove these console logs (here for debugging)
-      // console.log('Split timestamps:', stamps);
-      // console.log('Stemmed audio:', stems);
 
       res.status(200).json({
         message: "Files uploaded successfully",
@@ -463,6 +461,11 @@ class MixController {
   };
 }
 
+/**
+   * Helper functions to map Comment interface to json api reponse format
+   * @param req - list of Comment interface
+   * @returns void - list of CommentResponse interfaces after conversion
+   */
 function mapCommentsToResponse(comments: Comment[]): CommentResponse[] {
   return comments.map((comment) => ({
     comment_id: comment.commentId,

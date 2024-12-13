@@ -21,6 +21,8 @@ import { promisify } from "util";
 
 dotenv.config({ path: path.join(__dirname, "..", "..", ".env") });
 
+// Getting S3/Cloud params from /server/.env
+// If .env is missing, either create one(need to find the params from the cloud), or contact the owner
 export const s3Client = new S3Client({
   endpoint: process.env.AWS_ENDPOINT,
   forcePathStyle: false,
