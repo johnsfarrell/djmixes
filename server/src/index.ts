@@ -6,15 +6,15 @@
 
 import express, { Request, Response } from "express";
 import path from "path";
-import mixRoutes from "./routes/mixRoutes";
-import searchRoutes from "./routes/searchRoutes";
-import profileRoutes from "./routes/profileRoutes";
-import eventRoutes from "./routes/eventRoutes";
-import userRoutes from "./routes/userRoutes";
+import mixRoutes from "@/routes/mixRoutes";
+import searchRoutes from "@/routes/searchRoutes";
+import profileRoutes from "@/routes/profileRoutes";
+import eventRoutes from "@/routes/eventRoutes";
+import userRoutes from "@/routes/userRoutes";
 import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
-import AudioProcessor from "./utils/algorithm";
-import initializeDatabase from "./database/db_init";
+import AudioProcessor from "@/utils/algorithm";
+import initializeDatabase from "@/database/db_init";
 import cors from "cors";
 
 initializeDatabase();

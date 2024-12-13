@@ -450,7 +450,6 @@ class MixController {
       // console.log('Split timestamps:', stamps);
       // console.log('Stemmed audio:', stems);
 
-      console.log("test123");
       res.status(200).json({
         message: "Files uploaded successfully",
         mixId,

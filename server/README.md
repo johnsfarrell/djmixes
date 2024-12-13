@@ -32,6 +32,7 @@ Please refer to [API design docs](../design-docs/api-design.md) for full API end
 ## Testing
 
 The command below will run all REST API tests, (included in the `tests` directory):
+To run backend test, please have the db clear and start the server before running
 
 ```bash
 npm run test
